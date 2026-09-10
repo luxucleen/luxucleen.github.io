@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://luxucleen.github.io/sitemap.xml
