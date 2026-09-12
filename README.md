@@ -2,4 +2,4 @@
 
 Business website for Luxucleen LLC, a Virginia limited liability company serving the Richmond metro area.
 
-Live: https://djbrightfutures.github.io/luxucleen/
+Live: https://luxucleen.com/
