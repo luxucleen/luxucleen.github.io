@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+  <Say language="en-US">Thank you. We have your message and a person will call you back. Goodbye.</Say>
+  <Say language="es-MX">Gracias. Recibimos su mensaje y una persona le devuelve la llamada. Adios.</Say>
+  <Hangup/>
+</Response>

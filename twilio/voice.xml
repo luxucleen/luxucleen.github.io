@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- luxucleen.com/twilio/voice.xml - what a caller to the business line hears. Static on purpose:
+     Twilio fetches this file (GET) from the site, nothing runs on a computer at home.
+     To ring a second phone at the same time, add another <Number> inside <Dial>. -->
+<Response>
+  <Say language="en-US">Thank you for calling Luxucleen. One moment while we connect you.</Say>
+  <Say language="es-MX">Gracias por llamar a Luxucleen. Un momento, le comunicamos.</Say>
+  <Dial timeout="25" callerId="+18043311128" action="https://luxucleen.com/twilio/missed.xml" method="GET">
+    <Number>+18049565472</Number>
+  </Dial>
+</Response>
