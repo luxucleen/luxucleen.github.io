@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Luxucleen LLC — Property Solutions &amp; Grounds Care | Richmond, Virginia</title>
-<meta name="description" content="Luxucleen LLC is a Virginia limited liability company serving the Richmond metro area: property solutions for owners who need to sell, plus grounds care and property clean-outs.">
+<title>Luxucleen LLC — Selling a house that became a burden | Richmond, Virginia</title>
+<meta name="description" content="Luxucleen LLC is a Virginia limited liability company in Midlothian. We work with owners in the Richmond metro area who need to sell a property as-is: behind on payments, inherited, vacant, or needing more work than it is worth.">
 <meta name="robots" content="index,follow">
 <style>
   :root{
@@ -17,15 +17,17 @@
        font:16px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
   .wrap{max-width:880px;margin:0 auto;padding:0 22px}
   header{border-bottom:1px solid var(--line);background:var(--soft);position:sticky;top:0;z-index:5}
-  /* vertical only. A `padding` shorthand here overrides .wrap's 22px side padding and puts
-     the brand and the nav flush against the edge of a phone screen. Measured, then fixed. */
+  /* Vertical padding only, on every element that also carries .wrap. A `padding` shorthand here
+     overrides .wrap's 22px side padding and puts the content flush against the edge of a phone
+     screen. That bug was live on this site once. Measured, then fixed, and kept fixed. */
   .bar{display:flex;align-items:center;gap:16px;padding-top:16px;padding-bottom:16px;flex-wrap:wrap}
   .brand{font-size:21px;font-weight:800;letter-spacing:.2px}
   .brand span{color:var(--accent)}
   nav{margin-left:auto;display:flex;gap:16px;flex-wrap:wrap}
   nav a{color:var(--dim);text-decoration:none;font-size:14px}
   nav a:hover{color:var(--accent)}
-  .hero{padding:44px 0 8px}
+  nav a.lang{font-weight:700;color:var(--accent)}
+  .hero{padding-top:44px;padding-bottom:8px}
   h1{font-size:32px;line-height:1.25;margin:0 0 12px;letter-spacing:-.3px}
   .lede{font-size:18px;color:var(--dim);margin:0}
   h2{font-size:20px;margin:40px 0 10px;padding-bottom:8px;border-bottom:1px solid var(--line)}
@@ -36,8 +38,16 @@
   .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin:18px 0}
   .card{border:1px solid var(--line);border-radius:12px;padding:18px;background:var(--soft)}
   .card h3{margin:0 0 6px}
-  .card p{margin:0;color:var(--dim);font-size:15px}
+  .card p{margin:0 0 10px;color:var(--dim);font-size:15px}
+  .card p:last-child{margin-bottom:0}
   .note{border-left:3px solid var(--accent);background:var(--soft);padding:12px 16px;border-radius:0 8px 8px 0;color:var(--dim)}
+  .steps{list-style:none;margin:18px 0;padding:0;counter-reset:step}
+  .steps li{counter-increment:step;position:relative;padding-left:44px;margin:0 0 18px}
+  .steps li::before{content:counter(step);position:absolute;left:0;top:2px;width:30px;height:30px;
+       border-radius:50%;background:var(--accent);color:#fff;font-weight:800;font-size:15px;
+       display:flex;align-items:center;justify-content:center}
+  .steps strong{display:block}
+  .steps span{color:var(--dim);font-size:15px}
   dl{margin:12px 0}
   dt{font-weight:700;margin-top:14px}
   dd{margin:2px 0 0;color:var(--dim)}
@@ -45,18 +55,26 @@
   .cta{display:inline-block;margin-top:10px;background:var(--accent);color:#fff;text-decoration:none;
        padding:11px 20px;border-radius:9px;font-weight:700}
   .cta:hover{background:var(--accent2)}
-  footer{border-top:1px solid var(--line);margin-top:48px;padding:24px 0 48px;color:var(--dim);font-size:14px}
+  .linkline{background:var(--soft);border:1px solid var(--line);border-radius:10px;
+       padding:14px 16px;margin:22px 0;font-size:15px}
+  .linkline a{word-break:break-all}
+  footer{border-top:1px solid var(--line);margin-top:48px;padding-top:24px;padding-bottom:48px;color:var(--dim);font-size:14px}
   .small{font-size:14px;color:var(--dim)}
 </style>
 <link rel="canonical" href="https://luxucleen.com/">
+<link rel="alternate" hreflang="en" href="https://luxucleen.com/">
+<link rel="alternate" hreflang="es" href="https://luxucleen.com/es.html">
+<link rel="alternate" hreflang="x-default" href="https://luxucleen.com/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://luxucleen.com/">
 <meta property="og:title" content="Luxucleen LLC - Richmond, Virginia">
-<meta property="og:description" content="Property solutions and grounds care in the Richmond metro area, and one-page websites built for phones.">
+<meta property="og:description" content="We work with owners who need to sell a property as-is in the Richmond metro area, and we help former owners claim surplus money held after a Florida tax-deed sale.">
 <meta property="og:site_name" content="Luxucleen LLC">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="es_419">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Luxucleen LLC - Richmond, Virginia">
-<meta name="twitter:description" content="Property solutions and grounds care in the Richmond metro area, and one-page websites built for phones.">
+<meta name="twitter:description" content="We work with owners who need to sell a property as-is in the Richmond metro area, and we help former owners claim surplus money held after a Florida tax-deed sale.">
 <script type="application/ld+json">
 {
  "@context": "https://schema.org",
@@ -90,7 +108,7 @@
    "name": "Henrico"
   }
  ],
- "description": "A Virginia limited liability company serving the Richmond metro area: property solutions, grounds care, and one-page business websites built to work on a phone."
+ "description": "A Virginia limited liability company in Midlothian working with property owners in the Richmond metro area who need to sell as-is, and helping former owners claim surplus funds held after a Florida tax-deed sale. Not a licensed real estate brokerage."
 }
 </script>
 </head>
@@ -99,11 +117,11 @@
   <div class="wrap bar">
     <div class="brand">Luxu<span>cleen</span> LLC</div>
     <nav>
-      <a href="#solutions">Property solutions</a>
-      <a href="#services">Grounds care</a>
+      <a href="#situations">Situations</a>
+      <a href="#how">How it works</a>
+      <a href="#surplus">Surplus funds</a>
       <a href="#contact">Contact</a>
-      <a href="#privacy">Privacy</a>
-      <a href="#messaging">Messaging terms</a>
+      <a class="lang" href="es.html" hreflang="es" lang="es">Espa&ntilde;ol</a>
     </nav>
   </div>
 </header>
@@ -111,53 +129,107 @@
 <main class="wrap">
 
   <section class="hero">
-    <h1>When a property becomes a burden, there is usually still a way out with money in your pocket.</h1>
-    <p class="lede">Luxucleen LLC is a Virginia limited liability company serving the Richmond
-    metro area. We work with property owners who need to sell, and we take care of the grounds and
-    clean-outs that get a property ready.</p>
+    <h1>Selling a house that became a burden, before it goes to auction.</h1>
+    <p class="lede">Luxucleen LLC is a Virginia limited liability company based in Midlothian. We
+    work with owners across the Richmond metro area &mdash; Richmond, Midlothian, Chesterfield and
+    Henrico &mdash; who need to sell a property in as-is condition, on a date that suits them.</p>
     <a class="cta" href="mailto:luxucleen@gmail.com?subject=Property%20inquiry">Email us about your property</a>
   </section>
 
-  <h2 id="solutions">Property solutions</h2>
-  <p>Some properties stop being an asset. Payments fall behind, a house is inherited from three
-  states away, a rental sits empty, or the repairs cost more than the owner wants to take on. In
-  those situations the worst outcome is doing nothing until the decision gets made for you.</p>
+  <h2 id="situations">When a property stops being an asset</h2>
+  <p>Payments fall behind. A house is inherited from three states away. A rental sits empty. The
+  repairs cost more than the owner wants to take on. In every one of those situations the worst
+  outcome is the same: doing nothing until the decision gets made for you.</p>
   <div class="cards">
     <div class="card">
       <h3>Behind on payments</h3>
-      <p>If a property is heading toward a trustee sale, a sale arranged beforehand often leaves
-      the owner with money rather than nothing.</p>
+      <p>Virginia foreclosures are non-judicial. That means no judge and no court case is needed:
+      a trustee can set a sale date quickly and sell the property on the courthouse steps.</p>
+      <p>At that auction the owner usually walks away with nothing. A sale arranged before the
+      sale date can leave money in the owner's pocket instead.</p>
+      <p>A trustee can also postpone or cancel a sale at any time, so a date on a notice is not
+      always the final date.</p>
     </div>
     <div class="card">
-      <h3>Inherited or vacant</h3>
-      <p>Out-of-state owners, estates and long-empty houses, sold as-is without repairs or
-      clean-out on the owner's side.</p>
+      <h3>Inherited, vacant, or a rental you are done with</h3>
+      <p>Estates, out-of-state heirs, houses that have sat empty for years, and landlords who have
+      had enough of the calls.</p>
+      <p>Sold as-is. No clearing it out first, no repairs on your side, and no need to fly in to
+      get it ready.</p>
     </div>
     <div class="card">
       <h3>Needs more work than it is worth</h3>
-      <p>We buy or place properties in as-is condition, so the owner is not paying for repairs
-      before a sale.</p>
+      <p>Fire or water damage, a failed system, code violations, or a renovation that stopped
+      halfway.</p>
+      <p>We look at properties in as-is condition, so the owner is not spending money on repairs
+      just to be able to sell.</p>
     </div>
   </div>
+
+  <h2 id="how">How it works</h2>
+  <ol class="steps">
+    <li>
+      <strong>Tell us about the property.</strong>
+      <span>Email us the address and whatever you know: the situation, whether anyone is living
+      there, what shape it is in, and whether there is a sale date. You do not need paperwork
+      ready to start the conversation.</span>
+    </li>
+    <li>
+      <strong>You get a straight written answer within days.</strong>
+      <span>We look at the property and the numbers and come back to you in writing with what we
+      can do, or with an honest no. If a different route would serve you better, we say that
+      instead of wasting your time.</span>
+    </li>
+    <li>
+      <strong>Close on your date.</strong>
+      <span>No repairs, no commissions, and no fees charged to the seller. You pick the closing
+      date, and if you need more time in the house after closing we can talk about that too.</span>
+    </li>
+  </ol>
+
+  <h2 id="surplus">Owed money after a tax sale?</h2>
+  <p>In Florida, when a property is sold at a tax-deed sale for more than what was owed, the
+  difference does not disappear. The county may hold that surplus money in the former owner's
+  name, and a great many people never learn it is there.</p>
+  <p>We search for those surplus funds and help the person entitled to them make the claim.</p>
+  <ul>
+    <li><strong>Nothing up front.</strong> You pay nothing to have us look, and nothing out of
+    pocket to start a claim.</li>
+    <li><strong>The fee is capped by Florida law.</strong> Florida Statutes section 45.033 caps
+    what a recovery agent may charge at 12 percent of the surplus.</li>
+    <li><strong>The money is paid to the claimant.</strong> The county pays the person entitled to
+    the funds, not the person who found them.</li>
+  </ul>
+  <p class="small">You are always free to file a surplus claim yourself, directly with the county,
+  at no cost to you.</p>
+
+  <h2 id="who">Who we are</h2>
+  <p>Luxucleen LLC is a small family company in Midlothian, Virginia, registered with the Virginia
+  State Corporation Commission. There is no call center here and no script. You deal with the same
+  people from the first email to the closing table, and if we cannot help you we tell you so
+  plainly rather than keeping you on the hook.</p>
+
   <div class="note">
-    <strong>How we work, in plain terms.</strong> We are not a real-estate brokerage and we do not
-    act as anyone's agent. We make an offer to put a property under contract. In some cases we
-    close ourselves, and in others we assign that contract to another buyer and are paid a fee for
-    doing so. When that is the plan we say so in writing before anything is signed, and the owner
-    is free to say no or to walk away at any point before closing. We recommend every owner have
-    their own attorney review a contract before signing it.
+    <strong>Plain-language disclosures. Please read these before contacting us.</strong>
+    <ul>
+      <li>Luxucleen LLC is <strong>not a licensed real estate brokerage</strong> and does not act
+      as your agent. We do not list properties and we do not represent you in a sale.</li>
+      <li>We buy properties for ourselves, or we assign our purchase contract to another buyer and
+      are paid a fee for doing so. <strong>When that is the plan, we disclose it in writing before
+      you sign anything.</strong></li>
+      <li><strong>Have your own attorney review any agreement</strong> before you sign it. We will
+      never discourage you from doing that or ask you to sign on the spot.</li>
+      <li>Nothing on this page is legal or financial advice. It is general information about how we
+      work.</li>
+      <li>A trustee can postpone or cancel a foreclosure sale at any time, and a sale date on a
+      notice is not a guarantee of what will happen.</li>
+    </ul>
   </div>
 
-  <h2 id="services">Grounds care &amp; property clean-outs</h2>
-  <ul>
-    <li>Scheduled lawn and grounds maintenance for residential and small commercial properties</li>
-    <li>Seasonal clean-ups, overgrowth clearing and one-off jobs</li>
-    <li>Property clean-outs between tenants or owners, including estate and pre-sale clear-outs</li>
-  </ul>
-
-  <h2 id="area">Service area</h2>
-  <p>Richmond City, Henrico, Chesterfield, Hanover, Petersburg, Colonial Heights, Hopewell and the
-  surrounding Virginia counties.</p>
+  <div class="linkline">
+    Grounds care, clean-outs and website services:
+    <a href="https://djbrightfutures.github.io/luxucleen/">https://djbrightfutures.github.io/luxucleen/</a>
+  </div>
 
   <h2 id="contact">Contact</h2>
   <dl>
@@ -167,6 +239,8 @@
     <dd>5214 Hunt Master Dr, Apt L, Midlothian, VA 23112</dd>
     <dt>Email</dt>
     <dd><a href="mailto:luxucleen@gmail.com">luxucleen@gmail.com</a></dd>
+    <dt>Service area</dt>
+    <dd>Richmond, Midlothian, Chesterfield and Henrico, Virginia</dd>
   </dl>
   <p class="small">Email is the fastest way to reach us. This site does not collect information
   from visitors &mdash; there are no forms, no accounts and no tracking. Nothing you do here is
