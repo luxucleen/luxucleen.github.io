@@ -9,7 +9,8 @@ body.hub{margin:0;color:#e9edf3;background:#0a0d13;
                    radial-gradient(700px 400px at 100% 100%,rgba(242,193,78,.10) 0%,rgba(242,193,78,0) 60%);
   font:16px/1.6 ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI Variable Text","Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
   -webkit-font-smoothing:antialiased}
-body.hub a{color:#2ec27e}
+body.hub .fine a{color:#2ec27e}   /* only the fine-print links; the pills, cards and nav carry their own colours (a blanket
+                                     rule here beat .pill on specificity and painted the phone pill green-on-green) */
 .hwrap{max-width:640px;margin:0 auto;padding:0 20px}
 
 /* top bar: brand + a short nav; the language switch always visible */
