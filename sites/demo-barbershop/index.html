@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Demo Barbershop &mdash; Hair Salon in Richmond</title>
+<meta name="description" content="Demo Barbershop, hair salon in Richmond. 100 Main Street, Richmond, 23219">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://luxucleen.com/sites/demo-barbershop/">
+<style>
+  :root{--ink:#12161d;--dim:#5b6672;--line:#e6e9ee;--bg:#fff;--soft:#f6f8fb;
+        --acc:#be185d;--acc2:#831843}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+        --ink:#eef1f5;--dim:#a3adb9;--line:#2a3038;--bg:#12161b;--soft:#181d24}}
+  *{box-sizing:border-box} html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  .draft{background:#111;color:#ffd84d;text-align:center;padding:9px 14px;font-size:13px;
+         font-weight:700;letter-spacing:.4px}
+  .draft span{font-weight:400;color:#e8e8e8}
+  .wrap{max-width:940px;margin:0 auto;padding:0 22px}
+  header{border-bottom:1px solid var(--line);background:var(--soft)}
+  /* vertical only: a `padding` shorthand here would wipe .wrap's side padding and
+     push every word flush against the edge of a phone screen. Measured, then fixed. */
+  .bar{display:flex;align-items:center;gap:18px;padding-top:15px;padding-bottom:15px;flex-wrap:wrap}
+  .logo{font-weight:800;font-size:20px;letter-spacing:-.2px}
+  .logo b{color:var(--acc)}
+  nav{margin-left:auto;display:flex;gap:18px;flex-wrap:wrap}
+  nav a{color:var(--dim);text-decoration:none;font-size:14px} nav a:hover{color:var(--acc)}
+  .hero{padding-top:56px;padding-bottom:34px}
+  h1{font-size:clamp(30px,6vw,50px);line-height:1.05;margin:0 0 14px;letter-spacing:-1px;
+     text-transform:uppercase}
+  .lede{font-size:18px;color:var(--dim);margin:0 0 22px;max-width:52ch}
+  .btns{display:flex;gap:12px;flex-wrap:wrap}
+  .btn{display:inline-block;background:var(--acc);color:#fff;text-decoration:none;
+       padding:13px 24px;border-radius:10px;font-weight:700}
+  .btn:hover{background:var(--acc2)}
+  .btn.ghost{background:transparent;color:var(--acc);border:2px solid var(--acc);padding:11px 22px}
+  .strip{overflow:hidden;background:var(--acc);color:#fff;padding:11px 0;margin:34px 0 0}
+  .strip-in{display:flex;gap:34px;white-space:nowrap;animation:sl 26s linear infinite}
+  .strip span{font-weight:700;font-size:14px;letter-spacing:1px;text-transform:uppercase}
+  .strip span::after{content:"\2022";margin-left:34px;opacity:.55}
+  @keyframes sl{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @media (prefers-reduced-motion:reduce){.strip-in{animation:none}}
+  h2{font-size:20px;margin:44px 0 10px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+  .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:26px}
+  ul.ticks{list-style:none;margin:12px 0;padding:0}
+  ul.ticks li{padding-left:24px;position:relative;margin:7px 0}
+  ul.ticks li::before{content:"";position:absolute;left:0;top:.55em;width:9px;height:9px;
+       border-radius:50%;background:var(--acc)}
+  ul.hours{list-style:none;margin:12px 0;padding:0}
+  ul.hours li{padding:7px 0;border-bottom:1px solid var(--line);font-size:15px}
+  .dim{color:var(--dim)}
+  .card{border:1px solid var(--line);border-radius:14px;padding:20px;background:var(--soft)}
+  a{color:var(--acc)}
+  footer{border-top:1px solid var(--line);margin-top:52px;padding:24px 0 46px;color:var(--dim);
+         font-size:14px}
+</style>
+</head>
+<body>
+
+<header><div class="wrap bar">
+  <div class="logo">Demo<b>.</b></div>
+  <nav><a href="#about">About</a><a href="#find">Find us</a><a href="#hours">Hours</a></nav>
+</div></header>
+
+<main>
+<div class="wrap hero">
+  <h1>Hair Salon in Richmond</h1>
+  <p class="lede">Demo Barbershop is a hair salon. Here is where to find us, when we are open, and how to reach us.</p>
+  <div class="btns">
+    <a class="btn" href="tel:+18045550100">Call +1 804-555-0100</a>
+    <a class="btn ghost" href="https://www.openstreetmap.org/?mlat=37.5407&amp;mlon=-77.4360#map=18/37.5407/-77.4360" rel="noopener">Directions</a>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="cols">
+    <div>
+      <h2 id="about">About Demo Barbershop</h2>
+      <p>Demo Barbershop has been serving Richmond from 100 Main Street, Richmond, 23219. Everything on this page comes straight from our listing, so it is always what you would actually find when you walk in.</p>
+      
+    </div>
+    <div>
+      <h2 id="hours">Hours</h2>
+      <ul class="hours"><li>Monday to Friday 09:00 to 18:00</li><li>Saturday 10:00 to 16:00</li></ul>
+      <h2 id="find">Find us</h2>
+      <div class="card">
+        <div><strong>100 Main Street, Richmond, 23219</strong></div>
+        <div class="dim">+1 804-555-0100</div>
+        <div><a href="https://www.openstreetmap.org/?mlat=37.5407&amp;mlon=-77.4360#map=18/37.5407/-77.4360" rel="noopener">Open in maps</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+</main>
+
+<footer class="wrap">
+  &copy; 2026 Demo Barbershop. 100 Main Street, Richmond, 23219<br>
+  <span class="dim">This page is a draft prepared by Luxucleen LLC for the owner's review. It is not
+  published anywhere and carries no tracking, no forms and no cookies.</span>
+</footer>
+</body>
+</html>
