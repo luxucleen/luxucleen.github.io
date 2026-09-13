@@ -37,6 +37,31 @@
   .row .alt{background:#eef6ff;color:#0f5aa8;border:1px solid #cfe4fb}
   .hint{color:#5b6672;font-size:13px;margin:8px 0 0}
   .row a.alt{display:inline-flex;align-items:center;border-radius:12px;padding:12px 16px;text-decoration:none;font-weight:700;font-size:15px}
+  /* BUILD YOUR BUSINESS - the dark "AI console" card (scoped: the rest of the page stays light) */
+  .build{background:radial-gradient(900px 420px at 15% -10%,#1b2a4a 0%,#0b0e14 58%);border:1px solid #1e2a3a;border-radius:18px;padding:22px 20px 18px;color:#e6e9ee;box-shadow:0 0 0 1px rgba(43,232,255,.08),0 20px 60px rgba(0,0,0,.35);margin:22px 0;position:relative;overflow:hidden}
+  .build:before{content:"";position:absolute;inset:-45%;background:conic-gradient(from 0deg,transparent 0%,rgba(43,232,255,.14) 12%,transparent 28%,rgba(124,92,255,.12) 60%,transparent 75%);animation:bspin 16s linear infinite;pointer-events:none}
+  @keyframes bspin{to{transform:rotate(360deg)}}
+  .build>*{position:relative}
+  .build .kick{display:inline-flex;align-items:center;gap:8px;font:800 11px/1 ui-monospace,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:#2be8ff;margin-bottom:10px}
+  .build .kick i{width:8px;height:8px;border-radius:50%;background:#2be8ff;box-shadow:0 0 10px #2be8ff;animation:bp 2s infinite;display:inline-block}
+  @keyframes bp{50%{opacity:.3}}
+  .build h2{color:#fff;margin:0 0 8px;font-size:22px;letter-spacing:-.01em}
+  .build p{color:#9fb0c3}
+  .build .deal{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 14px}
+  .build .deal span{background:#0f141d;border:1px solid #243040;border-radius:999px;padding:6px 12px;font:700 12px ui-monospace,Menlo,monospace;color:#9fb0c3}
+  .build .deal span b{color:#2be8ff}
+  .build .log{background:#0a0d13;border:1px solid #1a222e;border-radius:12px;min-height:56px;padding:10px 12px;color:#e6e9ee}
+  .build .log:empty{display:none}
+  .build .msg.you{color:#2be8ff}
+  .build .msg.bot{color:#e6e9ee}
+  .build input{background:#0f141d;border:1px solid #243040;color:#e6e9ee;border-radius:12px;padding:12px 14px}
+  .build input::placeholder{color:#5a6575}
+  .build input:focus{outline:none;border-color:#2be8ff;box-shadow:0 0 0 3px rgba(43,232,255,.18)}
+  .build button{background:linear-gradient(135deg,#2be8ff,#7c5cff);color:#03121a;border:0;border-radius:12px;padding:12px 16px;font-weight:800}
+  .build button:disabled{opacity:.6}
+  .build a.alt{background:transparent;color:#2be8ff;border:1px solid rgba(43,232,255,.4)}
+  .build a.alt:hover{background:rgba(43,232,255,.08)}
+  .build .hint{color:#7d8794}
 </style>
 </head>
 <body>
@@ -82,21 +107,22 @@
     <p class="hint">Answers come from Luxucleen's own information. Not financial or legal advice. No promises of profit.</p>
   </div>
 
-  <h2 id="build">Create your own business &mdash; we do the work, you keep 88%</h2>
-  <p>Type your business idea. Bridge28 shows how Luxucleen would build and run it for you. The deal is
-  simple: we do the work and keep <b>12%</b> of the profits &mdash; you keep the rest. Every idea is
-  reviewed first, and nothing starts without a written agreement.</p>
-  <div class="chat">
+  <section class="build" id="build">
+    <div class="kick"><i></i>AI &middot; Build your business</div>
+    <h2>Create your own business &mdash; we do the work, you keep 88%</h2>
+    <p>Type your idea. Bridge28 shows how Luxucleen would build and run it for you &mdash; then send it and
+    a person takes it from there.</p>
+    <div class="deal"><span>You keep <b>88%</b></span><span>We keep <b>12%</b></span><span><b>We</b> do the work</span><span><b>Written</b> agreement first</span></div>
     <div id="blog" class="log" aria-live="polite"></div>
     <div class="row">
       <input id="bidea" type="text" autocomplete="off" spellcheck="false"
              aria-label="Your business idea"
              placeholder="Your business idea, in one or two sentences">
-      <button id="bplan" type="button">Plan it with Bridge28</button>
+      <button id="bplan" type="button">Plan it with Bridge28 &#10024;</button>
       <a id="bsend" class="alt" href="mailto:hello@luxucleen.com?subject=My%20business%20idea%20%5BYour%20Name%5D">Send my idea &rarr;</a>
     </div>
     <p class="hint">"Send my idea" opens your email with your idea and the 12% deal already filled in. No promises of profit &mdash; every idea is reviewed by a person first.</p>
-  </div>
+  </section>
 
   <h2 id="about">What this is</h2>
   <ul>
