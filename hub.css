@@ -1,0 +1,91 @@
+/* Luxucleen LLC - the HUB (the home page as the company's link page, 2026-09-12).
+   Christian: "use luxucleen.com as my new Linktree... on the top is the Luxucleen business, the rest is
+   all my social medias and stuff... make it professional, smarter, more premium."
+   Scoped to body.hub so the inner pages keep site.css untouched. No external fonts, no scripts, no
+   requests leave this page (the same security stance as the rest of the site). */
+
+body.hub{margin:0;color:#e9edf3;background:#0a0d13;
+  background-image:radial-gradient(900px 520px at 50% -140px,rgba(46,194,126,.28) 0%,rgba(46,194,126,0) 60%),
+                   radial-gradient(700px 400px at 100% 100%,rgba(242,193,78,.10) 0%,rgba(242,193,78,0) 60%);
+  font:16px/1.6 ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI Variable Text","Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased}
+body.hub a{color:#2ec27e}
+.hwrap{max-width:640px;margin:0 auto;padding:0 20px}
+
+/* top bar: brand + a short nav; the language switch always visible */
+.hbar{display:flex;align-items:center;gap:12px;padding:16px 0 8px;flex-wrap:wrap}
+.hbrand{font-size:20px;font-weight:900;letter-spacing:-.2px;text-decoration:none;color:#fff}
+.hbrand span{color:#2ec27e}
+.hnav{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+.hnav a{color:#aab3c2;text-decoration:none;font-size:13px;padding:6px 10px;border-radius:999px;
+  border:1px solid transparent;white-space:nowrap}
+.hnav a:hover{color:#fff;border-color:rgba(255,255,255,.14);background:rgba(255,255,255,.05)}
+.hnav a.lang{color:#f2c14e;font-weight:700}
+
+/* identity block */
+.id{text-align:center;padding:26px 0 10px}
+.ring{width:96px;height:96px;border-radius:50%;margin:0 auto 14px;padding:3px;
+  background:conic-gradient(from 200deg,#2ec27e,#f2c14e,#2ec27e);
+  box-shadow:0 0 0 6px rgba(46,194,126,.10),0 18px 40px rgba(0,0,0,.45)}
+.ring span{display:grid;place-items:center;width:100%;height:100%;border-radius:50%;background:#0a0d13;
+  font-size:44px;font-weight:900;color:#fff;letter-spacing:-1px}
+.id h1{font-size:30px;line-height:1.15;margin:0 0 6px;letter-spacing:-.5px;color:#fff}
+.id .tag{margin:0 auto;max-width:520px;color:#aab3c2;font-size:16px}
+.id .meta{margin:12px 0 0;color:#6f7a8c;font-size:13px;letter-spacing:.3px}
+.pills{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:999px;font-weight:700;
+  font-size:14px;text-decoration:none;color:#0a0d13;background:#2ec27e;box-shadow:0 8px 24px rgba(46,194,126,.28)}
+.pill.ghost{background:rgba(255,255,255,.07);color:#e9edf3;border:1px solid rgba(255,255,255,.12);box-shadow:none}
+.pill:hover{filter:brightness(1.08)}
+
+/* groups of links */
+.group{margin:26px 0 0}
+.group h2{font-size:12px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:#6f7a8c;
+  margin:0 0 10px 6px;border:0;padding:0}
+.lk{display:flex;align-items:center;gap:14px;padding:14px 16px;margin:0 0 10px;border-radius:16px;
+  background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.09);color:#e9edf3;text-decoration:none;
+  transition:transform .15s ease,background .15s ease,border-color .15s ease}
+.lk:hover{transform:translateY(-2px);background:rgba(255,255,255,.08);border-color:rgba(46,194,126,.55)}
+.lk.prime{background:linear-gradient(135deg,rgba(46,194,126,.20),rgba(46,194,126,.05));border-color:rgba(46,194,126,.38)}
+.lk .t{flex:1 1 auto;min-width:0}
+.lk b{display:block;font-size:16px;line-height:1.3;color:#fff}
+.lk span{display:block;color:#aab3c2;font-size:13.5px;line-height:1.45;margin-top:2px}
+.lk .go{color:#6f7a8c;font-size:18px;flex:0 0 auto}
+.lk:hover .go{color:#2ec27e}
+
+/* the platform badges: lettered, brand-coloured, never a misdrawn logo */
+.ic{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;font-weight:900;font-size:13px;
+  letter-spacing:.4px;flex:0 0 44px;color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+.ic.re{background:linear-gradient(135deg,#1f8a5a,#0f4b31)}
+.ic.tr{background:linear-gradient(135deg,#f2c14e,#c9962b);color:#1a1405}
+.ic.st{background:linear-gradient(135deg,#3b82f6,#1e40af)}
+.ic.ed{background:linear-gradient(135deg,#a78bfa,#5b21b6)}
+.ic.ai{background:linear-gradient(135deg,#22d3ee,#0e7490)}
+.ic.sw{background:linear-gradient(135deg,#64748b,#334155)}
+.ic.sv{background:linear-gradient(135deg,#84cc16,#3f6212);color:#0f1a05}
+.ic.af{background:linear-gradient(135deg,#fb7185,#9f1239)}
+.ic.ig{background:linear-gradient(45deg,#f9ce34,#ee2a7b 55%,#6228d7)}
+.ic.tt{background:#0b0b0b;box-shadow:inset 0 0 0 1px #2a2a2a,0 0 0 2px rgba(37,244,238,.25)}
+.ic.yt{background:#ff0033}
+.ic.fb{background:#1877f2}
+.ic.x{background:#111;box-shadow:inset 0 0 0 1px #2a2a2a}
+.ic.tg{background:#229ed9}
+.ic.wa{background:#25d366;color:#052b14}
+.ic.gh{background:#24292f}
+.ic.ph{background:#2ec27e;color:#052b14}
+.ic.ml{background:rgba(255,255,255,.10)}
+
+/* the fine print the carriers read (privacy + messaging terms stay on the home page, visible) */
+.fine{margin-top:40px;padding-top:18px;border-top:1px solid rgba(255,255,255,.08);color:#8a93a6;font-size:14px}
+.fine h2{font-size:15px;color:#c9d1dc;margin:26px 0 6px;border:0;padding:0;letter-spacing:0;text-transform:none}
+.fine h3{font-size:14px;color:#aab3c2;margin:14px 0 2px}
+.fine p{margin:6px 0}
+.fine ul{margin:6px 0 6px 18px;padding:0}
+.fine strong{color:#c9d1dc}
+.fine dl{margin:8px 0}.fine dt{color:#c9d1dc;font-weight:700;margin-top:10px}.fine dd{margin:0}
+.hfoot{padding:28px 0 46px;color:#6f7a8c;font-size:13px;text-align:center}
+.hfoot .fmap{display:flex;gap:6px 14px;flex-wrap:wrap;justify-content:center;margin-bottom:12px}
+.hfoot .fmap a{color:#8a93a6;text-decoration:none}
+.hfoot .fmap a:hover{color:#2ec27e}
+
+@media(max-width:420px){.id h1{font-size:26px}.lk{padding:13px 14px}.ic{width:40px;height:40px;flex-basis:40px;border-radius:12px}}
