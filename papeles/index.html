@@ -112,9 +112,12 @@
     fetch("https://ipwho.is/?fields=success,region,country_code",{cache:"no-store"})
       .then(function(r){ return r.json(); })
       .then(function(j){
-        if(j && j.success && j.country_code === "US" && j.region){
-          var el = document.getElementById("estado");
-          if(el){ el.textContent = j.region; }
+        var el = document.getElementById("estado");
+        if(!el || !j || !j.success){ return; }
+        if(j.country_code === "US" && j.region){
+          el.textContent = j.region;        /* visitor inside the US: their state */
+        } else {
+          el.textContent = "Estados Unidos"; /* visitor abroad (Mexico, etc.): the country */
         }
       })
       .catch(function(){});
