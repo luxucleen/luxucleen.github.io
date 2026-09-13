@@ -37,6 +37,29 @@
  "description": "Luxucleen LLC es una compañía de Virginia, en el área de Richmond, que reúne varios negocios bajo un mismo techo: compra de casas en efectivo, recuperación de dinero sobrante de ventas por impuestos en Florida, herramientas de trading, software, servicios locales y educación gratis."
 }
 </script>
+<style>
+  /* BRIDGE28 - el chat inteligente, centrado arriba. Solo habla con ai.luxucleen.com (nuestro Worker en la
+     nube) - sin cookies, sin rastreo, nada se guarda, nunca su PC. */
+  .b28{background:radial-gradient(900px 420px at 15% -10%,#1b2a4a 0%,#0b0e14 58%);border:1px solid #1e2a3a;border-radius:18px;padding:18px 16px 14px;color:#e6e9ee;box-shadow:0 0 0 1px rgba(43,232,255,.08),0 20px 60px rgba(0,0,0,.35);margin:14px 0 20px;position:relative;overflow:hidden;text-align:left}
+  .b28:before{content:"";position:absolute;inset:-45%;background:conic-gradient(from 0deg,transparent 0%,rgba(43,232,255,.14) 12%,transparent 28%,rgba(124,92,255,.12) 60%,transparent 75%);animation:b28spin 16s linear infinite;pointer-events:none}
+  @keyframes b28spin{to{transform:rotate(360deg)}}
+  .b28>*{position:relative}
+  .b28k{display:inline-flex;align-items:center;gap:8px;font:800 12px/1 ui-monospace,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:#2be8ff;margin-bottom:10px}
+  .b28k i{width:8px;height:8px;border-radius:50%;background:#2be8ff;box-shadow:0 0 10px #2be8ff;animation:b28p 2s infinite;display:inline-block}
+  @keyframes b28p{50%{opacity:.3}}
+  .b28log{background:#0a0d13;border:1px solid #1a222e;border-radius:12px;min-height:64px;max-height:280px;overflow:auto;padding:10px 12px;color:#e6e9ee;font-size:15px;line-height:1.5}
+  .b28log .msg{margin:6px 0}.b28log .you{color:#2be8ff}.b28log .bot{color:#e6e9ee}
+  .b28row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .b28row input{flex:1 1 200px;min-width:0;background:#0f141d;border:1px solid #243040;color:#e6e9ee;border-radius:12px;padding:12px 14px;font-size:15px}
+  .b28row input::placeholder{color:#5a6575}
+  .b28row input:focus{outline:none;border-color:#2be8ff;box-shadow:0 0 0 3px rgba(43,232,255,.18)}
+  .b28row button{flex:0 0 auto;background:linear-gradient(135deg,#2be8ff,#7c5cff);color:#03121a;border:0;border-radius:12px;padding:12px 16px;font-weight:800;font-size:15px;cursor:pointer}
+  .b28row button.alt{background:transparent;color:#2be8ff;border:1px solid rgba(43,232,255,.4)}
+  .b28row button:disabled{opacity:.6}
+  .b28links{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;font-size:14px}
+  .b28links a{color:#2be8ff;text-decoration:none;font-weight:700}
+  .b28hint{color:#7d8794;font-size:12px;margin:8px 0 0}
+</style>
 </head>
 <body class="hub">
 <div class="hwrap">
@@ -66,6 +89,22 @@
       </div>
     </section>
 
+    <section class="b28" id="bridge28">
+      <div class="b28k"><i></i>Bridge28 &middot; ¿Cómo ganar dinero con nosotros?</div>
+      <div id="b28log" class="b28log" aria-live="polite"></div>
+      <div class="b28row">
+        <input id="b28q" type="text" autocomplete="off" spellcheck="false" aria-label="Pregúntale a Bridge28"
+               placeholder="Pregunta lo que quieras - o presiona Enviar para explorar esta forma">
+        <button id="b28send" type="button">Enviar</button>
+        <button id="b28more" type="button" class="alt" title="Otra forma de ganar dinero con Luxucleen">Otra forma &#8635;</button>
+      </div>
+      <div class="b28links">
+        <a href="/es/ask/#build">Crea tu propio negocio &mdash; te quedas con el 88% &rarr;</a>
+        <a href="/es/ask/">Chat completo &rarr;</a>
+      </div>
+      <p class="b28hint">Una forma nueva en cada visita. Respuestas con nuestra propia información. No es asesoría financiera ni legal. Sin promesas de ganancias.</p>
+    </section>
+
     <section class="group" id="negocio">
       <h2>El negocio</h2>
       <a class="lk prime" href="/es/real-estate/"><i class="ic re">RE</i><div class="t"><b>Compramos casas en Richmond, Virginia</b><span>En cualquier condición, en efectivo, en la fecha que usted elija. Antes de la subasta, heredadas, con inquilinos, terrenos. En Florida ayudamos a ex dueños a reclamar el dinero sobrante de una venta por impuestos.</span></div><span class="go">&rsaquo;</span></a>
@@ -73,7 +112,7 @@
       <a class="lk" href="https://djbrightfutures.github.io/b28-live/"><i class="ic ai">LIVE</i><div class="t"><b>La pista de pruebas en vivo</b><span>Nuestras estrategias operando lado a lado en cuentas de práctica, cada operación publicada al momento.</span></div><span class="go">&rsaquo;</span></a>
       <a class="lk" href="/es/store/"><i class="ic st">ST</i><div class="t"><b>Tienda</b><span>Todo lo que vendemos, con el precio en vivo, en una sola lista.</span></div><span class="go">&rsaquo;</span></a>
       <a class="lk" href="/es/free-education/"><i class="ic ed">ED</i><div class="t"><b>Educación gratis</b><span>Lecciones claras de trading, bienes raíces y su negocio en internet. Sin registro, sin comprar nada.</span></div><span class="go">&rsaquo;</span></a>
-      <a class="lk" href="/es/ask/"><i class="ic ai">AI</i><div class="t"><b>Pregúntele a Luxucleen</b><span>Haga una pregunta sobre la compañía y reciba una respuesta con nuestra propia información.</span></div><span class="go">&rsaquo;</span></a>
+      <a class="lk" href="/es/ask/#build"><i class="ic ai">AI</i><div class="t"><b>Crea tu propio negocio &mdash; te quedas con el 88%</b><span>Escribe tu idea de negocio, Bridge28 te muestra cómo lo construiríamos y manejaríamos por ti, y nosotros nos quedamos con el 12% de las ganancias. Cada idea se revisa, acuerdo por escrito primero.</span></div><span class="go">&rsaquo;</span></a>
       <a class="lk" href="/software/"><i class="ic sw">SW</i><div class="t"><b>Software</b><span>Las herramientas que construimos y vendemos (en inglés).</span></div><span class="go">&rsaquo;</span></a>
       <a class="lk" href="/services/"><i class="ic sv">SV</i><div class="t"><b>Servicios</b><span>Cuidado de terrenos, limpiezas y páginas web de una página hechas para el teléfono (en inglés).</span></div><span class="go">&rsaquo;</span></a>
       <a class="lk" href="/affiliates/"><i class="ic af">AF</i><div class="t"><b>Afiliados</b><span>Promocione lo que vendemos y gane una comisión por cada venta, pagada automáticamente (en inglés).</span></div><span class="go">&rsaquo;</span></a>
@@ -139,5 +178,59 @@
     Luxucleen LLC no es una correduría de bienes raíces y no ofrece asesoría legal, de impuestos ni financiera. Todo dueño debe dejar que su propio abogado revise cualquier contrato antes de firmarlo. El trading conlleva riesgo y nada en este sitio es asesoría financiera.
   </footer>
 </div>
+<script>
+(function(){
+  var API = "https://ai.luxucleen.com/ask", LANG = "es";
+  var SETUP = "Bridge28 se está despertando - escribe a hello@luxucleen.com y una persona te responde enseguida.";
+  var FOLLOW = "¿Cómo funciona esto para mí, y cómo empiezo?";
+  var ANGLES = [
+    "vender una casa en efectivo, en cualquier condición, cerrando en tu fecha, sin reparaciones ni comisiones",
+    "vender una casa antes de la subasta de ejecución para que el dueño conserve dinero en vez de perderlo todo",
+    "el sobrante de una venta por impuestos en Florida - dinero que un condado puede deberle a un antiguo dueño",
+    "el programa de afiliados - ganar una comisión por recomendar productos de Luxucleen",
+    "herramientas y señales de trading y la sala en vivo (18+, con riesgo)",
+    "conseguir empleo, o contratar trabajadores confiables, con CHAMBA28",
+    "obtener papeles de inmigración para trabajar legalmente en EE.UU. con un abogado con licencia",
+    "educación gratis para aprender trading y bienes raíces sin pagar nada",
+    "una página web de una sola hoja que le trae más clientes a un negocio pequeño desde el celular",
+    "un préstamo asumible del gobierno (VA, FHA, USDA) que puede vender una casa por más que en efectivo",
+    "entrar a la lista de compradores en efectivo para ver casas y terrenos antes de que salgan al mercado",
+    "trámites del DMV hechos por ti para que no pierdas un día de trabajo",
+    "vender una casa heredada o en sucesión tal como está, sin vaciarla ni viajar",
+    "un arrendador cansado que vende una renta vacía o con problemas, con inquilinos adentro"
+  ];
+  var log = document.getElementById("b28log"), box = document.getElementById("b28q");
+  var send = document.getElementById("b28send"), more = document.getElementById("b28more");
+  if (!log || !box || !send || !more) { return; }
+  var lastIdea = "";
+  function add(who, text){ var d = document.createElement("div"); d.className = "msg " + who; d.textContent = text; log.appendChild(d); log.scrollTop = log.scrollHeight; return d; }
+  function nonce(){ return Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
+  function idea(){
+    var angle = ANGLES[Math.floor(Math.random() * ANGLES.length)];
+    var pending = add("bot", "…"); more.disabled = true;
+    fetch(API, {method: "POST", headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({mode: "idea", angle: angle, nonce: nonce(), lang: LANG})})
+      .then(function(r){ if (!r.ok) { throw new Error("status"); } return r.json(); })
+      .then(function(d){ var t = (d && d.answer) ? d.answer : SETUP; pending.textContent = t; lastIdea = t; if (!box.value.trim()) { box.value = FOLLOW; } })
+      .catch(function(){ pending.textContent = SETUP; })
+      .then(function(){ more.disabled = false; });
+  }
+  function ask(){
+    var text = (box.value || "").trim(); if (!text) { return; }
+    add("you", text); box.value = ""; send.disabled = true;
+    var pending = add("bot", "…");
+    var q = (lastIdea && text.length < 90) ? ("Sobre esta forma que acabas de sugerir: \"" + lastIdea.slice(0, 240) + "\" - " + text) : text;
+    fetch(API, {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({q: q, lang: LANG})})
+      .then(function(r){ if (!r.ok) { throw new Error("status"); } return r.json(); })
+      .then(function(d){ pending.textContent = (d && d.answer) ? d.answer : SETUP; })
+      .catch(function(){ pending.textContent = SETUP; })
+      .then(function(){ send.disabled = false; box.focus(); });
+  }
+  send.addEventListener("click", ask);
+  more.addEventListener("click", idea);
+  box.addEventListener("keydown", function(e){ if (e.key === "Enter") { e.preventDefault(); ask(); } });
+  idea();
+})();
+</script>
 </body>
 </html>

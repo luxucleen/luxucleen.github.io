@@ -72,6 +72,29 @@
  "publisher": {"@type": "Organization", "name": "Luxucleen LLC"}
 }
 </script>
+<style>
+  /* BRIDGE28 - the smart chat, centered up top (Christian 2026-09-13). Talks only to ai.luxucleen.com (our
+     cloud Worker) - no cookies, no tracking, nothing stored, never his PC. */
+  .b28{background:radial-gradient(900px 420px at 15% -10%,#1b2a4a 0%,#0b0e14 58%);border:1px solid #1e2a3a;border-radius:18px;padding:18px 16px 14px;color:#e6e9ee;box-shadow:0 0 0 1px rgba(43,232,255,.08),0 20px 60px rgba(0,0,0,.35);margin:14px 0 20px;position:relative;overflow:hidden;text-align:left}
+  .b28:before{content:"";position:absolute;inset:-45%;background:conic-gradient(from 0deg,transparent 0%,rgba(43,232,255,.14) 12%,transparent 28%,rgba(124,92,255,.12) 60%,transparent 75%);animation:b28spin 16s linear infinite;pointer-events:none}
+  @keyframes b28spin{to{transform:rotate(360deg)}}
+  .b28>*{position:relative}
+  .b28k{display:inline-flex;align-items:center;gap:8px;font:800 12px/1 ui-monospace,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:#2be8ff;margin-bottom:10px}
+  .b28k i{width:8px;height:8px;border-radius:50%;background:#2be8ff;box-shadow:0 0 10px #2be8ff;animation:b28p 2s infinite;display:inline-block}
+  @keyframes b28p{50%{opacity:.3}}
+  .b28log{background:#0a0d13;border:1px solid #1a222e;border-radius:12px;min-height:64px;max-height:280px;overflow:auto;padding:10px 12px;color:#e6e9ee;font-size:15px;line-height:1.5}
+  .b28log .msg{margin:6px 0}.b28log .you{color:#2be8ff}.b28log .bot{color:#e6e9ee}
+  .b28row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .b28row input{flex:1 1 200px;min-width:0;background:#0f141d;border:1px solid #243040;color:#e6e9ee;border-radius:12px;padding:12px 14px;font-size:15px}
+  .b28row input::placeholder{color:#5a6575}
+  .b28row input:focus{outline:none;border-color:#2be8ff;box-shadow:0 0 0 3px rgba(43,232,255,.18)}
+  .b28row button{flex:0 0 auto;background:linear-gradient(135deg,#2be8ff,#7c5cff);color:#03121a;border:0;border-radius:12px;padding:12px 16px;font-weight:800;font-size:15px;cursor:pointer}
+  .b28row button.alt{background:transparent;color:#2be8ff;border:1px solid rgba(43,232,255,.4)}
+  .b28row button:disabled{opacity:.6}
+  .b28links{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;font-size:14px}
+  .b28links a{color:#2be8ff;text-decoration:none;font-weight:700}
+  .b28hint{color:#7d8794;font-size:12px;margin:8px 0 0}
+</style>
 </head>
 <body class="hub">
 <div class="hwrap">
@@ -101,6 +124,22 @@
       </div>
     </section>
 
+    <section class="b28" id="bridge28">
+      <div class="b28k"><i></i>Bridge28 &middot; How to make money with us?</div>
+      <div id="b28log" class="b28log" aria-live="polite"></div>
+      <div class="b28row">
+        <input id="b28q" type="text" autocomplete="off" spellcheck="false" aria-label="Ask Bridge28"
+               placeholder="Ask anything - or press Send to explore this way">
+        <button id="b28send" type="button">Send</button>
+        <button id="b28more" type="button" class="alt" title="Another way to make money with Luxucleen">Another way &#8635;</button>
+      </div>
+      <div class="b28links">
+        <a href="/ask/#build">Create your own business &mdash; you keep 88% &rarr;</a>
+        <a href="/ask/">Full chat &rarr;</a>
+      </div>
+      <p class="b28hint">A fresh way every visit. Answers from our own information. Not financial or legal advice. No promises of profit.</p>
+    </section>
+
     <section class="group" id="business">
       <h2>The business</h2>
       <a class="lk prime" href="/real-estate/"><i class="ic re">RE</i><div class="t"><b>We buy houses in Richmond, Virginia</b><span>Any condition, cash offer, close on your date. Before an auction, inherited, tenants in place, vacant land. In Florida, we help former owners claim tax-deed surplus money.</span></div><span class="go">&rsaquo;</span></a>
@@ -108,7 +147,7 @@
       <a class="lk" href="https://djbrightfutures.github.io/b28-live/"><i class="ic ai">LIVE</i><div class="t"><b>The live proving ground</b><span>Our strategies trading side by side on paper accounts, every trade posted as it happens.</span></div><span class="go">&rsaquo;</span></a>
       <a class="lk" href="/store/"><i class="ic st">ST</i><div class="t"><b>Store</b><span>Everything we sell, with the live price, in one list.</span></div><span class="go">&rsaquo;</span></a>
       <a class="lk" href="/free-education/"><i class="ic ed">ED</i><div class="t"><b>Free education</b><span>Plain lessons on trading, real estate and getting your business online. No signup, nothing to buy.</span></div><span class="go">&rsaquo;</span></a>
-      <a class="lk" href="/ask/"><i class="ic ai">AI</i><div class="t"><b>Ask Bridge28 &mdash; How to make money with us?</b><span>Every visit shows a fresh way we can help you make, save or keep more money. Or type your own business idea and we build it for you &mdash; you keep 88%.</span></div><span class="go">&rsaquo;</span></a>
+      <a class="lk" href="/ask/#build"><i class="ic ai">AI</i><div class="t"><b>Create your own business &mdash; you keep 88%</b><span>Type your business idea, Bridge28 shows how we would build and run it for you, and we keep 12% of the profits. Every idea reviewed, written agreement first.</span></div><span class="go">&rsaquo;</span></a>
       <a class="lk" href="/software/"><i class="ic sw">SW</i><div class="t"><b>Software</b><span>The tools we built and sell, what each one does and what it costs.</span></div><span class="go">&rsaquo;</span></a>
       <a class="lk" href="/services/"><i class="ic sv">SV</i><div class="t"><b>Services</b><span>Grounds care, property clean-outs, and one-page business websites built for a phone.</span></div><span class="go">&rsaquo;</span></a>
       <a class="lk" href="/affiliates/"><i class="ic af">AF</i><div class="t"><b>Affiliates</b><span>Promote what we sell and earn a commission on each sale, paid out automatically.</span></div><span class="go">&rsaquo;</span></a>
@@ -223,5 +262,59 @@
     Luxucleen LLC is not a real-estate brokerage and does not provide legal, tax or financial advice. Every owner should have their own attorney review any contract before signing. Trading involves risk and nothing on this site is financial advice.
   </footer>
 </div>
+<script>
+(function(){
+  var API = "https://ai.luxucleen.com/ask", LANG = "en";
+  var SETUP = "Bridge28 is just waking up - email hello@luxucleen.com and a person answers right away.";
+  var FOLLOW = "How does this work for me, and how do I start?";
+  var ANGLES = [
+    "selling a house for cash, any condition, close on your date, no repairs or fees",
+    "selling a house before a foreclosure auction so the owner keeps money instead of losing it all",
+    "Florida tax-deed surplus - money a county may owe a former owner after a tax sale",
+    "the affiliate program - earning a commission for referring people to Luxucleen products",
+    "trading tools, signals and the live proving ground (18+, involves risk)",
+    "getting hired, or hiring reliable workers, through CHAMBA28",
+    "getting immigration papers to work legally in the U.S. through a licensed attorney",
+    "free education to learn trading and real estate without paying anything",
+    "a one-page website that brings a small business more customers from their phone",
+    "an assumable government loan (VA, FHA, USDA) that can sell a house for more than a cash sale",
+    "joining the cash-buyer list to see off-market houses and land before they are listed",
+    "DMV errands done for you so you do not miss a day of work",
+    "selling an inherited or probate house as-is, no clear-out, no travel",
+    "a tired landlord selling a vacant or problem rental with tenants in place"
+  ];
+  var log = document.getElementById("b28log"), box = document.getElementById("b28q");
+  var send = document.getElementById("b28send"), more = document.getElementById("b28more");
+  if (!log || !box || !send || !more) { return; }
+  var lastIdea = "";
+  function add(who, text){ var d = document.createElement("div"); d.className = "msg " + who; d.textContent = text; log.appendChild(d); log.scrollTop = log.scrollHeight; return d; }
+  function nonce(){ return Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
+  function idea(){
+    var angle = ANGLES[Math.floor(Math.random() * ANGLES.length)];
+    var pending = add("bot", "…"); more.disabled = true;
+    fetch(API, {method: "POST", headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({mode: "idea", angle: angle, nonce: nonce(), lang: LANG})})
+      .then(function(r){ if (!r.ok) { throw new Error("status"); } return r.json(); })
+      .then(function(d){ var t = (d && d.answer) ? d.answer : SETUP; pending.textContent = t; lastIdea = t; if (!box.value.trim()) { box.value = FOLLOW; } })
+      .catch(function(){ pending.textContent = SETUP; })
+      .then(function(){ more.disabled = false; });
+  }
+  function ask(){
+    var text = (box.value || "").trim(); if (!text) { return; }
+    add("you", text); box.value = ""; send.disabled = true;
+    var pending = add("bot", "…");
+    var q = (lastIdea && text.length < 90) ? ("About this way you just suggested: \"" + lastIdea.slice(0, 240) + "\" - " + text) : text;
+    fetch(API, {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({q: q, lang: LANG})})
+      .then(function(r){ if (!r.ok) { throw new Error("status"); } return r.json(); })
+      .then(function(d){ pending.textContent = (d && d.answer) ? d.answer : SETUP; })
+      .catch(function(){ pending.textContent = SETUP; })
+      .then(function(){ send.disabled = false; box.focus(); });
+  }
+  send.addEventListener("click", ask);
+  more.addEventListener("click", idea);
+  box.addEventListener("keydown", function(e){ if (e.key === "Enter") { e.preventDefault(); ask(); } });
+  idea();
+})();
+</script>
 </body>
 </html>
