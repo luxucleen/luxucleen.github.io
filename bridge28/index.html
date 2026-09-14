@@ -1,15 +1,15 @@
 <!doctype html>
 <html lang="en">
 <head>
-<script>/*lux-lang-router*/(function(){try{if(localStorage.getItem("lux_theme")==="light"){document.documentElement.setAttribute("data-theme","light");}}catch(e){}try{var E={"/":1,"/ask/":1,"/real-estate/":1,"/trading/":1,"/contact/":1,"/community/":1};var p=location.pathname.replace(/index\.html$/,"");if(p.charAt(p.length-1)!=="/"&&p.indexOf(".")<0)p+="/";if(p==="")p="/";var onES=p.indexOf("/es/")===0||p==="/es"||p==="/es/";var s=null;try{s=localStorage.getItem("lux_lang");}catch(e){}var pref=s;if(!pref){var l=(navigator.language||(navigator.languages&&navigator.languages[0])||"en").toLowerCase();pref=l.indexOf("es")===0?"es":"en";}if(pref==="es"&&!onES){if(E[p])location.replace("/es"+(p==="/"?"/":p));}else if(pref==="en"&&onES){location.replace(p.replace(/^\/es/,"")||"/");}}catch(e){}try{document.addEventListener("DOMContentLoaded",function(){var a=document.querySelectorAll("a[hreflang],a.lang");for(var i=0;i<a.length;i++){a[i].addEventListener("click",function(){try{var h=this.getAttribute("href")||"";localStorage.setItem("lux_lang",(h.indexOf("/es/")===0||h==="/es"||h==="/es/")?"es":"en");}catch(e){}});}});}catch(e){}})();</script>
+<script>/*lux-lang-router*/(function(){try{if(localStorage.getItem("lux_theme")==="light"){document.documentElement.setAttribute("data-theme","light");}}catch(e){}})();</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Bridge28 &mdash; build anything with Luxucleen</title>
-<meta name="description" content="Bridge28 is Luxucleen's AI. Ask it anything, hear it answer, and have it build your idea on the spot - a business plan, a landing page, ads, an email, a launch checklist or an audio pitch. Luxucleen can then build and run it for you (you keep 88%).">
+<meta name="description" content="Bridge28 is Luxucleen's AI. Ask it anything in English or Spanish, hear it answer, and have it build your idea on the spot - a business plan, a landing page, ads, an email, a launch checklist or an audio pitch. Luxucleen can then build and run it for you (you keep 88%).">
 <meta name="robots" content="index,follow">
 <link rel="canonical" href="https://luxucleen.com/bridge28/">
 <meta property="og:title" content="Bridge28 &mdash; build anything with Luxucleen">
-<meta property="og:description" content="Ask, hear it answer, and have it build your idea on the spot. Luxucleen can then build and run it for you.">
+<meta property="og:description" content="Ask, hear it answer, and have it build your idea on the spot. English or Spanish. Luxucleen can then build and run it for you.">
 <meta property="og:site_name" content="Luxucleen LLC">
 <style>
   :root{--bg:#07090f;--ink:#e8ecf3;--dim:#8a95a8;--line:#1a2230;--cy:#2be8ff;--vi:#7c5cff;--gr:#2ec27e;--rd:#f0553a}
@@ -28,9 +28,10 @@
   @keyframes p{50%{opacity:.35}}
   .by{color:var(--dim);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
   .by a{color:var(--dim);text-decoration:none}
-  .sp{margin-left:auto;display:flex;gap:8px;align-items:center}
+  .sp{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
   .tg{background:#0f141d;border:1px solid #243040;color:var(--dim);border-radius:999px;padding:7px 12px;font-size:12px;font-weight:800;cursor:pointer;user-select:none;letter-spacing:.04em;white-space:nowrap}
   .tg.on{color:var(--cy);border-color:rgba(43,232,255,.5);box-shadow:0 0 0 3px rgba(43,232,255,.10)}
+  .tg#lang{color:var(--gr);border-color:rgba(46,194,126,.5)}
   .tg a{color:inherit;text-decoration:none}
   /* orb */
   .hero{display:flex;flex-direction:column;align-items:center;text-align:center;padding:18px 0 6px}
@@ -53,15 +54,24 @@
   .pane:before{content:"";position:absolute;inset:-45%;background:conic-gradient(from 0deg,transparent 0%,rgba(43,232,255,.10) 12%,transparent 28%,rgba(124,92,255,.10) 60%,transparent 75%);animation:spin 18s linear infinite;pointer-events:none}
   .pane>*{position:relative}
   .k{display:inline-flex;align-items:center;gap:8px;font:800 11px/1 ui-monospace,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--cy);margin-bottom:10px}
-  .log{background:#0a0d13;border:1px solid var(--line);border-radius:14px;min-height:220px;max-height:52vh;overflow:auto;padding:12px;scroll-behavior:smooth}
+  .log{background:#0a0d13;border:1px solid var(--line);border-radius:14px;min-height:200px;max-height:48vh;overflow:auto;padding:12px;scroll-behavior:smooth}
   .msg{margin:8px 0;padding:10px 12px;border-radius:12px;max-width:92%;white-space:pre-wrap;word-wrap:break-word}
   .msg.you{margin-left:auto;background:#12202a;border:1px solid #1e3b4a;color:#dffcff}
   .msg.bot{background:#0f141d;border:1px solid #1f2a3a}
   .msg.bot.think{color:var(--dim);font-style:italic}
-  .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  /* quick-ask chips */
+  .qchips{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 2px}
+  .qchip{background:#0f141d;border:1px solid #243040;color:var(--cy);border-radius:999px;padding:7px 12px;font-size:12.5px;font-weight:800;cursor:pointer;user-select:none}
+  .qchip:hover{border-color:var(--cy)}
+  /* the message box - now a clear, editable textarea */
+  .ready{display:none;color:var(--gr);font-size:12.5px;font-weight:800;margin:10px 0 4px}
+  .ready.show{display:block}
+  .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;align-items:flex-end}
+  .row textarea#q{flex:1 1 220px;min-width:0;background:#0b1119;border:1.5px solid #2f4a5a;color:var(--ink);border-radius:12px;padding:12px 14px;font-size:15px;font-family:inherit;min-height:52px;max-height:160px;resize:vertical;line-height:1.5}
+  .row textarea#q.prefill{border-color:var(--gr);box-shadow:0 0 0 3px rgba(46,194,126,.14)}
   .row input,.row textarea{flex:1 1 220px;min-width:0;background:#0f141d;border:1px solid #243040;color:var(--ink);border-radius:12px;padding:12px 14px;font-size:15px;font-family:inherit}
   .row textarea{min-height:64px;resize:vertical}
-  .row input::placeholder,.row textarea::placeholder{color:#5a6575}
+  .row input::placeholder,.row textarea::placeholder{color:#7c8797}
   .row input:focus,.row textarea:focus{outline:none;border-color:var(--cy);box-shadow:0 0 0 3px rgba(43,232,255,.18)}
   .btn{flex:0 0 auto;background:linear-gradient(135deg,var(--cy),var(--vi));color:#03121a;border:0;border-radius:12px;padding:12px 16px;font-weight:900;font-size:15px;cursor:pointer;box-shadow:0 8px 24px rgba(43,232,255,.18)}
   .btn.alt{background:transparent;color:var(--cy);border:1px solid rgba(43,232,255,.4);box-shadow:none}
@@ -71,6 +81,9 @@
   .chips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 2px}
   .chip{background:#0f141d;border:1px solid #243040;color:var(--dim);border-radius:999px;padding:7px 12px;font-size:12.5px;font-weight:800;cursor:pointer;user-select:none}
   .chip.on{color:#03121a;background:linear-gradient(135deg,var(--cy),var(--vi));border-color:transparent}
+  .exlabel{color:var(--dim);font-size:12.5px;margin:12px 0 0;font-weight:700}
+  .ex{background:#0f141d;border:1px dashed #2f4a5a;color:var(--cy);border-radius:999px;padding:7px 12px;font-size:12.5px;font-weight:800;cursor:pointer;user-select:none}
+  .ex:hover{border-style:solid}
   .out{margin-top:12px;background:#0a0d13;border:1px solid var(--line);border-radius:14px;padding:12px;display:none}
   .out.show{display:block}
   .out pre{white-space:pre-wrap;word-wrap:break-word;font:14px/1.55 -apple-system,system-ui,sans-serif;margin:0;max-height:46vh;overflow:auto}
@@ -93,34 +106,39 @@
     <a class="wm" href="/"><i></i>BRIDGE28</a>
     <span class="by">by <a href="/">Luxucleen LLC</a></span>
     <div class="sp">
+      <span class="tg" id="lang" title="English / Espa&ntilde;ol">&#127760; EN</span>
       <span class="tg" id="voice" title="Hear Bridge28 - tap for Bella, again Liam, again off">&#128264; tap to hear</span>
-      <span class="tg"><a href="/ask/">simple chat</a></span>
+      <span class="tg"><a href="/ask/" id="simplechat">simple chat</a></span>
     </div>
   </div>
 
   <section class="hero">
     <div class="orb" id="orb"></div>
-    <h1>Ask me anything. <b>Then let me build it.</b></h1>
+    <h1 id="h1t">Ask me anything. <b>Then let me build it.</b></h1>
     <p class="lede" id="hook">Guess what &mdash; type your business idea below and I'll build it on the spot. A real business in minutes: we do the work and run it, you own it, and you keep 88%.</p>
   </section>
 
   <div class="grid">
     <section class="pane">
-      <div class="k"><i></i>Talk to Bridge28 &middot; how to make money with us?</div>
+      <div class="k" id="k1"><i></i>Talk to Bridge28 &middot; how to make money with us?</div>
       <div id="log" class="log" aria-live="polite"></div>
+      <div class="qchips" id="qchips"></div>
+      <p class="ready" id="qready">&#9997;&#65039; This message is ready &mdash; press Send, or tap the box to write your own.</p>
       <div class="row">
-        <input id="q" type="text" autocomplete="off" spellcheck="false" aria-label="Ask Bridge28"
-               placeholder="Ask anything - or press Send to explore this way">
+        <textarea id="q" rows="2" autocomplete="off" spellcheck="false" aria-label="Your message to Bridge28"
+               placeholder="Type your message here - or just press Send"></textarea>
         <button class="btn" id="send" type="button">Send</button>
         <button class="btn alt mic" id="mic" type="button" title="Speak to Bridge28 - phone or computer">&#127908;</button>
         <button class="btn alt" id="more" type="button" title="Another way to make money with Luxucleen">Another way &#8635;</button>
       </div>
-      <p class="hint">Answers come from Luxucleen's own information. Not financial or legal advice. No promises of profit. Trading is 18+.</p>
+      <p class="hint" id="chatHint">Answers come from Luxucleen's own information. Not financial or legal advice. No promises of profit. Trading is 18+.</p>
     </section>
 
     <section class="pane">
-      <div class="k"><i></i>Build it &middot; type an idea, pick what you want</div>
-      <div class="deal"><span>You keep <b>88%</b></span><span>We keep <b>12%</b></span><span><b>Written</b> agreement first</span></div>
+      <div class="k" id="k2"><i></i>Build it &middot; type an idea, pick what you want</div>
+      <div class="deal" id="deal"><span>You keep <b>88%</b></span><span>We keep <b>12%</b></span><span><b>Written</b> agreement first</span></div>
+      <p class="exlabel" id="exlabel">Not sure what to build? Tap an example &mdash; or type your own below:</p>
+      <div class="chips" id="bexamples"></div>
       <div class="row"><input id="bname" type="text" autocomplete="name" required aria-label="Your name" placeholder="Your name" style="width:100%"></div>
       <div class="row"><input id="bemail" type="email" autocomplete="email" inputmode="email" required aria-label="Your email" placeholder="Your email - we send your plan and files here" style="width:100%"></div>
       <div class="row"><textarea id="bidea" spellcheck="false" placeholder="Your idea in one or two sentences - a business, a product, a service, anything you have in mind"></textarea></div>
@@ -136,12 +154,12 @@
         <button class="btn alt mic" id="bmic" type="button" title="Speak your idea">&#127908;</button>
         <a class="btn alt" id="sendidea" href="mailto:hello@luxucleen.com?subject=My%20business%20idea%20%5BYour%20Name%5D">Send my idea &rarr;</a></div>
       <div class="out" id="out"></div>
-      <p class="hint">Everything you build here is saved to Luxucleen's idea vault so we can build it with you.
+      <p class="hint" id="buildHint">Everything you build here is saved to Luxucleen's idea vault so we can build it with you.
       <a href="/agreements/#build">Read the written agreement &rarr;</a></p>
     </section>
   </div>
 
-  <p class="foot">Bridge28 can be wrong, and it only knows what is on luxucleen.com. When something matters &mdash; a property, a licence,
+  <p class="foot" id="foot">Bridge28 can be wrong, and it only knows what is on luxucleen.com. When something matters &mdash; a property, a licence,
   money &mdash; write to a person: <a href="mailto:hello@luxucleen.com?subject=Bridge28">hello@luxucleen.com</a>. No account, no cookies, no
   tracking. Luxucleen LLC, Midlothian, Virginia &middot; SCC Entity ID 11952713 &middot; <a href="/legal/">Legal</a> &middot; <a href="/agreements/">Agreements</a></p>
 </div>
@@ -168,13 +186,13 @@
 <div id="signup" class="modal" hidden>
   <div class="card">
     <button class="x" id="sx" type="button" aria-label="Close">&times;</button>
-    <h3>Unlock your workspace &amp; keep building</h3>
-    <p>You built your first business &mdash; nice. Sign up with your best <b>business email</b> to get your own
+    <h3 id="m_h3">Unlock your workspace &amp; keep building</h3>
+    <p id="m_p">You built your first business &mdash; nice. Sign up with your best <b>business email</b> to get your own
     Luxucleen workspace and keep stacking businesses. You keep <b>88%</b> of every idea that makes money.</p>
-    <div class="deal2"><span>You keep <b>88%</b></span><span><b>Your</b> workspace</span><span>Paid <b>your way</b></span></div>
-    <label for="su_email">Best business email</label>
+    <div class="deal2" id="m_deal"><span>You keep <b>88%</b></span><span><b>Your</b> workspace</span><span>Paid <b>your way</b></span></div>
+    <label for="su_email" id="m_lem">Best business email</label>
     <input id="su_email" type="email" inputmode="email" autocomplete="email" placeholder="you@yourbusiness.com">
-    <label for="su_payout">How do you want to get paid your 88%?</label>
+    <label for="su_payout" id="m_lpay">How do you want to get paid your 88%?</label>
     <select id="su_payout">
       <option value="">Pick a payout method&hellip;</option>
       <option>PayPal</option>
@@ -190,16 +208,82 @@
     <input id="su_detail" type="text" placeholder="Your payout handle / email / account so we can pay you">
     <button class="go" id="su_go" type="button">Create my workspace &rarr;</button>
     <p class="err" id="su_err" hidden></p>
-    <p class="fine">One workspace per email, no password needed. You keep 88%; we build and run each business, a written
+    <p class="fine" id="m_fine">One workspace per email, no password needed. You keep 88%; we build and run each business, a written
     agreement first. <a href="/agreements/#build">Read the agreement</a>.</p>
   </div>
 </div>
 
 <script>
 (function(){
-  var API = "https://ai.luxucleen.com/ask", LANG = "en";
-  var SETUP = "Bridge28 is just waking up - email hello@luxucleen.com and a person answers right away.";
-  var FOLLOW = "How does this work for me, and how do I start?";
+  var API = "https://ai.luxucleen.com/ask";
+  var LANG = (function(){ try { return localStorage.getItem("lux_lang") === "es" ? "es" : "en"; } catch (e) { return "en"; } })();
+
+  /* ---- EN/ES strings: one button flips the whole page + the AI's language ---- */
+  var T = {
+    en: {
+      html:"en", langbtn:"&#127760; EN", h1:'Ask me anything. <b>Then let me build it.</b>',
+      k1:"Talk to Bridge28 · how to make money with us?",
+      qready:"&#9997;&#65039; This message is ready &mdash; press Send, or tap the box to write your own.",
+      qph:"Type your message here - or just press Send", send:"Send", more:"Another way &#8635;",
+      chatHint:"Answers come from Luxucleen's own information. Not financial or legal advice. No promises of profit. Trading is 18+.",
+      quick:["How do I make money with you?","Build me a business","Sell my house for cash","I want a website"],
+      k2:"Build it · type an idea, pick what you want",
+      deal:['You keep <b>88%</b>','We keep <b>12%</b>','<b>Written</b> agreement first'],
+      exlabel:"Not sure what to build? Tap an example - or type your own below:",
+      examples:["A mobile car wash","A cleaning service","An online store","A food truck","A lawn-care route","A phone-repair shop"],
+      bname:"Your name", bemail:"Your email - we send your plan and files here",
+      bidea:"Your idea in one or two sentences - a business, a product, a service, anything you have in mind",
+      chips:{plan:"Business plan",page:"Landing page",ad:"5 ads",email:"Pitch email",checklist:"Launch checklist",audio:"Audio pitch &#127911;"},
+      build:"Build it &#10024;", sendidea:"Send my idea &rarr;",
+      buildHint:'Everything you build here is saved to Luxucleen\'s idea vault so we can build it with you. <a href="/agreements/#build">Read the written agreement &rarr;</a>',
+      foot:'Bridge28 can be wrong, and it only knows what is on luxucleen.com. When something matters &mdash; a property, a licence, money &mdash; write to a person: <a href="mailto:hello@luxucleen.com?subject=Bridge28">hello@luxucleen.com</a>. No account, no cookies, no tracking. Luxucleen LLC, Midlothian, Virginia &middot; SCC Entity ID 11952713 &middot; <a href="/legal/">Legal</a> &middot; <a href="/agreements/">Agreements</a>',
+      follow:"How does this work for me, and how do I start?",
+      setup:"Bridge28 is just waking up - email hello@luxucleen.com and a person answers right away.",
+      simplechat:"simple chat",
+      m_h3:"Unlock your workspace &amp; keep building",
+      m_p:'You built your first business &mdash; nice. Sign up with your best <b>business email</b> to get your own Luxucleen workspace and keep stacking businesses. You keep <b>88%</b> of every idea that makes money.',
+      m_deal:['You keep <b>88%</b>','<b>Your</b> workspace','Paid <b>your way</b>'],
+      m_lem:"Best business email", m_lpay:"How do you want to get paid your 88%?",
+      pay0:"Pick a payout method…", sudetail:"Your payout handle / email / account so we can pay you",
+      su_go:"Create my workspace &rarr;",
+      m_fine:'One workspace per email, no password needed. You keep 88%; we build and run each business, a written agreement first. <a href="/agreements/#build">Read the agreement</a>.',
+      building:{plan:"business plan",page:"landing page",ad:"ads",email:"pitch email",checklist:"launch checklist",audio:"audio pitch"}
+    },
+    es: {
+      html:"es", langbtn:"&#127760; ES", h1:'Preg&uacute;ntame lo que sea. <b>Y deja que lo construya.</b>',
+      k1:"Habla con Bridge28 · &iquest;c&oacute;mo ganar dinero con nosotros?",
+      qready:"&#9997;&#65039; Este mensaje est&aacute; listo &mdash; presiona Enviar, o toca el cuadro para escribir el tuyo.",
+      qph:"Escribe tu mensaje aqu&iacute; - o solo presiona Enviar", send:"Enviar", more:"Otra forma &#8635;",
+      chatHint:"Las respuestas vienen de la informaci&oacute;n de Luxucleen. No es consejo financiero ni legal. Sin promesas de ganancia. El trading es 18+.",
+      quick:["&iquest;C&oacute;mo gano dinero con ustedes?","Constr&uacute;yeme un negocio","Vender mi casa por efectivo","Quiero un sitio web"],
+      k2:"Constr&uacute;yelo · escribe una idea, elige lo que quieres",
+      deal:['Te quedas con <b>88%</b>','Nosotros <b>12%</b>','<b>Acuerdo</b> por escrito primero'],
+      exlabel:"&iquest;No sabes qu&eacute; construir? Toca un ejemplo - o escribe el tuyo abajo:",
+      examples:["Un lavado de autos a domicilio","Un servicio de limpieza","Una tienda en l&iacute;nea","Un food truck","Una ruta de cuidado de c&eacute;sped","Una tienda de reparaci&oacute;n de tel&eacute;fonos"],
+      bname:"Tu nombre", bemail:"Tu correo - aqu&iacute; enviamos tu plan y archivos",
+      bidea:"Tu idea en una o dos frases - un negocio, un producto, un servicio, lo que tengas en mente",
+      chips:{plan:"Plan de negocio",page:"P&aacute;gina web",ad:"5 anuncios",email:"Correo de venta",checklist:"Lista de lanzamiento",audio:"Audio pitch &#127911;"},
+      build:"Constr&uacute;yelo &#10024;", sendidea:"Enviar mi idea &rarr;",
+      buildHint:'Todo lo que construyes aqu&iacute; se guarda en la b&oacute;veda de ideas de Luxucleen para construirlo contigo. <a href="/agreements/#build">Lee el acuerdo por escrito &rarr;</a>',
+      foot:'Bridge28 puede equivocarse, y solo sabe lo que est&aacute; en luxucleen.com. Cuando algo importa &mdash; una propiedad, una licencia, dinero &mdash; escribe a una persona: <a href="mailto:hello@luxucleen.com?subject=Bridge28">hello@luxucleen.com</a>. Sin cuenta, sin cookies, sin rastreo. Luxucleen LLC, Midlothian, Virginia &middot; SCC Entity ID 11952713 &middot; <a href="/legal/">Legal</a> &middot; <a href="/agreements/">Acuerdos</a>',
+      follow:"&iquest;C&oacute;mo funciona esto para m&iacute;, y c&oacute;mo empiezo?",
+      setup:"Bridge28 est&aacute; despertando - escribe a hello@luxucleen.com y una persona te responde enseguida.",
+      simplechat:"chat simple",
+      m_h3:"Desbloquea tu espacio y sigue construyendo",
+      m_p:'Construiste tu primer negocio &mdash; genial. Reg&iacute;strate con tu mejor <b>correo de negocio</b> para tener tu propio espacio de Luxucleen y seguir apilando negocios. Te quedas con el <b>88%</b> de cada idea que genere dinero.',
+      m_deal:['Te quedas con <b>88%</b>','<b>Tu</b> espacio','Pagado <b>a tu manera</b>'],
+      m_lem:"Mejor correo de negocio", m_lpay:"&iquest;C&oacute;mo quieres cobrar tu 88%?",
+      pay0:"Elige un m&eacute;todo de pago…", sudetail:"Tu usuario / correo / cuenta de pago para poder pagarte",
+      su_go:"Crear mi espacio &rarr;",
+      m_fine:'Un espacio por correo, sin contrase&ntilde;a. Te quedas con 88%; construimos y manejamos cada negocio, un acuerdo por escrito primero. <a href="/agreements/#build">Lee el acuerdo</a>.',
+      building:{plan:"plan de negocio",page:"p&aacute;gina web",ad:"anuncios",email:"correo de venta",checklist:"lista de lanzamiento",audio:"audio pitch"}
+    }
+  };
+  function tr(){ return T[LANG] || T.en; }
+  function dec(html){ var d=document.createElement("div"); d.innerHTML=html; return d.textContent||d.innerText||""; }
+
+  var SETUP = tr().setup;
+  var FOLLOW = tr().follow;
   var ANGLES = [
     "selling a house for cash, any condition, close on your date, no repairs or fees",
     "selling a house before a foreclosure auction so the owner keeps money instead of losing it all",
@@ -219,26 +303,79 @@
   var $ = function(id){ return document.getElementById(id); };
   var log = $("log"), box = $("q"), send = $("send"), more = $("more"), orb = $("orb"), voiceTg = $("voice");
   var bidea = $("bidea"), build = $("build"), out = $("out"), chips = $("chips"), sendidea = $("sendidea");
-  var lastIdea = "", turns = 0, pitched = false, voice = "both", ctype = "plan", player = null;   /* default: Bella + Liam, auto-speak the first idea */
-  function other(v){ return v === "bella" ? "liam" : "bella"; }   /* two voices, like Bella and Liam */
+  var qready = $("qready"), qchips = $("qchips"), bexamples = $("bexamples");
+  var lastIdea = "", turns = 0, pitched = false, voice = "both", ctype = "plan", player = null;
+  function other(v){ return v === "bella" ? "liam" : "bella"; }
 
-  var HOOKS = [
+  var HOOKS = {
+    en:[
     "Guess what &mdash; type your business idea below and I'll build it. A real business in minutes: we do the work and run it, you keep 88%.",
     "You bring the idea. I build it, Luxucleen runs it, and you keep 88% &mdash; fair, because we do the work while you sit back.",
     "Dream it below and watch it get built. A business in minutes, made by AI &mdash; you own it, we run it for 12%.",
     "Type one line. Get a real plan, page and ads on the spot &mdash; then let us build and run the whole thing for 12%.",
     "Sit back. You create the idea, we do all the work, you keep the lion's share: 88% yours, 12% ours.",
-    "What would you build if someone else did all the work? Type it below &mdash; we will, for 12% of the profits.",
     "Your idea, our hands. A business in minutes, built and run for you. You own it and keep 88%.",
     "Start a business without quitting your day. Type the idea, we build and run it, you keep 88%.",
-    "The AI that doesn't just talk &mdash; it builds. Drop your idea and we'll turn it into a real business you own.",
-    "You had the idea. Let us do the rest. We build it, run it, and keep only 12% &mdash; 88% stays yours.",
-    "A business tonight? Type your idea below. We handle everything; you own it and keep 88%.",
-    "No team, no code, no startup cash. Your idea plus our work = a business you own, 88% yours.",
-    "Tell me your idea in one sentence. I'll build the whole thing &mdash; you sit back, you own it, you keep 88%.",
-    "Guess what &mdash; the work is on us. You create the idea, we build and run the business, you keep 88%."
-  ];
-  function pickHook(){ var h = document.getElementById("hook"); if (h) { h.innerHTML = HOOKS[Math.floor(Math.random() * HOOKS.length)]; } }
+    "The AI that doesn't just talk &mdash; it builds. Drop your idea and we'll turn it into a real business you own."
+    ],
+    es:[
+    "Adivina qu&eacute; &mdash; escribe tu idea de negocio abajo y la construyo. Un negocio real en minutos: nosotros hacemos el trabajo y lo manejamos, t&uacute; te quedas con el 88%.",
+    "T&uacute; traes la idea. Yo la construyo, Luxucleen la maneja, y t&uacute; te quedas con el 88%.",
+    "Su&eacute;&ntilde;ala abajo y m&iacute;rala construirse. Un negocio en minutos, hecho por IA &mdash; t&uacute; lo posees, nosotros lo manejamos por 12%.",
+    "Escribe una l&iacute;nea. Recibe un plan, una p&aacute;gina y anuncios al instante &mdash; luego deja que lo construyamos y manejemos por 12%.",
+    "Si&eacute;ntate. T&uacute; creas la idea, nosotros hacemos todo el trabajo, y te quedas con la mayor parte: 88% tuyo, 12% nuestro.",
+    "Tu idea, nuestras manos. Un negocio en minutos, construido y manejado por ti. T&uacute; lo posees y te quedas con el 88%.",
+    "Empieza un negocio sin dejar tu d&iacute;a. Escribe la idea, la construimos y manejamos, te quedas con el 88%.",
+    "La IA que no solo habla &mdash; construye. Danos tu idea y la convertimos en un negocio real que t&uacute; posees."
+    ]
+  };
+  function pickHook(){ var h = $("hook"); if (h) { var a = HOOKS[LANG] || HOOKS.en; h.innerHTML = a[Math.floor(Math.random() * a.length)]; } }
+
+  function applyLang(){
+    var t = tr();
+    try { document.documentElement.lang = t.html; } catch(e){}
+    SETUP = dec(t.setup); FOLLOW = dec(t.follow);
+    var set = function(id, html){ var el = $(id); if (el) el.innerHTML = html; };
+    var setKeepDot = function(id, html){ var el = $(id); if (el) el.innerHTML = '<i></i>' + html; };
+    $("lang").innerHTML = t.langbtn;
+    set("h1t", t.h1);
+    setKeepDot("k1", t.k1); setKeepDot("k2", t.k2);
+    box.setAttribute("placeholder", dec(t.qph));
+    send.textContent = t.send; more.innerHTML = t.more;
+    set("chatHint", t.chatHint);
+    set("qready", t.qready);
+    var sc = $("simplechat"); if (sc) sc.textContent = t.simplechat;
+    // deal chips
+    var deal = $("deal"); if (deal){ var ds = deal.getElementsByTagName("span"); for (var i=0;i<ds.length && i<t.deal.length;i++) ds[i].innerHTML = t.deal[i]; }
+    set("exlabel", t.exlabel);
+    $("bname").setAttribute("placeholder", dec(t.bname));
+    $("bemail").setAttribute("placeholder", dec(t.bemail));
+    bidea.setAttribute("placeholder", dec(t.bidea));
+    // build type chips
+    Array.prototype.forEach.call(chips.children, function(c){ var k=c.getAttribute("data-t"); if (t.chips[k]) c.innerHTML = t.chips[k]; });
+    build.innerHTML = t.build; sendidea.innerHTML = t.sendidea;
+    set("buildHint", t.buildHint);
+    set("foot", t.foot);
+    pickHook();
+    // quick-ask chips
+    qchips.innerHTML = "";
+    t.quick.forEach(function(qq){ var c=document.createElement("span"); c.className="qchip"; c.textContent=dec(qq);
+      c.addEventListener("click", function(){ box.value=qq; box.classList.remove("prefill"); qready.classList.remove("show"); ask(); }); qchips.appendChild(c); });
+    // build example chips
+    bexamples.innerHTML = "";
+    t.examples.forEach(function(ex){ var c=document.createElement("span"); c.className="ex"; c.textContent=dec(ex);
+      c.addEventListener("click", function(){ bidea.value=ex; bidea.focus(); mailFor(); }); bexamples.appendChild(c); });
+    // signup modal
+    set("m_h3", t.m_h3); set("m_p", t.m_p);
+    var md = $("m_deal"); if (md){ var ms = md.getElementsByTagName("span"); for (var j=0;j<ms.length && j<t.m_deal.length;j++) ms[j].innerHTML = t.m_deal[j]; }
+    set("m_lem", t.m_lem); set("m_lpay", t.m_lpay);
+    var sp = $("su_payout"); if (sp && sp.options.length) sp.options[0].textContent = dec(t.pay0);
+    var sd = $("su_detail"); if (sd) sd.setAttribute("placeholder", dec(t.sudetail));
+    $("su_go").innerHTML = t.su_go;
+    set("m_fine", t.m_fine);
+    paintVoice();
+  }
+
   function post(body){
     return fetch(API, {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(body)})
       .then(function(r){ if (!r.ok) { throw new Error("status"); } return r.json(); });
@@ -250,7 +387,6 @@
     log.appendChild(d); log.scrollTop = log.scrollHeight;
     return d;
   }
-  /* typing effect: the answer reveals itself - alive, not a wall of text landing at once */
   function typeInto(el, text, done){
     el.classList.remove("think"); el.textContent = "";
     var i = 0, n = text.length, step = Math.max(1, Math.round(n / 260));
@@ -294,17 +430,20 @@
   function playAny(d){ if (d && d.clips && d.clips.length) { playClips(d.clips, 0); } else if (d && d.audio) { play(d.audio, d.audio_type); } else if (d && d.audio_url) { playUrl(d.audio_url); } }
   function nonce(){ return Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
 
+  function markReady(){ box.classList.add("prefill"); qready.classList.add("show"); }
+  function clearReady(){ box.classList.remove("prefill"); qready.classList.remove("show"); }
+
   function idea(withVoice){
     pickHook();
     var pending = add("bot", "…", "think"); more.disabled = true;
     post({mode: "idea", angle: ANGLES[Math.floor(Math.random() * ANGLES.length)], nonce: nonce(), lang: LANG, voice: withVoice ? (voice || false) : false})
-      .then(function(d){ var t = (d && d.answer) ? d.answer : SETUP; lastIdea = t; typeInto(pending, t); if (!box.value.trim()) { box.value = FOLLOW; } playAny(d); })
+      .then(function(d){ var t = (d && d.answer) ? d.answer : SETUP; lastIdea = t; typeInto(pending, t); if (!box.value.trim()) { box.value = FOLLOW; markReady(); } playAny(d); })
       .catch(function(){ pending.textContent = SETUP; pending.classList.remove("think"); })
       .then(function(){ more.disabled = false; });
   }
   function ask(){
     var text = (box.value || "").trim(); if (!text) { return; }
-    add("you", text); box.value = ""; send.disabled = true; turns++;
+    add("you", text); box.value = ""; clearReady(); send.disabled = true; turns++;
     var doPitch = (!pitched && turns >= 6); if (doPitch) { pitched = true; }
     var pending = add("bot", "…", "think");
     var q = (lastIdea && text.length < 90) ? ("About this way you just suggested: \"" + lastIdea.slice(0, 240) + "\" - " + text) : text;
@@ -335,10 +474,10 @@
     var i = (bidea.value || "").trim();
     var bm = document.getElementById("bemail"), em = (bm && bm.value || "").trim();
     var nn = document.getElementById("bname"), nm = (nn && nn.value || "").trim();
-    if (!nm) { if (nn) { nn.focus(); } out.className = "out show"; out.innerHTML = '<pre style="color:#f0a94a">Add your name first.</pre>'; return; }
-    if (!(em.indexOf("@") > 0 && em.lastIndexOf(".") > em.indexOf("@") + 1 && em.length > 5 && em.indexOf(" ") < 0)) { if (bm) { bm.focus(); } out.className = "out show"; out.innerHTML = '<pre style="color:#f0a94a">Add your email first - that is where we send your plan and files.</pre>'; return; }
+    if (!nm) { if (nn) { nn.focus(); } out.className = "out show"; out.innerHTML = '<pre style="color:#f0a94a">' + (LANG==="es"?"Escribe tu nombre primero.":"Add your name first.") + '</pre>'; return; }
+    if (!(em.indexOf("@") > 0 && em.lastIndexOf(".") > em.indexOf("@") + 1 && em.length > 5 && em.indexOf(" ") < 0)) { if (bm) { bm.focus(); } out.className = "out show"; out.innerHTML = '<pre style="color:#f0a94a">' + (LANG==="es"?"Escribe tu correo primero - ah&iacute; enviamos tu plan y archivos.":"Add your email first - that is where we send your plan and files.") + '</pre>'; return; }
     if (!i) { bidea.focus(); return; }
-    build.disabled = true; out.className = "out show"; out.innerHTML = '<pre style="color:#8a95a8;font-style:italic">Bridge28 is building your ' + ({plan:"business plan",page:"landing page",ad:"ads",email:"pitch email",checklist:"launch checklist",audio:"audio pitch"})[ctype] + "…</pre>";
+    build.disabled = true; out.className = "out show"; out.innerHTML = '<pre style="color:#8a95a8;font-style:italic">Bridge28 ' + (LANG==="es"?"est&aacute; construyendo tu ":"is building your ") + tr().building[ctype] + "…</pre>";
     orb.classList.add("talking");
     post({mode: "create", type: ctype, q: i, lang: LANG, email: em, name: nm, voice: (ctype === "audio") ? (voice === "liam" ? "liam" : "bella") : false})
       .then(function(d){
@@ -356,15 +495,15 @@
           var bin = atob(d.audio), u8 = new Uint8Array(bin.length); for (var k = 0; k < bin.length; k++) u8[k] = bin.charCodeAt(k);
           var blob = new Blob([u8], {type: d.audio_type || "audio/wav"}), url = URL.createObjectURL(blob);
           var au = document.createElement("audio"); au.controls = true; au.src = url; out.appendChild(au);
-          var a = document.createElement("a"); a.href = url; a.download = f[0]; a.textContent = "Download audio"; acts.appendChild(a);
+          var a = document.createElement("a"); a.href = url; a.download = f[0]; a.textContent = LANG==="es"?"Descargar audio":"Download audio"; acts.appendChild(a);
           try { au.play(); } catch (e) {}
         } else {
           acts.appendChild(dl(f[0], text, f[1]));
         }
-        var cp = document.createElement("button"); cp.type = "button"; cp.textContent = "Copy text";
-        cp.onclick = function(){ try { navigator.clipboard.writeText(text); cp.textContent = "Copied"; } catch (e) {} };
+        var cp = document.createElement("button"); cp.type = "button"; cp.textContent = LANG==="es"?"Copiar texto":"Copy text";
+        cp.onclick = function(){ try { navigator.clipboard.writeText(text); cp.textContent = LANG==="es"?"Copiado":"Copied"; } catch (e) {} };
         acts.appendChild(cp);
-        var again = document.createElement("button"); again.type = "button"; again.textContent = "Build another version";
+        var again = document.createElement("button"); again.type = "button"; again.textContent = LANG==="es"?"Otra versi&oacute;n":"Build another version";
         again.onclick = makeIt; acts.appendChild(again);
         out.appendChild(acts);
         try { localStorage.setItem("lux_created", "1"); } catch (e) {}
@@ -376,9 +515,20 @@
 
   send.addEventListener("click", ask);
   more.addEventListener("click", function(){ idea(true); });
-  box.addEventListener("keydown", function(e){ if (e.key === "Enter") { e.preventDefault(); ask(); } });
+  box.addEventListener("keydown", function(e){ if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); ask(); } });
+  box.addEventListener("input", clearReady);
+  box.addEventListener("focus", function(){ if (box.classList.contains("prefill")) { try { box.select(); } catch(e){} } });
   build.addEventListener("click", makeIt);
-  /* ---- SIGN-UP GATE: first creation free, then unlock a workspace (best business email + how to get paid) ---- */
+  /* ---- LANGUAGE: one button flips EN <-> ES ---- */
+  $("lang").addEventListener("click", function(){
+    LANG = (LANG === "es") ? "en" : "es";
+    try { localStorage.setItem("lux_lang", LANG); } catch (e) {}
+    applyLang();
+    // refresh the loaded idea + prefill in the new language
+    log.innerHTML = ""; box.value = ""; clearReady(); lastIdea = ""; turns = 0;
+    idea(false);
+  });
+  /* ---- SIGN-UP GATE: first creation free, then unlock a workspace ---- */
   function signed(){ try { return localStorage.getItem("lux_signed") === "1"; } catch (e) { return false; } }
   function usedFree(){ try { return localStorage.getItem("lux_created") === "1"; } catch (e) { return false; } }
   var SUP = $("signup");
@@ -388,15 +538,15 @@
   if ($("su_go")) { $("su_go").addEventListener("click", function(){
     var se = $("su_email"), sp = $("su_payout"), sd = $("su_detail"), er = $("su_err");
     var em = (se.value || "").trim();
-    if (!(em.indexOf("@") > 0 && em.lastIndexOf(".") > em.indexOf("@") + 1 && em.length > 5 && em.indexOf(" ") < 0)) { er.hidden = false; er.textContent = "Enter a valid business email."; se.focus(); return; }
-    var go = $("su_go"); go.disabled = true; go.textContent = "Creating…"; er.hidden = true;
+    if (!(em.indexOf("@") > 0 && em.lastIndexOf(".") > em.indexOf("@") + 1 && em.length > 5 && em.indexOf(" ") < 0)) { er.hidden = false; er.textContent = LANG==="es"?"Escribe un correo de negocio válido.":"Enter a valid business email."; se.focus(); return; }
+    var go = $("su_go"); go.disabled = true; go.textContent = LANG==="es"?"Creando…":"Creating…"; er.hidden = true;
     post({mode: "signup", email: em, payout: (sp && sp.value) || "", payout_detail: (sd && sd.value) || "", lang: LANG})
-      .then(function(d){ if (d && d.ok) { try { localStorage.setItem("lux_signed", "1"); localStorage.setItem("lux_workspace", em); } catch (e) {} closeSignup(); build.disabled = false; out.className = "out show"; out.innerHTML = '<pre style="color:#37d67a">Workspace created for ' + em + '. Your office is ready — you keep 88%.</pre><p><a href="/office/" style="color:#2be8ff;font-weight:800;text-decoration:none">Go to your office &rarr;</a></p>'; }
-                        else { er.hidden = false; er.textContent = (d && d.error) ? d.error : "Could not create your workspace — try again."; } })
-      .catch(function(){ er.hidden = false; er.textContent = "Could not reach the server — try again."; })
-      .then(function(){ go.disabled = false; go.textContent = "Create my workspace →"; });
+      .then(function(d){ if (d && d.ok) { try { localStorage.setItem("lux_signed", "1"); localStorage.setItem("lux_workspace", em); } catch (e) {} closeSignup(); build.disabled = false; out.className = "out show"; out.innerHTML = '<pre style="color:#37d67a">' + (LANG==="es"?"Espacio creado para ":"Workspace created for ") + em + (LANG==="es"?". Tu oficina est&aacute; lista — te quedas con el 88%.":". Your office is ready — you keep 88%.") + '</pre><p><a href="/office/" style="color:#2be8ff;font-weight:800;text-decoration:none">' + (LANG==="es"?"Ir a tu oficina &rarr;":"Go to your office &rarr;") + '</a></p>'; }
+                        else { er.hidden = false; er.textContent = (d && d.error) ? d.error : (LANG==="es"?"No se pudo crear tu espacio — intenta de nuevo.":"Could not create your workspace — try again."); } })
+      .catch(function(){ er.hidden = false; er.textContent = LANG==="es"?"No se pudo conectar — intenta de nuevo.":"Could not reach the server — try again."; })
+      .then(function(){ go.disabled = false; go.innerHTML = tr().su_go; });
   }); }
-  sendidea.addEventListener("click", function(e){ var bm = document.getElementById("bemail"), em = (bm && bm.value || "").trim(); if (!(em.indexOf("@") > 0 && em.lastIndexOf(".") > em.indexOf("@") + 1 && em.length > 5 && em.indexOf(" ") < 0)) { e.preventDefault(); if (bm) { bm.focus(); } out.className = "out show"; out.innerHTML = '<pre style="color:#f0a94a">Add your email first - that is where we send your plan and files.</pre>'; return; } try { post({mode: "create", type: "plan", q: (bidea.value || "").trim(), lang: LANG, email: em}); } catch (err) {} });
+  sendidea.addEventListener("click", function(e){ var bm = document.getElementById("bemail"), em = (bm && bm.value || "").trim(); if (!(em.indexOf("@") > 0 && em.lastIndexOf(".") > em.indexOf("@") + 1 && em.length > 5 && em.indexOf(" ") < 0)) { e.preventDefault(); if (bm) { bm.focus(); } out.className = "out show"; out.innerHTML = '<pre style="color:#f0a94a">' + (LANG==="es"?"Escribe tu correo primero - ah&iacute; enviamos tu plan y archivos.":"Add your email first - that is where we send your plan and files.") + '</pre>'; return; } try { post({mode: "create", type: "plan", q: (bidea.value || "").trim(), lang: LANG, email: em}); } catch (err) {} });
   bidea.addEventListener("input", mailFor);
   chips.addEventListener("click", function(e){
     var c = e.target.closest(".chip"); if (!c) return;
@@ -404,15 +554,14 @@
     c.classList.add("on"); ctype = c.getAttribute("data-t");
   });
   var VSEQ = ["", "bella", "liam", "both"];
-  var VLABEL = {"": "&#128264; tap to hear", "bella": "&#128266; Bella", "liam": "&#128266; Liam", "both": "&#128266; Bella + Liam"};
-  function paintVoice(){ voiceTg.classList.toggle("on", !!voice); voiceTg.innerHTML = VLABEL[voice] || VLABEL[""]; }
+  var VLABEL = {"": {en:"&#128264; tap to hear", es:"&#128264; toca para o&iacute;r"}, "bella": {en:"&#128266; Bella", es:"&#128266; Bella"}, "liam": {en:"&#128266; Liam", es:"&#128266; Liam"}, "both": {en:"&#128266; Bella + Liam", es:"&#128266; Bella + Liam"}};
+  function paintVoice(){ voiceTg.classList.toggle("on", !!voice); voiceTg.innerHTML = (VLABEL[voice] || VLABEL[""])[LANG] || (VLABEL[voice] || VLABEL[""]).en; }
   voiceTg.addEventListener("click", function(){ voice = VSEQ[(VSEQ.indexOf(voice) + 1) % VSEQ.length]; paintVoice(); if (!voice && player) { player.pause(); orb.classList.remove("talking"); } });
-  paintVoice();
-  /* ---- MIC: speak to Bridge28, phone or computer. Built-in speech recognition when the browser has it
-     (Chrome, Edge, Safari); otherwise record and transcribe on our cloud (Whisper). ---- */
+
+  /* ---- MIC ---- */
   var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   var rs = {active: false, rec: null, media: null, chunks: [], btn: null};
-  function setMic(btn, on){ btn.classList.toggle("on", on); btn.innerHTML = on ? "&#9679; listening" : "&#127908;"; orb.classList.toggle("talking", on); }
+  function setMic(btn, on){ btn.classList.toggle("on", on); btn.innerHTML = on ? (LANG==="es"?"&#9679; escuchando":"&#9679; listening") : "&#127908;"; orb.classList.toggle("talking", on); }
   function b64of(blob){ return new Promise(function(res, rej){ var fr = new FileReader(); fr.onload = function(){ res(String(fr.result).split(",")[1] || ""); }; fr.onerror = rej; fr.readAsDataURL(blob); }); }
   function mic(btn, input, onDone){
     if (rs.active) { stopMic(); return; }
@@ -420,7 +569,7 @@
     if (SR) {
       var r = new SR(); r.lang = (LANG === "es") ? "es-419" : "en-US"; r.interimResults = true; r.maxAlternatives = 1;
       var finalText = "";
-      r.onresult = function(e){ var t = ""; for (var i = e.resultIndex; i < e.results.length; i++) { t += e.results[i][0].transcript; if (e.results[i].isFinal) { finalText += e.results[i][0].transcript; } } input.value = (finalText || t).trim(); };
+      r.onresult = function(e){ var t = ""; for (var i = e.resultIndex; i < e.results.length; i++) { t += e.results[i][0].transcript; if (e.results[i].isFinal) { finalText += e.results[i][0].transcript; } } input.value = (finalText || t).trim(); if (input===box) clearReady(); };
       function finish(natural){ if (!rs.rec) { return; } rs.rec = null; var auto = natural && rs.active; rs.active = false; setMic(btn, false); if (auto && input.value.trim() && onDone) { onDone(); } }
       r.onerror = function(){ finish(false); };
       r.onend = function(){ finish(true); };
@@ -435,7 +584,7 @@
           rs.media = null; rs.active = false; setMic(btn, false);
           input.value = "…";
           b64of(blob).then(function(b){ return post({mode: "transcribe", audio: b}); })
-            .then(function(d){ input.value = (d && d.text) ? d.text : ""; if (input.value && onDone) { onDone(); } })
+            .then(function(d){ input.value = (d && d.text) ? d.text : ""; if (input===box) clearReady(); if (input.value && onDone) { onDone(); } })
             .catch(function(){ input.value = ""; });
         };
         m.start();
@@ -443,7 +592,7 @@
       }).catch(function(){ rs.active = false; setMic(btn, false); });
     } else {
       rs.active = false; setMic(btn, false);
-      input.placeholder = "This browser has no microphone support - please type.";
+      input.placeholder = LANG==="es"?"Este navegador no tiene micr&oacute;fono - escribe por favor.":"This browser has no microphone support - please type.";
     }
   }
   function stopMic(){
@@ -454,8 +603,9 @@
   $("mic").addEventListener("click", function(){ mic($("mic"), box, ask); });
   $("bmic").addEventListener("click", function(){ mic($("bmic"), bidea, null); });
 
+  applyLang();
   mailFor();
-  idea(true);    /* every load = a new way, auto-spoken in Bella + Liam (plays on load, or first tap if the browser blocks autoplay) */
+  idea(true);    /* every load = a new way, auto-spoken in Bella + Liam */
 })();
 </script>
 <script>/*lux-radio*/(function(){try{
@@ -464,7 +614,7 @@ var a=new Audio();a.src=STREAM;a.preload="none";a.volume=BASE;
 var on=true;try{if(localStorage.getItem("lux_radio")==="off")on=false;}catch(e){}
 var btn=document.createElement("button");btn.type="button";btn.setAttribute("aria-label","Background music on or off");
 btn.style.cssText="position:fixed;right:14px;bottom:14px;z-index:2147483000;width:46px;height:46px;border-radius:50%;border:0;cursor:pointer;font-size:20px;line-height:46px;text-align:center;background:#0f5aa8;color:#fff;box-shadow:0 4px 14px rgba(0,0,0,.3);opacity:.9";
-function icon(){btn.textContent=on?"\u266A":"\uD83D\uDD07";}
+function icon(){btn.textContent=on?"♪":"🔇";}
 function start(){if(!on)return;try{var p=a.play();if(p&&p.catch)p.catch(function(){});}catch(e){}}
 function stop(){try{a.pause();}catch(e){}}
 icon();
@@ -479,7 +629,7 @@ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",
 function cur(){return document.documentElement.getAttribute("data-theme")==="light"?"light":"dark";}
 var b=document.createElement("button");b.type="button";b.setAttribute("aria-label","Switch light or dark theme");
 b.style.cssText="position:fixed;right:14px;top:14px;z-index:2147483001;width:40px;height:40px;border-radius:50%;border:1px solid rgba(128,128,128,.35);cursor:pointer;font-size:18px;line-height:1;background:rgba(20,22,28,.55);color:#e7ebf1;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)";
-function icon(){b.textContent=cur()==="light"?"\u263E":"\u2600";}
+function icon(){b.textContent=cur()==="light"?"☾":"☀";}
 icon();
 b.addEventListener("click",function(){var next=cur()==="light"?"dark":"light";if(next==="light"){document.documentElement.setAttribute("data-theme","light");}else{document.documentElement.removeAttribute("data-theme");}try{localStorage.setItem("lux_theme",next);}catch(e){}icon();});
 function boot(){document.body.appendChild(b);}
