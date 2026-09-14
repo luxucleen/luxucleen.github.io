@@ -112,6 +112,7 @@
     <div class="deal"><span>Tú te quedas con el <b>88%</b></span><span>Nosotros con el <b>12%</b></span><span><b>Nosotros</b> hacemos el trabajo</span><span>Acuerdo <b>por escrito</b> primero</span></div>
     <div id="blog" class="log" aria-live="polite"></div>
     <div class="row">
+      <input id="bemail" type="email" autocomplete="email" inputmode="email" required aria-label="Tu correo" placeholder="Tu correo - te enviamos tu plan y tus archivos aqui" style="flex:1 1 100%">
       <input id="bidea" type="text" autocomplete="off" spellcheck="false"
              aria-label="Tu idea de negocio"
              placeholder="Tu idea de negocio, en una o dos oraciones">
@@ -274,20 +275,24 @@
       "\nMi nombre: [Tu nombre]\nContacto: [Teléfono o correo]";
     bsend.href = "mailto:hello@luxucleen.com?subject=" + encodeURIComponent(subj) + "&body=" + encodeURIComponent(body);
   }
+  function validEmail(e){ return e.indexOf("@") > 0 && e.lastIndexOf(".") > e.indexOf("@") + 1 && e.length > 5 && e.indexOf(" ") < 0; }
   function plan(){
     var i = (bidea.value || "").trim();
+    var em = ((document.getElementById("bemail")||{}).value || "").trim();
+    if (!validEmail(em)) { document.getElementById("bemail").focus(); badd("bot", "Agrega tu correo primero - ahi te enviamos tu plan y tus archivos."); return; }
     if (!i) { bidea.focus(); return; }
     badd("you", i);
     bplan.disabled = true;
     var pending = badd("bot", "…");
     fetch(API, {method: "POST", headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({mode: "build", q: i, lang: LANG})})
+                body: JSON.stringify({mode: "build", q: i, lang: LANG, email: em})})
       .then(function(r){ if (!r.ok) { throw new Error("status"); } return r.json(); })
       .then(function(d){ pending.textContent = (d && d.answer) ? d.answer : SETUP; playVoice(d); })
       .catch(function(){ pending.textContent = SETUP; })
       .then(function(){ bplan.disabled = false; bmail(); });
   }
   bplan.addEventListener("click", plan);
+  bsend.addEventListener("click", function(e){ var em = ((document.getElementById("bemail")||{}).value || "").trim(); if (!validEmail(em)) { e.preventDefault(); document.getElementById("bemail").focus(); badd("bot", "Agrega tu correo primero - ahi te enviamos tu plan y tus archivos."); return; } try { fetch(API, {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({mode:"build", q:(bidea.value||"").trim(), lang:LANG, email:em})}); } catch(err){} });
   bidea.addEventListener("input", bmail);
   bidea.addEventListener("keydown", function(e){ if (e.key === "Enter") { e.preventDefault(); plan(); } });
   bmail();

@@ -218,10 +218,11 @@
       player.play().catch(function(){ orb.classList.remove("talking"); });
     } catch (e) {}
   }
-  var pendingAudio = null;
+  var pendingAudio = null, pendingUrl = null;
+  function playUrl(u){ if (!u) return; try { if (player) { player.pause(); } player = new Audio(u); orb.classList.add("talking"); player.onended = function(){ orb.classList.remove("talking"); }; var pr = player.play(); if (pr && pr.catch) { pr.catch(function(){ orb.classList.remove("talking"); pendingUrl = u; armGesture(); }); } } catch (e) {} }
   function armGesture(){
     function h(){ document.removeEventListener("pointerdown", h); document.removeEventListener("keydown", h);
-      if (pendingAudio) { var c = pendingAudio; pendingAudio = null; playClips(c, 0); } }
+      if (pendingAudio) { var c = pendingAudio; pendingAudio = null; playClips(c, 0); } if (pendingUrl) { var u = pendingUrl; pendingUrl = null; playUrl(u); } }
     document.addEventListener("pointerdown", h); document.addEventListener("keydown", h);
   }
   function playClips(clips, i){
@@ -239,7 +240,7 @@
       if (pr && pr.catch) { pr.catch(function(){ orb.classList.remove("talking"); if (i === 0) { pendingAudio = clips; armGesture(); } }); }
     } catch (e) { playClips(clips, i + 1); }
   }
-  function playAny(d){ if (d && d.clips && d.clips.length) { playClips(d.clips, 0); } else if (d) { play(d.audio, d.audio_type); } }
+  function playAny(d){ if (d && d.clips && d.clips.length) { playClips(d.clips, 0); } else if (d && d.audio) { play(d.audio, d.audio_type); } else if (d && d.audio_url) { playUrl(d.audio_url); } }
   function nonce(){ return Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
 
   function idea(withVoice){
