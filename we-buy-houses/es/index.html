@@ -117,10 +117,10 @@ function start(){if(!on)return;try{var p=a.play();if(p&&p.catch)p.catch(function
 function stop(){try{a.pause();}catch(e){}}
 icon();
 btn.addEventListener("click",function(){on=!on;try{localStorage.setItem("lux_radio",on?"on":"off");}catch(e){}icon();if(on)start();else stop();});
-window.luxDuck=function(d){try{a.volume=d?DUCK:BASE;}catch(e){}};
+window.luxDuck=function(d){try{a.volume=d?DUCK:BASE;}catch(e){}};window.luxRadioStart=function(){if(on&&a.paused){start();}};
 window.luxRadioPlaying=function(){return on&&!a.paused;};try{if("mediaSession" in navigator){navigator.mediaSession.metadata=new MediaMetadata({title:"Luxucleen Radio",artist:"Deep house",album:"Luxucleen LLC"});navigator.mediaSession.setActionHandler("play",function(){on=true;try{localStorage.setItem("lux_radio","on");}catch(e){}icon();start();});navigator.mediaSession.setActionHandler("pause",function(){stop();});}}catch(e){}
 var armed=false;function arm(){if(armed)return;armed=true;var go=function(){document.removeEventListener("click",go);document.removeEventListener("touchstart",go);start();};document.addEventListener("click",go,{once:true});document.addEventListener("touchstart",go,{once:true});}
-function boot(){document.body.appendChild(btn);if(on){try{var p=a.play();if(p&&p.catch)p.catch(function(){arm();});}catch(e){arm();}}}
+function boot(){document.body.appendChild(btn);if(!window.luxVoicePage){arm();}}
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
 }catch(e){}})();</script>
 </body>

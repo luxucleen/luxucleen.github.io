@@ -171,7 +171,7 @@
 </footer>
 <script>
 (function(){
-  var API = "https://ai.luxucleen.com/ask";
+  window.luxVoicePage = true; var API = "https://ai.luxucleen.com/ask";
   var LANG = "en";
   var SETUP = "Bridge28 is just waking up - email hello@luxucleen.com and a person answers right away.";
   var FOLLOW = "How does this work for me, and how do I start?";
@@ -212,9 +212,10 @@
   /* pre-rendered Bella+Liam (Kokoro) clip for the shown idea - free, no cap; first load may need one tap (browser autoplay rule) */
   var player = null, pendingUrl = null, armed = false;
   function armGesture(){ if (armed) { return; } armed = true; var go = function(){ armed = false; var u = pendingUrl; pendingUrl = null; if (u && player) { try { if (window.luxDuck) { window.luxDuck(true); } player.src = u; player.play(); } catch (e) {} } }; document.addEventListener("click", go, {once: true}); document.addEventListener("touchstart", go, {once: true}); }
-  function playClip(url){ if (!url) { return; } try { if (!player) { player = new Audio(); player.addEventListener("ended", function(){ if (window.luxDuck) { window.luxDuck(false); } }); player.addEventListener("pause", function(){ if (window.luxDuck) { window.luxDuck(false); } }); } player.src = url; if (window.luxDuck) { window.luxDuck(true); } var p = player.play(); if (p && p.catch) { p.catch(function(){ if (window.luxDuck) { window.luxDuck(false); } pendingUrl = url; armGesture(); }); } } catch (e) { if (window.luxDuck) { window.luxDuck(false); } pendingUrl = url; armGesture(); } }
+  function voiceDone(){ if (window.luxDuck) { window.luxDuck(false); } setTimeout(function(){ if (window.luxRadioStart) { window.luxRadioStart(); } }, 2000); }
+  function playClip(url){ if (!url) { return; } try { if (!player) { player = new Audio(); player.addEventListener("ended", function(){ voiceDone(); }); player.addEventListener("pause", function(){ if (window.luxDuck) { window.luxDuck(false); } }); } player.src = url; if (window.luxDuck) { window.luxDuck(true); } var p = player.play(); if (p && p.catch) { p.catch(function(){ if (window.luxDuck) { window.luxDuck(false); } pendingUrl = url; armGesture(); }); } } catch (e) { if (window.luxDuck) { window.luxDuck(false); } pendingUrl = url; armGesture(); } }
   function b64audio(o){ return new Audio("data:" + (o.audio_type || o.type || "audio/mpeg") + ";base64," + o.audio); }
-  function playVoice(d){ if (!d) { return; } var clips = (d.clips && d.clips.length) ? d.clips : (d.audio ? [{audio: d.audio, type: d.audio_type}] : null); if (!clips) { return; } if (window.luxDuck) { window.luxDuck(true); } var i = 0; function next(){ if (i >= clips.length) { if (window.luxDuck) { window.luxDuck(false); } return; } var au = b64audio(clips[i++]); au.addEventListener("ended", next); var p = au.play(); if (p && p.catch) { p.catch(function(){ if (window.luxDuck) { window.luxDuck(false); } }); } } next(); }
+  function playVoice(d){ if (!d) { return; } var clips = (d.clips && d.clips.length) ? d.clips : (d.audio ? [{audio: d.audio, type: d.audio_type}] : null); if (!clips) { return; } if (window.luxDuck) { window.luxDuck(true); } var i = 0; function next(){ if (i >= clips.length) { voiceDone(); return; } var au = b64audio(clips[i++]); au.addEventListener("ended", next); var p = au.play(); if (p && p.catch) { p.catch(function(){ if (window.luxDuck) { window.luxDuck(false); } }); } } next(); }
   function idea(){
     var angle = ANGLES[Math.floor(Math.random() * ANGLES.length)];
     var pending = add("bot", "…");
@@ -312,10 +313,10 @@ function start(){if(!on)return;try{var p=a.play();if(p&&p.catch)p.catch(function
 function stop(){try{a.pause();}catch(e){}}
 icon();
 btn.addEventListener("click",function(){on=!on;try{localStorage.setItem("lux_radio",on?"on":"off");}catch(e){}icon();if(on)start();else stop();});
-window.luxDuck=function(d){try{a.volume=d?DUCK:BASE;}catch(e){}};
+window.luxDuck=function(d){try{a.volume=d?DUCK:BASE;}catch(e){}};window.luxRadioStart=function(){if(on&&a.paused){start();}};
 window.luxRadioPlaying=function(){return on&&!a.paused;};try{if("mediaSession" in navigator){navigator.mediaSession.metadata=new MediaMetadata({title:"Luxucleen Radio",artist:"Deep house",album:"Luxucleen LLC"});navigator.mediaSession.setActionHandler("play",function(){on=true;try{localStorage.setItem("lux_radio","on");}catch(e){}icon();start();});navigator.mediaSession.setActionHandler("pause",function(){stop();});}}catch(e){}
 var armed=false;function arm(){if(armed)return;armed=true;var go=function(){document.removeEventListener("click",go);document.removeEventListener("touchstart",go);start();};document.addEventListener("click",go,{once:true});document.addEventListener("touchstart",go,{once:true});}
-function boot(){document.body.appendChild(btn);if(on){try{var p=a.play();if(p&&p.catch)p.catch(function(){arm();});}catch(e){arm();}}}
+function boot(){document.body.appendChild(btn);if(!window.luxVoicePage){arm();}}
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
 }catch(e){}})();</script>
 </body>
