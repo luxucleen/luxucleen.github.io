@@ -386,12 +386,12 @@
     var ad = qs.get("add"); if (ad){ add(ad); }
   } catch (e) {}
 
-  var _duckT = null;
-  function duckDown(){ if (_duckT){ clearTimeout(_duckT); _duckT = null; } if (window.luxDuck){ window.luxDuck(true); } }
-  function voiceDone(){ if (_duckT){ clearTimeout(_duckT); } _duckT = setTimeout(function(){ _duckT = null; if (window.luxRadioStart){ window.luxRadioStart(); } if (window.luxDuck){ window.luxDuck(false); } }, 2000); }
+  var _musicT = null;
+  function cancelMusic(){ if (_musicT) { clearTimeout(_musicT); _musicT = null; } }
+  function voiceDone(){ if (_musicT) { clearTimeout(_musicT); } _musicT = setTimeout(function(){ _musicT = null; if (window.luxRadioStart) { window.luxRadioStart(); } }, 2000); }
   var player = null, pendingUrl = null, armed = false;
-  function armGesture(){ if (armed){ return; } armed = true; var go = function(){ armed = false; var u = pendingUrl; pendingUrl = null; if (u && player){ try { duckDown(); player.src = u; player.play(); } catch (e){} } }; document.addEventListener("click", go, {once:true}); document.addEventListener("touchstart", go, {once:true}); }
-  function playClip(url){ try { if (!player){ player = new Audio(); player.addEventListener("ended", voiceDone); player.addEventListener("error", voiceDone); } duckDown(); player.src = url; var p = player.play(); if (p && p.catch){ p.catch(function(){ voiceDone(); pendingUrl = url; armGesture(); }); } } catch (e){ voiceDone(); pendingUrl = url; armGesture(); } }
+  function armGesture(){ if (armed){ return; } armed = true; var go = function(){ armed = false; var u = pendingUrl; pendingUrl = null; if (u && player){ try { cancelMusic(); player.src = u; player.play(); } catch (e){ voiceDone(); } } }; document.addEventListener("click", go, {once:true}); document.addEventListener("touchstart", go, {once:true}); }
+  function playClip(url){ cancelMusic(); try { if (!player){ player = new Audio(); player.addEventListener("ended", voiceDone); player.addEventListener("error", voiceDone); } player.src = url; var p = player.play(); if (p && p.catch){ p.catch(function(){ pendingUrl = url; armGesture(); }); } } catch (e){ pendingUrl = url; armGesture(); } }
   playClip("/es/stack/audio/intro_stack.mp3");
 })();
 </script>

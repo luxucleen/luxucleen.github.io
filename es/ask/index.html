@@ -203,15 +203,14 @@
   function nextSlot(){ var n = 0; try { n = parseInt(localStorage.getItem("lux_idea_slot") || "-1", 10) + 1; if (!(n >= 0)) { n = 0; } localStorage.setItem("lux_idea_slot", String(n)); } catch (e) { n = Math.floor(Math.random() * 1000); } return n; }
   /* clip Bella+Liam (Kokoro) pre-grabado - gratis, sin limite; el primer load puede necesitar un toque (regla de autoplay) */
   var player = null, pendingUrl = null, armed = false;
-  function armGesture(){ if (armed) { return; } armed = true; var go = function(){ armed = false; var u = pendingUrl; pendingUrl = null; if (u && player) { try { duckDown(); player.src = u; player.play(); } catch (e) {} } }; document.addEventListener("click", go, {once: true}); document.addEventListener("touchstart", go, {once: true}); }
-  function _duck(){ if (window.luxDuck) { window.luxDuck(true); } }
-  function _unduck(){ if (window.luxDuck) { window.luxDuck(false); } }
-  var _duckT = null;
-  function duckDown(){ if (_duckT) { clearTimeout(_duckT); _duckT = null; } _duck(); }
-  function voiceDone(){ if (_duckT) { clearTimeout(_duckT); } _duckT = setTimeout(function(){ _duckT = null; if (window.luxRadioStart) { window.luxRadioStart(); } _unduck(); }, 2000); }
-  function playClip(url){ if (!url) { return; } try { if (!player) { player = new Audio(); player.addEventListener("ended", function(){ voiceDone(); }); player.addEventListener("pause", function(){ voiceDone(); }); } player.src = url; duckDown(); var p = player.play(); if (p && p.catch) { p.catch(function(){ voiceDone(); pendingUrl = url; armGesture(); }); } } catch (e) { voiceDone(); pendingUrl = url; armGesture(); } }
+  var _musicT = null;
+  function cancelMusic(){ if (_musicT) { clearTimeout(_musicT); _musicT = null; } }   /* hold the music while Bella+Liam talk */
+  function duckDown(){ cancelMusic(); }   /* kept for callers; music simply does not play during the voice */
+  function voiceDone(){ if (_musicT) { clearTimeout(_musicT); } _musicT = setTimeout(function(){ _musicT = null; if (window.luxRadioStart) { window.luxRadioStart(); } }, 2000); }   /* music comes in 2s after they stop */
+  function armGesture(){ if (armed) { return; } armed = true; var go = function(){ armed = false; var u = pendingUrl; pendingUrl = null; if (u && player) { try { cancelMusic(); player.src = u; player.play(); } catch (e) { voiceDone(); } } }; document.addEventListener("click", go, {once: true}); document.addEventListener("touchstart", go, {once: true}); }
+  function playClip(url){ if (!url) { return; } cancelMusic(); try { if (!player) { player = new Audio(); player.addEventListener("ended", function(){ voiceDone(); }); player.addEventListener("error", function(){ voiceDone(); }); } player.src = url; var p = player.play(); if (p && p.catch) { p.catch(function(){ pendingUrl = url; armGesture(); }); } } catch (e) { pendingUrl = url; armGesture(); } }
   function b64audio(o){ return new Audio("data:" + (o.audio_type || o.type || "audio/mpeg") + ";base64," + o.audio); }
-  function playVoice(d){ if (!d) { return; } var clips = (d.clips && d.clips.length) ? d.clips : (d.audio ? [{audio: d.audio, type: d.audio_type}] : null); if (!clips) { return; } duckDown(); var i = 0; function next(){ if (i >= clips.length) { voiceDone(); return; } var au = b64audio(clips[i++]); au.addEventListener("ended", next); var p = au.play(); if (p && p.catch) { p.catch(function(){ voiceDone(); }); } } next(); }
+  function playVoice(d){ if (!d) { return; } var clips = (d.clips && d.clips.length) ? d.clips : (d.audio ? [{audio: d.audio, type: d.audio_type}] : null); if (!clips) { return; } cancelMusic(); var i = 0; function next(){ if (i >= clips.length) { voiceDone(); return; } var au = b64audio(clips[i++]); au.addEventListener("ended", next); au.addEventListener("error", next); var p = au.play(); if (p && p.catch) { p.catch(function(){ cancelMusic(); }); } } next(); }
   function idea(){
     var angle = ANGLES[Math.floor(Math.random() * ANGLES.length)];
     var pending = add("bot", "…");
