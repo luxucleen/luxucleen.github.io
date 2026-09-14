@@ -80,6 +80,7 @@ body.hub .fine a{color:var(--green)}   /* only the fine-print links carry the bl
   letter-spacing:.4px;flex:0 0 46px;color:#fff;position:relative;overflow:hidden;
   box-shadow:inset 0 0 0 1px rgba(255,255,255,.10),0 6px 16px rgba(0,0,0,.3)}
 .ic::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.22),transparent 55%)}
+.ic.pp{background:linear-gradient(135deg,#2dd4bf,#0f766e);color:#fff}
 .ic.re{background:linear-gradient(135deg,#22a768,#0f4b31)}
 .ic.tr{background:linear-gradient(135deg,#f2c14e,#c9962b);color:#1a1405}
 .ic.st{background:linear-gradient(135deg,#3b82f6,#1e40af)}
