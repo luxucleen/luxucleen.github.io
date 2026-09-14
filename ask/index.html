@@ -211,11 +211,15 @@
   function nextSlot(){ var n = 0; try { n = parseInt(localStorage.getItem("lux_idea_slot") || "-1", 10) + 1; if (!(n >= 0)) { n = 0; } localStorage.setItem("lux_idea_slot", String(n)); } catch (e) { n = Math.floor(Math.random() * 1000); } return n; }
   /* pre-rendered Bella+Liam (Kokoro) clip for the shown idea - free, no cap; first load may need one tap (browser autoplay rule) */
   var player = null, pendingUrl = null, armed = false;
-  function armGesture(){ if (armed) { return; } armed = true; var go = function(){ armed = false; var u = pendingUrl; pendingUrl = null; if (u && player) { try { if (window.luxDuck) { window.luxDuck(true); } player.src = u; player.play(); } catch (e) {} } }; document.addEventListener("click", go, {once: true}); document.addEventListener("touchstart", go, {once: true}); }
-  function voiceDone(){ if (window.luxDuck) { window.luxDuck(false); } setTimeout(function(){ if (window.luxRadioStart) { window.luxRadioStart(); } }, 2000); }
-  function playClip(url){ if (!url) { return; } try { if (!player) { player = new Audio(); player.addEventListener("ended", function(){ voiceDone(); }); player.addEventListener("pause", function(){ if (window.luxDuck) { window.luxDuck(false); } }); } player.src = url; if (window.luxDuck) { window.luxDuck(true); } var p = player.play(); if (p && p.catch) { p.catch(function(){ if (window.luxDuck) { window.luxDuck(false); } pendingUrl = url; armGesture(); }); } } catch (e) { if (window.luxDuck) { window.luxDuck(false); } pendingUrl = url; armGesture(); } }
+  function armGesture(){ if (armed) { return; } armed = true; var go = function(){ armed = false; var u = pendingUrl; pendingUrl = null; if (u && player) { try { duckDown(); player.src = u; player.play(); } catch (e) {} } }; document.addEventListener("click", go, {once: true}); document.addEventListener("touchstart", go, {once: true}); }
+  function _duck(){ if (window.luxDuck) { window.luxDuck(true); } }
+  function _unduck(){ if (window.luxDuck) { window.luxDuck(false); } }
+  var _duckT = null;
+  function duckDown(){ if (_duckT) { clearTimeout(_duckT); _duckT = null; } _duck(); }
+  function voiceDone(){ if (_duckT) { clearTimeout(_duckT); } _duckT = setTimeout(function(){ _duckT = null; if (window.luxRadioStart) { window.luxRadioStart(); } _unduck(); }, 2000); }
+  function playClip(url){ if (!url) { return; } try { if (!player) { player = new Audio(); player.addEventListener("ended", function(){ voiceDone(); }); player.addEventListener("pause", function(){ voiceDone(); }); } player.src = url; duckDown(); var p = player.play(); if (p && p.catch) { p.catch(function(){ voiceDone(); pendingUrl = url; armGesture(); }); } } catch (e) { voiceDone(); pendingUrl = url; armGesture(); } }
   function b64audio(o){ return new Audio("data:" + (o.audio_type || o.type || "audio/mpeg") + ";base64," + o.audio); }
-  function playVoice(d){ if (!d) { return; } var clips = (d.clips && d.clips.length) ? d.clips : (d.audio ? [{audio: d.audio, type: d.audio_type}] : null); if (!clips) { return; } if (window.luxDuck) { window.luxDuck(true); } var i = 0; function next(){ if (i >= clips.length) { voiceDone(); return; } var au = b64audio(clips[i++]); au.addEventListener("ended", next); var p = au.play(); if (p && p.catch) { p.catch(function(){ if (window.luxDuck) { window.luxDuck(false); } }); } } next(); }
+  function playVoice(d){ if (!d) { return; } var clips = (d.clips && d.clips.length) ? d.clips : (d.audio ? [{audio: d.audio, type: d.audio_type}] : null); if (!clips) { return; } duckDown(); var i = 0; function next(){ if (i >= clips.length) { voiceDone(); return; } var au = b64audio(clips[i++]); au.addEventListener("ended", next); var p = au.play(); if (p && p.catch) { p.catch(function(){ voiceDone(); }); } } next(); }
   function idea(){
     var angle = ANGLES[Math.floor(Math.random() * ANGLES.length)];
     var pending = add("bot", "…");
@@ -303,7 +307,7 @@
 })();
 </script>
 <script>/*lux-radio*/(function(){try{
-var STREAM="https://ice1.somafm.com/beatblender-128-mp3",BASE=0.06,DUCK=0.02;
+var STREAM="https://ice1.somafm.com/beatblender-128-mp3",BASE=0.05,DUCK=0.015;
 var a=new Audio();a.src=STREAM;a.preload="none";a.volume=BASE;
 var on=true;try{if(localStorage.getItem("lux_radio")==="off")on=false;}catch(e){}
 var btn=document.createElement("button");btn.type="button";btn.setAttribute("aria-label","Background music on or off");
