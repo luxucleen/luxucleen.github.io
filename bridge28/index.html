@@ -169,7 +169,7 @@
   var $ = function(id){ return document.getElementById(id); };
   var log = $("log"), box = $("q"), send = $("send"), more = $("more"), orb = $("orb"), voiceTg = $("voice");
   var bidea = $("bidea"), build = $("build"), out = $("out"), chips = $("chips"), sendidea = $("sendidea");
-  var lastIdea = "", turns = 0, pitched = false, voice = "", ctype = "plan", player = null;   /* off by default (tap to hear) - protects the free brain */
+  var lastIdea = "", turns = 0, pitched = false, voice = "both", ctype = "plan", player = null;   /* default: Bella + Liam, auto-speak the first idea */
   function other(v){ return v === "bella" ? "liam" : "bella"; }   /* two voices, like Bella and Liam */
 
   function post(body){
@@ -202,24 +202,28 @@
       player.play().catch(function(){ orb.classList.remove("talking"); });
     } catch (e) {}
   }
-  function playClips(clips){
-    if (!clips || !clips.length) { return; }
-    var i = 0;
-    (function next(){
-      if (i >= clips.length) { orb.classList.remove("talking"); return; }
-      var c = clips[i++]; if (!c || !c.audio) { next(); return; }
-      try {
-        if (player) { player.pause(); }
-        var bin = atob(c.audio), u8 = new Uint8Array(bin.length);
-        for (var k = 0; k < bin.length; k++) { u8[k] = bin.charCodeAt(k); }
-        var url = URL.createObjectURL(new Blob([u8], {type: c.type || "audio/mpeg"}));
-        player = new Audio(url); orb.classList.add("talking");
-        player.onended = function(){ URL.revokeObjectURL(url); next(); };
-        player.play().catch(function(){ orb.classList.remove("talking"); });
-      } catch (e) { next(); }
-    })();
+  var pendingAudio = null;
+  function armGesture(){
+    function h(){ document.removeEventListener("pointerdown", h); document.removeEventListener("keydown", h);
+      if (pendingAudio) { var c = pendingAudio; pendingAudio = null; playClips(c, 0); } }
+    document.addEventListener("pointerdown", h); document.addEventListener("keydown", h);
   }
-  function playAny(d){ if (d && d.clips && d.clips.length) { playClips(d.clips); } else if (d) { play(d.audio, d.audio_type); } }
+  function playClips(clips, i){
+    i = i || 0;
+    if (!clips || i >= clips.length) { orb.classList.remove("talking"); return; }
+    var c = clips[i]; if (!c || !c.audio) { playClips(clips, i + 1); return; }
+    try {
+      if (player) { player.pause(); }
+      var bin = atob(c.audio), u8 = new Uint8Array(bin.length);
+      for (var k = 0; k < bin.length; k++) { u8[k] = bin.charCodeAt(k); }
+      var url = URL.createObjectURL(new Blob([u8], {type: c.type || "audio/mpeg"}));
+      player = new Audio(url); orb.classList.add("talking");
+      player.onended = function(){ URL.revokeObjectURL(url); playClips(clips, i + 1); };
+      var pr = player.play();
+      if (pr && pr.catch) { pr.catch(function(){ orb.classList.remove("talking"); if (i === 0) { pendingAudio = clips; armGesture(); } }); }
+    } catch (e) { playClips(clips, i + 1); }
+  }
+  function playAny(d){ if (d && d.clips && d.clips.length) { playClips(d.clips, 0); } else if (d) { play(d.audio, d.audio_type); } }
   function nonce(){ return Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
 
   function idea(withVoice){
@@ -354,7 +358,7 @@
   $("bmic").addEventListener("click", function(){ mic($("bmic"), bidea, null); });
 
   mailFor();
-  idea(false);   /* every load = a new way (voice starts after your first tap - browsers require it) */
+  idea(true);    /* every load = a new way, auto-spoken in Bella + Liam (plays on load, or first tap if the browser blocks autoplay) */
 })();
 </script>
 </body>
