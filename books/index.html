@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script>/*lux-lang-router*/(function(){try{if(localStorage.getItem("lux_theme")==="light"){document.documentElement.setAttribute("data-theme","light");}}catch(e){}try{var E={"/":1,"/ask/":1,"/real-estate/":1,"/trading/":1,"/contact/":1,"/community/":1};var p=location.pathname.replace(/index\.html$/,"");if(p.charAt(p.length-1)!=="/"&&p.indexOf(".")<0)p+="/";if(p==="")p="/";var onES=p.indexOf("/es/")===0||p==="/es"||p==="/es/";var s=null;try{s=localStorage.getItem("lux_lang");}catch(e){}var pref=s;if(!pref){var l=(navigator.language||(navigator.languages&&navigator.languages[0])||"en").toLowerCase();pref=l.indexOf("es")===0?"es":"en";}if(pref==="es"&&!onES){if(E[p])location.replace("/es"+(p==="/"?"/":p));}else if(pref==="en"&&onES){location.replace(p.replace(/^\/es/,"")||"/");}}catch(e){}try{document.addEventListener("DOMContentLoaded",function(){var a=document.querySelectorAll("a[hreflang],a.lang");for(var i=0;i<a.length;i++){a[i].addEventListener("click",function(){try{var h=this.getAttribute("href")||"";localStorage.setItem("lux_lang",(h.indexOf("/es/")===0||h==="/es"||h==="/es/")?"es":"en");}catch(e){}});}});}catch(e){}})();</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Luxucleen Books &mdash; write your book with AI and keep more than Amazon</title>
+<meta name="description" content="Write your book with AI and sell it on Luxucleen. Keep a bigger share than Amazon pays, get paid instantly, own your readers. We build it with you - outline, chapters, cover, ready to sell.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://luxucleen.com/books/">
+<meta property="og:title" content="Write your book with AI. Sell it and keep more than Amazon pays.">
+<meta property="og:description" content="Tell us your idea. We build the book with you and you keep the bigger share, paid instantly, owning your readers.">
+<link rel="stylesheet" href="/site.css">
+<style>
+  .kicker{color:var(--accent);font-weight:800;font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin:0 0 10px}
+  .ok{color:var(--accent);font-weight:800}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="/">Luxu<span>cleen</span> LLC</a>
+    <nav>
+      <a href="/real-estate/">Real estate</a>
+      <a href="/store/">Store</a>
+      <a href="/books/" class="here">Books</a>
+      <a href="/ask/">Ask</a>
+      <a href="/contact/">Contact</a>
+      <a class="lang" href="/es/" hreflang="es" lang="es">Espa&ntilde;ol</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <p class="crumb"><a href="/">Luxucleen LLC</a> &rsaquo; Books</p>
+
+  <section class="hero">
+    <p class="kicker">Luxucleen Books</p>
+    <h1>Write your book with AI. Sell it and keep more than Amazon pays.</h1>
+    <p class="lede">Tell us your idea &mdash; we build the book with you (outline, chapters, cover, and a clean file ready to sell) &mdash; then you list it and keep the bigger share. You get paid instantly, you keep your readers, and you own your work.</p>
+    <a class="cta" href="#start">Start my book</a>
+    <p class="small">It is free to start. You only pay when your book is ready and you choose to publish it.</p>
+  </section>
+
+  <h2>How it works</h2>
+  <ol class="steps">
+    <li><strong>Tell us your book idea</strong><span>Free. A few sentences is enough &mdash; a story, a how-to, a guide, anything you know.</span></li>
+    <li><strong>We build it with you</strong><span>AI helps you write it in your own voice, then we make the cover and format it into a clean, professional file (PDF and ebook).</span></li>
+    <li><strong>You sell it and keep the bigger share</strong><span>Your book goes on sale through Luxucleen. You keep the majority, get paid instantly, and keep every reader's email &mdash; they are yours, not the store's.</span></li>
+  </ol>
+
+  <h2>Why it beats Amazon</h2>
+  <div class="cards">
+    <div class="card"><h3>You keep more</h3><p>Amazon pays authors 35&ndash;70%. With Luxucleen you keep the bigger share &mdash; the majority is yours.</p></div>
+    <div class="card"><h3>Paid instantly</h3><p>Money hits your account when a book sells, not on a 60-day delay.</p></div>
+    <div class="card"><h3>You own your readers</h3><p>You keep every buyer's email. Amazon keeps its customers; here they are yours to sell to again.</p></div>
+    <div class="card"><h3>AI does the hard part</h3><p>Writing help, the cover, and the formatting are done with you &mdash; no software to learn.</p></div>
+    <div class="card"><h3>No lock-in</h3><p>No exclusivity. Your book, your rights, sell it anywhere else too.</p></div>
+    <div class="card"><h3>A clean shelf</h3><p>A real, curated catalog &mdash; not a flood of spam books to get lost in.</p></div>
+  </div>
+
+  <h2 id="start">Start your book &mdash; free</h2>
+  <p>Tell us who you are and your idea. We will reply with a plan and the first pages, and you decide from there.</p>
+  <div class="chat">
+    <div id="log" class="log" aria-live="polite"></div>
+    <div class="row">
+      <input id="bname" type="text" autocomplete="name" required aria-label="Your name" placeholder="Your name" style="flex:1 1 100%">
+      <input id="bemail" type="email" autocomplete="email" inputmode="email" required aria-label="Your email" placeholder="Your email - we send your plan and first pages here" style="flex:1 1 100%">
+      <input id="bidea" type="text" autocomplete="off" aria-label="Your book idea" placeholder="Your book idea, in a sentence or two" style="flex:1 1 100%">
+      <button id="go" type="button">Start my book &#10024;</button>
+      <a id="send" class="alt" href="mailto:hello@luxucleen.com?subject=Luxucleen%20Books%20-%20my%20book%20idea">Email it instead &rarr;</a>
+    </div>
+    <p class="hint">No promises of income &mdash; every book is different and success is never guaranteed. You own your work, and AI assistance is disclosed on every book. <a href="/agreements/#build" style="color:var(--accent);font-weight:700">Read the written agreement &rarr;</a></p>
+  </div>
+</main>
+
+<footer class="wrap">
+  Luxucleen LLC &mdash; <a href="mailto:hello@luxucleen.com?subject=Luxucleen%20Books">hello@luxucleen.com</a>
+  <p class="small">Luxucleen LLC helps you create and sell your own books. You own your work; AI assistance is disclosed. We do not guarantee sales or income. No plagiarism or infringing content &mdash; your book must be yours.</p>
+</footer>
+
+<script>
+(function(){
+  var API = "https://ai.luxucleen.com/ask";
+  var log = document.getElementById("log"), go = document.getElementById("go"), send = document.getElementById("send");
+  var bn = document.getElementById("bname"), be = document.getElementById("bemail"), bi = document.getElementById("bidea");
+  function add(who, t){ var d = document.createElement("div"); d.className = "msg " + who; d.textContent = t; log.appendChild(d); log.scrollTop = log.scrollHeight; return d; }
+  function valid(e){ return e.indexOf("@") > 0 && e.lastIndexOf(".") > e.indexOf("@") + 1 && e.length > 5 && e.indexOf(" ") < 0; }
+  function start(){
+    var nm = (bn.value || "").trim(), em = (be.value || "").trim(), id = (bi.value || "").trim();
+    if (!nm) { bn.focus(); add("bot", "Add your name first - that is who we build the book for."); return; }
+    if (!valid(em)) { be.focus(); add("bot", "Add your email - that is where we send your plan and first pages."); return; }
+    add("you", id || "(I will tell you my idea)");
+    go.disabled = true;
+    var pending = add("bot", "…");
+    fetch(API, {method: "POST", headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({mode: "build", q: "BOOK: " + (id || "wants to write and sell a book"), lang: "en", email: em, name: nm})})
+      .then(function(r){ return r.json(); })
+      .then(function(d){ pending.textContent = (d && d.answer) ? d.answer : "Got it, " + nm + " - we saved your idea and will email you a plan and the first pages. (hello@luxucleen.com)"; })
+      .catch(function(){ pending.textContent = "Got it, " + nm + " - we saved your idea and will email you at " + em + " with a plan and the first pages."; })
+      .then(function(){ go.disabled = false; });
+  }
+  go.addEventListener("click", start);
+  bi.addEventListener("keydown", function(e){ if (e.key === "Enter") { e.preventDefault(); start(); } });
+  send.addEventListener("click", function(e){ var em = (be.value || "").trim(); if (!(bn.value || "").trim() || !valid(em)) { e.preventDefault(); if (!(bn.value||"").trim()) { bn.focus(); } else { be.focus(); } add("bot", "Add your name and email first - that is where we send your plan."); return; } try { fetch(API, {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({mode:"build", q:"BOOK: " + ((bi.value||"").trim()||"wants to write and sell a book"), lang:"en", email:em, name:(bn.value||"").trim()})}); } catch(err){} });
+})();
+</script>
+
+<script>/*lux-radio*/(function(){try{
+var STREAM="https://ice1.somafm.com/beatblender-128-mp3",BASE=0.05,DUCK=0.015;
+var a=new Audio();a.src=STREAM;a.preload="none";a.volume=BASE;
+var on=true;try{if(localStorage.getItem("lux_radio")==="off")on=false;}catch(e){}
+var btn=document.createElement("button");btn.type="button";btn.setAttribute("aria-label","Background music on or off");
+btn.style.cssText="position:fixed;right:14px;bottom:14px;z-index:2147483000;width:46px;height:46px;border-radius:50%;border:0;cursor:pointer;font-size:20px;line-height:46px;text-align:center;background:#0f5aa8;color:#fff;box-shadow:0 4px 14px rgba(0,0,0,.3);opacity:.9";
+function icon(){btn.textContent=on?"♪":"🔇";}
+function start(){if(!on)return;try{var p=a.play();if(p&&p.catch)p.catch(function(){});}catch(e){}}
+function stop(){try{a.pause();}catch(e){}}
+icon();
+btn.addEventListener("click",function(){on=!on;try{localStorage.setItem("lux_radio",on?"on":"off");}catch(e){}icon();if(on)start();else stop();});
+window.luxDuck=function(d){try{a.volume=d?DUCK:BASE;}catch(e){}};window.luxRadioStart=function(){if(on&&a.paused){start();}};
+window.luxRadioPlaying=function(){return on&&!a.paused;};try{if("mediaSession" in navigator){navigator.mediaSession.metadata=new MediaMetadata({title:"Luxucleen Radio",artist:"Deep house",album:"Luxucleen LLC"});navigator.mediaSession.setActionHandler("play",function(){on=true;try{localStorage.setItem("lux_radio","on");}catch(e){}icon();start();});navigator.mediaSession.setActionHandler("pause",function(){stop();});}}catch(e){}
+var armed=false;function arm(){if(armed)return;armed=true;var go=function(){document.removeEventListener("click",go);document.removeEventListener("touchstart",go);start();};document.addEventListener("click",go,{once:true});document.addEventListener("touchstart",go,{once:true});}
+function boot(){document.body.appendChild(btn);if(!window.luxVoicePage){arm();}}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
+}catch(e){}})();</script>
+<script>/*lux-theme*/(function(){try{
+function cur(){return document.documentElement.getAttribute("data-theme")==="light"?"light":"dark";}
+var b=document.createElement("button");b.type="button";b.setAttribute("aria-label","Switch light or dark theme");
+b.style.cssText="position:fixed;right:14px;top:14px;z-index:2147483001;width:40px;height:40px;border-radius:50%;border:1px solid rgba(128,128,128,.35);cursor:pointer;font-size:18px;line-height:1;background:rgba(20,22,28,.55);color:#e7ebf1;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)";
+function icon(){b.textContent=cur()==="light"?"☾":"☀";}
+icon();
+b.addEventListener("click",function(){var next=cur()==="light"?"dark":"light";if(next==="light"){document.documentElement.setAttribute("data-theme","light");}else{document.documentElement.removeAttribute("data-theme");}try{localStorage.setItem("lux_theme",next);}catch(e){}icon();});
+function boot(){document.body.appendChild(b);}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
+}catch(e){}})();</script>
+</body>
+</html>
