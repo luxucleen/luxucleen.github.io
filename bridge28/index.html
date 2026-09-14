@@ -121,6 +121,7 @@
     <section class="pane">
       <div class="k"><i></i>Build it &middot; type an idea, pick what you want</div>
       <div class="deal"><span>You keep <b>88%</b></span><span>We keep <b>12%</b></span><span><b>Written</b> agreement first</span></div>
+      <div class="row"><input id="bemail" type="email" autocomplete="email" inputmode="email" required aria-label="Your email" placeholder="Your email - we send your plan and files here" style="width:100%"></div>
       <div class="row"><textarea id="bidea" spellcheck="false" placeholder="Your idea in one or two sentences - a business, a product, a service, anything you have in mind"></textarea></div>
       <div class="chips" id="chips">
         <span class="chip on" data-t="plan">Business plan</span>
@@ -280,10 +281,13 @@
     return a;
   }
   function makeIt(){
-    var i = (bidea.value || "").trim(); if (!i) { bidea.focus(); return; }
+    var i = (bidea.value || "").trim();
+    var bm = document.getElementById("bemail"), em = (bm && bm.value || "").trim();
+    if (!(em.indexOf("@") > 0 && em.lastIndexOf(".") > em.indexOf("@") + 1 && em.length > 5 && em.indexOf(" ") < 0)) { if (bm) { bm.focus(); } out.className = "out show"; out.innerHTML = '<pre style="color:#f0a94a">Add your email first - that is where we send your plan and files.</pre>'; return; }
+    if (!i) { bidea.focus(); return; }
     build.disabled = true; out.className = "out show"; out.innerHTML = '<pre style="color:#8a95a8;font-style:italic">Bridge28 is building your ' + ({plan:"business plan",page:"landing page",ad:"ads",email:"pitch email",checklist:"launch checklist",audio:"audio pitch"})[ctype] + "…</pre>";
     orb.classList.add("talking");
-    post({mode: "create", type: ctype, q: i, lang: LANG, voice: (ctype === "audio") ? (voice === "liam" ? "liam" : "bella") : false})
+    post({mode: "create", type: ctype, q: i, lang: LANG, email: em, voice: (ctype === "audio") ? (voice === "liam" ? "liam" : "bella") : false})
       .then(function(d){
         var text = (d && d.answer) ? d.answer : SETUP;
         out.innerHTML = "";
@@ -318,6 +322,7 @@
   more.addEventListener("click", function(){ idea(true); });
   box.addEventListener("keydown", function(e){ if (e.key === "Enter") { e.preventDefault(); ask(); } });
   build.addEventListener("click", makeIt);
+  sendidea.addEventListener("click", function(e){ var bm = document.getElementById("bemail"), em = (bm && bm.value || "").trim(); if (!(em.indexOf("@") > 0 && em.lastIndexOf(".") > em.indexOf("@") + 1 && em.length > 5 && em.indexOf(" ") < 0)) { e.preventDefault(); if (bm) { bm.focus(); } out.className = "out show"; out.innerHTML = '<pre style="color:#f0a94a">Add your email first - that is where we send your plan and files.</pre>'; return; } try { post({mode: "create", type: "plan", q: (bidea.value || "").trim(), lang: LANG, email: em}); } catch (err) {} });
   bidea.addEventListener("input", mailFor);
   chips.addEventListener("click", function(e){
     var c = e.target.closest(".chip"); if (!c) return;
