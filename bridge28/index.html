@@ -474,6 +474,21 @@
     a.onclick = function(){ setTimeout(function(){ URL.revokeObjectURL(url); }, 4000); };
     return a;
   }
+  /* LAUNCHPAD: publish the AI-built landing page to a LIVE shareable link (ai.luxucleen.com/p/<id>) */
+  function launchLive(html, btn){
+    if (btn){ btn.disabled = true; btn.textContent = (LANG==="es" ? "Publicando\u2026" : "Publishing\u2026"); }
+    post({ mode: "launch", q: (bidea.value || "").trim() || "business page", html: html, lang: LANG })
+      .then(function(d){
+        if (d && d.signup_required) { if (btn){ btn.disabled=false; btn.innerHTML = (LANG==="es"?"\ud83d\ude80 Publicar en vivo":"\ud83d\ude80 Publish live"); } showSignup(); return; }
+        if (d && d.ok && d.url) {
+          var box = document.createElement("div"); box.style.cssText = "margin-top:10px;padding:12px;border:1px solid rgba(46,194,126,.5);border-radius:12px;background:rgba(46,194,126,.08)";
+          box.innerHTML = '<div style="color:#2ec27e;font-weight:800;margin-bottom:6px">' + (LANG==="es"?"\u00a1En vivo! Comparte este enlace:":"Live! Share this link:") + '</div><a href="'+d.url+'" target="_blank" rel="noopener" style="color:#2be8ff;font-weight:800;word-break:break-all">'+d.url+'</a>';
+          out.appendChild(box);
+          if (btn){ btn.innerHTML = (LANG==="es"?"\u2713 Publicado":"\u2713 Published"); }
+        } else { if (btn){ btn.disabled=false; btn.innerHTML = (LANG==="es"?"\ud83d\ude80 Publicar en vivo":"\ud83d\ude80 Publish live"); } }
+      })
+      .catch(function(){ if (btn){ btn.disabled=false; btn.innerHTML = (LANG==="es"?"\ud83d\ude80 Publicar en vivo":"\ud83d\ude80 Publish live"); } });
+  }
   function makeIt(){
     if (!signed() && usedFree()) { showSignup(); return; }
     var i = (bidea.value || "").trim();
@@ -496,6 +511,7 @@
           var pre = document.createElement("pre"); pre.textContent = text; out.appendChild(pre);
         }
         var acts = document.createElement("div"); acts.className = "acts";
+        if (ctype === "page") { var pubBtn = document.createElement("button"); pubBtn.type = "button"; pubBtn.innerHTML = (LANG==="es"?"\ud83d\ude80 Publicar en vivo y obtener enlace":"\ud83d\ude80 Publish live & get a link"); pubBtn.onclick = function(){ launchLive(text, pubBtn); }; acts.appendChild(pubBtn); }
         if (ctype === "audio" && d.audio) {
           var bin = atob(d.audio), u8 = new Uint8Array(bin.length); for (var k = 0; k < bin.length; k++) u8[k] = bin.charCodeAt(k);
           var blob = new Blob([u8], {type: d.audio_type || "audio/wav"}), url = URL.createObjectURL(blob);
