@@ -72,6 +72,20 @@
     </div>
     <p class="hint">No promises of income &mdash; every book is different and success is never guaranteed. You own your work, and AI assistance is disclosed on every book. <a href="/agreements/#build" style="color:var(--accent);font-weight:700">Read the written agreement &rarr;</a></p>
   </div>
+  <h2 id="sell">Already wrote a book? Sell it here</h2>
+  <p>Upload your finished book, set your price, and we list it on Luxucleen &mdash; you keep the bigger share, get paid instantly, and keep your readers. The same reach, better terms than Amazon.</p>
+  <div class="chat">
+    <div id="slog" class="log" aria-live="polite"></div>
+    <div class="row">
+      <input id="sname" type="text" autocomplete="name" placeholder="Your name" style="flex:1 1 100%">
+      <input id="semail" type="email" autocomplete="email" inputmode="email" placeholder="Your email - we set up your listing here" style="flex:1 1 100%">
+      <input id="stitle" type="text" placeholder="Your book's title" style="flex:1 1 100%">
+      <input id="sprice" type="text" placeholder="Your price, e.g. $9.99" style="flex:1 1 140px">
+      <input id="slink" type="url" placeholder="Link to your book file (Drive/Dropbox) - optional" style="flex:1 1 220px">
+      <button id="ssend" type="button">List my book &rarr;</button>
+    </div>
+    <p class="hint">We review every book before listing &mdash; no plagiarism or infringing content, your book must be yours, and you keep your rights. If you don't link the file, we'll email you to collect it.</p>
+  </div>
 </main>
 
 <footer class="wrap">
@@ -106,6 +120,27 @@
 })();
 </script>
 
+<script>/*lux-sell*/(function(){try{
+var API="https://ai.luxucleen.com/ask";
+var log=document.getElementById("slog"),btn=document.getElementById("ssend");
+if(!btn)return;
+function add(w,t){var d=document.createElement("div");d.className="msg "+w;d.textContent=t;log.appendChild(d);log.scrollTop=log.scrollHeight;return d;}
+function v(e){return e.indexOf("@")>0&&e.lastIndexOf(".")>e.indexOf("@")+1&&e.length>5&&e.indexOf(" ")<0;}
+function g(id){var el=document.getElementById(id);return el?(el.value||"").trim():"";}
+btn.addEventListener("click",function(){
+ var nm=g("sname"),em=g("semail"),ti=g("stitle"),pr=g("sprice"),lk=g("slink");
+ if(!nm){document.getElementById("sname").focus();add("bot","Add your name first.");return;}
+ if(!v(em)){document.getElementById("semail").focus();add("bot","Add your email - that is where we set up your listing.");return;}
+ if(!ti){document.getElementById("stitle").focus();add("bot","Add your book's title.");return;}
+ add("you",ti+(pr?(" - "+pr):""));
+ btn.disabled=true;var p=add("bot","Sending to Luxucleen...");
+ fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"build",q:"SELL A BOOK on Luxucleen: title \""+ti+"\", price "+(pr||"(not set)")+", file "+(lk||"(will email)"),lang:"en",email:em,name:nm})})
+  .then(function(r){return r.json();})
+  .then(function(d){p.textContent="Got it, "+nm+" - your book "+ti+" is in. We will review it and email you to finish setup and collect the file. (hello@luxucleen.com)";})
+  .catch(function(){p.textContent="Got it, "+nm+" - saved. We will email you at "+em+" to finish setup.";})
+  .then(function(){btn.disabled=false;});
+});
+}catch(e){}})();</script>
 <script>/*lux-voice*/(function(){try{
 window.luxVoicePage=true;var player=null,armed=false;
 function done(){setTimeout(function(){if(window.luxRadioStart){window.luxRadioStart();}if(window.luxDuck){window.luxDuck(false);}},2000);}

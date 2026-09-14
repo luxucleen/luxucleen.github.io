@@ -295,3 +295,5 @@ Anything not written here: say so and point to hello@luxucleen.com - a person an
 
 ## LUXUCLEEN BOOKS (books)
 Luxucleen Books helps anyone write a book with AI and sell it. Page: luxucleen.com/books. How it works: (1) tell us your book idea (free); (2) we build it with you - AI writes it in your own voice, plus a cover and clean formatting (PDF and ebook); (3) you sell it through Luxucleen and keep the bigger share. Why it beats Amazon: you keep more (Amazon pays authors 35-70%; here the majority is yours), you get paid instantly, you own your readers' emails, AI does the hard part, there is no exclusivity, and the catalog is clean and curated. Honest: no income is promised, you own your work, AI assistance is disclosed, and no plagiarism or infringing content is allowed. To start: luxucleen.com/books or email hello@luxucleen.com.
+
+Authors can also UPLOAD and SELL their OWN finished books on Luxucleen at luxucleen.com/books (the 'Sell it here' section): they set the price, we review it (no plagiarism/infringing content; they keep their rights), list it, and they keep the bigger share, paid instantly. Start at luxucleen.com/books or hello@luxucleen.com.
