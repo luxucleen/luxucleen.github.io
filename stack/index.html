@@ -44,6 +44,8 @@
   .way button:hover{background:var(--accent2)}
   .way.in{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
   .way.in button{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+  .way.hot{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent),0 0 26px rgba(55,214,122,.45)!important;animation:wayhot 1.1s ease-in-out 3}
+  @keyframes wayhot{50%{box-shadow:0 0 0 2px var(--accent),0 0 6px rgba(55,214,122,.25)}}
   /* your stack */
   .stackbox{border:1px solid var(--line);border-radius:14px;background:var(--soft);padding:18px;margin:18px 0}
   .empty{color:var(--dim);font-size:15px;margin:6px 0}
@@ -205,7 +207,7 @@
     waysEl.innerHTML = "";
     for (var i=0; i<WAYS.length; i++){
       var wy = WAYS[i];
-      var d = document.createElement("div"); d.className = "way" + (has(wy.id) ? " in" : "");
+      var d = document.createElement("div"); d.className = "way" + (has(wy.id) ? " in" : ""); d.id = "way-" + wy.id;
       var b = document.createElement("b"); b.innerHTML = wy.name; d.appendChild(b);
       var s = document.createElement("span"); s.innerHTML = wy.line; d.appendChild(s);
       var btn = document.createElement("button"); btn.type = "button";
@@ -251,6 +253,27 @@
     }
   }
   render();
+
+  /* ---- Ad deep-link: ?want=<product> highlights + stacks it, ?add=a,b pre-stacks a list ---- */
+  var ALIAS = {house:"house",sellhouse:"house",sell:"house",cash:"house",realestate:"house",
+    surplus:"surplus",tax:"surplus",overage:"surplus",
+    website:"website",site:"website",web:"website",
+    papers:"papers",immigration:"papers",papeles:"papers",visa:"papers",
+    work:"work",jobs:"work",job:"work",hire:"work",hiring:"work",chamba:"work",
+    build:"build",idea:"build",own:"build",
+    trading:"trading",grid:"trading",grid28:"trading",signals:"trading",
+    affiliates:"affiliates",affiliate:"affiliates",commission:"affiliates",earn:"affiliates",
+    truek:"truek",car:"truek",carro:"truek"};
+  function resolveId(k){ k = (k || "").toLowerCase().replace(/[^a-z0-9]/g, ""); if (!k) { return null; } return ALIAS[k] || (BYID[k] ? k : null); }
+  try {
+    var qs = new URLSearchParams(location.search);
+    var raw = (qs.get("add") || "").split(","); raw.push(qs.get("want") || "");
+    var changed = false;
+    for (var qi = 0; qi < raw.length; qi++) { var aid = resolveId(raw[qi]); if (aid && !has(aid)) { stack.push(aid); changed = true; } }
+    if (changed) { save(stack); render(); }
+    var wid = resolveId(qs.get("want"));
+    if (wid) { var wel = document.getElementById("way-" + wid); if (wel) { wel.classList.add("hot"); try { wel.scrollIntoView({behavior: "smooth", block: "center"}); } catch (e) {} } }
+  } catch (e) {}
 
   /* ---- Bella + Liam spoken welcome (free pre-rendered clip); radio ducks then returns 2s after ---- */
   var _duckT = null;
