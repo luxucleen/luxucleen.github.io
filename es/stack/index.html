@@ -110,6 +110,10 @@
   <div class="stackbox">
     <p class="empty" id="empty">Tu pila est&aacute; vac&iacute;a. Agrega tu primer negocio arriba &mdash; luego un segundo, un tercero&hellip;</p>
     <ul class="items" id="items"></ul>
+    <div id="mailwrap" style="display:none;margin-top:12px">
+      <a id="mailstack" href="#" style="display:inline-block;background:var(--accent);color:#fff;text-decoration:none;border-radius:9px;padding:11px 16px;font-weight:700">Enviar mi pila a Luxucleen &rarr;</a>
+      <p class="small" style="margin-top:8px">Env&iacute;anos los negocios que apilaste y los preparamos. Si te haces Pro, hazlo justo despu&eacute;s de unirte.</p>
+    </div>
   </div>
 
   <section class="pro" id="pro">
@@ -185,6 +189,9 @@
   var countEl = document.getElementById("count");
   var capEl = document.getElementById("cap");
   var proH = document.querySelector("#pro h2");
+  var mailWrap = document.getElementById("mailwrap");
+  var mailBtn = document.getElementById("mailstack");
+  function plain(html){ var t = document.createElement("div"); t.innerHTML = html; return (t.textContent || t.innerText || "").trim(); }
   function has(id){ return stack.indexOf(id) >= 0; }
   function add(id){ if (!has(id)) { stack.push(id); save(stack); render(); } }
   function rm(id){ var i = stack.indexOf(id); if (i >= 0) { stack.splice(i,1); save(stack); render(); } }
@@ -226,6 +233,16 @@
     if (proH) { proH.innerHTML = n >= 2
       ? ("3 &middot; Hazte Pro &mdash; guarda tu pila de " + n + " negocios, la construimos toda")
       : "3 &middot; Hazte Pro &mdash; guarda tu pila completa, la construimos toda"; }
+    if (mailWrap && mailBtn) {
+      if (n) {
+        mailWrap.style.display = "block";
+        var names = stack.map(function(id){ return BYID[id] ? "- " + plain(BYID[id].name) : ""; }).join("\n");
+        var body = "Los negocios que apilé:\n" + names + "\n\nQuiero que Luxucleen construya y maneje estos por mí. Entiendo que Pro es $8/mes y me quedo con el 88%.\nMi nombre: [tu nombre]\nContáctame en: [teléfono o correo]";
+        mailBtn.href = "mailto:hello@luxucleen.com?subject=" + encodeURIComponent("Mi pila de Luxucleen") + "&body=" + encodeURIComponent(body);
+      } else {
+        mailWrap.style.display = "none";
+      }
+    }
   }
   render();
 
