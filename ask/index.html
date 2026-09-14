@@ -224,6 +224,11 @@
         pending.textContent = t;
         lastIdea = t;
         if (d && d.audio_url) { playClip(d.audio_url); }
+        if (d && d.cta && d.cta.h) {   /* route them to the exact product they came for */
+          var ctaWrap = document.createElement("div"); ctaWrap.style.marginTop = "8px";
+          var ctaA = document.createElement("a"); ctaA.className = "alt"; ctaA.href = d.cta.h; ctaA.textContent = d.cta.l || "Get started →";
+          ctaWrap.appendChild(ctaA); pending.appendChild(ctaWrap);
+        }
         if (!box.value.trim()) { box.value = FOLLOW; }   /* Send now explores this way; they can still type anything */
       })
       .catch(function(){ pending.textContent = SETUP; })
