@@ -154,6 +154,55 @@
   </div>
 </main>
 
+<style>
+  .modal{position:fixed;inset:0;z-index:2147483400;background:rgba(3,6,12,.80);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:18px}
+  .modal[hidden]{display:none}
+  .modal .card{background:#0f141d;border:1px solid #243040;border-radius:16px;max-width:440px;width:100%;padding:22px 20px;color:#e6e9ee;position:relative;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+  .modal h3{margin:0 0 8px;color:#fff;font-size:20px}
+  .modal p{color:#9fb0c3;font-size:14px;margin:0 0 10px;line-height:1.55}
+  .modal label{display:block;font-size:12px;color:#8a95a8;margin:12px 0 4px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+  .modal input,.modal select{width:100%;background:#0a0d13;border:1px solid #243040;color:#e6e9ee;border-radius:10px;padding:12px 14px;font-size:15px;font-family:inherit}
+  .modal input:focus,.modal select:focus{outline:none;border-color:#37d67a;box-shadow:0 0 0 3px rgba(55,214,122,.18)}
+  .modal .go{margin-top:16px;width:100%;background:linear-gradient(135deg,#37d67a,#2bb768);color:#03140a;border:0;border-radius:12px;padding:14px;font-weight:800;font-size:16px;cursor:pointer}
+  .modal .go:disabled{opacity:.6}
+  .modal .x{position:absolute;top:10px;right:12px;background:transparent;border:0;color:#8a95a8;font-size:26px;cursor:pointer;line-height:1}
+  .modal .deal2{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 4px}
+  .modal .deal2 span{background:#0a0d13;border:1px solid #243040;border-radius:999px;padding:5px 11px;font:700 12px ui-monospace,Menlo,monospace;color:#9fb0c3}
+  .modal .deal2 b{color:#37d67a}
+  .modal .fine{font-size:12px;color:#6b7686;margin-top:12px}
+  .modal .fine a{color:#37d67a}
+  .modal .err{color:#f0a94a;font-size:13px;margin-top:8px}
+</style>
+<div id="signup" class="modal" hidden>
+  <div class="card">
+    <button class="x" id="sx" type="button" aria-label="Close">&times;</button>
+    <h3>Unlock your workspace &amp; keep building</h3>
+    <p>You built your first business &mdash; nice. Sign up with your best <b>business email</b> to get your own
+    Luxucleen workspace and keep stacking businesses. You keep <b>88%</b> of every idea that makes money.</p>
+    <div class="deal2"><span>You keep <b>88%</b></span><span><b>Your</b> workspace</span><span>Paid <b>your way</b></span></div>
+    <label for="su_email">Best business email</label>
+    <input id="su_email" type="email" inputmode="email" autocomplete="email" placeholder="you@yourbusiness.com">
+    <label for="su_payout">How do you want to get paid your 88%?</label>
+    <select id="su_payout">
+      <option value="">Pick a payout method&hellip;</option>
+      <option>PayPal</option>
+      <option>Zelle</option>
+      <option>Cash App</option>
+      <option>Venmo</option>
+      <option>Bank transfer (ACH)</option>
+      <option>Wise</option>
+      <option>Crypto (USDT)</option>
+      <option>Check by mail</option>
+      <option>Other</option>
+    </select>
+    <input id="su_detail" type="text" placeholder="Your payout handle / email / account so we can pay you">
+    <button class="go" id="su_go" type="button">Create my workspace &rarr;</button>
+    <p class="err" id="su_err" hidden></p>
+    <p class="fine">One workspace per email, no password needed. You keep 88%; we build and run each business, a written
+    agreement first. <a href="/agreements/#build">Read the agreement</a>.</p>
+  </div>
+</div>
+
 <footer class="wrap">
   <div class="fmap">
     <a href="/real-estate/">Real estate</a>
@@ -289,6 +338,7 @@
   }
   function validEmail(e){ return e.indexOf("@") > 0 && e.lastIndexOf(".") > e.indexOf("@") + 1 && e.length > 5 && e.indexOf(" ") < 0; }
   function plan(){
+    if (!signed() && usedFree()) { showSignup(); return; }
     var i = (bidea.value || "").trim();
     var em = ((document.getElementById("bemail")||{}).value || "").trim();
     var nm = ((document.getElementById("bname")||{}).value || "").trim();
@@ -301,11 +351,34 @@
     fetch(API, {method: "POST", headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({mode: "build", q: i, lang: LANG, email: em, name: nm})})
       .then(function(r){ if (!r.ok) { throw new Error("status"); } return r.json(); })
-      .then(function(d){ pending.textContent = (d && d.answer) ? d.answer : SETUP; playVoice(d); })
+      .then(function(d){
+        if (d && d.signup_required) { try { localStorage.setItem("lux_created", "1"); } catch (e) {} pending.textContent = d.answer || "Sign up to keep building."; showSignup(); return; }
+        pending.textContent = (d && d.answer) ? d.answer : SETUP; playVoice(d);
+        try { localStorage.setItem("lux_created", "1"); } catch (e) {}
+        if (!signed()) { setTimeout(showSignup, 900); }
+      })
       .catch(function(){ pending.textContent = SETUP; })
       .then(function(){ bplan.disabled = false; bmail(); });
   }
   bplan.addEventListener("click", plan);
+  /* ---- SIGN-UP GATE: first creation free, then unlock a workspace (best business email + how to get paid) ---- */
+  function signed(){ try { return localStorage.getItem("lux_signed") === "1"; } catch (e) { return false; } }
+  function usedFree(){ try { return localStorage.getItem("lux_created") === "1"; } catch (e) { return false; } }
+  var SUP = document.getElementById("signup");
+  function showSignup(){ if (!SUP) { return; } var se = document.getElementById("su_email"), bm = document.getElementById("bemail"); if (se && !se.value && bm && bm.value) { se.value = bm.value; } SUP.hidden = false; if (se) { try { se.focus(); } catch (e) {} } }
+  function closeSignup(){ if (SUP) { SUP.hidden = true; } }
+  if (document.getElementById("sx")) { document.getElementById("sx").addEventListener("click", closeSignup); }
+  if (document.getElementById("su_go")) { document.getElementById("su_go").addEventListener("click", function(){
+    var se = document.getElementById("su_email"), sp = document.getElementById("su_payout"), sd = document.getElementById("su_detail"), er = document.getElementById("su_err");
+    var em = (se.value || "").trim();
+    if (!(em.indexOf("@") > 0 && em.lastIndexOf(".") > em.indexOf("@") + 1 && em.length > 5 && em.indexOf(" ") < 0)) { er.hidden = false; er.textContent = "Enter a valid business email."; se.focus(); return; }
+    var go = document.getElementById("su_go"); go.disabled = true; go.textContent = "Creating…"; er.hidden = true;
+    fetch(API, {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({mode: "signup", email: em, payout: (sp && sp.value) || "", payout_detail: (sd && sd.value) || "", lang: LANG})})
+      .then(function(r){ return r.json(); })
+      .then(function(d){ if (d && d.ok) { try { localStorage.setItem("lux_signed", "1"); localStorage.setItem("lux_workspace", em); } catch (e) {} closeSignup(); badd("bot", "Workspace created for " + em + ". Keep building your stack — you keep 88%."); } else { er.hidden = false; er.textContent = (d && d.error) ? d.error : "Could not create your workspace — try again."; } })
+      .catch(function(){ er.hidden = false; er.textContent = "Could not reach the server — try again."; })
+      .then(function(){ go.disabled = false; go.textContent = "Create my workspace →"; });
+  }); }
   bsend.addEventListener("click", function(e){ var em = ((document.getElementById("bemail")||{}).value || "").trim(); if (!validEmail(em)) { e.preventDefault(); document.getElementById("bemail").focus(); badd("bot", "Add your email first - that is where we send your plan and files."); return; } try { fetch(API, {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({mode:"build", q:(bidea.value||"").trim(), lang:LANG, email:em})}); } catch(err){} });
   bidea.addEventListener("input", bmail);
   bidea.addEventListener("keydown", function(e){ if (e.key === "Enter") { e.preventDefault(); plan(); } });
