@@ -178,7 +178,8 @@
     {id:"build",      name:"Construye tu propio negocio",   line:"Trae tu idea - construimos la app, el sitio y el mercadeo. Te quedas con el 88%.", href:"/es/ask/#build", cta:"Plan&eacute;alo y env&iacute;a tu idea"},
     {id:"trading",    name:"Herramientas y se&ntilde;ales", line:"GRID28 corre en tu propio MetaTrader. Mayores de 18, tiene riesgo, no es consejo.", href:"/es/trading/", cta:"Empieza este"},
     {id:"affiliates", name:"Gana comisiones de afiliado",   line:"Comparte lo que ya vendemos, gana en cada venta, pagado autom&aacute;ticamente.", href:"/affiliates/", cta:"Empieza este"},
-    {id:"truek",      name:"Truek - compra, vende, cambia", line:"Cambia carro por carro con dinero encima, en Puerto Rico. Nuestra IA escribe tu anuncio.", href:"/truek/", cta:"&Uacute;nete a la lista"}
+    {id:"truek",      name:"Truek - compra, vende, cambia", line:"Cambia carro por carro con dinero encima, en Puerto Rico. Nuestra IA escribe tu anuncio.", href:"/truek/", cta:"&Uacute;nete a la lista"},
+    {id:"taxes",      name:"La IA hace tus impuestos",     line:"Tus impuestos del a&ntilde;o con IA - m&aacute;s barato que TurboTax, para due&ntilde;os de negocio.", href:"/es/taxes/", cta:"Haz mis impuestos"}
   ];
   var BYID = {}; for (var w=0; w<WAYS.length; w++){ BYID[WAYS[w].id] = WAYS[w]; }
   var KEY = "lux_stack";
@@ -257,7 +258,8 @@
     build:"build",idea:"build",own:"build",negocio:"build",
     trading:"trading",grid:"trading",grid28:"trading",signals:"trading",senales:"trading",
     affiliates:"affiliates",affiliate:"affiliates",commission:"affiliates",afiliados:"affiliates",
-    truek:"truek",car:"truek",carro:"truek"};
+    truek:"truek",car:"truek",carro:"truek",
+    taxes:"taxes",tax:"taxes",turbotax:"taxes",impuestos:"taxes"};
   function resolveId(k){ k = (k || "").toLowerCase().replace(/[^a-z0-9]/g, ""); if (!k) { return null; } return ALIAS[k] || (BYID[k] ? k : null); }
   try {
     var qs = new URLSearchParams(location.search);

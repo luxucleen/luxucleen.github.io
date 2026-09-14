@@ -184,7 +184,8 @@
     {id:"build",      name:"Build your own business",      line:"Bring your idea - we build the app, site and marketing. You keep 88%.", href:"/ask/#build", cta:"Plan &amp; send your idea"},
     {id:"trading",    name:"Trading tools &amp; signals",  line:"GRID28 runs on your own MetaTrader. 18+, involves risk, not advice.", href:"/trading/", cta:"Start this one"},
     {id:"affiliates", name:"Earn affiliate commissions",   line:"Share what we already sell, earn on every sale, paid automatically.", href:"/affiliates/", cta:"Start this one"},
-    {id:"truek",      name:"Truek - buy, sell, trade a car",line:"Swap car for car with cash on top, in Puerto Rico. Our AI writes your ad.", href:"/truek/", cta:"Join the waitlist"}
+    {id:"truek",      name:"Truek - buy, sell, trade a car",line:"Swap car for car with cash on top, in Puerto Rico. Our AI writes your ad.", href:"/truek/", cta:"Join the waitlist"},
+    {id:"taxes",      name:"AI does your taxes",           line:"Your yearly taxes with AI - cheaper than TurboTax, built for people who run a business.", href:"/taxes/", cta:"Do my taxes"}
   ];
   var BYID = {}; for (var w=0; w<WAYS.length; w++){ BYID[WAYS[w].id] = WAYS[w]; }
   var KEY = "lux_stack";
@@ -263,7 +264,8 @@
     build:"build",idea:"build",own:"build",
     trading:"trading",grid:"trading",grid28:"trading",signals:"trading",
     affiliates:"affiliates",affiliate:"affiliates",commission:"affiliates",earn:"affiliates",
-    truek:"truek",car:"truek",carro:"truek"};
+    truek:"truek",car:"truek",carro:"truek",
+    taxes:"taxes",tax:"taxes",turbotax:"taxes",impuestos:"taxes"};
   function resolveId(k){ k = (k || "").toLowerCase().replace(/[^a-z0-9]/g, ""); if (!k) { return null; } return ALIAS[k] || (BYID[k] ? k : null); }
   try {
     var qs = new URLSearchParams(location.search);
