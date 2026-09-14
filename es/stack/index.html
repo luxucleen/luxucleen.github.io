@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Crea una pila de negocios &mdash; Luxucleen</title>
-<meta name="description" content="Apila todos los negocios que quieras dentro de Luxucleen. Agrega los que quieras, gratis, sin registrarte - vende una casa, un sitio web, papeles de inmigraci&oacute;n, trading, afiliados, o tu propia idea que construimos por ti. Hazte Pro por $8/mes para guardar tu pila completa y que construyamos y manejemos todos. Mientras m&aacute;s apilas, m&aacute;s ganas.">
+<meta name="description" content="Crea tu propia pila de negocios en Luxucleen. Trae tus ideas - Bridge28 calcula el potencial de dinero y que tan dificil es crecer cada una. Gratis, sin registro. Hazte Pro por $8/mes y las construimos y manejamos todas. Tu te quedas con el 88%.">
 <meta name="robots" content="index,follow">
 <link rel="stylesheet" href="/site.css">
 <link rel="canonical" href="https://luxucleen.com/es/stack/">
@@ -15,18 +15,18 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://luxucleen.com/es/stack/">
 <meta property="og:title" content="Crea una pila de negocios &mdash; Luxucleen">
-<meta property="og:description" content="Agrega todos los negocios que quieras, gratis, sin registrarte. Hazte Pro por $8/mes para guardar tu pila completa y que construyamos y manejemos todos.">
+<meta property="og:description" content="Trae tus propias ideas de negocio. Bridge28 calcula el potencial de dinero y que tan dificil es crecer cada una. Gratis. Hazte Pro $8/mes - las construimos y manejamos, tu te quedas con el 88%.">
 <meta property="og:site_name" content="Luxucleen LLC">
 <meta property="og:locale" content="es_US">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Crea una pila de negocios &mdash; Luxucleen">
-<meta name="twitter:description" content="Agrega todos los negocios que quieras, gratis, sin registrarte. Hazte Pro por $8/mes para guardar tu pila.">
+<meta name="twitter:description" content="Trae tus ideas. Bridge28 predice el potencial de dinero. Gratis. Hazte Pro $8/mes, tu te quedas con el 88%.">
 <script type="application/ld+json">
 {
  "@context": "https://schema.org",
  "@type": "BreadcrumbList",
  "itemListElement": [
-  { "@type": "ListItem", "position": 1, "name": "Luxucleen LLC", "item": "https://luxucleen.com/" },
+  { "@type": "ListItem", "position": 1, "name": "Luxucleen LLC", "item": "https://luxucleen.com/es/" },
   { "@type": "ListItem", "position": 2, "name": "Crea una pila de negocios", "item": "https://luxucleen.com/es/stack/" }
  ]
 }
@@ -35,27 +35,43 @@
   .meter{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:6px 0 2px}
   .meter .n{font-size:34px;font-weight:800;color:var(--accent);line-height:1;font-variant-numeric:tabular-nums}
   .meter .cap{color:var(--dim);font-size:15px}
-  .ways{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:16px 0}
-  .way{border:1px solid var(--line);border-radius:12px;padding:16px;background:var(--soft);display:flex;flex-direction:column}
-  .way b{font-size:16px;margin-bottom:4px}
-  .way span{color:var(--dim);font-size:14px;flex:1 1 auto}
-  .way button{margin-top:12px;background:var(--accent);color:#fff;border:0;border-radius:9px;padding:10px 14px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;align-self:flex-start}
-  .way button:hover{background:var(--accent2)}
-  .way.in{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
-  .way.in button{background:transparent;color:var(--accent);border:1px solid var(--accent)}
-  .way.hot{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent),0 0 26px rgba(55,214,122,.45)!important;animation:wayhot 1.1s ease-in-out 3}
-  @keyframes wayhot{50%{box-shadow:0 0 0 2px var(--accent),0 0 6px rgba(55,214,122,.25)}}
-  .stackbox{border:1px solid var(--line);border-radius:14px;background:var(--soft);padding:18px;margin:18px 0}
+  .addrow{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0 6px}
+  .addrow input{flex:1 1 260px;min-width:0;background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:13px 14px;font-size:16px;color:inherit;font-family:inherit}
+  .addrow input:focus{outline:none;border-color:var(--accent)}
+  .addrow button{background:var(--accent);color:#fff;border:0;border-radius:10px;padding:13px 18px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;white-space:nowrap}
+  .addrow button:hover{background:var(--accent2)}
+  .spark{border:1px dashed var(--line);border-radius:12px;padding:13px 15px;background:var(--soft);margin:8px 0 6px}
+  .spark .lbl{color:var(--accent);font-weight:800;font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+  .spark .txt{color:inherit;margin:7px 0 10px;font-size:15px}
+  .spark button{background:transparent;border:1px solid var(--line);color:var(--dim);border-radius:8px;padding:8px 12px;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;margin:0 8px 0 0}
+  .spark button.use{border-color:var(--accent);color:var(--accent)}
+  .spark button:hover{border-color:var(--accent)}
+  .b28{display:none;border:1px solid var(--accent);border-radius:12px;background:linear-gradient(135deg,rgba(55,214,122,.10),transparent);padding:12px 15px;margin:12px 0;font-size:14px;color:inherit}
+  .b28 b{color:var(--accent)}
+  .stackbox{border:1px solid var(--line);border-radius:14px;background:var(--soft);padding:18px;margin:14px 0}
   .empty{color:var(--dim);font-size:15px;margin:6px 0}
   .items{list-style:none;margin:8px 0 0;padding:0}
-  .item{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:0 0 10px;background:var(--bg)}
-  .item .txt{flex:1 1 220px;min-width:0}
-  .item .txt b{display:block;font-size:15px}
-  .item .txt span{display:block;color:var(--dim);font-size:13px}
-  .item a.go{background:var(--accent);color:#fff;text-decoration:none;border-radius:9px;padding:9px 14px;font-size:14px;font-weight:700;white-space:nowrap}
-  .item a.go:hover{background:var(--accent2)}
-  .item button.rm{background:transparent;border:1px solid var(--line);color:var(--dim);border-radius:9px;width:34px;height:34px;font-size:16px;cursor:pointer;line-height:1}
+  .item{border:1px solid var(--line);border-radius:12px;padding:13px 14px;margin:0 0 12px;background:var(--bg)}
+  .item .head{display:flex;align-items:flex-start;gap:12px}
+  .item .body{flex:1 1 auto;min-width:0}
+  .item .body b{display:block;font-size:15px;font-weight:700;word-wrap:break-word}
+  .item button.rm{flex:0 0 auto;background:transparent;border:1px solid var(--line);color:var(--dim);border-radius:9px;width:34px;height:34px;font-size:16px;cursor:pointer;line-height:1}
   .item button.rm:hover{border-color:var(--warm);color:var(--warm)}
+  .pbtn{background:transparent;border:1px solid var(--accent);color:var(--accent);border-radius:9px;padding:8px 13px;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;margin-top:10px}
+  .pbtn:hover{background:var(--accent);color:#fff}
+  .pbtn[disabled]{opacity:.6;cursor:default}
+  .pred{display:none;margin-top:12px}
+  .pred .track{height:12px;border-radius:7px;background:var(--line);overflow:hidden}
+  .pred .fill{height:100%;width:0;border-radius:7px;background:linear-gradient(90deg,#2bb768,#37d67a);transition:width 1s cubic-bezier(.2,.8,.2,1)}
+  .pred .nums{display:flex;gap:12px;flex-wrap:wrap;align-items:baseline;margin:10px 0 2px}
+  .pred .sc{font-size:24px;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;line-height:1}
+  .pred .sc small{font-size:13px;color:var(--dim);font-weight:600}
+  .pred .mon{font-weight:800}
+  .pred .grw{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;padding:4px 10px;border-radius:20px}
+  .pred .grw.easy{background:rgba(55,214,122,.18);color:#37d67a}
+  .pred .grw.medium{background:rgba(233,181,58,.18);color:#e9b53a}
+  .pred .grw.hard{background:rgba(240,115,111,.16);color:#f0736f}
+  .pred .why{color:var(--dim);font-size:13px;margin-top:6px;line-height:1.5}
   .pro{background:radial-gradient(900px 420px at 15% -10%,#123020 0%,#0b0e14 58%);border:1px solid #1e3a2a;border-radius:18px;padding:24px 22px 20px;color:#e6e9ee;box-shadow:0 0 0 1px rgba(55,214,122,.10),0 20px 60px rgba(0,0,0,.35);margin:26px 0;position:relative;overflow:hidden}
   .pro:before{content:"";position:absolute;inset:-45%;background:conic-gradient(from 0deg,transparent 0%,rgba(55,214,122,.16) 12%,transparent 30%,rgba(43,183,104,.12) 62%,transparent 78%);animation:pspin 18s linear infinite;pointer-events:none}
   @keyframes pspin{to{transform:rotate(360deg)}}
@@ -96,57 +112,75 @@
   <p class="crumb"><a href="/es/">Luxucleen LLC</a> &rsaquo; Crea una pila de negocios</p>
 
   <section class="hero">
-    <h1>Crea una pila de negocios</h1>
-    <p class="lede">Apila todos los negocios que quieras &mdash; gratis, sin registrarte, aqu&iacute; mismo.
-    Nosotros construimos y manejamos cada uno; t&uacute; te quedas con la ganancia.
-    <b>Mientras m&aacute;s apilas, m&aacute;s ganas.</b></p>
+    <h1>Crea una pila de negocios &mdash; tus ideas</h1>
+    <p class="lede">Este es tu espacio. Agrega tus propias ideas de negocio y apila todas las que quieras &mdash;
+    gratis, sin registro. <b>Bridge28</b> calcula cada una: el dinero que podr&iacute;a generar y qu&eacute; tan
+    dif&iacute;cil es crecerla. Cuando te haces Pro, construimos y manejamos cada una y t&uacute; te quedas con el
+    88%. <b>Mientras m&aacute;s apilas, m&aacute;s ganas.</b></p>
   </section>
 
-  <div class="meter"><span class="n" id="count">0</span><span class="cap" id="cap">negocios en tu pila &mdash; empieza agregando uno abajo</span></div>
+  <div class="meter"><span class="n" id="count">0</span><span class="cap" id="cap">negocios en tu pila &mdash; agrega tu primera idea abajo</span></div>
 
-  <h2 id="add">1 &middot; Agrega un negocio a tu pila</h2>
-  <p class="small">Toca cualquiera para apilarlo. Agrega los que quieras &mdash; no hay que registrarse.</p>
-  <div class="ways" id="ways"></div>
+  <h2 id="add">1 &middot; Agrega tu idea de negocio</h2>
+  <p class="small">Escribe cualquier negocio que quieras construir. Agrega todas las que quieras &mdash; no hay que registrarse.</p>
+  <div class="addrow">
+    <input id="ideaInput" type="text" maxlength="200" placeholder="ej. un lavado de autos a domicilio que va a la oficina de la gente" autocomplete="off">
+    <button type="button" id="addBtn">Agregar a mi pila +</button>
+  </div>
+  <div class="spark" id="spark">
+    <div class="lbl">&#128161; Chispa de ideas &mdash; Bella y Liam</div>
+    <div class="txt" id="sparkTxt">&iquest;Atascado? Toca abajo y te lanzamos una idea para arrancar.</div>
+    <button type="button" id="sparkNew">Dame una idea</button>
+    <button type="button" class="use" id="sparkUse" style="display:none">Usar esta idea &rarr;</button>
+  </div>
+
+  <div class="b28" id="b28">
+    <b>Bridge28 est&aacute; en tu pila.</b> Toca <b>&#128302; Predecir mi dinero</b> en cualquier idea y calculo el
+    dinero que podr&iacute;a generar y qu&eacute; tan dif&iacute;cil es crecerla &mdash; seg&uacute;n la demanda y
+    qu&eacute; tan saturado est&aacute; el mercado.
+  </div>
 
   <h2 id="yours">2 &middot; Tu pila</h2>
   <div class="stackbox">
-    <p class="empty" id="empty">Tu pila est&aacute; vac&iacute;a. Agrega tu primer negocio arriba &mdash; luego un segundo, un tercero&hellip;</p>
+    <p class="empty" id="empty">Tu pila est&aacute; vac&iacute;a. Agrega tu primera idea arriba &mdash; luego una segunda, una tercera&hellip;</p>
     <ul class="items" id="items"></ul>
     <div id="mailwrap" style="display:none;margin-top:12px">
       <a id="mailstack" href="#" style="display:inline-block;background:var(--accent);color:#fff;text-decoration:none;border-radius:9px;padding:11px 16px;font-weight:700">Enviar mi pila a Luxucleen &rarr;</a>
-      <p class="small" style="margin-top:8px">Env&iacute;anos los negocios que apilaste y los preparamos. Si te haces Pro, hazlo justo despu&eacute;s de unirte.</p>
+      <p class="small" style="margin-top:8px">Env&iacute;anos las ideas que apilaste y las preparamos. Si te haces Pro, hazlo justo despu&eacute;s de unirte.</p>
     </div>
   </div>
 
   <section class="pro" id="pro">
     <div class="kick"><i></i>Luxucleen Pro</div>
-    <h2>3 &middot; Hazte Pro &mdash; guarda tu pila completa, la construimos toda</h2>
-    <p>Gratis es para armar tu pila en este dispositivo. <b>Pro</b> es para ganar dinero con ella: reg&iacute;strate,
-    guarda tu pila completa en tu cuenta para no perderla nunca, agr&eacute;gale desde cualquier tel&eacute;fono, y
-    construimos y manejamos cada negocio por ti.</p>
+    <h2>3 &middot; Hazte Pro &mdash; guarda toda tu pila, las construimos todas</h2>
+    <p>Gratis es para armar tu pila de ideas en este dispositivo. <b>Pro</b> es para ganar dinero con ella:
+    reg&iacute;strate, guarda toda tu pila en tu cuenta para no perderla nunca, agr&eacute;gale desde cualquier
+    tel&eacute;fono, y construimos y manejamos cada negocio por ti.</p>
     <p class="price">$8<small> / mes</small></p>
     <ul>
-      <li>Tu pila completa guardada en tu cuenta &mdash; en cada dispositivo.</li>
+      <li>Toda tu pila de ideas guardada en tu cuenta &mdash; en todos tus dispositivos.</li>
       <li>Construimos y manejamos cada negocio de tu pila &mdash; app, sitio, mercadeo.</li>
-      <li>Te quedas con el <b>88%</b> de la ganancia, pagada cada mes; nosotros el 12%.</li>
+      <li>T&uacute; te quedas con el <b>88%</b> de la ganancia, pagada cada mes; nosotros el 12%.</li>
       <li>Sin dinero por adelantado en la construcci&oacute;n, un acuerdo por escrito primero.</li>
       <li>Mientras m&aacute;s apilas, m&aacute;s ganas.</li>
     </ul>
     <a class="buy" id="propay" href="https://djbrightfuture.gumroad.com/l/jxmhl" target="_blank" rel="noopener">Hazte Pro &mdash; $8/mes &rarr;</a>
-    <p class="fine">Pro usa tu correo como tu cuenta. Cancela cuando quieras. Sin promesas de ganancia &mdash; cada
+    <p class="fine">Pro guarda tu correo como tu cuenta. Cancela cuando quieras. Sin promesas de ganancia &mdash; cada
     negocio lo construye y revisa una persona, con un acuerdo por escrito primero.
-    <a href="/agreements/#build">Lee el acuerdo &rarr;</a></p>
+    <a href="/es/agreements/#build">Lee el acuerdo &rarr;</a></p>
   </section>
 
   <h2 id="about">Qu&eacute; es esto</h2>
   <ul>
-    <li>Luxucleen es una compa&ntilde;&iacute;a de negocios que ayudan a la gente a hacer, ahorrar o guardar m&aacute;s
-    dinero. Esta p&aacute;gina te deja escoger los que quieras y <b>apilarlos</b> &mdash; cada uno te lleva al lugar
-    correcto para empezarlo.</li>
-    <li>Armar tu pila es gratis y no necesita cuenta, ni cookies, ni rastreo. Tu pila se guarda solo en este
+    <li>Este es tu propio espacio para <b>apilar tus ideas de negocio</b>. Trae todas las que quieras; trabajamos
+    para ti y construimos las que elijas hacer Pro.</li>
+    <li><b>Bridge28</b> le da a cada idea una lectura honesta &mdash; un potencial de dinero aproximado y si se ve
+    f&aacute;cil o dif&iacute;cil de crecer, seg&uacute;n la demanda y qu&eacute; tan saturado est&aacute; el
+    mercado. Es un estimado para ayudarte a pensar, nunca una promesa de ingresos.</li>
+    <li>Armar tu pila es gratis y no necesita cuenta, ni cookie, ni rastreo. Tu pila se guarda solo en este
     dispositivo hasta que te haces Pro.</li>
-    <li>No da consejo financiero, legal ni de impuestos, y no te dir&aacute; qu&eacute; operar. El trading tiene riesgo
-    y es solo para mayores de 18. Cuando se trata de dinero o papeles, te contesta una persona:
+    <li>No da consejos financieros, legales ni de impuestos, y no te dir&aacute; qu&eacute; operar. El trading
+    conlleva riesgo y es solo para mayores de 18. Cuando el dinero o los papeles importan, responde una persona:
     <a href="mailto:hello@luxucleen.com?subject=Luxucleen%20pila">hello@luxucleen.com</a>.</li>
   </ul>
 </main>
@@ -163,129 +197,176 @@
     <a href="/legal/">Legal</a>
   </div>
   &copy; 2026 Luxucleen LLC &middot; Midlothian, Virginia &middot; SCC Entity ID 11952713<br>
-  <span class="small">Luxucleen LLC no es una corredur&iacute;a de bienes ra&iacute;ces y no da consejo legal, de impuestos ni financiero. Cada due&ntilde;o debe tener su propio abogado que revise cualquier contrato antes de firmar. El trading tiene riesgo y nada en este sitio es consejo financiero.</span>
+  <span class="small">Luxucleen LLC no es una correder&iacute;a de bienes ra&iacute;ces y no da consejos legales, de impuestos ni financieros. Todo propietario debe consultar a su propio abogado antes de firmar cualquier contrato. El trading conlleva riesgo y nada en este sitio es consejo financiero.</span>
 </footer>
 
 <script>
 (function(){
   window.luxVoicePage = true;
-  var WAYS = [
-    {id:"house",      name:"Vende una casa por efectivo",   line:"En cualquier condici&oacute;n, cierras en tu fecha - sin reparaciones ni comisiones.", href:"/es/real-estate/", cta:"Empieza este"},
-    {id:"surplus",    name:"Reclama excedente de subasta",  line:"Un condado puede deberle dinero a un due&ntilde;o anterior tras una venta de impuestos. Te ayudamos a reclamarlo.", href:"/surplus/", cta:"Empieza este"},
-    {id:"website",    name:"Un sitio web que vende",        line:"Una p&aacute;gina limpia que le trae clientes a un negocio - pagas solo si te gusta.", href:"/services/", cta:"Empieza este"},
-    {id:"papers",     name:"Papeles de inmigraci&oacute;n", line:"Un abogado con licencia en tu estado, tus papeles organizados, de forma legal.", href:"/papeles/", cta:"Empieza este"},
-    {id:"work",       name:"Consigue trabajo, o contrata",  line:"Conectamos empleadores y trabajadores, r&aacute;pido.", href:"/hire/", cta:"Empieza este"},
-    {id:"build",      name:"Construye tu propio negocio",   line:"Trae tu idea - construimos la app, el sitio y el mercadeo. Te quedas con el 88%.", href:"/es/ask/#build", cta:"Plan&eacute;alo y env&iacute;a tu idea"},
-    {id:"trading",    name:"Herramientas y se&ntilde;ales", line:"GRID28 corre en tu propio MetaTrader. Mayores de 18, tiene riesgo, no es consejo.", href:"/es/trading/", cta:"Empieza este"},
-    {id:"affiliates", name:"Gana comisiones de afiliado",   line:"Comparte lo que ya vendemos, gana en cada venta, pagado autom&aacute;ticamente.", href:"/affiliates/", cta:"Empieza este"},
-    {id:"truek",      name:"Truek - compra, vende, cambia", line:"Cambia carro por carro con dinero encima, en Puerto Rico. Nuestra IA escribe tu anuncio.", href:"/truek/", cta:"&Uacute;nete a la lista"},
-    {id:"taxes",      name:"La IA hace tus impuestos",     line:"Tus impuestos del a&ntilde;o con IA - m&aacute;s barato que TurboTax, para due&ntilde;os de negocio.", href:"/es/taxes/", cta:"Haz mis impuestos"}
-  ];
-  var BYID = {}; for (var w=0; w<WAYS.length; w++){ BYID[WAYS[w].id] = WAYS[w]; }
+  var AI = "https://ai.luxucleen.com/ask";
   var KEY = "lux_stack";
-  function load(){ try { var s = JSON.parse(localStorage.getItem(KEY) || "[]"); return (s && s.length) ? s.filter(function(id){ return !!BYID[id]; }) : []; } catch (e) { return []; } }
+  var SPARKS = [
+    "Un servicio de lavado de autos a domicilio que va a la oficina de la gente.",
+    "Un servicio de comidas preparadas los fines de semana para gente del gimnasio.",
+    "Un servicio de ayuda tecnológica para adultos mayores - teléfonos, TVs y wifi.",
+    "Un servicio de lavado a presión para entradas, patios y aceras.",
+    "Manejo de redes sociales para restaurantes y salones locales.",
+    "Un servicio de limpieza de excremento de mascotas en los patios.",
+    "Un servicio de notario y trámites de documentos para pequeños negocios.",
+    "Un servicio de limpieza de Airbnb entre huéspedes para anfitriones locales.",
+    "Un servicio de contabilidad solo para contratistas independientes.",
+    "Un servicio para mejorar currículums y perfiles de LinkedIn.",
+    "Una caja de suscripción de un pasatiempo que ya te gusta.",
+    "Una ruta mensual de cuidado de césped en un vecindario.",
+    "Un servicio de mandados el mismo día para profesionales ocupados.",
+    "Un servicio de reparación de teléfonos que va donde el cliente.",
+    "Un servicio de acarreo de basura y limpieza para mudanzas pequeñas."
+  ];
+  function uid(){ return "i" + Math.random().toString(36).slice(2, 9); }
+  function load(){
+    try {
+      var s = JSON.parse(localStorage.getItem(KEY) || "[]");
+      if (!s || !s.length) return [];
+      var out = [];
+      for (var i=0;i<s.length;i++){ var it=s[i];
+        if (typeof it === "string") continue;
+        if (it && it.text){ out.push({ id: it.id || uid(), text: String(it.text).slice(0,200), pred: it.pred || null }); }
+      }
+      return out;
+    } catch (e) { return []; }
+  }
   function save(a){ try { localStorage.setItem(KEY, JSON.stringify(a)); } catch (e) {} }
   var stack = load();
-  var waysEl = document.getElementById("ways");
+
+  var input = document.getElementById("ideaInput");
+  var addBtn = document.getElementById("addBtn");
   var itemsEl = document.getElementById("items");
   var emptyEl = document.getElementById("empty");
   var countEl = document.getElementById("count");
   var capEl = document.getElementById("cap");
+  var b28El = document.getElementById("b28");
   var proH = document.querySelector("#pro h2");
   var mailWrap = document.getElementById("mailwrap");
   var mailBtn = document.getElementById("mailstack");
-  function plain(html){ var t = document.createElement("div"); t.innerHTML = html; return (t.textContent || t.innerText || "").trim(); }
-  function has(id){ return stack.indexOf(id) >= 0; }
-  function add(id){ if (!has(id)) { stack.push(id); save(stack); render(); } }
-  function rm(id){ var i = stack.indexOf(id); if (i >= 0) { stack.splice(i,1); save(stack); render(); } }
-  function renderWays(){
-    waysEl.innerHTML = "";
-    for (var i=0; i<WAYS.length; i++){
-      var wy = WAYS[i];
-      var d = document.createElement("div"); d.className = "way" + (has(wy.id) ? " in" : ""); d.id = "way-" + wy.id;
-      var b = document.createElement("b"); b.innerHTML = wy.name; d.appendChild(b);
-      var s = document.createElement("span"); s.innerHTML = wy.line; d.appendChild(s);
-      var btn = document.createElement("button"); btn.type = "button";
-      btn.textContent = has(wy.id) ? "En tu pila ✓" : "Agregar a la pila +";
-      (function(id){ btn.addEventListener("click", function(){ if (has(id)) { rm(id); } else { add(id); } }); })(wy.id);
-      d.appendChild(btn); waysEl.appendChild(d);
-    }
+  var sparkTxt = document.getElementById("sparkTxt");
+  var sparkUse = document.getElementById("sparkUse");
+  var esc = function(t){ var d=document.createElement("div"); d.textContent=t; return d.innerHTML; };
+
+  function add(text){
+    text = (text || "").trim(); if (!text) { return; }
+    stack.push({ id: uid(), text: text.slice(0,200), pred: null });
+    save(stack); render();
+    input.value = "";
   }
-  function renderStack(){
-    itemsEl.innerHTML = "";
-    emptyEl.style.display = stack.length ? "none" : "block";
-    for (var i=0; i<stack.length; i++){
-      var wy = BYID[stack[i]]; if (!wy) { continue; }
-      var li = document.createElement("li"); li.className = "item";
-      var t = document.createElement("div"); t.className = "txt";
-      var nb = document.createElement("b"); nb.innerHTML = wy.name; t.appendChild(nb);
-      var sp = document.createElement("span"); sp.innerHTML = wy.line; t.appendChild(sp);
-      li.appendChild(t);
-      var a = document.createElement("a"); a.className = "go"; a.href = wy.href; a.innerHTML = wy.cta + " →"; li.appendChild(a);
-      var rb = document.createElement("button"); rb.type = "button"; rb.className = "rm"; rb.setAttribute("aria-label","Quitar"); rb.textContent = "×";
-      (function(id){ rb.addEventListener("click", function(){ rm(id); }); })(wy.id);
-      li.appendChild(rb); itemsEl.appendChild(li);
-    }
+  function rm(id){ for (var i=0;i<stack.length;i++){ if (stack[i].id===id){ stack.splice(i,1); break; } } save(stack); render(); }
+  function setPred(id, p){ for (var i=0;i<stack.length;i++){ if (stack[i].id===id){ stack[i].pred=p; break; } } save(stack); }
+
+  function predict(id){
+    var it=null; for (var i=0;i<stack.length;i++){ if (stack[i].id===id) it=stack[i]; }
+    if (!it) { return; }
+    var li = document.getElementById("li-"+id); if (!li) { return; }
+    var btn = li.querySelector(".pbtn"); var box = li.querySelector(".pred");
+    if (btn){ btn.disabled = true; btn.textContent = "Bridge28 está calculando…"; }
+    fetch(AI, { method:"POST", headers:{ "Content-Type":"application/json" },
+      body: JSON.stringify({ mode:"predict", q: it.text, lang:"es" }) })
+    .then(function(r){ return r.json(); })
+    .then(function(p){
+      if (!p || typeof p.score !== "number") { throw new Error("no score"); }
+      setPred(id, p); showPred(li, p);
+      if (btn){ btn.disabled=false; btn.textContent="🔂 Predecir de nuevo"; }
+    })
+    .catch(function(){
+      if (btn){ btn.disabled=false; btn.textContent="🔮 Predecir mi dinero"; }
+      if (box){ box.style.display="block"; box.innerHTML = '<p class="why">Bridge28 no pudo obtener los números ahora — inténtalo en un momento, o escribe a hello@luxucleen.com.</p>'; }
+    });
   }
+  function showPred(li, p){
+    var box = li.querySelector(".pred"); if (!box) { return; }
+    var grow = (p.grow==="easy"||p.grow==="medium"||p.grow==="hard") ? p.grow : "medium";
+    var glabel = grow==="easy" ? "Fácil de crecer" : (grow==="hard" ? "Difícil de crecer" : "Media para crecer");
+    box.innerHTML =
+      '<div class="track"><div class="fill"></div></div>' +
+      '<div class="nums"><span class="sc">' + p.score + '<small>/100 potencial</small></span>' +
+      '<span class="mon">' + esc(p.money||"") + '</span>' +
+      '<span class="grw ' + grow + '">' + glabel + '</span></div>' +
+      '<p class="why">' + esc(p.reason||"") + (p.trend ? ' <b>(' + esc(p.trend) + ')</b>' : '') + '</p>';
+    box.style.display = "block";
+    var fill = box.querySelector(".fill");
+    setTimeout(function(){ if (fill){ fill.style.width = Math.max(4, Math.min(100, p.score)) + "%"; } }, 60);
+  }
+
   function render(){
-    renderWays(); renderStack();
-    var n = stack.length; countEl.textContent = n;
-    capEl.textContent = n === 0 ? "negocios en tu pila - empieza agregando uno abajo"
+    itemsEl.innerHTML = "";
+    var n = stack.length;
+    emptyEl.style.display = n ? "none" : "block";
+    b28El.style.display = n ? "block" : "none";
+    for (var i=0;i<n;i++){
+      var it = stack[i];
+      var li = document.createElement("li"); li.className = "item"; li.id = "li-" + it.id;
+      var head = document.createElement("div"); head.className = "head";
+      var body = document.createElement("div"); body.className = "body";
+      var b = document.createElement("b"); b.textContent = it.text; body.appendChild(b);
+      var pb = document.createElement("button"); pb.type="button"; pb.className="pbtn";
+      pb.innerHTML = it.pred ? "🔂 Predecir de nuevo" : "🔮 Predecir mi dinero";
+      (function(id){ pb.addEventListener("click", function(){ predict(id); }); })(it.id);
+      body.appendChild(pb);
+      var pred = document.createElement("div"); pred.className="pred"; body.appendChild(pred);
+      head.appendChild(body);
+      var rb = document.createElement("button"); rb.type="button"; rb.className="rm"; rb.setAttribute("aria-label","Quitar"); rb.textContent="×";
+      (function(id){ rb.addEventListener("click", function(){ rm(id); }); })(it.id);
+      head.appendChild(rb);
+      li.appendChild(head); itemsEl.appendChild(li);
+      if (it.pred) { showPred(li, it.pred); }
+    }
+    countEl.textContent = n;
+    capEl.textContent = n === 0 ? "negocios en tu pila - agrega tu primera idea abajo"
       : (n === 1 ? "negocio en tu pila - agrega otro, mientras más apilas más ganas"
                  : "negocios en tu pila - mientras más apilas, más ganas");
     if (proH) { proH.innerHTML = n >= 2
-      ? ("3 &middot; Hazte Pro &mdash; guarda tu pila de " + n + " negocios, la construimos toda")
-      : "3 &middot; Hazte Pro &mdash; guarda tu pila completa, la construimos toda"; }
+      ? ("3 &middot; Hazte Pro &mdash; guarda tu pila de " + n + " negocios, las construimos todas")
+      : "3 &middot; Hazte Pro &mdash; guarda toda tu pila, las construimos todas"; }
     if (mailWrap && mailBtn) {
       if (n) {
         mailWrap.style.display = "block";
-        var names = stack.map(function(id){ return BYID[id] ? "- " + plain(BYID[id].name) : ""; }).join("\n");
-        var body = "Los negocios que apilé:\n" + names + "\n\nQuiero que Luxucleen construya y maneje estos por mí. Entiendo que Pro es $8/mes y me quedo con el 88%.\nMi nombre: [tu nombre]\nContáctame en: [teléfono o correo]";
-        mailBtn.href = "mailto:hello@luxucleen.com?subject=" + encodeURIComponent("Mi pila de Luxucleen") + "&body=" + encodeURIComponent(body);
-      } else {
-        mailWrap.style.display = "none";
-      }
+        var names = stack.map(function(it){ return "- " + it.text; }).join("\n");
+        var body2 = "Las ideas de negocio que apilé:\n" + names + "\n\nQuiero que Luxucleen construya y maneje estas por mí. Entiendo que Pro es $8/mes y me quedo con el 88%.\nMi nombre: [tu nombre]\nContáctame en: [teléfono o correo]";
+        mailBtn.href = "mailto:hello@luxucleen.com?subject=" + encodeURIComponent("Mi pila de Luxucleen") + "&body=" + encodeURIComponent(body2);
+      } else { mailWrap.style.display = "none"; }
     }
   }
   render();
 
-  /* ---- Enlace de anuncio: ?want=<producto> lo resalta y lo apila, ?add=a,b apila una lista ---- */
-  var ALIAS = {house:"house",sellhouse:"house",sell:"house",cash:"house",casa:"house",realestate:"house",
-    surplus:"surplus",tax:"surplus",overage:"surplus",excedente:"surplus",
-    website:"website",site:"website",web:"website",sitio:"website",
-    papers:"papers",immigration:"papers",papeles:"papers",visa:"papers",inmigracion:"papers",
-    work:"work",jobs:"work",job:"work",hire:"work",trabajo:"work",chamba:"work",
-    build:"build",idea:"build",own:"build",negocio:"build",
-    trading:"trading",grid:"trading",grid28:"trading",signals:"trading",senales:"trading",
-    affiliates:"affiliates",affiliate:"affiliates",commission:"affiliates",afiliados:"affiliates",
-    truek:"truek",car:"truek",carro:"truek",
-    taxes:"taxes",tax:"taxes",turbotax:"taxes",impuestos:"taxes"};
-  function resolveId(k){ k = (k || "").toLowerCase().replace(/[^a-z0-9]/g, ""); if (!k) { return null; } return ALIAS[k] || (BYID[k] ? k : null); }
+  addBtn.addEventListener("click", function(){ add(input.value); input.focus(); });
+  input.addEventListener("keydown", function(e){ if (e.key === "Enter"){ e.preventDefault(); add(input.value); } });
+
+  var lastSpark = "";
+  function newSpark(){
+    var s; do { s = SPARKS[Math.floor(Math.random()*SPARKS.length)]; } while (s === lastSpark && SPARKS.length > 1);
+    lastSpark = s; sparkTxt.textContent = s; sparkUse.style.display = "inline-block";
+  }
+  document.getElementById("sparkNew").addEventListener("click", newSpark);
+  sparkUse.addEventListener("click", function(){ if (lastSpark){ input.value = lastSpark; input.focus(); } });
+
   try {
     var qs = new URLSearchParams(location.search);
-    var raw = (qs.get("add") || "").split(","); raw.push(qs.get("want") || "");
-    var changed = false;
-    for (var qi = 0; qi < raw.length; qi++) { var aid = resolveId(raw[qi]); if (aid && !has(aid)) { stack.push(aid); changed = true; } }
-    if (changed) { save(stack); render(); }
-    var wid = resolveId(qs.get("want"));
-    if (wid) { var wel = document.getElementById("way-" + wid); if (wel) { wel.classList.add("hot"); try { wel.scrollIntoView({behavior: "smooth", block: "center"}); } catch (e) {} } }
+    var pf = qs.get("idea"); if (pf){ input.value = pf.slice(0,200); }
+    var ad = qs.get("add"); if (ad){ add(ad); }
   } catch (e) {}
 
-  /* ---- Bella + Liam bienvenida hablada (clip gratis pre-generado); la radio baja y vuelve 2s después ---- */
   var _duckT = null;
   function duckDown(){ if (_duckT){ clearTimeout(_duckT); _duckT = null; } if (window.luxDuck){ window.luxDuck(true); } }
   function voiceDone(){ if (_duckT){ clearTimeout(_duckT); } _duckT = setTimeout(function(){ _duckT = null; if (window.luxRadioStart){ window.luxRadioStart(); } if (window.luxDuck){ window.luxDuck(false); } }, 2000); }
   var player = null, pendingUrl = null, armed = false;
   function armGesture(){ if (armed){ return; } armed = true; var go = function(){ armed = false; var u = pendingUrl; pendingUrl = null; if (u && player){ try { duckDown(); player.src = u; player.play(); } catch (e){} } }; document.addEventListener("click", go, {once:true}); document.addEventListener("touchstart", go, {once:true}); }
   function playClip(url){ try { if (!player){ player = new Audio(); player.addEventListener("ended", voiceDone); player.addEventListener("error", voiceDone); } duckDown(); player.src = url; var p = player.play(); if (p && p.catch){ p.catch(function(){ voiceDone(); pendingUrl = url; armGesture(); }); } } catch (e){ voiceDone(); pendingUrl = url; armGesture(); } }
-  playClip("/stack/audio/intro_stack_es.mp3");
+  playClip("/es/stack/audio/intro_stack.mp3");
 })();
 </script>
 <script>/*lux-radio*/(function(){try{
 var STREAM="https://ice1.somafm.com/beatblender-128-mp3",BASE=0.05,DUCK=0.015;
 var a=new Audio();a.src=STREAM;a.preload="none";a.volume=BASE;
 var on=true;try{if(localStorage.getItem("lux_radio")==="off")on=false;}catch(e){}
-var btn=document.createElement("button");btn.type="button";btn.setAttribute("aria-label","Música de fondo");
+var btn=document.createElement("button");btn.type="button";btn.setAttribute("aria-label","Música de fondo encendida o apagada");
 btn.style.cssText="position:fixed;right:14px;bottom:14px;z-index:2147483000;width:46px;height:46px;border-radius:50%;border:0;cursor:pointer;font-size:20px;line-height:46px;text-align:center;background:#0f5aa8;color:#fff;box-shadow:0 4px 14px rgba(0,0,0,.3);opacity:.9";
 function icon(){btn.textContent=on?"♪":"🔇";}
 function start(){if(!on)return;try{var p=a.play();if(p&&p.catch)p.catch(function(){});}catch(e){}}
