@@ -30,6 +30,21 @@
   .pay h2{color:#fff;border:0;padding:0;margin:0 0 6px;font-size:19px}
   .pay p{color:#a9c0b3;margin:0 0 10px}
   .pay .buy{display:inline-block;background:linear-gradient(135deg,#37d67a,#2bb768);color:#03140a;border:0;border-radius:12px;padding:12px 18px;font-weight:800;text-decoration:none}
+  .pbtn{background:transparent;border:1px solid var(--accent);color:var(--accent);border-radius:9px;padding:8px 13px;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;align-self:flex-start;margin-top:4px}
+  .pbtn:hover{background:var(--accent);color:#fff}
+  .pbtn[disabled]{opacity:.6;cursor:default}
+  .pred{display:none;margin-top:12px;width:100%}
+  .pred .track{height:12px;border-radius:7px;background:var(--line);overflow:hidden}
+  .pred .fill{height:100%;width:0;border-radius:7px;background:linear-gradient(90deg,#2bb768,#37d67a);transition:width 1s cubic-bezier(.2,.8,.2,1)}
+  .pred .nums{display:flex;gap:12px;flex-wrap:wrap;align-items:baseline;margin:10px 0 2px}
+  .pred .sc{font-size:22px;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;line-height:1}
+  .pred .sc small{font-size:12px;color:var(--dim);font-weight:600}
+  .pred .mon{font-weight:800}
+  .pred .grw{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;padding:4px 10px;border-radius:20px}
+  .pred .grw.easy{background:rgba(55,214,122,.18);color:#37d67a}
+  .pred .grw.medium{background:rgba(233,181,58,.18);color:#e9b53a}
+  .pred .grw.hard{background:rgba(240,115,111,.16);color:#f0736f}
+  .pred .why{color:var(--dim);font-size:13px;margin-top:6px;line-height:1.5}
 </style>
 </head>
 <body>
@@ -58,7 +73,8 @@
     <div class="who" id="who"></div>
   </section>
 
-  <h2>Tus negocios</h2>
+  <h2>Tu pila de ideas</h2>
+  <p class="small">Toca &#128302; Predecir mi dinero en cualquier idea &mdash; Bridge28 calcula el dinero que podr&iacute;a generar y qu&eacute; tan dif&iacute;cil es crecerla.</p>
   <div class="biz" id="biz"></div>
   <p id="empty" class="note" hidden>A&uacute;n no has apilado un negocio. <a href="/es/stack/">Crea tu pila &rarr;</a> &mdash; agrega los que quieras, gratis.</p>
 
@@ -97,23 +113,22 @@
 
 <script>
 (function(){
-  var WAYS = {
-    house:{name:"Vende una casa por efectivo", href:"/es/real-estate/", cta:"Abrir"},
-    surplus:{name:"Excedente de subasta", href:"/surplus/", cta:"Abrir"},
-    website:{name:"Un sitio web que vende", href:"/services/", cta:"Abrir"},
-    papers:{name:"Papeles de inmigración", href:"/papeles/", cta:"Abrir"},
-    work:{name:"Contrata o consigue trabajo", href:"/hire/", cta:"Abrir"},
-    build:{name:"Tu propio negocio (88%)", href:"/es/ask/#build", cta:"Constrúyelo"},
-    trading:{name:"Herramientas y señales", href:"/es/trading/", cta:"Abrir"},
-    affiliates:{name:"Comisiones de afiliado", href:"/affiliates/", cta:"Abrir"},
-    truek:{name:"Truek - compra/vende/cambia carro", href:"/truek/", cta:"Abrir"},
-    taxes:{name:"La IA hace tus impuestos", href:"/es/taxes/", cta:"Abrir"}
-  };
+  var AI = "https://ai.luxucleen.com/ask";
   function ls(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }
+  function uid(){ return "i" + Math.random().toString(36).slice(2, 9); }
   var signed = ls("lux_signed") === "1";
   var ws = ls("lux_workspace") || "";
-  var stack = []; try { stack = JSON.parse(ls("lux_stack") || "[]") || []; } catch(e){ stack = []; }
-  stack = stack.filter(function(id){ return !!WAYS[id]; });
+  function loadStack(){
+    try {
+      var s = JSON.parse(ls("lux_stack") || "[]"); if (!s || !s.length) return [];
+      var out = [];
+      for (var i=0;i<s.length;i++){ var it=s[i]; if (typeof it==="string") continue; if (it && it.text){ out.push({ id: it.id||uid(), text: String(it.text).slice(0,200), pred: it.pred||null }); } }
+      return out;
+    } catch(e){ return []; }
+  }
+  var stack = loadStack();
+  function saveStack(){ try { localStorage.setItem("lux_stack", JSON.stringify(stack)); } catch(e){} }
+  var esc = function(t){ var d=document.createElement("div"); d.textContent=t; return d.innerHTML; };
 
   var who = document.getElementById("who");
   if (signed) {
@@ -123,17 +138,41 @@
     who.innerHTML = '<span class="badge free">Gratis &mdash; en este dispositivo</span><a class="small" href="/es/stack/" style="color:var(--accent);font-weight:700">Hazte Pro para guardarla en todos lados &rarr;</a>';
   }
 
+  function setPred(id,p){ for (var i=0;i<stack.length;i++){ if(stack[i].id===id){ stack[i].pred=p; break; } } saveStack(); }
+  function showPred(li,p){
+    var box=li.querySelector(".pred"); if(!box) return;
+    var grow=(p.grow==="easy"||p.grow==="medium"||p.grow==="hard")?p.grow:"medium";
+    var glabel=grow==="easy"?"Fácil de crecer":(grow==="hard"?"Difícil de crecer":"Media para crecer");
+    box.innerHTML='<div class="track"><div class="fill"></div></div><div class="nums"><span class="sc">'+p.score+'<small>/100 potencial</small></span><span class="mon">'+esc(p.money||"")+'</span><span class="grw '+grow+'">'+glabel+'</span></div><p class="why">'+esc(p.reason||"")+(p.trend?' <b>('+esc(p.trend)+')</b>':'')+'</p>';
+    box.style.display="block";
+    var f=box.querySelector(".fill"); setTimeout(function(){ if(f) f.style.width=Math.max(4,Math.min(100,p.score))+"%"; },60);
+  }
+  function predict(id){
+    var it=null; for(var i=0;i<stack.length;i++){ if(stack[i].id===id) it=stack[i]; } if(!it) return;
+    var li=document.getElementById("li-"+id); if(!li) return;
+    var btn=li.querySelector(".pbtn"), box=li.querySelector(".pred");
+    if(btn){ btn.disabled=true; btn.textContent="Bridge28 está calculando\u2026"; }
+    fetch(AI,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"predict",q:it.text,lang:"es"})})
+      .then(function(r){return r.json();})
+      .then(function(p){ if(!p||typeof p.score!=="number") throw new Error("no score"); setPred(id,p); showPred(li,p); if(btn){btn.disabled=false;btn.innerHTML="\ud83d\udd02 Predecir de nuevo";} })
+      .catch(function(){ if(btn){btn.disabled=false;btn.innerHTML="\ud83d\udd2e Predecir mi dinero";} if(box){box.style.display="block";box.innerHTML='<p class="why">Bridge28 no pudo obtener los números ahora \u2014 inténtalo en un momento.</p>';} });
+  }
+
   var biz = document.getElementById("biz"), empty = document.getElementById("empty");
   if (!stack.length) {
     biz.style.display = "none"; empty.hidden = false;
   } else {
     for (var i = 0; i < stack.length; i++) {
-      var w = WAYS[stack[i]];
-      var d = document.createElement("div"); d.className = "bcard";
-      var b = document.createElement("b"); b.textContent = w.name; d.appendChild(b);
-      var s = document.createElement("span"); s.textContent = "Listo para funcionar. Te quedas con el 88%."; d.appendChild(s);
-      var a = document.createElement("a"); a.href = w.href; a.textContent = w.cta + " →"; d.appendChild(a);
+      var it = stack[i];
+      var d = document.createElement("div"); d.className = "bcard"; d.id = "li-" + it.id;
+      var b = document.createElement("b"); b.textContent = it.text; d.appendChild(b);
+      var s = document.createElement("span"); s.textContent = "Tu idea. Hazte Pro y la construimos y manejamos - te quedas con el 88%."; d.appendChild(s);
+      var pb = document.createElement("button"); pb.type="button"; pb.className="pbtn"; pb.innerHTML = it.pred ? "\ud83d\udd02 Predecir de nuevo" : "\ud83d\udd2e Predecir mi dinero";
+      (function(id){ pb.addEventListener("click", function(){ predict(id); }); })(it.id);
+      d.appendChild(pb);
+      var pred = document.createElement("div"); pred.className="pred"; d.appendChild(pred);
       biz.appendChild(d);
+      if (it.pred) { showPred(d, it.pred); }
     }
   }
 })();
