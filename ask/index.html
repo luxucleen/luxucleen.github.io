@@ -116,6 +116,7 @@
     <div class="deal"><span>You keep <b>88%</b></span><span>We keep <b>12%</b></span><span><b>We</b> do the work</span><span><b>Written</b> agreement first</span></div>
     <div id="blog" class="log" aria-live="polite"></div>
     <div class="row">
+      <input id="bname" type="text" autocomplete="name" required aria-label="Your name" placeholder="Your name" style="flex:1 1 100%">
       <input id="bemail" type="email" autocomplete="email" inputmode="email" required aria-label="Your email" placeholder="Your email - we send your plan and files here" style="flex:1 1 100%">
       <input id="bidea" type="text" autocomplete="off" spellcheck="false"
              aria-label="Your business idea"
@@ -289,13 +290,15 @@
   function plan(){
     var i = (bidea.value || "").trim();
     var em = ((document.getElementById("bemail")||{}).value || "").trim();
+    var nm = ((document.getElementById("bname")||{}).value || "").trim();
+    if (!nm) { document.getElementById("bname").focus(); badd("bot", "Add your name first."); return; }
     if (!validEmail(em)) { document.getElementById("bemail").focus(); badd("bot", "Add your email first - that is where we send your plan and files."); return; }
     if (!i) { bidea.focus(); return; }
     badd("you", i);
     bplan.disabled = true;
     var pending = badd("bot", "…");
     fetch(API, {method: "POST", headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({mode: "build", q: i, lang: LANG, email: em})})
+                body: JSON.stringify({mode: "build", q: i, lang: LANG, email: em, name: nm})})
       .then(function(r){ if (!r.ok) { throw new Error("status"); } return r.json(); })
       .then(function(d){ pending.textContent = (d && d.answer) ? d.answer : SETUP; playVoice(d); })
       .catch(function(){ pending.textContent = SETUP; })
