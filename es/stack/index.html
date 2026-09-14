@@ -72,6 +72,19 @@
   .pred .grw.medium{background:rgba(233,181,58,.18);color:#e9b53a}
   .pred .grw.hard{background:rgba(240,115,111,.16);color:#f0736f}
   .pred .why{color:var(--dim);font-size:13px;margin-top:6px;line-height:1.5}
+  .pbtn.build{background:var(--accent);color:#fff;border-color:var(--accent);margin-left:8px}
+  .pbtn.build:hover{background:var(--accent2)}
+  .gate{position:fixed;inset:0;z-index:2147483400;background:rgba(3,6,12,.8);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:18px}
+  .gate[hidden]{display:none}
+  .gcard{background:radial-gradient(700px 300px at 15% -20%,#123020,#0b0e14 60%);border:1px solid #1e3a2a;border-radius:16px;max-width:420px;width:100%;padding:24px 20px;color:#e6e9ee;position:relative;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+  .gcard h3{color:#fff;margin:6px 0 8px;font-size:21px}
+  .gcard p{color:#a9c0b3;font-size:14px;margin:0 0 12px;line-height:1.5}
+  .gcard .gbuy{display:inline-block;background:linear-gradient(135deg,#37d67a,#2bb768);color:#03140a;border-radius:12px;padding:14px 22px;font-weight:800;font-size:16px;text-decoration:none}
+  .gcard .gfine{font-size:12px;color:#8aa093;margin-top:12px}
+  .gcard .gfine a{color:#37d67a;font-weight:700}
+  .gcard .gx{position:absolute;top:10px;right:12px;background:transparent;border:0;color:#8aa093;font-size:26px;cursor:pointer;line-height:1}
+  .gcard .kick{display:inline-flex;align-items:center;gap:8px;font:800 11px/1 ui-monospace,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:#37d67a;margin-bottom:4px}
+  .gcard .kick i{width:8px;height:8px;border-radius:50%;background:#37d67a;box-shadow:0 0 10px #37d67a;display:inline-block}
   .pro{background:radial-gradient(900px 420px at 15% -10%,#123020 0%,#0b0e14 58%);border:1px solid #1e3a2a;border-radius:18px;padding:24px 22px 20px;color:#e6e9ee;box-shadow:0 0 0 1px rgba(55,214,122,.10),0 20px 60px rgba(0,0,0,.35);margin:26px 0;position:relative;overflow:hidden}
   .pro:before{content:"";position:absolute;inset:-45%;background:conic-gradient(from 0deg,transparent 0%,rgba(55,214,122,.16) 12%,transparent 30%,rgba(43,183,104,.12) 62%,transparent 78%);animation:pspin 18s linear infinite;pointer-events:none}
   @keyframes pspin{to{transform:rotate(360deg)}}
@@ -184,6 +197,19 @@
     <a href="mailto:hello@luxucleen.com?subject=Luxucleen%20pila">hello@luxucleen.com</a>.</li>
   </ul>
 </main>
+
+<div id="gate" class="gate" hidden>
+  <div class="gcard">
+    <button class="gx" id="gx" type="button" aria-label="Cerrar">&times;</button>
+    <div class="kick"><i></i>Luxucleen Pro</div>
+    <h3>Suscr&iacute;bete para construir tu pila</h3>
+    <p>Apilar tus ideas y predecir el dinero son <b>gratis</b>. Para que Luxucleen realmente <b>construya y maneje</b>
+    un negocio de tu pila, desbloquea Pro por <b>$8/mes</b> &mdash; te quedas con el 88%, nosotros el 12%.</p>
+    <a class="gbuy" href="https://djbrightfuture.gumroad.com/l/jxmhl" target="_blank" rel="noopener">Suscribirme &mdash; $8/mes &rarr;</a>
+    <p class="gfine">Cancela cuando quieras. Un acuerdo por escrito primero; cada negocio lo construye y revisa una persona.
+    <a href="/es/agreements/#build">Lee el acuerdo</a>.</p>
+  </div>
+</div>
 
 <footer class="wrap">
   <div class="fmap">
@@ -310,6 +336,9 @@
       pb.innerHTML = it.pred ? "🔂 Predecir de nuevo" : "🔮 Predecir mi dinero";
       (function(id){ pb.addEventListener("click", function(){ predict(id); }); })(it.id);
       body.appendChild(pb);
+      var bb = document.createElement("button"); bb.type="button"; bb.className="pbtn build"; bb.innerHTML = "\ud83d\udd28 Construir esto";
+      bb.addEventListener("click", showGate);
+      body.appendChild(bb);
       var pred = document.createElement("div"); pred.className="pred"; body.appendChild(pred);
       head.appendChild(body);
       var rb = document.createElement("button"); rb.type="button"; rb.className="rm"; rb.setAttribute("aria-label","Quitar"); rb.textContent="×";
@@ -334,6 +363,10 @@
       } else { mailWrap.style.display = "none"; }
     }
   }
+  var gate = document.getElementById("gate");
+  function showGate(){ if (gate) { gate.hidden = false; } }
+  function closeGate(){ if (gate) { gate.hidden = true; } }
+  (function(){ var gx = document.getElementById("gx"); if (gx) { gx.addEventListener("click", closeGate); } if (gate) { gate.addEventListener("click", function(e){ if (e.target === gate) { closeGate(); } }); } })();
   render();
 
   addBtn.addEventListener("click", function(){ add(input.value); input.focus(); });
