@@ -206,17 +206,24 @@
     return d;
   }
   function nonce(){ return Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
+  /* rotate a counter so every refresh shows/speaks the NEXT money-way */
+  function nextSlot(){ var n = 0; try { n = parseInt(localStorage.getItem("lux_idea_slot") || "-1", 10) + 1; if (!(n >= 0)) { n = 0; } localStorage.setItem("lux_idea_slot", String(n)); } catch (e) { n = Math.floor(Math.random() * 1000); } return n; }
+  /* pre-rendered Bella+Liam (Kokoro) clip for the shown idea - free, no cap; first load may need one tap (browser autoplay rule) */
+  var player = null, pendingUrl = null, armed = false;
+  function armGesture(){ if (armed) { return; } armed = true; var go = function(){ armed = false; var u = pendingUrl; pendingUrl = null; if (u && player) { try { player.src = u; player.play(); } catch (e) {} } }; document.addEventListener("click", go, {once: true}); document.addEventListener("touchstart", go, {once: true}); }
+  function playClip(url){ if (!url) { return; } try { if (!player) { player = new Audio(); } player.src = url; var p = player.play(); if (p && p.catch) { p.catch(function(){ pendingUrl = url; armGesture(); }); } } catch (e) { pendingUrl = url; armGesture(); } }
   function idea(){
     var angle = ANGLES[Math.floor(Math.random() * ANGLES.length)];
     var pending = add("bot", "…");
     more.disabled = true;
     fetch(API, {method: "POST", headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({mode: "idea", angle: angle, nonce: nonce(), lang: LANG})})
+                body: JSON.stringify({mode: "idea", angle: angle, nonce: nonce(), slot: nextSlot(), lang: LANG})})
       .then(function(r){ if (!r.ok) { throw new Error("status"); } return r.json(); })
       .then(function(d){
         var t = (d && d.answer) ? d.answer : SETUP;
         pending.textContent = t;
         lastIdea = t;
+        if (d && d.audio_url) { playClip(d.audio_url); }
         if (!box.value.trim()) { box.value = FOLLOW; }   /* Send now explores this way; they can still type anything */
       })
       .catch(function(){ pending.textContent = SETUP; })
