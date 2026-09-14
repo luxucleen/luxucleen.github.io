@@ -11,7 +11,7 @@
   --green:#2ec27e; --green2:#38d98d; --gold:#f2c14e; --line:rgba(255,255,255,.09);
 }
 *{box-sizing:border-box}
-body.hub{margin:0;color:var(--ink);background:#070a10;
+body.hub{margin:0;color:var(--ink);background:#16181d;
   background-image:
     radial-gradient(1100px 620px at 50% -180px,rgba(46,194,126,.30) 0%,rgba(46,194,126,0) 62%),
     radial-gradient(760px 460px at 108% 8%,rgba(242,193,78,.12) 0%,rgba(242,193,78,0) 60%),
@@ -39,7 +39,7 @@ body.hub .fine a{color:var(--green)}   /* only the fine-print links carry the bl
 .ring{width:104px;height:104px;border-radius:50%;margin:0 auto 16px;padding:3px;position:relative;
   background:conic-gradient(from 0deg,var(--green),var(--gold),#38c8ff,var(--green));
   box-shadow:0 0 0 7px rgba(46,194,126,.08),0 22px 50px rgba(0,0,0,.55);animation:spin 14s linear infinite}
-.ring span{display:grid;place-items:center;width:100%;height:100%;border-radius:50%;background:#070a10;
+.ring span{display:grid;place-items:center;width:100%;height:100%;border-radius:50%;background:#16181d;
   font-size:46px;font-weight:900;color:#fff;letter-spacing:-1px;animation:spin 14s linear infinite reverse}
 .id h1{font-size:33px;line-height:1.12;margin:0 0 8px;letter-spacing:-.6px;
   background:linear-gradient(180deg,#fff 30%,#c8d2e0);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
@@ -122,3 +122,14 @@ body.hub .fine a{color:var(--green)}   /* only the fine-print links carry the bl
 @keyframes spin{to{transform:rotate(360deg)}}
 @media(max-width:420px){.id h1{font-size:28px}.ring{width:92px;height:92px}.ring span{font-size:40px}.lk{padding:14px}.ic{width:42px;height:42px;flex-basis:42px;border-radius:12px}}
 @media(prefers-reduced-motion:reduce){.id,.group,.ring,.ring span{animation:none}}
+
+/* LIGHT is the secondary theme (header toggle). The hub is dark-premium by default; this keeps it usable in light. */
+:root[data-theme="light"] body.hub{background:#f4f6fb;color:#1a2230;
+  background-image:radial-gradient(1100px 620px at 50% -180px,rgba(46,194,126,.14),transparent 62%)}
+:root[data-theme="light"] body.hub::before{display:none}
+:root[data-theme="light"] .hbrand,:root[data-theme="light"] .id h1,:root[data-theme="light"] .lk b{color:#111621;-webkit-text-fill-color:currentColor}
+:root[data-theme="light"] .lk{background:#fff;border-color:#e4e8ef;color:#1a2230;box-shadow:0 6px 20px rgba(0,0,0,.06)}
+:root[data-theme="light"] .lk span,:root[data-theme="light"] .id .tag,:root[data-theme="light"] .group h2,:root[data-theme="light"] .hnav a{color:#5c6675}
+:root[data-theme="light"] .ring span{background:#f4f6fb;color:#111621}
+:root[data-theme="light"] .fine,:root[data-theme="light"] .hfoot,:root[data-theme="light"] .fine p{color:#5c6675}
+:root[data-theme="light"] .fine strong,:root[data-theme="light"] .fine h2{color:#111621}

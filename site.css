@@ -7,14 +7,35 @@
    side padding and puts the text flush against the edge of a phone screen. That bug was
    live on this site once. Measured, fixed, and kept fixed. */
 
+/* DARK by default (dark charcoal, not black), with soft floating light orbs. Light stays as the toggle
+   (data-theme="light"). The header button flips it and it is remembered. */
 :root{
+  --ink:#e7ebf1; --dim:#9fb0c3; --line:#2a3040; --bg:#16181d; --soft:#1b1f27;
+  --accent:#37d67a; --accent2:#2bb768; --warm:#f0a94a; --warmbg:#241d10;
+}
+:root[data-theme="light"]{
   --ink:#111621; --dim:#5c6675; --line:#e4e8ef; --bg:#fff; --soft:#f7f9fc;
   --accent:#186a45; --accent2:#0f4b31; --warm:#7a5a12; --warmbg:#fdf8ec;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--ink);
+html{scroll-behavior:smooth;background:var(--bg)}
+body{margin:0;background:transparent;color:var(--ink);
      font:16px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+/* floating light orbs - a fixed layer behind everything (hidden on the light theme) */
+body::before{content:"";position:fixed;inset:-12%;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(38vmax 38vmax at 18% 22%, rgba(43,232,255,.16), transparent 60%),
+    radial-gradient(32vmax 32vmax at 82% 28%, rgba(124,92,255,.15), transparent 60%),
+    radial-gradient(36vmax 36vmax at 72% 82%, rgba(55,214,122,.13), transparent 62%),
+    radial-gradient(26vmax 26vmax at 26% 86%, rgba(240,169,74,.12), transparent 62%);
+  filter:blur(10px);animation:luxorbs 36s ease-in-out infinite alternate}
+@keyframes luxorbs{0%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(2.5%,-2%,0) scale(1.07)}100%{transform:translate3d(-2%,2.5%,0) scale(1.04)}}
+:root[data-theme="light"] body::before{opacity:0}
+@media (prefers-reduced-motion:reduce){body::before{animation:none}}
+/* the header theme toggle */
+.themebtn{margin-left:8px;background:transparent;border:1px solid var(--line);color:var(--dim);
+     border-radius:999px;width:34px;height:34px;cursor:pointer;font-size:15px;line-height:1;padding:0}
+.themebtn:hover{border-color:var(--accent);color:var(--accent)}
 .wrap{max-width:880px;margin:0 auto;padding:0 22px}
 header{border-bottom:1px solid var(--line);background:var(--soft)}
 .bar{display:flex;align-items:center;gap:14px;padding-top:14px;padding-bottom:14px;flex-wrap:wrap}
@@ -57,7 +78,7 @@ a{color:var(--accent)}
 
 /* the smaller doors */
 .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin:18px 0}
-.tile{display:block;border:1px solid var(--line);border-radius:12px;padding:16px;background:#fff;
+.tile{display:block;border:1px solid var(--line);border-radius:12px;padding:16px;background:var(--soft);
       text-decoration:none;color:var(--ink)}
 .tile:hover{border-color:var(--accent)}
 .tile b{display:block;margin-bottom:4px}
@@ -80,9 +101,9 @@ a{color:var(--accent)}
 .biglink span{display:block;font-weight:400;color:var(--dim);font-size:14px;margin-top:3px;word-break:break-all}
 
 .note{border-left:3px solid var(--accent);background:var(--soft);padding:12px 16px;border-radius:0 8px 8px 0;color:var(--dim)}
-.risk{border:1px solid #e6d7ad;border-left:4px solid var(--warm);background:var(--warmbg);
-      padding:14px 16px;border-radius:0 8px 8px 0;color:#5c4a1c;margin:20px 0;font-size:15px}
-.risk b{color:#4a3a12}
+.risk{border:1px solid var(--warm);border-left:4px solid var(--warm);background:var(--warmbg);
+      padding:14px 16px;border-radius:0 8px 8px 0;color:var(--ink);margin:20px 0;font-size:15px}
+.risk b{color:var(--warm)}
 
 .steps{list-style:none;margin:18px 0;padding:0;counter-reset:step}
 .steps li{counter-increment:step;position:relative;padding-left:44px;margin:0 0 18px}
@@ -109,10 +130,10 @@ dd{margin:2px 0 0;color:var(--dim)}
 .msg{border-radius:10px;padding:10px 14px;margin:0 0 10px;font-size:15px;line-height:1.6;
      white-space:pre-wrap;word-wrap:break-word}
 .msg.you{background:var(--accent);color:#fff}
-.msg.bot{background:#fff;border:1px solid var(--line);color:var(--ink)}
+.msg.bot{background:var(--soft);border:1px solid var(--line);color:var(--ink)}
 .row{display:flex;gap:10px;flex-wrap:wrap}
 .row input{flex:1 1 200px;min-width:0;border:1px solid var(--line);border-radius:9px;
-     padding:12px 14px;font-size:16px;font-family:inherit;color:var(--ink);background:#fff}
+     padding:12px 14px;font-size:16px;font-family:inherit;color:var(--ink);background:var(--soft)}
 .row input:focus{outline:2px solid var(--accent);outline-offset:-2px}
 .row button{background:var(--accent);color:#fff;border:0;border-radius:9px;padding:12px 24px;
      font-size:16px;font-weight:700;font-family:inherit;cursor:pointer}
