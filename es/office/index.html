@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="es">
+<head>
+<script>/*lux-lang-router*/(function(){try{if(localStorage.getItem("lux_theme")==="light"){document.documentElement.setAttribute("data-theme","light");}}catch(e){}try{var E={"/":1,"/ask/":1,"/stack/":1,"/taxes/":1,"/office/":1,"/real-estate/":1,"/trading/":1,"/contact/":1,"/community/":1};var p=location.pathname.replace(/index\.html$/,"");if(p.charAt(p.length-1)!=="/"&&p.indexOf(".")<0)p+="/";if(p==="")p="/";var onES=p.indexOf("/es/")===0||p==="/es"||p==="/es/";var s=null;try{s=localStorage.getItem("lux_lang");}catch(e){}var pref=s;if(!pref){var l=(navigator.language||(navigator.languages&&navigator.languages[0])||"en").toLowerCase();pref=l.indexOf("es")===0?"es":"en";}if(pref==="es"&&!onES){if(E[p])location.replace("/es"+(p==="/"?"/":p));}else if(pref==="en"&&onES){location.replace(p.replace(/^\/es/,"")||"/");}}catch(e){}try{document.addEventListener("DOMContentLoaded",function(){var a=document.querySelectorAll("a[hreflang],a.lang");for(var i=0;i<a.length;i++){a[i].addEventListener("click",function(){try{var h=this.getAttribute("href")||"";localStorage.setItem("lux_lang",(h.indexOf("/es/")===0||h==="/es"||h==="/es/")?"es":"en");}catch(e){}});}});}catch(e){}})();</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tu oficina &mdash; Luxucleen</title>
+<meta name="description" content="Tu oficina de Luxucleen: un solo lugar para ver y manejar cada negocio que apilaste, hacer tus impuestos, tener tu enlace de afiliado y cobrar tu 88%. Tu propio espacio, igual que el nuestro.">
+<meta name="robots" content="noindex,follow">
+<link rel="stylesheet" href="/site.css">
+<link rel="canonical" href="https://luxucleen.com/es/office/">
+<link rel="alternate" hreflang="en" href="https://luxucleen.com/office/">
+<link rel="alternate" hreflang="es" href="https://luxucleen.com/es/office/">
+<style>
+  .who{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:6px 0 0}
+  .who .badge{background:var(--accent);color:#fff;border-radius:999px;padding:4px 12px;font-size:13px;font-weight:800}
+  .who .badge.free{background:var(--warm);color:#231a05}
+  .biz{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin:16px 0}
+  .bcard{border:1px solid var(--line);border-radius:12px;padding:16px;background:var(--soft);display:flex;flex-direction:column}
+  .bcard b{font-size:16px}
+  .bcard span{color:var(--dim);font-size:14px;flex:1 1 auto;margin:4px 0 12px}
+  .bcard a{background:var(--accent);color:#fff;text-decoration:none;border-radius:9px;padding:9px 14px;font-size:14px;font-weight:700;align-self:flex-start}
+  .bcard a:hover{background:var(--accent2)}
+  .acts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:14px 0}
+  .act{display:block;border:1px solid var(--line);border-radius:12px;padding:16px;background:var(--soft);text-decoration:none;color:var(--ink)}
+  .act:hover{border-color:var(--accent)}
+  .act b{display:block;font-size:15px}
+  .act span{display:block;color:var(--dim);font-size:13px;margin-top:3px}
+  .pay{background:radial-gradient(700px 300px at 12% -20%,#123020 0%,#0b0e14 60%);border:1px solid #1e3a2a;border-radius:16px;padding:20px;color:#e6e9ee;margin:20px 0}
+  .pay h2{color:#fff;border:0;padding:0;margin:0 0 6px;font-size:19px}
+  .pay p{color:#a9c0b3;margin:0 0 10px}
+  .pay .buy{display:inline-block;background:linear-gradient(135deg,#37d67a,#2bb768);color:#03140a;border:0;border-radius:12px;padding:12px 18px;font-weight:800;text-decoration:none}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="/es/">Luxu<span>cleen</span> LLC</a>
+    <nav>
+      <a href="/es/office/" class="here">Oficina</a>
+      <a href="/es/stack/">Pila</a>
+      <a href="/es/taxes/">Impuestos</a>
+      <a href="/es/ask/">Preguntar</a>
+      <a href="/es/store/">Tienda</a>
+      <a href="/es/contact/">Contacto</a>
+      <a class="lang" href="/office/" hreflang="en" lang="en">English</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <p class="crumb"><a href="/es/">Luxucleen LLC</a> &rsaquo; Tu oficina</p>
+
+  <section class="hero">
+    <h1 id="hi">Tu oficina</h1>
+    <p class="lede" id="sub">Un solo lugar para ver y manejar todo lo que construyes con Luxucleen &mdash; tus negocios,
+    tus impuestos, tu enlace de afiliado y tu dinero. Te quedas con el 88%.</p>
+    <div class="who" id="who"></div>
+  </section>
+
+  <h2>Tus negocios</h2>
+  <div class="biz" id="biz"></div>
+  <p id="empty" class="note" hidden>A&uacute;n no has apilado un negocio. <a href="/es/stack/">Crea tu pila &rarr;</a> &mdash; agrega los que quieras, gratis.</p>
+
+  <h2>Haz m&aacute;s</h2>
+  <div class="acts">
+    <a class="act" href="/es/stack/"><b>+ Agrega un negocio</b><span>Apila otra fuente de ingreso.</span></a>
+    <a class="act" href="/es/ask/"><b>Construye uno nuevo con IA</b><span>Escribe una idea, la construimos.</span></a>
+    <a class="act" href="/es/taxes/"><b>Haz mis impuestos</b><span>Impuestos con IA, m&aacute;s barato que TurboTax.</span></a>
+    <a class="act" href="/affiliates/"><b>Mi enlace de afiliado</b><span>Gana con lo que ya vendemos.</span></a>
+    <a class="act" href="/es/trading/"><b>Trading y se&ntilde;ales</b><span>GRID28 y la sala en vivo.</span></a>
+    <a class="act" href="/es/contact/"><b>Habla con una persona</b><span>hello@luxucleen.com &middot; (804) 331-1128.</span></a>
+  </div>
+
+  <section class="pay" id="pay">
+    <h2>Cobra tu 88%</h2>
+    <p>Cada negocio que construimos y manejamos te paga el 88% de la ganancia, a tu manera &mdash; PayPal, Zelle, Cash App, banco y m&aacute;s. Hazte Pro para guardar tu oficina en cada dispositivo y que construyamos y manejemos toda tu pila.</p>
+    <a class="buy" href="https://djbrightfuture.gumroad.com/l/jxmhl" target="_blank" rel="noopener">Hazte Pro &mdash; $8/mes &rarr;</a>
+  </section>
+
+  <p class="small">Esta oficina se guarda en este dispositivo. Hazte Pro y te sigue a cada tel&eacute;fono y computadora.
+  &iquest;Preguntas? <a href="mailto:hello@luxucleen.com?subject=Mi%20oficina%20de%20Luxucleen">hello@luxucleen.com</a>.</p>
+</main>
+
+<footer class="wrap">
+  <div class="fmap">
+    <a href="/es/office/">Oficina</a>
+    <a href="/es/stack/">Pila</a>
+    <a href="/es/taxes/">Impuestos</a>
+    <a href="/es/ask/">Preguntar</a>
+    <a href="/es/store/">Tienda</a>
+    <a href="/es/contact/">Contacto</a>
+    <a href="/legal/">Legal</a>
+  </div>
+  &copy; 2026 Luxucleen LLC &middot; Midlothian, Virginia &middot; SCC Entity ID 11952713
+</footer>
+
+<script>
+(function(){
+  var WAYS = {
+    house:{name:"Vende una casa por efectivo", href:"/es/real-estate/", cta:"Abrir"},
+    surplus:{name:"Excedente de subasta", href:"/surplus/", cta:"Abrir"},
+    website:{name:"Un sitio web que vende", href:"/services/", cta:"Abrir"},
+    papers:{name:"Papeles de inmigración", href:"/papeles/", cta:"Abrir"},
+    work:{name:"Contrata o consigue trabajo", href:"/hire/", cta:"Abrir"},
+    build:{name:"Tu propio negocio (88%)", href:"/es/ask/#build", cta:"Constrúyelo"},
+    trading:{name:"Herramientas y señales", href:"/es/trading/", cta:"Abrir"},
+    affiliates:{name:"Comisiones de afiliado", href:"/affiliates/", cta:"Abrir"},
+    truek:{name:"Truek - compra/vende/cambia carro", href:"/truek/", cta:"Abrir"},
+    taxes:{name:"La IA hace tus impuestos", href:"/es/taxes/", cta:"Abrir"}
+  };
+  function ls(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }
+  var signed = ls("lux_signed") === "1";
+  var ws = ls("lux_workspace") || "";
+  var stack = []; try { stack = JSON.parse(ls("lux_stack") || "[]") || []; } catch(e){ stack = []; }
+  stack = stack.filter(function(id){ return !!WAYS[id]; });
+
+  var who = document.getElementById("who");
+  if (signed) {
+    who.innerHTML = '<span class="badge">Espacio Pro</span>' + (ws ? '<span class="small">' + ws + '</span>' : '');
+    var hi = document.getElementById("hi"); if (hi) { hi.textContent = "Bienvenido de nuevo a tu oficina"; }
+  } else {
+    who.innerHTML = '<span class="badge free">Gratis &mdash; en este dispositivo</span><a class="small" href="/es/stack/" style="color:var(--accent);font-weight:700">Hazte Pro para guardarla en todos lados &rarr;</a>';
+  }
+
+  var biz = document.getElementById("biz"), empty = document.getElementById("empty");
+  if (!stack.length) {
+    biz.style.display = "none"; empty.hidden = false;
+  } else {
+    for (var i = 0; i < stack.length; i++) {
+      var w = WAYS[stack[i]];
+      var d = document.createElement("div"); d.className = "bcard";
+      var b = document.createElement("b"); b.textContent = w.name; d.appendChild(b);
+      var s = document.createElement("span"); s.textContent = "Listo para funcionar. Te quedas con el 88%."; d.appendChild(s);
+      var a = document.createElement("a"); a.href = w.href; a.textContent = w.cta + " →"; d.appendChild(a);
+      biz.appendChild(d);
+    }
+  }
+})();
+</script>
+<script>/*lux-radio*/(function(){try{
+var STREAM="https://ice1.somafm.com/beatblender-128-mp3",BASE=0.05,DUCK=0.015;
+var a=new Audio();a.src=STREAM;a.preload="none";a.volume=BASE;
+var on=true;try{if(localStorage.getItem("lux_radio")==="off")on=false;}catch(e){}
+var btn=document.createElement("button");btn.type="button";btn.setAttribute("aria-label","Música de fondo");
+btn.style.cssText="position:fixed;right:14px;bottom:14px;z-index:2147483000;width:46px;height:46px;border-radius:50%;border:0;cursor:pointer;font-size:20px;line-height:46px;text-align:center;background:#0f5aa8;color:#fff;box-shadow:0 4px 14px rgba(0,0,0,.3);opacity:.9";
+function icon(){btn.textContent=on?"♪":"🔇";}
+function start(){if(!on)return;try{var p=a.play();if(p&&p.catch)p.catch(function(){});}catch(e){}}
+function stop(){try{a.pause();}catch(e){}}
+icon();
+btn.addEventListener("click",function(){on=!on;try{localStorage.setItem("lux_radio",on?"on":"off");}catch(e){}icon();if(on)start();else stop();});
+window.luxDuck=function(d){try{a.volume=d?DUCK:BASE;}catch(e){}};window.luxRadioStart=function(){if(on&&a.paused){start();}};
+window.luxRadioPlaying=function(){return on&&!a.paused;};try{if("mediaSession" in navigator){navigator.mediaSession.metadata=new MediaMetadata({title:"Luxucleen Radio",artist:"Deep house",album:"Luxucleen LLC"});navigator.mediaSession.setActionHandler("play",function(){on=true;try{localStorage.setItem("lux_radio","on");}catch(e){}icon();start();});navigator.mediaSession.setActionHandler("pause",function(){stop();});}}catch(e){}
+var armed=false;function arm(){if(armed)return;armed=true;var go=function(){document.removeEventListener("click",go);document.removeEventListener("touchstart",go);start();};document.addEventListener("click",go,{once:true});document.addEventListener("touchstart",go,{once:true});}
+function boot(){document.body.appendChild(btn);if(!window.luxVoicePage){arm();}}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
+}catch(e){}})();</script>
+<script>/*lux-theme*/(function(){try{
+function cur(){return document.documentElement.getAttribute("data-theme")==="light"?"light":"dark";}
+var b=document.createElement("button");b.type="button";b.setAttribute("aria-label","Cambiar tema claro u oscuro");
+b.style.cssText="position:fixed;right:14px;top:14px;z-index:2147483001;width:40px;height:40px;border-radius:50%;border:1px solid rgba(128,128,128,.35);cursor:pointer;font-size:18px;line-height:1;background:rgba(20,22,28,.55);color:#e7ebf1;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)";
+function icon(){b.textContent=cur()==="light"?"☾":"☀";}
+icon();
+b.addEventListener("click",function(){var next=cur()==="light"?"dark":"light";if(next==="light"){document.documentElement.setAttribute("data-theme","light");}else{document.documentElement.removeAttribute("data-theme");}try{localStorage.setItem("lux_theme",next);}catch(e){}icon();});
+function boot(){document.body.appendChild(b);}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
+}catch(e){}})();</script>
+</body>
+</html>

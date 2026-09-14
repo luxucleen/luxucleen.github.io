@@ -391,7 +391,7 @@
     if (!(em.indexOf("@") > 0 && em.lastIndexOf(".") > em.indexOf("@") + 1 && em.length > 5 && em.indexOf(" ") < 0)) { er.hidden = false; er.textContent = "Enter a valid business email."; se.focus(); return; }
     var go = $("su_go"); go.disabled = true; go.textContent = "Creating…"; er.hidden = true;
     post({mode: "signup", email: em, payout: (sp && sp.value) || "", payout_detail: (sd && sd.value) || "", lang: LANG})
-      .then(function(d){ if (d && d.ok) { try { localStorage.setItem("lux_signed", "1"); localStorage.setItem("lux_workspace", em); } catch (e) {} closeSignup(); build.disabled = false; out.className = "out show"; out.innerHTML = '<pre style="color:#37d67a">Workspace created for ' + em + '. Keep building your stack — you keep 88%.</pre>'; }
+      .then(function(d){ if (d && d.ok) { try { localStorage.setItem("lux_signed", "1"); localStorage.setItem("lux_workspace", em); } catch (e) {} closeSignup(); build.disabled = false; out.className = "out show"; out.innerHTML = '<pre style="color:#37d67a">Workspace created for ' + em + '. Your office is ready — you keep 88%.</pre><p><a href="/office/" style="color:#2be8ff;font-weight:800;text-decoration:none">Go to your office &rarr;</a></p>'; }
                         else { er.hidden = false; er.textContent = (d && d.error) ? d.error : "Could not create your workspace — try again."; } })
       .catch(function(){ er.hidden = false; er.textContent = "Could not reach the server — try again."; })
       .then(function(){ go.disabled = false; go.textContent = "Create my workspace →"; });
