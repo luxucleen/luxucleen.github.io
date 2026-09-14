@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+<script>/*lux-lang-router*/(function(){try{var E={"/":1,"/ask/":1,"/real-estate/":1,"/trading/":1,"/contact/":1,"/community/":1};var p=location.pathname.replace(/index\.html$/,"");if(p.charAt(p.length-1)!=="/"&&p.indexOf(".")<0)p+="/";if(p==="")p="/";var onES=p.indexOf("/es/")===0||p==="/es"||p==="/es/";var s=null;try{s=localStorage.getItem("lux_lang");}catch(e){}var pref=s;if(!pref){var l=(navigator.language||(navigator.languages&&navigator.languages[0])||"en").toLowerCase();pref=l.indexOf("es")===0?"es":"en";}if(pref==="es"&&!onES){if(E[p])location.replace("/es"+(p==="/"?"/":p));}else if(pref==="en"&&onES){location.replace(p.replace(/^\/es/,"")||"/");}}catch(e){}try{document.addEventListener("DOMContentLoaded",function(){var a=document.querySelectorAll("a[hreflang],a.lang");for(var i=0;i<a.length;i++){a[i].addEventListener("click",function(){try{var h=this.getAttribute("href")||"";localStorage.setItem("lux_lang",(h.indexOf("/es/")===0||h==="/es"||h==="/es/")?"es":"en");}catch(e){}});}});}catch(e){}})();</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Demo Barbershop &mdash; Hair Salon in Richmond</title>
@@ -100,5 +101,22 @@
   <span class="dim">This page is a draft prepared by Luxucleen LLC for the owner's review. It is not
   published anywhere and carries no tracking, no forms and no cookies.</span>
 </footer>
+<script>/*lux-radio*/(function(){try{
+var STREAM="https://ice1.somafm.com/beatblender-128-mp3",BASE=0.28,DUCK=0.08;
+var a=new Audio();a.src=STREAM;a.preload="none";a.volume=BASE;
+var on=true;try{if(localStorage.getItem("lux_radio")==="off")on=false;}catch(e){}
+var btn=document.createElement("button");btn.type="button";btn.setAttribute("aria-label","Background music on or off");
+btn.style.cssText="position:fixed;right:14px;bottom:14px;z-index:2147483000;width:46px;height:46px;border-radius:50%;border:0;cursor:pointer;font-size:20px;line-height:46px;text-align:center;background:#0f5aa8;color:#fff;box-shadow:0 4px 14px rgba(0,0,0,.3);opacity:.9";
+function icon(){btn.textContent=on?"\u266A":"\uD83D\uDD07";}
+function start(){if(!on)return;try{var p=a.play();if(p&&p.catch)p.catch(function(){});}catch(e){}}
+function stop(){try{a.pause();}catch(e){}}
+icon();
+btn.addEventListener("click",function(){on=!on;try{localStorage.setItem("lux_radio",on?"on":"off");}catch(e){}icon();if(on)start();else stop();});
+window.luxDuck=function(d){try{a.volume=d?DUCK:BASE;}catch(e){}};
+window.luxRadioPlaying=function(){return on&&!a.paused;};
+var armed=false;function arm(){if(armed)return;armed=true;var go=function(){document.removeEventListener("click",go);document.removeEventListener("touchstart",go);start();};document.addEventListener("click",go,{once:true});document.addEventListener("touchstart",go,{once:true});}
+function boot(){document.body.appendChild(btn);if(on){try{var p=a.play();if(p&&p.catch)p.catch(function(){arm();});}catch(e){arm();}}}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
+}catch(e){}})();</script>
 </body>
 </html>
