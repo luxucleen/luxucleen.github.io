@@ -100,9 +100,7 @@
   <section class="hero">
     <div class="orb" id="orb"></div>
     <h1>Ask me anything. <b>Then let me build it.</b></h1>
-    <p class="lede">I'm Bridge28, Luxucleen's AI. Every visit I show you a fresh way to make money with us, I answer out loud,
-    and I build your idea on the spot &mdash; a plan, a landing page, ads, an email, a checklist or an audio pitch.
-    Luxucleen can then build and run it for you: you keep 88%.</p>
+    <p class="lede" id="hook">Guess what &mdash; type your business idea below and I'll build it on the spot. A real business in minutes: we do the work and run it, you own it, and you keep 88%.</p>
   </section>
 
   <div class="grid">
@@ -172,6 +170,23 @@
   var lastIdea = "", turns = 0, pitched = false, voice = "both", ctype = "plan", player = null;   /* default: Bella + Liam, auto-speak the first idea */
   function other(v){ return v === "bella" ? "liam" : "bella"; }   /* two voices, like Bella and Liam */
 
+  var HOOKS = [
+    "Guess what &mdash; type your business idea below and I'll build it. A real business in minutes: we do the work and run it, you keep 88%.",
+    "You bring the idea. I build it, Luxucleen runs it, and you keep 88% &mdash; fair, because we do the work while you sit back.",
+    "Dream it below and watch it get built. A business in minutes, made by AI &mdash; you own it, we run it for 12%.",
+    "Type one line. Get a real plan, page and ads on the spot &mdash; then let us build and run the whole thing for 12%.",
+    "Sit back. You create the idea, we do all the work, you keep the lion's share: 88% yours, 12% ours.",
+    "What would you build if someone else did all the work? Type it below &mdash; we will, for 12% of the profits.",
+    "Your idea, our hands. A business in minutes, built and run for you. You own it and keep 88%.",
+    "Start a business without quitting your day. Type the idea, we build and run it, you keep 88%.",
+    "The AI that doesn't just talk &mdash; it builds. Drop your idea and we'll turn it into a real business you own.",
+    "You had the idea. Let us do the rest. We build it, run it, and keep only 12% &mdash; 88% stays yours.",
+    "A business tonight? Type your idea below. We handle everything; you own it and keep 88%.",
+    "No team, no code, no startup cash. Your idea plus our work = a business you own, 88% yours.",
+    "Tell me your idea in one sentence. I'll build the whole thing &mdash; you sit back, you own it, you keep 88%.",
+    "Guess what &mdash; the work is on us. You create the idea, we build and run the business, you keep 88%."
+  ];
+  function pickHook(){ var h = document.getElementById("hook"); if (h) { h.innerHTML = HOOKS[Math.floor(Math.random() * HOOKS.length)]; } }
   function post(body){
     return fetch(API, {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(body)})
       .then(function(r){ if (!r.ok) { throw new Error("status"); } return r.json(); });
@@ -227,6 +242,7 @@
   function nonce(){ return Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
 
   function idea(withVoice){
+    pickHook();
     var pending = add("bot", "…", "think"); more.disabled = true;
     post({mode: "idea", angle: ANGLES[Math.floor(Math.random() * ANGLES.length)], nonce: nonce(), lang: LANG, voice: withVoice ? (voice || false) : false})
       .then(function(d){ var t = (d && d.answer) ? d.answer : SETUP; lastIdea = t; typeInto(pending, t); if (!box.value.trim()) { box.value = FOLLOW; } playAny(d); })
