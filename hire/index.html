@@ -79,6 +79,13 @@
   </div>
 </footer>
 
+<script>/*lux-voice*/(function(){try{
+window.luxVoicePage=true;var player=null,armed=false;
+function done(){setTimeout(function(){if(window.luxRadioStart){window.luxRadioStart();}if(window.luxDuck){window.luxDuck(false);}},2000);}
+function arm(){if(armed)return;armed=true;var go=function(){document.removeEventListener("click",go);document.removeEventListener("touchstart",go);play();};document.addEventListener("click",go,{once:true});document.addEventListener("touchstart",go,{once:true});}
+function play(){try{if(!player){player=new Audio("audio/intro_en.mp3");player.addEventListener("ended",done);}if(window.luxDuck){window.luxDuck(true);}var p=player.play();if(p&&p.catch){p.catch(function(){if(window.luxDuck){window.luxDuck(false);}arm();});}}catch(e){arm();}}
+function boot(){play();}if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
+}catch(e){}})();</script>
 <script>/*lux-radio*/(function(){try{
 var STREAM="https://ice1.somafm.com/beatblender-128-mp3",BASE=0.05,DUCK=0.015;
 var a=new Audio();a.src=STREAM;a.preload="none";a.volume=BASE;
