@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Build a stack of businesses &mdash; Luxucleen</title>
-<meta name="description" content="Stack up businesses inside Luxucleen. Add as many as you want, free, no signup - sell a house, a website, immigration papers, trading, affiliates, or your own idea we build for you. Go Pro for $8/mo to save your whole stack and have us build and run all of them. The more you stack, the more you make.">
+<meta name="description" content="Build your own stack of businesses inside Luxucleen. Bring your ideas - Bridge28 sizes up the money potential and how hard each one is to grow. Free to build, no signup. Go Pro for $8/mo to save your stack and have us build and run them all. You keep 88%.">
 <meta name="robots" content="index,follow">
 <link rel="stylesheet" href="/site.css">
 <link rel="canonical" href="https://luxucleen.com/stack/">
@@ -15,12 +15,12 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://luxucleen.com/stack/">
 <meta property="og:title" content="Build a stack of businesses &mdash; Luxucleen">
-<meta property="og:description" content="Add as many businesses as you want, free, no signup. Go Pro for $8/mo to save your whole stack and have us build and run all of them.">
+<meta property="og:description" content="Bring your own business ideas. Bridge28 sizes up the money potential and how hard each is to grow. Free to build. Go Pro $8/mo - we build and run them, you keep 88%.">
 <meta property="og:site_name" content="Luxucleen LLC">
 <meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Build a stack of businesses &mdash; Luxucleen">
-<meta name="twitter:description" content="Add as many businesses as you want, free, no signup. Go Pro for $8/mo to save your whole stack.">
+<meta name="twitter:description" content="Bring your own ideas. Bridge28 predicts the money potential. Free to build. Go Pro $8/mo, you keep 88%.">
 <script type="application/ld+json">
 {
  "@context": "https://schema.org",
@@ -35,29 +35,48 @@
   .meter{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:6px 0 2px}
   .meter .n{font-size:34px;font-weight:800;color:var(--accent);line-height:1;font-variant-numeric:tabular-nums}
   .meter .cap{color:var(--dim);font-size:15px}
-  /* the picker: every way you can make money, tap to stack it */
-  .ways{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:16px 0}
-  .way{border:1px solid var(--line);border-radius:12px;padding:16px;background:var(--soft);display:flex;flex-direction:column}
-  .way b{font-size:16px;margin-bottom:4px}
-  .way span{color:var(--dim);font-size:14px;flex:1 1 auto}
-  .way button{margin-top:12px;background:var(--accent);color:#fff;border:0;border-radius:9px;padding:10px 14px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;align-self:flex-start}
-  .way button:hover{background:var(--accent2)}
-  .way.in{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
-  .way.in button{background:transparent;color:var(--accent);border:1px solid var(--accent)}
-  .way.hot{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent),0 0 26px rgba(55,214,122,.45)!important;animation:wayhot 1.1s ease-in-out 3}
-  @keyframes wayhot{50%{box-shadow:0 0 0 2px var(--accent),0 0 6px rgba(55,214,122,.25)}}
+  /* add your own idea */
+  .addrow{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0 6px}
+  .addrow input{flex:1 1 260px;min-width:0;background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:13px 14px;font-size:16px;color:inherit;font-family:inherit}
+  .addrow input:focus{outline:none;border-color:var(--accent)}
+  .addrow button{background:var(--accent);color:#fff;border:0;border-radius:10px;padding:13px 18px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;white-space:nowrap}
+  .addrow button:hover{background:var(--accent2)}
+  /* Bella + Liam idea spark */
+  .spark{border:1px dashed var(--line);border-radius:12px;padding:13px 15px;background:var(--soft);margin:8px 0 6px}
+  .spark .lbl{color:var(--accent);font-weight:800;font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+  .spark .txt{color:inherit;margin:7px 0 10px;font-size:15px}
+  .spark button{background:transparent;border:1px solid var(--line);color:var(--dim);border-radius:8px;padding:8px 12px;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;margin:0 8px 0 0}
+  .spark button.use{border-color:var(--accent);color:var(--accent)}
+  .spark button:hover{border-color:var(--accent)}
+  /* Bridge28 opens smart */
+  .b28{display:none;border:1px solid var(--accent);border-radius:12px;background:linear-gradient(135deg,rgba(55,214,122,.10),transparent);padding:12px 15px;margin:12px 0;font-size:14px;color:inherit}
+  .b28 b{color:var(--accent)}
   /* your stack */
-  .stackbox{border:1px solid var(--line);border-radius:14px;background:var(--soft);padding:18px;margin:18px 0}
+  .stackbox{border:1px solid var(--line);border-radius:14px;background:var(--soft);padding:18px;margin:14px 0}
   .empty{color:var(--dim);font-size:15px;margin:6px 0}
   .items{list-style:none;margin:8px 0 0;padding:0}
-  .item{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:0 0 10px;background:var(--bg)}
-  .item .txt{flex:1 1 220px;min-width:0}
-  .item .txt b{display:block;font-size:15px}
-  .item .txt span{display:block;color:var(--dim);font-size:13px}
-  .item a.go{background:var(--accent);color:#fff;text-decoration:none;border-radius:9px;padding:9px 14px;font-size:14px;font-weight:700;white-space:nowrap}
-  .item a.go:hover{background:var(--accent2)}
-  .item button.rm{background:transparent;border:1px solid var(--line);color:var(--dim);border-radius:9px;width:34px;height:34px;font-size:16px;cursor:pointer;line-height:1}
+  .item{border:1px solid var(--line);border-radius:12px;padding:13px 14px;margin:0 0 12px;background:var(--bg)}
+  .item .head{display:flex;align-items:flex-start;gap:12px}
+  .item .body{flex:1 1 auto;min-width:0}
+  .item .body b{display:block;font-size:15px;font-weight:700;word-wrap:break-word}
+  .item button.rm{flex:0 0 auto;background:transparent;border:1px solid var(--line);color:var(--dim);border-radius:9px;width:34px;height:34px;font-size:16px;cursor:pointer;line-height:1}
   .item button.rm:hover{border-color:var(--warm);color:var(--warm)}
+  .pbtn{background:transparent;border:1px solid var(--accent);color:var(--accent);border-radius:9px;padding:8px 13px;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;margin-top:10px}
+  .pbtn:hover{background:var(--accent);color:#fff}
+  .pbtn[disabled]{opacity:.6;cursor:default}
+  /* the prediction meter */
+  .pred{display:none;margin-top:12px}
+  .pred .track{height:12px;border-radius:7px;background:var(--line);overflow:hidden}
+  .pred .fill{height:100%;width:0;border-radius:7px;background:linear-gradient(90deg,#2bb768,#37d67a);transition:width 1s cubic-bezier(.2,.8,.2,1)}
+  .pred .nums{display:flex;gap:12px;flex-wrap:wrap;align-items:baseline;margin:10px 0 2px}
+  .pred .sc{font-size:24px;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;line-height:1}
+  .pred .sc small{font-size:13px;color:var(--dim);font-weight:600}
+  .pred .mon{font-weight:800}
+  .pred .grw{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;padding:4px 10px;border-radius:20px}
+  .pred .grw.easy{background:rgba(55,214,122,.18);color:#37d67a}
+  .pred .grw.medium{background:rgba(233,181,58,.18);color:#e9b53a}
+  .pred .grw.hard{background:rgba(240,115,111,.16);color:#f0736f}
+  .pred .why{color:var(--dim);font-size:13px;margin-top:6px;line-height:1.5}
   /* PRO - the dark upsell card */
   .pro{background:radial-gradient(900px 420px at 15% -10%,#123020 0%,#0b0e14 58%);border:1px solid #1e3a2a;border-radius:18px;padding:24px 22px 20px;color:#e6e9ee;box-shadow:0 0 0 1px rgba(55,214,122,.10),0 20px 60px rgba(0,0,0,.35);margin:26px 0;position:relative;overflow:hidden}
   .pro:before{content:"";position:absolute;inset:-45%;background:conic-gradient(from 0deg,transparent 0%,rgba(55,214,122,.16) 12%,transparent 30%,rgba(43,183,104,.12) 62%,transparent 78%);animation:pspin 18s linear infinite;pointer-events:none}
@@ -101,36 +120,51 @@
   <p class="crumb"><a href="/">Luxucleen LLC</a> &rsaquo; Build a stack of businesses</p>
 
   <section class="hero">
-    <h1>Build a stack of businesses</h1>
-    <p class="lede">Stack as many businesses as you want &mdash; free, no signup, right here. We build and run
-    each one; you keep the profit. <b>The more you stack, the more you make.</b></p>
+    <h1>Build a stack of businesses &mdash; your ideas</h1>
+    <p class="lede">This is your space. Add your own business ideas and stack as many as you want &mdash; free, no
+    signup. <b>Bridge28</b> sizes up each one: the money it could make, and how hard it is to grow. When you go
+    Pro, we build and run each one and you keep 88%. <b>The more you stack, the more you make.</b></p>
   </section>
 
-  <div class="meter"><span class="n" id="count">0</span><span class="cap" id="cap">businesses in your stack &mdash; start by adding one below</span></div>
+  <div class="meter"><span class="n" id="count">0</span><span class="cap" id="cap">businesses in your stack &mdash; add your first idea below</span></div>
 
-  <h2 id="add">1 &middot; Add a business to your stack</h2>
-  <p class="small">Tap any of these to stack it. Add as many as you like &mdash; nothing to sign up for.</p>
-  <div class="ways" id="ways"></div>
+  <h2 id="add">1 &middot; Add your business idea</h2>
+  <p class="small">Type any business you want to build. Add as many as you like &mdash; nothing to sign up for.</p>
+  <div class="addrow">
+    <input id="ideaInput" type="text" maxlength="200" placeholder="e.g. a mobile car-wash that comes to people at work" autocomplete="off">
+    <button type="button" id="addBtn">Add to my stack +</button>
+  </div>
+  <div class="spark" id="spark">
+    <div class="lbl">&#128161; Idea spark &mdash; Bella &amp; Liam</div>
+    <div class="txt" id="sparkTxt">Stuck? Tap below and we&rsquo;ll toss you a starter idea to get you going.</div>
+    <button type="button" id="sparkNew">Give me an idea</button>
+    <button type="button" class="use" id="sparkUse" style="display:none">Use this idea &rarr;</button>
+  </div>
+
+  <div class="b28" id="b28">
+    <b>Bridge28 is on your stack.</b> Tap <b>&#128302; Predict my money</b> on any idea and I&rsquo;ll size up the
+    money it could make and how hard it is to grow &mdash; based on demand and how crowded the market is.
+  </div>
 
   <h2 id="yours">2 &middot; Your stack</h2>
   <div class="stackbox">
-    <p class="empty" id="empty">Your stack is empty. Add your first business above &mdash; then a second, a third&hellip;</p>
+    <p class="empty" id="empty">Your stack is empty. Add your first idea above &mdash; then a second, a third&hellip;</p>
     <ul class="items" id="items"></ul>
     <div id="mailwrap" style="display:none;margin-top:12px">
       <a id="mailstack" href="#" style="display:inline-block;background:var(--accent);color:#fff;text-decoration:none;border-radius:9px;padding:11px 16px;font-weight:700">Email my stack to Luxucleen &rarr;</a>
-      <p class="small" style="margin-top:8px">Send us the businesses you stacked and we set them up. If you go Pro, do this right after you join.</p>
+      <p class="small" style="margin-top:8px">Send us the ideas you stacked and we set them up. If you go Pro, do this right after you join.</p>
     </div>
   </div>
 
   <section class="pro" id="pro">
     <div class="kick"><i></i>Luxucleen Pro</div>
     <h2>3 &middot; Go Pro &mdash; save your whole stack, we build them all</h2>
-    <p>Free is for building your stack on this device. <b>Pro</b> is for making money from it: sign up, save
-    your whole stack to your account so you never lose it, add it to from any phone, and we build and manage
+    <p>Free is for building your stack of ideas on this device. <b>Pro</b> is for making money from it: sign up,
+    save your whole stack to your account so you never lose it, add to it from any phone, and we build and manage
     every business in it for you.</p>
     <p class="price">$8<small> / month</small></p>
     <ul>
-      <li>Your whole stack saved to your account &mdash; on every device.</li>
+      <li>Your whole stack of ideas saved to your account &mdash; on every device.</li>
       <li>We build and run each business in your stack &mdash; app, site, marketing.</li>
       <li>You keep <b>88%</b> of the profit, paid to you every month; we keep 12%.</li>
       <li>No money upfront on the build, a written agreement first.</li>
@@ -144,8 +178,11 @@
 
   <h2 id="about">What this is</h2>
   <ul>
-    <li>Luxucleen is a company of businesses that help people make, save or keep more money. This page lets you
-    pick the ones you want and <b>stack</b> them &mdash; each one routes you to the right place to start it.</li>
+    <li>This is your own space to <b>stack your business ideas</b>. Bring as many as you want; we work for you and
+    build the ones you choose to go Pro on.</li>
+    <li><b>Bridge28</b> gives each idea an honest read &mdash; a rough money potential and whether it looks easy or
+    hard to grow, based on demand and how crowded the market is. It is an estimate to help you think, never a
+    promise of income.</li>
     <li>Building your stack is free and needs no account, no cookie and no tracking. Your stack is saved only on
     this device until you go Pro.</li>
     <li>It does not give financial, legal or tax advice, and it will not tell you what to trade. Trading involves
@@ -175,68 +212,123 @@
 <script>
 (function(){
   window.luxVoicePage = true;
-  var WAYS = [
-    {id:"house",      name:"Sell a house for cash",        line:"Any condition, close on your date - no repairs, no agent fees.", href:"/real-estate/", cta:"Start this one"},
-    {id:"surplus",    name:"Claim tax-sale surplus",       line:"A county may owe a former owner money after a tax sale. We help you claim it.", href:"/surplus/", cta:"Start this one"},
-    {id:"website",    name:"A website that sells",         line:"A clean one-page site that brings a small business customers - pay only if you keep it.", href:"/services/", cta:"Start this one"},
-    {id:"papers",     name:"Immigration papers",           line:"A licensed attorney in your state, your papers organized, the legal way.", href:"/papeles/", cta:"Start this one"},
-    {id:"work",       name:"Get hired, or hire workers",   line:"We match employers and workers, fast.", href:"/hire/", cta:"Start this one"},
-    {id:"build",      name:"Build your own business",      line:"Bring your idea - we build the app, site and marketing. You keep 88%.", href:"/ask/#build", cta:"Plan &amp; send your idea"},
-    {id:"trading",    name:"Trading tools &amp; signals",  line:"GRID28 runs on your own MetaTrader. 18+, involves risk, not advice.", href:"/trading/", cta:"Start this one"},
-    {id:"affiliates", name:"Earn affiliate commissions",   line:"Share what we already sell, earn on every sale, paid automatically.", href:"/affiliates/", cta:"Start this one"},
-    {id:"truek",      name:"Truek - buy, sell, trade a car",line:"Swap car for car with cash on top, in Puerto Rico. Our AI writes your ad.", href:"/truek/", cta:"Join the waitlist"},
-    {id:"taxes",      name:"AI does your taxes",           line:"Your yearly taxes with AI - cheaper than TurboTax, built for people who run a business.", href:"/taxes/", cta:"Do my taxes"}
-  ];
-  var BYID = {}; for (var w=0; w<WAYS.length; w++){ BYID[WAYS[w].id] = WAYS[w]; }
+  var AI = "https://ai.luxucleen.com/ask";
   var KEY = "lux_stack";
-  function load(){ try { var s = JSON.parse(localStorage.getItem(KEY) || "[]"); return (s && s.length) ? s.filter(function(id){ return !!BYID[id]; }) : []; } catch (e) { return []; } }
+  var SPARKS = [
+    "A mobile car-detailing service that comes to people at their office.",
+    "A weekend meal-prep service for busy gym-goers.",
+    "A senior tech-help service - setting up phones, TVs and wifi for older folks.",
+    "A pressure-washing service for driveways, patios and sidewalks.",
+    "A social-media manager for local restaurants and salons.",
+    "A pet-waste cleanup service for people with backyards.",
+    "A notary and document-running service for small businesses.",
+    "An Airbnb turnover-cleaning service for local hosts.",
+    "A bookkeeping service just for solo contractors.",
+    "A resume and LinkedIn makeover service.",
+    "A subscription box for a hobby you already love.",
+    "A monthly lawn-care route in one neighborhood.",
+    "A same-day errand service for busy professionals.",
+    "A phone-repair service that comes to the customer.",
+    "A junk-hauling and clean-out service for small moves."
+  ];
+  function uid(){ return "i" + Math.random().toString(36).slice(2, 9); }
+  function load(){
+    try {
+      var s = JSON.parse(localStorage.getItem(KEY) || "[]");
+      if (!s || !s.length) return [];
+      var out = [];
+      for (var i=0;i<s.length;i++){ var it=s[i];
+        if (typeof it === "string") continue;               // drop old preset ids
+        if (it && it.text){ out.push({ id: it.id || uid(), text: String(it.text).slice(0,200), pred: it.pred || null }); }
+      }
+      return out;
+    } catch (e) { return []; }
+  }
   function save(a){ try { localStorage.setItem(KEY, JSON.stringify(a)); } catch (e) {} }
   var stack = load();
-  var waysEl = document.getElementById("ways");
+
+  var input = document.getElementById("ideaInput");
+  var addBtn = document.getElementById("addBtn");
   var itemsEl = document.getElementById("items");
   var emptyEl = document.getElementById("empty");
   var countEl = document.getElementById("count");
   var capEl = document.getElementById("cap");
+  var b28El = document.getElementById("b28");
   var proH = document.querySelector("#pro h2");
   var mailWrap = document.getElementById("mailwrap");
   var mailBtn = document.getElementById("mailstack");
-  function plain(html){ var t = document.createElement("div"); t.innerHTML = html; return (t.textContent || t.innerText || "").trim(); }
-  function has(id){ return stack.indexOf(id) >= 0; }
-  function add(id){ if (!has(id)) { stack.push(id); save(stack); render(); } }
-  function rm(id){ var i = stack.indexOf(id); if (i >= 0) { stack.splice(i,1); save(stack); render(); } }
-  function renderWays(){
-    waysEl.innerHTML = "";
-    for (var i=0; i<WAYS.length; i++){
-      var wy = WAYS[i];
-      var d = document.createElement("div"); d.className = "way" + (has(wy.id) ? " in" : ""); d.id = "way-" + wy.id;
-      var b = document.createElement("b"); b.innerHTML = wy.name; d.appendChild(b);
-      var s = document.createElement("span"); s.innerHTML = wy.line; d.appendChild(s);
-      var btn = document.createElement("button"); btn.type = "button";
-      btn.textContent = has(wy.id) ? "In your stack ✓" : "Add to stack +";
-      (function(id){ btn.addEventListener("click", function(){ if (has(id)) { rm(id); } else { add(id); } }); })(wy.id);
-      d.appendChild(btn); waysEl.appendChild(d);
-    }
+  var sparkTxt = document.getElementById("sparkTxt");
+  var sparkUse = document.getElementById("sparkUse");
+  var esc = function(t){ var d=document.createElement("div"); d.textContent=t; return d.innerHTML; };
+
+  function add(text){
+    text = (text || "").trim(); if (!text) { return; }
+    stack.push({ id: uid(), text: text.slice(0,200), pred: null });
+    save(stack); render();
+    input.value = "";
   }
-  function renderStack(){
-    itemsEl.innerHTML = "";
-    emptyEl.style.display = stack.length ? "none" : "block";
-    for (var i=0; i<stack.length; i++){
-      var wy = BYID[stack[i]]; if (!wy) { continue; }
-      var li = document.createElement("li"); li.className = "item";
-      var t = document.createElement("div"); t.className = "txt";
-      var nb = document.createElement("b"); nb.innerHTML = wy.name; t.appendChild(nb);
-      var sp = document.createElement("span"); sp.innerHTML = wy.line; t.appendChild(sp);
-      li.appendChild(t);
-      var a = document.createElement("a"); a.className = "go"; a.href = wy.href; a.innerHTML = wy.cta + " →"; li.appendChild(a);
-      var rb = document.createElement("button"); rb.type = "button"; rb.className = "rm"; rb.setAttribute("aria-label","Remove"); rb.textContent = "×";
-      (function(id){ rb.addEventListener("click", function(){ rm(id); }); })(wy.id);
-      li.appendChild(rb); itemsEl.appendChild(li);
-    }
+  function rm(id){ for (var i=0;i<stack.length;i++){ if (stack[i].id===id){ stack.splice(i,1); break; } } save(stack); render(); }
+  function setPred(id, p){ for (var i=0;i<stack.length;i++){ if (stack[i].id===id){ stack[i].pred=p; break; } } save(stack); }
+
+  function predict(id){
+    var it=null; for (var i=0;i<stack.length;i++){ if (stack[i].id===id) it=stack[i]; }
+    if (!it) { return; }
+    var li = document.getElementById("li-"+id); if (!li) { return; }
+    var btn = li.querySelector(".pbtn"); var box = li.querySelector(".pred");
+    if (btn){ btn.disabled = true; btn.textContent = "Bridge28 is looking…"; }
+    fetch(AI, { method:"POST", headers:{ "Content-Type":"application/json" },
+      body: JSON.stringify({ mode:"predict", q: it.text, lang:"en" }) })
+    .then(function(r){ return r.json(); })
+    .then(function(p){
+      if (!p || typeof p.score !== "number") { throw new Error("no score"); }
+      setPred(id, p); showPred(li, p);
+      if (btn){ btn.disabled=false; btn.textContent="🔂 Predict again"; }
+    })
+    .catch(function(){
+      if (btn){ btn.disabled=false; btn.textContent="🔮 Predict my money"; }
+      if (box){ box.style.display="block"; box.innerHTML = '<p class="why">Bridge28 could not reach the numbers just now &mdash; try again in a moment, or email hello@luxucleen.com.</p>'; }
+    });
   }
+  function showPred(li, p){
+    var box = li.querySelector(".pred"); if (!box) { return; }
+    var grow = (p.grow==="easy"||p.grow==="medium"||p.grow==="hard") ? p.grow : "medium";
+    var glabel = grow==="easy" ? "Easy to grow" : (grow==="hard" ? "Hard to grow" : "Medium to grow");
+    box.innerHTML =
+      '<div class="track"><div class="fill"></div></div>' +
+      '<div class="nums"><span class="sc">' + p.score + '<small>/100 potential</small></span>' +
+      '<span class="mon">' + esc(p.money||"") + '</span>' +
+      '<span class="grw ' + grow + '">' + glabel + '</span></div>' +
+      '<p class="why">' + esc(p.reason||"") + (p.trend ? ' <b>(' + esc(p.trend) + ')</b>' : '') + '</p>';
+    box.style.display = "block";
+    var fill = box.querySelector(".fill");
+    setTimeout(function(){ if (fill){ fill.style.width = Math.max(4, Math.min(100, p.score)) + "%"; } }, 60);
+  }
+
   function render(){
-    renderWays(); renderStack();
-    var n = stack.length; countEl.textContent = n;
-    capEl.textContent = n === 0 ? "businesses in your stack - start by adding one below"
+    itemsEl.innerHTML = "";
+    var n = stack.length;
+    emptyEl.style.display = n ? "none" : "block";
+    b28El.style.display = n ? "block" : "none";
+    for (var i=0;i<n;i++){
+      var it = stack[i];
+      var li = document.createElement("li"); li.className = "item"; li.id = "li-" + it.id;
+      var head = document.createElement("div"); head.className = "head";
+      var body = document.createElement("div"); body.className = "body";
+      var b = document.createElement("b"); b.textContent = it.text; body.appendChild(b);
+      var pb = document.createElement("button"); pb.type="button"; pb.className="pbtn";
+      pb.innerHTML = it.pred ? "🔂 Predict again" : "🔮 Predict my money";
+      (function(id){ pb.addEventListener("click", function(){ predict(id); }); })(it.id);
+      body.appendChild(pb);
+      var pred = document.createElement("div"); pred.className="pred"; body.appendChild(pred);
+      head.appendChild(body);
+      var rb = document.createElement("button"); rb.type="button"; rb.className="rm"; rb.setAttribute("aria-label","Remove"); rb.textContent="×";
+      (function(id){ rb.addEventListener("click", function(){ rm(id); }); })(it.id);
+      head.appendChild(rb);
+      li.appendChild(head); itemsEl.appendChild(li);
+      if (it.pred) { showPred(li, it.pred); }
+    }
+    countEl.textContent = n;
+    capEl.textContent = n === 0 ? "businesses in your stack - add your first idea below"
       : (n === 1 ? "business in your stack - add another, the more you stack the more you make"
                  : "businesses in your stack - the more you stack, the more you make");
     if (proH) { proH.innerHTML = n >= 2
@@ -245,36 +337,31 @@
     if (mailWrap && mailBtn) {
       if (n) {
         mailWrap.style.display = "block";
-        var names = stack.map(function(id){ return BYID[id] ? "- " + plain(BYID[id].name) : ""; }).join("\n");
-        var body = "The businesses I stacked:\n" + names + "\n\nI want Luxucleen to build and run these for me. I understand Pro is $8/month and I keep 88%.\nMy name: [your name]\nReach me at: [phone or email]";
-        mailBtn.href = "mailto:hello@luxucleen.com?subject=" + encodeURIComponent("My Luxucleen stack") + "&body=" + encodeURIComponent(body);
-      } else {
-        mailWrap.style.display = "none";
-      }
+        var names = stack.map(function(it){ return "- " + it.text; }).join("\n");
+        var body2 = "The business ideas I stacked:\n" + names + "\n\nI want Luxucleen to build and run these for me. I understand Pro is $8/month and I keep 88%.\nMy name: [your name]\nReach me at: [phone or email]";
+        mailBtn.href = "mailto:hello@luxucleen.com?subject=" + encodeURIComponent("My Luxucleen stack") + "&body=" + encodeURIComponent(body2);
+      } else { mailWrap.style.display = "none"; }
     }
   }
   render();
 
-  /* ---- Ad deep-link: ?want=<product> highlights + stacks it, ?add=a,b pre-stacks a list ---- */
-  var ALIAS = {house:"house",sellhouse:"house",sell:"house",cash:"house",realestate:"house",
-    surplus:"surplus",tax:"surplus",overage:"surplus",
-    website:"website",site:"website",web:"website",
-    papers:"papers",immigration:"papers",papeles:"papers",visa:"papers",
-    work:"work",jobs:"work",job:"work",hire:"work",hiring:"work",chamba:"work",
-    build:"build",idea:"build",own:"build",
-    trading:"trading",grid:"trading",grid28:"trading",signals:"trading",
-    affiliates:"affiliates",affiliate:"affiliates",commission:"affiliates",earn:"affiliates",
-    truek:"truek",car:"truek",carro:"truek",
-    taxes:"taxes",tax:"taxes",turbotax:"taxes",impuestos:"taxes"};
-  function resolveId(k){ k = (k || "").toLowerCase().replace(/[^a-z0-9]/g, ""); if (!k) { return null; } return ALIAS[k] || (BYID[k] ? k : null); }
+  addBtn.addEventListener("click", function(){ add(input.value); input.focus(); });
+  input.addEventListener("keydown", function(e){ if (e.key === "Enter"){ e.preventDefault(); add(input.value); } });
+
+  /* ---- Bella + Liam idea spark: one random starter idea to pump you up ---- */
+  var lastSpark = "";
+  function newSpark(){
+    var s; do { s = SPARKS[Math.floor(Math.random()*SPARKS.length)]; } while (s === lastSpark && SPARKS.length > 1);
+    lastSpark = s; sparkTxt.textContent = s; sparkUse.style.display = "inline-block";
+  }
+  document.getElementById("sparkNew").addEventListener("click", newSpark);
+  sparkUse.addEventListener("click", function(){ if (lastSpark){ input.value = lastSpark; input.focus(); } });
+
+  /* ---- Ad deep-link: ?idea=<text> pre-fills the box; ?add=<text> stacks it straight away ---- */
   try {
     var qs = new URLSearchParams(location.search);
-    var raw = (qs.get("add") || "").split(","); raw.push(qs.get("want") || "");
-    var changed = false;
-    for (var qi = 0; qi < raw.length; qi++) { var aid = resolveId(raw[qi]); if (aid && !has(aid)) { stack.push(aid); changed = true; } }
-    if (changed) { save(stack); render(); }
-    var wid = resolveId(qs.get("want"));
-    if (wid) { var wel = document.getElementById("way-" + wid); if (wel) { wel.classList.add("hot"); try { wel.scrollIntoView({behavior: "smooth", block: "center"}); } catch (e) {} } }
+    var pf = qs.get("idea"); if (pf){ input.value = pf.slice(0,200); }
+    var ad = qs.get("add"); if (ad){ add(ad); }
   } catch (e) {}
 
   /* ---- Bella + Liam spoken welcome (free pre-rendered clip); radio ducks then returns 2s after ---- */
