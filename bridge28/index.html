@@ -92,7 +92,7 @@
     <a class="wm" href="/"><i></i>BRIDGE28</a>
     <span class="by">by <a href="/">Luxucleen LLC</a></span>
     <div class="sp">
-      <span class="tg on" id="voice" title="Bridge28 speaks its answers">&#128266; voice on</span>
+      <span class="tg on" id="voice" title="Bridge28 speaks - tap to switch Bella / Liam / off">&#128266; Bella</span>
       <span class="tg"><a href="/ask/">simple chat</a></span>
     </div>
   </div>
@@ -169,7 +169,8 @@
   var $ = function(id){ return document.getElementById(id); };
   var log = $("log"), box = $("q"), send = $("send"), more = $("more"), orb = $("orb"), voiceTg = $("voice");
   var bidea = $("bidea"), build = $("build"), out = $("out"), chips = $("chips"), sendidea = $("sendidea");
-  var lastIdea = "", turns = 0, pitched = false, voiceOn = true, ctype = "plan", player = null;
+  var lastIdea = "", turns = 0, pitched = false, voice = "bella", ctype = "plan", player = null;
+  function other(v){ return v === "bella" ? "liam" : "bella"; }   /* two voices, like Bella and Liam */
 
   function post(body){
     return fetch(API, {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(body)})
@@ -205,7 +206,7 @@
 
   function idea(withVoice){
     var pending = add("bot", "…", "think"); more.disabled = true;
-    post({mode: "idea", angle: ANGLES[Math.floor(Math.random() * ANGLES.length)], nonce: nonce(), lang: LANG, voice: !!withVoice && voiceOn})
+    post({mode: "idea", angle: ANGLES[Math.floor(Math.random() * ANGLES.length)], nonce: nonce(), lang: LANG, voice: (withVoice && voice) ? other(voice) : false})
       .then(function(d){ var t = (d && d.answer) ? d.answer : SETUP; lastIdea = t; typeInto(pending, t); if (!box.value.trim()) { box.value = FOLLOW; } play(d.audio, d.audio_type); })
       .catch(function(){ pending.textContent = SETUP; pending.classList.remove("think"); })
       .then(function(){ more.disabled = false; });
@@ -216,7 +217,7 @@
     var doPitch = (!pitched && turns >= 6); if (doPitch) { pitched = true; }
     var pending = add("bot", "…", "think");
     var q = (lastIdea && text.length < 90) ? ("About this way you just suggested: \"" + lastIdea.slice(0, 240) + "\" - " + text) : text;
-    post({q: q, lang: LANG, voice: voiceOn, pitch: doPitch, turns: turns})
+    post({q: q, lang: LANG, voice: voice || false, pitch: doPitch, turns: turns})
       .then(function(d){ typeInto(pending, (d && d.answer) ? d.answer : SETUP); play(d.audio, d.audio_type); })
       .catch(function(){ pending.textContent = SETUP; pending.classList.remove("think"); })
       .then(function(){ send.disabled = false; box.focus(); });
@@ -242,7 +243,7 @@
     var i = (bidea.value || "").trim(); if (!i) { bidea.focus(); return; }
     build.disabled = true; out.className = "out show"; out.innerHTML = '<pre style="color:#8a95a8;font-style:italic">Bridge28 is building your ' + ({plan:"business plan",page:"landing page",ad:"ads",email:"pitch email",checklist:"launch checklist",audio:"audio pitch"})[ctype] + "…</pre>";
     orb.classList.add("talking");
-    post({mode: "create", type: ctype, q: i, lang: LANG, voice: (ctype !== "page" && ctype !== "audio") ? false : false})
+    post({mode: "create", type: ctype, q: i, lang: LANG, voice: (ctype === "audio") ? (voice || "bella") : false})
       .then(function(d){
         var text = (d && d.answer) ? d.answer : SETUP;
         out.innerHTML = "";
@@ -283,7 +284,9 @@
     Array.prototype.forEach.call(chips.children, function(x){ x.classList.remove("on"); });
     c.classList.add("on"); ctype = c.getAttribute("data-t");
   });
-  voiceTg.addEventListener("click", function(){ voiceOn = !voiceOn; voiceTg.classList.toggle("on", voiceOn); voiceTg.innerHTML = voiceOn ? "&#128266; voice on" : "&#128263; voice off"; if (!voiceOn && player) { player.pause(); orb.classList.remove("talking"); } });
+  function paintVoice(){ voiceTg.classList.toggle("on", !!voice); voiceTg.innerHTML = voice === "bella" ? "&#128266; Bella" : (voice === "liam" ? "&#128266; Liam" : "&#128263; voice off"); }
+  voiceTg.addEventListener("click", function(){ voice = (voice === "bella") ? "liam" : (voice === "liam" ? "" : "bella"); paintVoice(); if (!voice && player) { player.pause(); orb.classList.remove("talking"); } });
+  paintVoice();
   /* ---- MIC: speak to Bridge28, phone or computer. Built-in speech recognition when the browser has it
      (Chrome, Edge, Safari); otherwise record and transcribe on our cloud (Whisper). ---- */
   var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
