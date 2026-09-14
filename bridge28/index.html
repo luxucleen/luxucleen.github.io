@@ -92,7 +92,7 @@
     <a class="wm" href="/"><i></i>BRIDGE28</a>
     <span class="by">by <a href="/">Luxucleen LLC</a></span>
     <div class="sp">
-      <span class="tg on" id="voice" title="Bridge28 speaks - tap to switch Bella / Liam / off">&#128266; Bella</span>
+      <span class="tg" id="voice" title="Hear Bridge28 - tap for Bella, again Liam, again off">&#128264; tap to hear</span>
       <span class="tg"><a href="/ask/">simple chat</a></span>
     </div>
   </div>
@@ -169,7 +169,7 @@
   var $ = function(id){ return document.getElementById(id); };
   var log = $("log"), box = $("q"), send = $("send"), more = $("more"), orb = $("orb"), voiceTg = $("voice");
   var bidea = $("bidea"), build = $("build"), out = $("out"), chips = $("chips"), sendidea = $("sendidea");
-  var lastIdea = "", turns = 0, pitched = false, voice = "bella", ctype = "plan", player = null;
+  var lastIdea = "", turns = 0, pitched = false, voice = "", ctype = "plan", player = null;   /* off by default (tap to hear) - protects the free brain */
   function other(v){ return v === "bella" ? "liam" : "bella"; }   /* two voices, like Bella and Liam */
 
   function post(body){
@@ -202,12 +202,30 @@
       player.play().catch(function(){ orb.classList.remove("talking"); });
     } catch (e) {}
   }
+  function playClips(clips){
+    if (!clips || !clips.length) { return; }
+    var i = 0;
+    (function next(){
+      if (i >= clips.length) { orb.classList.remove("talking"); return; }
+      var c = clips[i++]; if (!c || !c.audio) { next(); return; }
+      try {
+        if (player) { player.pause(); }
+        var bin = atob(c.audio), u8 = new Uint8Array(bin.length);
+        for (var k = 0; k < bin.length; k++) { u8[k] = bin.charCodeAt(k); }
+        var url = URL.createObjectURL(new Blob([u8], {type: c.type || "audio/mpeg"}));
+        player = new Audio(url); orb.classList.add("talking");
+        player.onended = function(){ URL.revokeObjectURL(url); next(); };
+        player.play().catch(function(){ orb.classList.remove("talking"); });
+      } catch (e) { next(); }
+    })();
+  }
+  function playAny(d){ if (d && d.clips && d.clips.length) { playClips(d.clips); } else if (d) { play(d.audio, d.audio_type); } }
   function nonce(){ return Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
 
   function idea(withVoice){
     var pending = add("bot", "…", "think"); more.disabled = true;
-    post({mode: "idea", angle: ANGLES[Math.floor(Math.random() * ANGLES.length)], nonce: nonce(), lang: LANG, voice: (withVoice && voice) ? other(voice) : false})
-      .then(function(d){ var t = (d && d.answer) ? d.answer : SETUP; lastIdea = t; typeInto(pending, t); if (!box.value.trim()) { box.value = FOLLOW; } play(d.audio, d.audio_type); })
+    post({mode: "idea", angle: ANGLES[Math.floor(Math.random() * ANGLES.length)], nonce: nonce(), lang: LANG, voice: withVoice ? (voice || false) : false})
+      .then(function(d){ var t = (d && d.answer) ? d.answer : SETUP; lastIdea = t; typeInto(pending, t); if (!box.value.trim()) { box.value = FOLLOW; } playAny(d); })
       .catch(function(){ pending.textContent = SETUP; pending.classList.remove("think"); })
       .then(function(){ more.disabled = false; });
   }
@@ -218,7 +236,7 @@
     var pending = add("bot", "…", "think");
     var q = (lastIdea && text.length < 90) ? ("About this way you just suggested: \"" + lastIdea.slice(0, 240) + "\" - " + text) : text;
     post({q: q, lang: LANG, voice: voice || false, pitch: doPitch, turns: turns})
-      .then(function(d){ typeInto(pending, (d && d.answer) ? d.answer : SETUP); play(d.audio, d.audio_type); })
+      .then(function(d){ typeInto(pending, (d && d.answer) ? d.answer : SETUP); playAny(d); })
       .catch(function(){ pending.textContent = SETUP; pending.classList.remove("think"); })
       .then(function(){ send.disabled = false; box.focus(); });
   }
@@ -243,7 +261,7 @@
     var i = (bidea.value || "").trim(); if (!i) { bidea.focus(); return; }
     build.disabled = true; out.className = "out show"; out.innerHTML = '<pre style="color:#8a95a8;font-style:italic">Bridge28 is building your ' + ({plan:"business plan",page:"landing page",ad:"ads",email:"pitch email",checklist:"launch checklist",audio:"audio pitch"})[ctype] + "…</pre>";
     orb.classList.add("talking");
-    post({mode: "create", type: ctype, q: i, lang: LANG, voice: (ctype === "audio") ? (voice || "bella") : false})
+    post({mode: "create", type: ctype, q: i, lang: LANG, voice: (ctype === "audio") ? (voice === "liam" ? "liam" : "bella") : false})
       .then(function(d){
         var text = (d && d.answer) ? d.answer : SETUP;
         out.innerHTML = "";
@@ -284,8 +302,10 @@
     Array.prototype.forEach.call(chips.children, function(x){ x.classList.remove("on"); });
     c.classList.add("on"); ctype = c.getAttribute("data-t");
   });
-  function paintVoice(){ voiceTg.classList.toggle("on", !!voice); voiceTg.innerHTML = voice === "bella" ? "&#128266; Bella" : (voice === "liam" ? "&#128266; Liam" : "&#128263; voice off"); }
-  voiceTg.addEventListener("click", function(){ voice = (voice === "bella") ? "liam" : (voice === "liam" ? "" : "bella"); paintVoice(); if (!voice && player) { player.pause(); orb.classList.remove("talking"); } });
+  var VSEQ = ["", "bella", "liam", "both"];
+  var VLABEL = {"": "&#128264; tap to hear", "bella": "&#128266; Bella", "liam": "&#128266; Liam", "both": "&#128266; Bella + Liam"};
+  function paintVoice(){ voiceTg.classList.toggle("on", !!voice); voiceTg.innerHTML = VLABEL[voice] || VLABEL[""]; }
+  voiceTg.addEventListener("click", function(){ voice = VSEQ[(VSEQ.indexOf(voice) + 1) % VSEQ.length]; paintVoice(); if (!voice && player) { player.pause(); orb.classList.remove("talking"); } });
   paintVoice();
   /* ---- MIC: speak to Bridge28, phone or computer. Built-in speech recognition when the browser has it
      (Chrome, Edge, Safari); otherwise record and transcribe on our cloud (Whisper). ---- */
