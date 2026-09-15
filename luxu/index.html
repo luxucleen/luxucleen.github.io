@@ -5,9 +5,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Luxu &mdash; the money feed (Luxucleen)</title>
-<meta name="description" content="Luxu is the feed where every post is a real way to make money - Luxucleen's businesses, products and live wins in one place, each one a tap from getting it. Businesses can advertise on Luxu too.">
+<meta name="description" content="Luxu is the social feed where every post can make money - post your video or photo, sell your product or clip right there, keep up with the trend, and follow the businesses of Luxucleen. Real posts, live.">
 <meta name="robots" content="index,follow">
-<link rel="stylesheet" href="/site.css">
 <link rel="canonical" href="https://luxucleen.com/luxu/">
 <link rel="alternate" hreflang="en" href="https://luxucleen.com/luxu/">
 <link rel="alternate" hreflang="es" href="https://luxucleen.com/es/luxu/">
@@ -15,31 +14,41 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://luxucleen.com/luxu/">
 <meta property="og:title" content="Luxu &mdash; the money feed">
-<meta property="og:description" content="Every post is a real way to make money. Luxucleen's businesses, products and live wins in one feed. Advertise your business on Luxu too.">
+<meta property="og:description" content="Post your video or photo, sell right there, keep up with the trend. Real posts, live. The social feed by Luxucleen.">
 <meta property="og:site_name" content="Luxucleen LLC">
 <meta property="og:locale" content="en_US">
+<link rel="stylesheet" href="/site.css">
 <style>
   .lxbar{display:flex;gap:10px;align-items:center;margin:14px 0 4px}
-  .lxbar .post{flex:1 1 auto;background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:12px 16px;color:var(--dim);cursor:pointer;text-align:left}
-  .lxbar a.promo{background:var(--accent);color:#fff;text-decoration:none;border-radius:999px;padding:12px 16px;font-weight:800;white-space:nowrap}
-  .lxbar a.promo:hover{background:var(--accent2)}
+  .lxbar .post{flex:1 1 auto;background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:13px 16px;color:var(--dim);cursor:pointer;text-align:left;font:inherit}
+  .composer{border:1px solid var(--line);border-radius:16px;background:var(--soft);padding:14px;margin:8px 0 12px;display:flex;flex-direction:column;gap:9px}
+  .composer[hidden]{display:none}
+  .cxin{width:100%;box-sizing:border-box;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:10px;padding:11px 13px;color:inherit;font:inherit;font-size:15px}
+  textarea.cxin{resize:vertical}
+  .cxrow{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  .cxbtns{display:flex;align-items:center;gap:10px}
+  .cxpost{background:var(--accent);color:#fff;border:0;border-radius:10px;padding:11px 18px;font-weight:800;cursor:pointer;font:inherit}
+  .cxpost:hover{background:var(--accent2)}
+  .cxst{color:var(--dim);font-size:13px}
   .feed{display:flex;flex-direction:column;gap:14px;margin:16px 0}
   .post-c{border:1px solid var(--line);border-radius:18px;background:var(--soft);overflow:hidden}
   .post-h{display:flex;align-items:center;gap:11px;padding:14px 16px 8px}
-  .av{width:42px;height:42px;border-radius:50%;flex:0 0 auto;display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff}
+  .av{width:42px;height:42px;border-radius:50%;flex:0 0 auto;display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;font-weight:800}
   .post-h .who b{display:block;font-size:15px}
   .post-h .who span{display:block;font-size:12px;color:var(--dim)}
   .tagp{margin-left:auto;font:800 12px/1 ui-monospace,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);border:1px solid var(--line);border-radius:999px;padding:5px 9px}
-  .post-b{padding:2px 16px 6px;font-size:15.5px;line-height:1.5}
+  .post-b{padding:2px 16px 6px;font-size:15.5px;line-height:1.5;white-space:pre-wrap;word-break:break-word}
   .post-b .big{font-size:34px;display:block;margin:6px 0}
+  .pmedia{position:relative;margin:6px 0 2px;background:#000;overflow:hidden}
+  .pmedia iframe,.pmedia video,.pmedia img{display:block;width:100%;border:0}
+  .pmedia iframe,.pmedia video{aspect-ratio:16/9;height:auto}
+  .pmedia img{max-height:560px;object-fit:contain}
+  .mlink{display:block;padding:16px;color:#fff;text-decoration:none;background:linear-gradient(135deg,#0f5aa8,#2ea27e);font-weight:700}
   .post-f{display:flex;align-items:center;gap:8px;padding:10px 16px 14px}
   .lk-btn{background:none;border:1px solid var(--line);border-radius:999px;padding:8px 13px;cursor:pointer;color:inherit;font:inherit;font-size:14px}
   .lk-btn.on{border-color:#ef4444;color:#ef4444}
   .post-f a.go{margin-left:auto;background:var(--accent);color:#fff;text-decoration:none;border-radius:10px;padding:10px 16px;font-weight:800;font-size:14px}
   .post-f a.go:hover{background:var(--accent2)}
-  .adband{border:1px dashed var(--line);border-radius:16px;padding:18px 20px;margin:18px 0;display:flex;flex-direction:column;gap:6px}
-  .adband b{font-size:18px}.adband span{color:var(--dim)}
-  .adband a{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;border-radius:10px;padding:11px 17px;font-weight:800;align-self:flex-start;margin-top:6px}
   .small{color:var(--dim);font-size:13px}
   .back{color:var(--dim)!important}
 </style>
@@ -60,25 +69,26 @@
   <p class="crumb"><a href="/">Luxucleen LLC</a> &rsaquo; Luxu</p>
 
   <section class="hero">
-    <h1>Luxu &mdash; the feed where every post is a way to make money.</h1>
-    <p class="lede">One place for everything Luxucleen builds &mdash; real estate, trading, jewelry, taxes, free tools, and the
-    live wins as they happen. Scroll it, tap what you want, get it. And if you run a business, <b>advertise it right here</b>.</p>
+    <h1>Luxu &mdash; the feed where every post can make money.</h1>
+    <p class="lede">Post your video, your photo, your trade or your take &mdash; it goes <b>live</b>. Sell your clip or product
+    <b>right there</b> with a pay button, keep up with the trend, and follow everything Luxucleen builds. Real posts, real people.</p>
   </section>
 
   <div class="lxbar">
-    <button type="button" class="post" id="postBtn">Share something on Luxu&hellip;</button>
-    <a class="promo" href="mailto:hello@luxucleen.com?subject=Advertise%20on%20Luxu&body=My%20business%3A%20%0AWhat%20I%20want%20to%20promote%3A%20%0ABest%20contact%3A%20">Promote &rarr;</a>
+    <button type="button" class="post" id="postBtn">Post to Luxu &mdash; a video, a photo, your take&hellip;</button>
+  </div>
+  <div class="composer" id="composer" hidden>
+    <input id="cx_who" class="cxin" type="text" maxlength="60" placeholder="Your name or @handle">
+    <textarea id="cx_txt" class="cxin" maxlength="500" rows="3" placeholder="What's happening? Your trade, your take, your drop&hellip;"></textarea>
+    <input id="cx_media" class="cxin" type="url" placeholder="Video or photo link (YouTube, .mp4, or image URL) &mdash; optional">
+    <div class="cxrow"><input id="cx_price" class="cxin" type="text" maxlength="40" placeholder="Price, optional (e.g. $9)"><input id="cx_pay" class="cxin" type="url" placeholder="Your pay link (Gumroad, etc.)"></div>
+    <div class="cxbtns"><button type="button" class="cxpost" id="cx_post">Post &mdash; goes live</button><span class="cxst" id="cx_status"></span></div>
+    <p class="small">Your post goes live in the feed for everyone. Add a price and a pay link to sell your video or product right here. Be real, be kind &mdash; anything illegal is removed.</p>
   </div>
 
   <div class="feed" id="feed"></div>
 
-  <div class="adband">
-    <b>Own a business? Advertise on Luxu.</b>
-    <span>Put your business in the feed in front of people looking to spend &mdash; a featured post that links straight to you. Simple flat pricing, no agency.</span>
-    <a href="mailto:hello@luxucleen.com?subject=Advertise%20on%20Luxu&body=My%20business%3A%20%0AWhat%20I%20want%20to%20promote%3A%20%0ABest%20contact%3A%20">Advertise on Luxu &rarr;</a>
-  </div>
-
-  <p class="small">Luxu is new and growing. Everything here is a real Luxucleen business or product; posts from other businesses are marked <b>Promoted</b>. Be kind &mdash; this is for building, not noise.</p>
+  <p class="small">Luxu is new and growing &mdash; the newest real posts show on top, and the Luxucleen businesses below. Post a video or photo by link today; direct uploads and the AI creator tools are coming next.</p>
 </main>
 
 <footer class="wrap">
@@ -94,7 +104,8 @@
 </footer>
 
 <script>/*luxu-feed*/(function(){try{
-  var AV={re:"#22c55e",tr:"#3b82f6",jw:"#a855f7",tx:"#6366f1",lh:"#f59e0b",ai:"#14b8a6",ed:"#ef4444",sk:"#10b981",ph:"#0ea5e9",bk:"#f43f5e"};
+  var API="https://ai.luxucleen.com/ask",ids=[];
+  var AV={re:"#22c55e",tr:"#3b82f6",jw:"#a855f7",tx:"#6366f1",lh:"#f59e0b",ai:"#14b8a6",ed:"#ef4444",sk:"#10b981",ph:"#0ea5e9",bk:"#f43f5e",u:"#7c3aed"};
   var POSTS=[
     {k:"re",e:"🏠",who:"Luxucleen Real Estate",tag:"We buy houses",big:"💵",body:"We buy houses anywhere in the U.S. — any condition, cash offer, you pick the closing date. Behind on payments, inherited, vacant, tenants in place: we have a way out.",cta:"Get a cash offer",href:"/we-buy-houses/"},
     {k:"tr",e:"📈",who:"B28 Signals",tag:"Live",big:"🤖",body:"Our trading bots run side by side on paper accounts, every trade posted as it happens. GRID28 for MetaTrader is on sale now. 18+, trading involves risk.",cta:"See the live race",href:"/trading/"},
@@ -102,40 +113,59 @@
     {k:"jw",e:"💍",who:"Luxucleen Jewelry",tag:"Store",big:"✨",body:"Real moissanite and VVS at the best price — rings, chains, iced-out pieces that pass the diamond tester, for a fraction of the price.",cta:"Shop the ice",href:"/jewelry/"},
     {k:"tx",e:"🧾",who:"Luxucleen Taxes",tag:"Save",big:"💰",body:"AI does your yearly taxes — cheaper than TurboTax, no upsells, built for people who run a business. A licensed preparer reviews and files it.",cta:"Do my taxes",href:"/taxes/"},
     {k:"sk",e:"🚀",who:"Luxucleen",tag:"88% yours",big:"🏗️",body:"Type one business idea and our AI builds you a live page and a plan in seconds — free. If it is good, we build and run it with you and you keep 88%.",cta:"Build a business",href:"/stack/"},
-    {k:"ph",e:"📱",who:"The Phone Test",tag:"Promoted",big:"🔍",body:"Is your website losing customers on a phone? We test it like a real customer and send you exactly what is broken and how to fix it.",cta:"Test my site",href:"https://djbrightfuture.gumroad.com/l/phonetest"},
     {k:"ai",e:"👁️",who:"EYES28",tag:"Software",big:"🖥️",body:"Let your AI see any window on your screen — fast, private, on your machine. A tool builders actually pay for.",cta:"Get EYES28",href:"https://djbrightfuture.gumroad.com/l/qntwap"},
     {k:"ed",e:"🎓",who:"Free Education",tag:"Free",big:"📚",body:"Plain lessons on trading, real estate and getting your business online — with a real exam and a certificate at the end. No signup, nothing to buy.",cta:"Start learning",href:"/free-education/"},
     {k:"bk",e:"📖",who:"Luxucleen Books",tag:"88% yours",big:"📕",body:"We build your book with AI — you publish it on Amazon under your own name and keep 88%. From idea to a finished, listed book.",cta:"Make my book",href:"/books/"}
   ];
-  var API="https://ai.luxucleen.com/ask",ids=[];
   var feed=document.getElementById("feed");
   var liked={};try{liked=JSON.parse(localStorage.getItem("luxu_liked")||"{}")||{};}catch(e){liked={};}
-  function esc(s){var d=document.createElement("div");d.textContent=s;return d.innerHTML;}
-  POSTS.forEach(function(p,idx){
-    var id="p"+idx;ids.push(id);
-    var c=document.createElement("div");c.className="post-c";
-    var on=liked[id]?" on":"";
-    c.innerHTML='<div class="post-h"><span class="av" style="background:'+(AV[p.k]||"#2ea27e")+'">'+p.e+'</span>'+
-      '<span class="who"><b>'+esc(p.who)+'</b><span>Luxu</span></span>'+
-      '<span class="tagp">'+esc(p.tag)+'</span></div>'+
-      '<div class="post-b">'+esc(p.body)+'<span class="big">'+p.big+'</span></div>'+
-      '<div class="post-f"><button type="button" class="lk-btn'+on+'" data-id="'+id+'"><span class="lkh">'+(liked[id]?"♥":"♡")+'</span> <b class="lkn" id="lkn-'+id+'">0</b></button>'+
-      '<a class="go" href="'+p.href+'">'+esc(p.cta)+' &rarr;</a></div>';
-    feed.appendChild(c);
-  });
+  function esc(s){var d=document.createElement("div");d.textContent=(s==null?"":String(s));return d.innerHTML;}
+  function mediaHTML(m){
+    if(!m||!/^https?:\/\//i.test(m))return "";
+    var yt=m.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/)|youtu\.be\/)([\w-]{6,})/i);
+    if(yt)return '<div class="pmedia"><iframe src="https://www.youtube-nocookie.com/embed/'+yt[1]+'" allow="autoplay;encrypted-media;picture-in-picture;fullscreen" allowfullscreen loading="lazy" title="video"></iframe></div>';
+    if(/\.(mp4|webm|mov)(\?|#|$)/i.test(m))return '<div class="pmedia"><video src="'+encodeURI(m)+'" controls playsinline preload="metadata"></video></div>';
+    if(/\.(jpg|jpeg|png|gif|webp|avif)(\?|#|$)/i.test(m))return '<div class="pmedia"><img src="'+encodeURI(m)+'" loading="lazy" alt=""></div>';
+    return '<div class="pmedia"><a class="mlink" href="'+encodeURI(m)+'" target="_blank" rel="noopener">&#9654; Open media</a></div>';
+  }
+  function foot(id,extra){var on=liked[id]?" on":"";
+    return '<div class="post-f"><button type="button" class="lk-btn'+on+'" data-id="'+id+'"><span class="lkh">'+(liked[id]?"♥":"♡")+'</span> <b class="lkn" id="lkn-'+id+'">0</b></button>'+extra+'</div>';}
+  function seedCard(p,idx){var id="p"+idx;ids.push(id);
+    var go='<a class="go" href="'+p.href+'">'+esc(p.cta)+' &rarr;</a>';
+    return '<div class="post-c"><div class="post-h"><span class="av" style="background:'+(AV[p.k]||"#2ea27e")+'">'+p.e+'</span><span class="who"><b>'+esc(p.who)+'</b><span>Luxu</span></span><span class="tagp">'+esc(p.tag)+'</span></div><div class="post-b">'+esc(p.body)+'<span class="big">'+p.big+'</span></div>'+foot(id,go)+'</div>';}
+  function liveCard(p){if(!p||!p.id)return "";ids.push(p.id);
+    var buy=p.paylink?('<a class="go" href="'+encodeURI(p.paylink)+'" target="_blank" rel="noopener">'+(p.price?("Buy "+esc(p.price)):"Buy / Support")+' &rarr;</a>'):"";
+    var initial=esc((p.who||"?").slice(0,1).toUpperCase());
+    return '<div class="post-c"><div class="post-h"><span class="av" style="background:'+AV.u+'">'+initial+'</span><span class="who"><b>'+esc(p.who||"Someone")+'</b><span>on Luxu</span></span></div>'+(p.txt?('<div class="post-b">'+esc(p.txt)+'</div>'):'')+mediaHTML(p.media)+foot(p.id,buy)+'</div>';}
+  var html="";POSTS.forEach(function(p,idx){html+=seedCard(p,idx);});feed.innerHTML=html;
   function loadLikes(){try{fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"feed",op:"likes",ids:ids})}).then(function(r){return r.json();}).then(function(d){if(d&&d.likes){for(var k in d.likes){var el=document.getElementById("lkn-"+k);if(el)el.textContent=d.likes[k];}}}).catch(function(){});}catch(e){}}
-  loadLikes();
-  feed.addEventListener("click",function(ev){
-    var b=ev.target.closest?ev.target.closest(".lk-btn"):null;if(!b)return;
-    var id=b.getAttribute("data-id");var now=!liked[id];liked[id]=now;
-    b.className="lk-btn"+(now?" on":"");
+  function loadLive(){fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"feed",op:"list"})}).then(function(r){return r.json();}).then(function(d){if(d&&d.posts&&d.posts.length){var h="";d.posts.forEach(function(p){h+=liveCard(p);});if(h)feed.insertAdjacentHTML("afterbegin",h);}loadLikes();}).catch(function(){loadLikes();});}
+  loadLive();
+  feed.addEventListener("click",function(ev){var b=ev.target.closest?ev.target.closest(".lk-btn"):null;if(!b)return;
+    var id=b.getAttribute("data-id");var now=!liked[id];liked[id]=now;b.className="lk-btn"+(now?" on":"");
     var hh=b.querySelector(".lkh");if(hh)hh.textContent=now?"♥":"♡";
     var nn=b.querySelector(".lkn");if(nn){var v=(parseInt(nn.textContent,10)||0)+(now?1:-1);if(v<0)v=0;nn.textContent=v;}
     try{localStorage.setItem("luxu_liked",JSON.stringify(liked));}catch(e){}
-    try{fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"feed",op:"like",id:id,un:!now})}).then(function(r){return r.json();}).then(function(d){if(d&&typeof d.likes==="number"){var el=document.getElementById("lkn-"+id);if(el)el.textContent=d.likes;}}).catch(function(){});}catch(e){}
-  });
-  document.getElementById("postBtn").addEventListener("click",function(){
-    location.href="mailto:hello@luxucleen.com?subject=Post%20on%20Luxu&body=What%20I%20want%20to%20post%3A%20%0AA%20link%20(optional)%3A%20%0AMy%20name%2Fbusiness%3A%20";
+    try{fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"feed",op:"like",id:id,un:!now})}).then(function(r){return r.json();}).then(function(d){if(d&&typeof d.likes==="number"){var el=document.getElementById("lkn-"+id);if(el)el.textContent=d.likes;}}).catch(function(){});}catch(e){}});
+  var cbox=document.getElementById("composer");
+  document.getElementById("postBtn").addEventListener("click",function(){if(cbox){cbox.hidden=!cbox.hidden;if(!cbox.hidden){var t=document.getElementById("cx_txt");if(t)t.focus();}}});
+  try{var w0=localStorage.getItem("luxu_who");if(w0){var we=document.getElementById("cx_who");if(we)we.value=w0;}}catch(e){}
+  var cxPost=document.getElementById("cx_post");
+  if(cxPost)cxPost.addEventListener("click",function(){
+    var who=(document.getElementById("cx_who").value||"").trim();
+    var txt=(document.getElementById("cx_txt").value||"").trim();
+    var media=(document.getElementById("cx_media").value||"").trim();
+    var price=(document.getElementById("cx_price").value||"").trim();
+    var paylink=(document.getElementById("cx_pay").value||"").trim();
+    var st=document.getElementById("cx_status");
+    if(!txt&&!media){if(st)st.textContent="Write something or add a video/photo link.";return;}
+    try{if(who)localStorage.setItem("luxu_who",who);}catch(e){}
+    cxPost.disabled=true;if(st)st.textContent="Posting…";
+    fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"feed",op:"post",who:who,text:txt,media:media,price:price,paylink:paylink})}).then(function(r){return r.json();}).then(function(d){
+      cxPost.disabled=false;
+      if(d&&d.ok&&d.post){feed.insertAdjacentHTML("afterbegin",liveCard(d.post));document.getElementById("cx_txt").value="";document.getElementById("cx_media").value="";document.getElementById("cx_price").value="";document.getElementById("cx_pay").value="";if(st)st.textContent="Posted! It is live.";setTimeout(function(){if(cbox)cbox.hidden=true;if(st)st.textContent="";},1400);}
+      else{if(st)st.textContent=(d&&d.error==="blocked")?"That post was blocked.":((d&&d.error==="too many links")?"Too many links.":"Could not post, try again.");}
+    }).catch(function(){cxPost.disabled=false;if(st)st.textContent="Could not post, try again.";});
   });
 }catch(e){}})();</script>
 <script>/*lux-radio*/(function(){try{
