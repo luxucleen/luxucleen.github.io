@@ -92,8 +92,7 @@
     function boot() {
       document.body.appendChild(wrap);
       restorePos();
-      say(NAME, T.hi, false);
-      setHint();
+      setHint(); // stay quiet on load; the greeting shows on first tap/wake
       try { if (!sessionStorage.getItem("lux_orb_flew")) { sessionStorage.setItem("lux_orb_flew", "1"); setTimeout(flyby, 500); } } catch (e) { setTimeout(flyby, 500); }
       if (PRO) startWake(); // hands-free auto-listen — Pro only (music ducks low the whole time it's on)
     }

@@ -145,7 +145,7 @@ body.hub .fine a{color:var(--green)}   /* only the fine-print links carry the bl
 :root[data-theme="light"] .fine strong,:root[data-theme="light"] .fine h2{color:#111621}
 
 /*lux-megamenu*/
-.hnav{position:relative}
+.hnav{position:relative;padding-right:48px}
 .hnav .npin{color:var(--ink)!important;font-weight:700;background:rgba(46,194,126,.16);border:1px solid rgba(46,194,126,.42)}
 .navtog{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
 .menubtn{cursor:pointer;color:var(--ink);font-size:13px;font-weight:700;padding:6px 13px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.05);display:inline-flex;align-items:center;gap:5px}
