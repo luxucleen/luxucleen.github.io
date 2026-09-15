@@ -107,26 +107,32 @@
     {k:"ed",e:"🎓",who:"Free Education",tag:"Free",big:"📚",body:"Plain lessons on trading, real estate and getting your business online — with a real exam and a certificate at the end. No signup, nothing to buy.",cta:"Start learning",href:"/free-education/"},
     {k:"bk",e:"📖",who:"Luxucleen Books",tag:"88% yours",big:"📕",body:"We build your book with AI — you publish it on Amazon under your own name and keep 88%. From idea to a finished, listed book.",cta:"Make my book",href:"/books/"}
   ];
+  var API="https://ai.luxucleen.com/ask",ids=[];
   var feed=document.getElementById("feed");
   var liked={};try{liked=JSON.parse(localStorage.getItem("luxu_liked")||"{}")||{};}catch(e){liked={};}
   function esc(s){var d=document.createElement("div");d.textContent=s;return d.innerHTML;}
   POSTS.forEach(function(p,idx){
-    var id="p"+idx;
+    var id="p"+idx;ids.push(id);
     var c=document.createElement("div");c.className="post-c";
     var on=liked[id]?" on":"";
     c.innerHTML='<div class="post-h"><span class="av" style="background:'+(AV[p.k]||"#2ea27e")+'">'+p.e+'</span>'+
       '<span class="who"><b>'+esc(p.who)+'</b><span>Luxu</span></span>'+
       '<span class="tagp">'+esc(p.tag)+'</span></div>'+
       '<div class="post-b">'+esc(p.body)+'<span class="big">'+p.big+'</span></div>'+
-      '<div class="post-f"><button type="button" class="lk-btn'+on+'" data-id="'+id+'">'+(liked[id]?"♥ Liked":"♡ Like")+'</button>'+
+      '<div class="post-f"><button type="button" class="lk-btn'+on+'" data-id="'+id+'"><span class="lkh">'+(liked[id]?"♥":"♡")+'</span> <b class="lkn" id="lkn-'+id+'">0</b></button>'+
       '<a class="go" href="'+p.href+'">'+esc(p.cta)+' &rarr;</a></div>';
     feed.appendChild(c);
   });
+  function loadLikes(){try{fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"feed",op:"likes",ids:ids})}).then(function(r){return r.json();}).then(function(d){if(d&&d.likes){for(var k in d.likes){var el=document.getElementById("lkn-"+k);if(el)el.textContent=d.likes[k];}}}).catch(function(){});}catch(e){}}
+  loadLikes();
   feed.addEventListener("click",function(ev){
     var b=ev.target.closest?ev.target.closest(".lk-btn"):null;if(!b)return;
-    var id=b.getAttribute("data-id");liked[id]=!liked[id];
-    b.className="lk-btn"+(liked[id]?" on":"");b.innerHTML=liked[id]?"♥ Liked":"♡ Like";
+    var id=b.getAttribute("data-id");var now=!liked[id];liked[id]=now;
+    b.className="lk-btn"+(now?" on":"");
+    var hh=b.querySelector(".lkh");if(hh)hh.textContent=now?"♥":"♡";
+    var nn=b.querySelector(".lkn");if(nn){var v=(parseInt(nn.textContent,10)||0)+(now?1:-1);if(v<0)v=0;nn.textContent=v;}
     try{localStorage.setItem("luxu_liked",JSON.stringify(liked));}catch(e){}
+    try{fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"feed",op:"like",id:id,un:!now})}).then(function(r){return r.json();}).then(function(d){if(d&&typeof d.likes==="number"){var el=document.getElementById("lkn-"+id);if(el)el.textContent=d.likes;}}).catch(function(){});}catch(e){}
   });
   document.getElementById("postBtn").addEventListener("click",function(){
     location.href="mailto:hello@luxucleen.com?subject=Post%20on%20Luxu&body=What%20I%20want%20to%20post%3A%20%0AA%20link%20(optional)%3A%20%0AMy%20name%2Fbusiness%3A%20";
