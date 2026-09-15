@@ -137,7 +137,7 @@
         say(NAME, ans, true); autohide(9000);
         if (d && d.clips && d.clips.length) speak(d.clips);
         else if (d && d.audio) speak([{ audio: d.audio, type: d.audio_type }]);
-        else finishTalk();
+        else speakText(ans);
         if (d && d.go && /^\/[a-z0-9\/_-]*$/i.test(d.go)) {
           var go = d.go; setTimeout(function () { try { location.href = go; } catch (e) {} }, 2600);
         }
@@ -158,6 +158,27 @@
         audio.onended = next; audio.onerror = next;
         var p = audio.play(); if (p && p.catch) p.catch(function () { next(); });
       } catch (e) { next(); }
+    }
+    // Free on-device voice so she always talks back, even when the cloud voice is capped.
+    function speakText(t) {
+      try {
+        if (!t || !window.speechSynthesis || !window.SpeechSynthesisUtterance) return finishTalk();
+        orb.classList.add("talk"); duck(true);
+        var u = new SpeechSynthesisUtterance(String(t).slice(0, 300));
+        u.lang = (LANG === "es") ? "es-US" : "en-US";
+        try {
+          var vs = window.speechSynthesis.getVoices() || [], pick = null, want = (LANG === "es") ? "es" : "en";
+          for (var i = 0; i < vs.length; i++) {
+            var n = (vs[i].name || "").toLowerCase(), lg = (vs[i].lang || "").toLowerCase();
+            if (lg.indexOf(want) === 0) { if (/female|samantha|victoria|zira|paulina|monica|google/.test(n)) { pick = vs[i]; break; } if (!pick) pick = vs[i]; }
+          }
+          if (pick) u.voice = pick;
+        } catch (e) {}
+        u.onend = function () { finishTalk(); };
+        u.onerror = function () { finishTalk(); };
+        try { window.speechSynthesis.cancel(); } catch (e) {}
+        window.speechSynthesis.speak(u);
+      } catch (e) { finishTalk(); }
     }
     function finishTalk() {
       wakeCenter(false); orb.classList.remove("talk"); // return to the corner
