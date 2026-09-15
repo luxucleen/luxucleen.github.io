@@ -3,9 +3,9 @@
 <head>
 <script>/*lux-lang-router*/(function(){try{if(localStorage.getItem("lux_theme")==="light"){document.documentElement.setAttribute("data-theme","light");}}catch(e){}try{var E={"/":1,"/ask/":1,"/stack/":1,"/real-estate/":1,"/trading/":1,"/contact/":1,"/community/":1,"/landscaping/":1,"/launchpad/":1,"/jewelry/":1,"/taxes/":1,"/security/":1,"/store/":1,"/free-education/":1,"/office/":1,"/settings/":1,"/start/":1,"/tv28live/":1,"/news28/":1,"/loopholes/":1,"/luxu/":1,"/papeles/":1,"/agreements/":1,"/guides/":1};var p=location.pathname.replace(/index\.html$/,"");if(p.charAt(p.length-1)!=="/"&&p.indexOf(".")<0)p+="/";if(p==="")p="/";var onES=p.indexOf("/es/")===0||p==="/es"||p==="/es/";var s=null;try{s=localStorage.getItem("lux_lang");}catch(e){}if(s==="en"&&onES){location.replace(p.replace(/^\/es/,"")||"/");}else if(s==="es"&&!onES){if(E[p])location.replace("/es"+(p==="/"?"/":p));}else if(!s&&!onES){var l=(navigator.language||(navigator.languages&&navigator.languages[0])||"en").toLowerCase();if(l.indexOf("es")===0&&E[p])location.replace("/es"+(p==="/"?"/":p));}}catch(e){}try{document.addEventListener("DOMContentLoaded",function(){var a=document.querySelectorAll("a[hreflang],a.lang");for(var i=0;i<a.length;i++){a[i].addEventListener("click",function(){try{var h=this.getAttribute("href")||"";localStorage.setItem("lux_lang",(h.indexOf("/es/")===0||h==="/es"||h==="/es/")?"es":"en");}catch(e){}});}});}catch(e){}})();</script>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Luxu &mdash; the money feed (Luxucleen)</title>
-<meta name="description" content="Luxu is the social feed where every post can make money - post your video or photo, sell your product or clip right there, keep up with the trend, and follow the businesses of Luxucleen. Real posts, live.">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Luxu &mdash; the social app where every post can make money</title>
+<meta name="description" content="Luxu is the social app where every post can make money - post your video or photo, sell your product or clip right there, like, share, keep up with the trend, and follow the businesses of Luxucleen. Real posts, live.">
 <meta name="robots" content="index,follow">
 <link rel="canonical" href="https://luxucleen.com/luxu/">
 <link rel="alternate" hreflang="en" href="https://luxucleen.com/luxu/">
@@ -13,43 +13,99 @@
 <link rel="alternate" hreflang="x-default" href="https://luxucleen.com/luxu/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://luxucleen.com/luxu/">
-<meta property="og:title" content="Luxu &mdash; the money feed">
-<meta property="og:description" content="Post your video or photo, sell right there, keep up with the trend. Real posts, live. The social feed by Luxucleen.">
+<meta property="og:title" content="Luxu &mdash; the social app where every post makes money">
+<meta property="og:description" content="Post your video or photo, sell right there, like, share, keep up with the trend. Real posts, live. The social app by Luxucleen.">
 <meta property="og:site_name" content="Luxucleen LLC">
 <meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Luxu &mdash; the social app where every post makes money">
+<meta name="twitter:description" content="Post, sell, like, share. Real posts, live. By Luxucleen.">
 <link rel="stylesheet" href="/site.css">
 <style>
-  .lxbar{display:flex;gap:10px;align-items:center;margin:14px 0 4px}
-  .lxbar .post{flex:1 1 auto;background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:13px 16px;color:var(--dim);cursor:pointer;text-align:left;font:inherit}
-  .composer{border:1px solid var(--line);border-radius:16px;background:var(--soft);padding:14px;margin:8px 0 12px;display:flex;flex-direction:column;gap:9px}
-  .composer[hidden]{display:none}
-  .cxin{width:100%;box-sizing:border-box;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:10px;padding:11px 13px;color:inherit;font:inherit;font-size:15px}
-  textarea.cxin{resize:vertical}
-  .cxrow{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-  .cxbtns{display:flex;align-items:center;gap:10px}
-  .cxpost{background:var(--accent);color:#fff;border:0;border-radius:10px;padding:11px 18px;font-weight:800;cursor:pointer;font:inherit}
-  .cxpost:hover{background:var(--accent2)}
-  .cxst{color:var(--dim);font-size:13px}
-  .feed{display:flex;flex-direction:column;gap:14px;margin:16px 0}
-  .post-c{border:1px solid var(--line);border-radius:18px;background:var(--soft);overflow:hidden}
-  .post-h{display:flex;align-items:center;gap:11px;padding:14px 16px 8px}
-  .av{width:42px;height:42px;border-radius:50%;flex:0 0 auto;display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;font-weight:800}
-  .post-h .who b{display:block;font-size:15px}
-  .post-h .who span{display:block;font-size:12px;color:var(--dim)}
-  .tagp{margin-left:auto;font:800 12px/1 ui-monospace,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);border:1px solid var(--line);border-radius:999px;padding:5px 9px}
-  .post-b{padding:2px 16px 6px;font-size:15.5px;line-height:1.5;white-space:pre-wrap;word-break:break-word}
-  .post-b .big{font-size:34px;display:block;margin:6px 0}
-  .pmedia{position:relative;margin:6px 0 2px;background:#000;overflow:hidden}
+  :root{--lxw:600px}
+  body{padding-bottom:calc(70px + env(safe-area-inset-bottom))}
+  header,main.wrap>.crumb,.hero,footer .fmap+*{}
+  /* app bar */
+  .lxtop{position:sticky;top:0;z-index:35;display:flex;align-items:center;gap:10px;padding:11px 15px;background:color-mix(in srgb,var(--soft) 82%,transparent);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .lxtop .wm{font-weight:900;font-size:22px;letter-spacing:-.6px;text-decoration:none;color:inherit;line-height:1}
+  .lxtop .wm span{background:linear-gradient(90deg,#7c5cff,#2ea27e);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .lxtop .sp{margin-left:auto}
+  .ib{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:rgba(127,127,127,.08);color:inherit;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font:inherit;text-decoration:none}
+  .ib svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .ib.lang{width:auto;padding:0 12px;border-radius:999px;font-size:13px;font-weight:700}
+  /* stories */
+  .stories{display:flex;gap:14px;overflow-x:auto;padding:13px 15px 5px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .stories::-webkit-scrollbar{display:none}
+  .story{flex:0 0 auto;width:66px;text-align:center;text-decoration:none;color:inherit;cursor:pointer}
+  .story .ring{width:62px;height:62px;border-radius:50%;padding:2.5px;background:conic-gradient(from 135deg,#7c5cff,#2ea27e,#f59e0b,#ef4444,#7c5cff);display:flex;align-items:center;justify-content:center;margin:0 auto}
+  .story .rimg{width:100%;height:100%;border-radius:50%;background:var(--soft);display:flex;align-items:center;justify-content:center;font-size:27px;border:2px solid var(--bg,#0e1014)}
+  .story.you .ring{background:var(--line)}
+  .story.you .rimg{color:var(--accent);font-size:30px;font-weight:800}
+  .story .sn{display:block;font-size:11px;color:var(--dim);margin-top:5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  /* feed */
+  .feed{display:flex;flex-direction:column;gap:0;margin:6px auto 0;max-width:var(--lxw)}
+  .pc{border-top:1px solid var(--line);background:transparent}
+  .pc:first-child{border-top:0}
+  .pc-h{display:flex;align-items:center;gap:11px;padding:12px 15px 9px}
+  .av{width:40px;height:40px;border-radius:50%;flex:0 0 auto;display:flex;align-items:center;justify-content:center;font-size:21px;color:#fff;font-weight:800}
+  .pc-h .who b{display:block;font-size:14px;font-weight:800;line-height:1.2}
+  .pc-h .who span{display:block;font-size:12px;color:var(--dim)}
+  .pc-h .foll{margin-left:auto;font-weight:800;font-size:13px;color:var(--accent);background:none;border:0;cursor:pointer;font-family:inherit}
+  .tagp{margin-left:auto;font:800 11px/1 ui-monospace,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);border:1px solid var(--line);border-radius:999px;padding:5px 9px}
+  .pmedia{position:relative;margin:2px 0 0;background:#000;overflow:hidden}
   .pmedia iframe,.pmedia video,.pmedia img{display:block;width:100%;border:0}
-  .pmedia iframe,.pmedia video{aspect-ratio:16/9;height:auto}
-  .pmedia img{max-height:560px;object-fit:contain}
-  .mlink{display:block;padding:16px;color:#fff;text-decoration:none;background:linear-gradient(135deg,#0f5aa8,#2ea27e);font-weight:700}
-  .post-f{display:flex;align-items:center;gap:8px;padding:10px 16px 14px}
-  .lk-btn{background:none;border:1px solid var(--line);border-radius:999px;padding:8px 13px;cursor:pointer;color:inherit;font:inherit;font-size:14px}
-  .lk-btn.on{border-color:#ef4444;color:#ef4444}
-  .post-f a.go{margin-left:auto;background:var(--accent);color:#fff;text-decoration:none;border-radius:10px;padding:10px 16px;font-weight:800;font-size:14px}
-  .post-f a.go:hover{background:var(--accent2)}
+  .pmedia iframe,.pmedia video{aspect-ratio:1/1;height:auto;object-fit:cover}
+  .pmedia img{width:100%;max-height:600px;object-fit:cover}
+  .mlink{display:flex;align-items:center;justify-content:center;aspect-ratio:16/9;color:#fff;text-decoration:none;background:linear-gradient(135deg,#7c5cff,#2ea27e);font-weight:800;font-size:16px}
+  .bignote{aspect-ratio:auto;min-height:0;display:flex;align-items:center;justify-content:center;font-size:52px;padding:14px 0}
+  .pc-act{display:flex;align-items:center;gap:16px;padding:11px 15px 3px}
+  .act{background:none;border:0;padding:0;margin:0;cursor:pointer;color:inherit;display:inline-flex;align-items:center;gap:6px;font:inherit}
+  .act svg{width:27px;height:27px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;transition:transform .12s}
+  .act:active svg{transform:scale(.82)}
+  .act.on{color:#ef4444}
+  .act.on svg{fill:#ef4444;stroke:#ef4444}
+  .act.saved{color:var(--accent)}
+  .act.saved svg{fill:currentColor}
+  .act .cnt{font-size:13px;font-weight:700}
+  .act.share-a{margin-left:auto}
+  .pc-likes{padding:1px 15px;font-weight:800;font-size:14px}
+  .pc-cap{padding:3px 15px 4px;font-size:14.5px;line-height:1.5;white-space:pre-wrap;word-break:break-word}
+  .pc-cap b.hand{font-weight:800;margin-right:6px}
+  .pc-cta{display:inline-block;margin:8px 15px 15px;background:var(--accent);color:#fff;text-decoration:none;border-radius:11px;padding:11px 17px;font-weight:800;font-size:14px}
+  .pc-cta:hover{background:var(--accent2)}
+  .pc-b{padding:3px 15px 6px;font-size:15px;line-height:1.55;white-space:pre-wrap;word-break:break-word}
+  .pc-b .big{font-size:40px;display:block;margin:8px 0 2px}
+  /* bottom tab bar */
+  .tabbar{position:fixed;left:0;right:0;bottom:0;z-index:38;display:flex;align-items:center;background:color-mix(in srgb,var(--soft) 92%,transparent);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:7px 6px calc(7px + env(safe-area-inset-bottom))}
+  .tab{flex:1;background:none;border:0;cursor:pointer;color:var(--dim);display:flex;flex-direction:column;align-items:center;gap:2px;font:inherit;text-decoration:none;padding:2px 0}
+  .tab svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .tab .tl{font-size:11px;font-weight:700}
+  .tab.mid{color:#fff}
+  .tab.mid .plus{width:46px;height:34px;border-radius:11px;background:linear-gradient(135deg,#7c5cff,#2ea27e);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(124,92,255,.5)}
+  .tab.mid .plus svg{width:24px;height:24px;stroke-width:2.6}
+  /* compose sheet */
+  .sheet{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.55);display:none}
+  .sheet.open{display:block}
+  .sheet-c{position:absolute;left:0;right:0;bottom:0;background:var(--soft);border:1px solid var(--line);border-radius:20px 20px 0 0;padding:16px 16px calc(18px + env(safe-area-inset-bottom));max-width:var(--lxw);margin:0 auto;max-height:90vh;overflow:auto}
+  .sheet-hd{display:flex;align-items:center;margin-bottom:12px}
+  .sheet-hd b{font-size:17px}
+  .sheet-hd .x{margin-left:auto;background:none;border:0;color:var(--dim);font-size:26px;cursor:pointer;line-height:1}
+  .cxin{width:100%;box-sizing:border-box;background:rgba(127,127,127,.08);border:1px solid var(--line);border-radius:12px;padding:12px 13px;color:inherit;font:inherit;font-size:15px;margin-bottom:10px}
+  textarea.cxin{resize:vertical}
+  .cxrow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .cxpost{width:100%;background:var(--accent);color:#fff;border:0;border-radius:12px;padding:14px;font-weight:800;cursor:pointer;font:inherit;font-size:15px}
+  .cxpost:hover{background:var(--accent2)}
+  .cxst{display:block;color:var(--dim);font-size:13px;margin-top:9px;text-align:center;min-height:16px}
   .small{color:var(--dim);font-size:13px}
+  /* share popup */
+  .shpop{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.55);display:none}
+  .shpop.open{display:block}
+  .shpop-c{position:absolute;left:0;right:0;bottom:0;background:var(--soft);border-radius:20px 20px 0 0;padding:18px 16px calc(20px + env(safe-area-inset-bottom));max-width:var(--lxw);margin:0 auto}
+  .shpop-c b{font-size:16px}
+  .shgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0 6px}
+  .shb{display:flex;flex-direction:column;align-items:center;gap:7px;background:rgba(127,127,127,.08);border:1px solid var(--line);border-radius:14px;padding:14px 6px;text-decoration:none;color:inherit;cursor:pointer;font-size:12px;font-weight:700}
+  .shb .ic{font-size:24px}
+  .hero h1{font-size:23px}
   .back{color:var(--dim)!important}
 </style>
 </head>
@@ -65,30 +121,19 @@
   </div>
 </header>
 
-<main class="wrap">
-  <p class="crumb"><a href="/">Luxucleen LLC</a> &rsaquo; Luxu</p>
+<div class="lxtop">
+  <a class="wm" href="/luxu/">Lu<span>xu</span></a>
+  <span class="sp"></span>
+  <button type="button" class="ib" id="shareApp" aria-label="Share Luxu"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg></button>
+  <button type="button" class="ib" id="openPost" aria-label="Create a post"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+  <a class="ib lang" href="/es/luxu/" hreflang="es" lang="es">ES</a>
+</div>
 
-  <section class="hero">
-    <h1>Luxu &mdash; the feed where every post can make money.</h1>
-    <p class="lede">Post your video, your photo, your trade or your take &mdash; it goes <b>live</b>. Sell your clip or product
-    <b>right there</b> with a pay button, keep up with the trend, and follow everything Luxucleen builds. Real posts, real people.</p>
-  </section>
+<div class="stories" id="stories"></div>
 
-  <div class="lxbar">
-    <button type="button" class="post" id="postBtn">Post to Luxu &mdash; a video, a photo, your take&hellip;</button>
-  </div>
-  <div class="composer" id="composer" hidden>
-    <input id="cx_who" class="cxin" type="text" maxlength="60" placeholder="Your name or @handle">
-    <textarea id="cx_txt" class="cxin" maxlength="500" rows="3" placeholder="What's happening? Your trade, your take, your drop&hellip;"></textarea>
-    <input id="cx_media" class="cxin" type="url" placeholder="Video or photo link (YouTube, .mp4, or image URL) &mdash; optional">
-    <div class="cxrow"><input id="cx_price" class="cxin" type="text" maxlength="40" placeholder="Price, optional (e.g. $9)"><input id="cx_pay" class="cxin" type="url" placeholder="Your pay link (Gumroad, etc.)"></div>
-    <div class="cxbtns"><button type="button" class="cxpost" id="cx_post">Post &mdash; goes live</button><span class="cxst" id="cx_status"></span></div>
-    <p class="small">Your post goes live in the feed for everyone. Add a price and a pay link to sell your video or product right here. Be real, be kind &mdash; anything illegal is removed.</p>
-  </div>
-
+<main class="wrap" style="max-width:600px">
   <div class="feed" id="feed"></div>
-
-  <p class="small">Luxu is new and growing &mdash; the newest real posts show on top, and the Luxucleen businesses below. Post a video or photo by link today; direct uploads and the AI creator tools are coming next.</p>
+  <p class="small" style="text-align:center;padding:14px 12px 6px">Luxu is new and growing &mdash; the newest real posts are on top. Post a video or photo by link, like, and <b>share to bring people in</b>. Comments, direct uploads and AI creator tools are coming next.</p>
 </main>
 
 <footer class="wrap">
@@ -103,8 +148,41 @@
   &copy; 2026 Luxucleen LLC &middot; Midlothian, Virginia &middot; SCC Entity ID 11952713
 </footer>
 
+<!-- compose sheet -->
+<div class="sheet" id="sheet">
+  <div class="sheet-c">
+    <div class="sheet-hd"><b>New post &mdash; it goes live</b><button type="button" class="x" id="sheetX" aria-label="Close">&times;</button></div>
+    <input id="cx_who" class="cxin" type="text" maxlength="60" placeholder="Your name or @handle">
+    <textarea id="cx_txt" class="cxin" maxlength="500" rows="3" placeholder="What's happening? Your trade, your take, your drop&hellip;"></textarea>
+    <input id="cx_media" class="cxin" type="url" placeholder="Video or photo link (YouTube, .mp4, or image URL) &mdash; optional">
+    <div class="cxrow"><input id="cx_price" class="cxin" type="text" maxlength="40" placeholder="Price, optional ($9)"><input id="cx_pay" class="cxin" type="url" placeholder="Your pay link (Gumroad&hellip;)"></div>
+    <button type="button" class="cxpost" id="cx_post">Post &mdash; goes live</button>
+    <span class="cxst" id="cx_status"></span>
+    <p class="small" style="margin:10px 2px 0">Your post goes live for everyone. Add a price and a pay link to sell your video or product right here. Be real, be kind &mdash; anything illegal is removed.</p>
+  </div>
+</div>
+
+<!-- share sheet -->
+<div class="shpop" id="shpop">
+  <div class="shpop-c">
+    <b>Share &mdash; bring people in</b>
+    <div class="shgrid" id="shgrid"></div>
+    <p class="small" style="text-align:center">Every share is free traffic to Luxu.</p>
+  </div>
+</div>
+
+<!-- bottom tab bar -->
+<nav class="tabbar">
+  <button type="button" class="tab" id="tHome"><svg viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span class="tl">Home</span></button>
+  <a class="tab" href="/"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><span class="tl">Discover</span></a>
+  <button type="button" class="tab mid" id="tPost"><span class="plus"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span><span class="tl">Post</span></button>
+  <button type="button" class="tab" id="tAsk"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.3 7.6L3 21l1.9-5.7A8.5 8.5 0 1 1 21 11.5z"/></svg><span class="tl">Ask Luxu</span></button>
+  <a class="tab" href="/settings/"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg><span class="tl">You</span></a>
+</nav>
+
 <script>/*luxu-feed*/(function(){try{
   var API="https://ai.luxucleen.com/ask",ids=[];
+  var SITE="https://luxucleen.com";
   var AV={re:"#22c55e",tr:"#3b82f6",jw:"#a855f7",tx:"#6366f1",lh:"#f59e0b",ai:"#14b8a6",ed:"#ef4444",sk:"#10b981",ph:"#0ea5e9",bk:"#f43f5e",u:"#7c3aed"};
   var POSTS=[
     {k:"re",e:"🏠",who:"Luxucleen Real Estate",tag:"We buy houses",big:"💵",body:"We buy houses anywhere in the U.S. — any condition, cash offer, you pick the closing date. Behind on payments, inherited, vacant, tenants in place: we have a way out.",cta:"Get a cash offer",href:"/we-buy-houses/"},
@@ -118,38 +196,104 @@
     {k:"bk",e:"📖",who:"Luxucleen Books",tag:"88% yours",big:"📕",body:"We build your book with AI — you publish it on Amazon under your own name and keep 88%. From idea to a finished, listed book.",cta:"Make my book",href:"/books/"}
   ];
   var feed=document.getElementById("feed");
-  var liked={};try{liked=JSON.parse(localStorage.getItem("luxu_liked")||"{}")||{};}catch(e){liked={};}
+  var liked={},saved={};
+  try{liked=JSON.parse(localStorage.getItem("luxu_liked")||"{}")||{};}catch(e){liked={};}
+  try{saved=JSON.parse(localStorage.getItem("luxu_saved")||"{}")||{};}catch(e){saved={};}
   function esc(s){var d=document.createElement("div");d.textContent=(s==null?"":String(s));return d.innerHTML;}
+  var SVG_HEART='<svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 1 0-7.7 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"/></svg>';
+  var SVG_CMT='<svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.3 7.6L3 21l1.9-5.7A8.5 8.5 0 1 1 21 11.5z"/></svg>';
+  var SVG_SHARE='<svg viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg>';
+  var SVG_SAVE='<svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>';
   function mediaHTML(m){
     if(!m||!/^https?:\/\//i.test(m))return "";
     var yt=m.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/)|youtu\.be\/)([\w-]{6,})/i);
     if(yt)return '<div class="pmedia"><iframe src="https://www.youtube-nocookie.com/embed/'+yt[1]+'" allow="autoplay;encrypted-media;picture-in-picture;fullscreen" allowfullscreen loading="lazy" title="video"></iframe></div>';
-    if(/\.(mp4|webm|mov)(\?|#|$)/i.test(m))return '<div class="pmedia"><video src="'+encodeURI(m)+'" controls playsinline preload="metadata"></video></div>';
+    if(/\.(mp4|webm|mov)(\?|#|$)/i.test(m))return '<div class="pmedia"><video src="'+encodeURI(m)+'" muted loop playsinline controls preload="metadata"></video></div>';
     if(/\.(jpg|jpeg|png|gif|webp|avif)(\?|#|$)/i.test(m))return '<div class="pmedia"><img src="'+encodeURI(m)+'" loading="lazy" alt=""></div>';
     return '<div class="pmedia"><a class="mlink" href="'+encodeURI(m)+'" target="_blank" rel="noopener">&#9654; Open media</a></div>';
   }
-  function foot(id,extra){var on=liked[id]?" on":"";
-    return '<div class="post-f"><button type="button" class="lk-btn'+on+'" data-id="'+id+'"><span class="lkh">'+(liked[id]?"♥":"♡")+'</span> <b class="lkn" id="lkn-'+id+'">0</b></button>'+extra+'</div>';}
+  function actRail(id,shareUrl,shareText){
+    var on=liked[id]?" on":"",sv=saved[id]?" saved":"";
+    return '<div class="pc-act">'+
+      '<button type="button" class="act lk-btn'+on+'" data-id="'+id+'" aria-label="Like">'+SVG_HEART+'<b class="cnt lkn" id="lkn-'+id+'">0</b></button>'+
+      '<button type="button" class="act cmt-a" data-id="'+id+'" aria-label="Comment">'+SVG_CMT+'</button>'+
+      '<button type="button" class="act share-a" data-url="'+esc(shareUrl)+'" data-text="'+esc(shareText)+'" aria-label="Share">'+SVG_SHARE+'</button>'+
+      '<button type="button" class="act sv-btn'+sv+'" data-id="'+id+'" aria-label="Save">'+SVG_SAVE+'</button>'+
+      '</div>';
+  }
   function seedCard(p,idx){var id="p"+idx;ids.push(id);
-    var go='<a class="go" href="'+p.href+'">'+esc(p.cta)+' &rarr;</a>';
-    return '<div class="post-c"><div class="post-h"><span class="av" style="background:'+(AV[p.k]||"#2ea27e")+'">'+p.e+'</span><span class="who"><b>'+esc(p.who)+'</b><span>Luxu</span></span><span class="tagp">'+esc(p.tag)+'</span></div><div class="post-b">'+esc(p.body)+'<span class="big">'+p.big+'</span></div>'+foot(id,go)+'</div>';}
+    var abs=(p.href.charAt(0)==="/")?(SITE+p.href):p.href;
+    var rail=actRail(id,abs,p.body.slice(0,90));
+    return '<div class="pc"><div class="pc-h"><span class="av" style="background:'+(AV[p.k]||"#2ea27e")+'">'+p.e+'</span><span class="who"><b>'+esc(p.who)+'</b><span>Sponsored &middot; Luxucleen</span></span><span class="tagp">'+esc(p.tag)+'</span></div>'+
+      '<div class="pmedia bignote" style="background:linear-gradient(135deg,'+(AV[p.k]||"#2ea27e")+'22,transparent)">'+p.big+'</div>'+
+      rail+
+      '<div class="pc-b">'+esc(p.body)+'</div>'+
+      '<a class="pc-cta" href="'+p.href+'">'+esc(p.cta)+' &rarr;</a></div>';}
   function liveCard(p){if(!p||!p.id)return "";ids.push(p.id);
-    var buy=p.paylink?('<a class="go" href="'+encodeURI(p.paylink)+'" target="_blank" rel="noopener">'+(p.price?("Buy "+esc(p.price)):"Buy / Support")+' &rarr;</a>'):"";
     var initial=esc((p.who||"?").slice(0,1).toUpperCase());
-    return '<div class="post-c"><div class="post-h"><span class="av" style="background:'+AV.u+'">'+initial+'</span><span class="who"><b>'+esc(p.who||"Someone")+'</b><span>on Luxu</span></span></div>'+(p.txt?('<div class="post-b">'+esc(p.txt)+'</div>'):'')+mediaHTML(p.media)+foot(p.id,buy)+'</div>';}
+    var abs=p.paylink?encodeURI(p.paylink):(SITE+"/luxu/");
+    var rail=actRail(p.id,abs,(p.txt||"On Luxu").slice(0,90));
+    var buy=p.paylink?('<a class="pc-cta" href="'+encodeURI(p.paylink)+'" target="_blank" rel="noopener">'+(p.price?("Buy "+esc(p.price)):"Buy / Support")+' &rarr;</a>'):"";
+    return '<div class="pc"><div class="pc-h"><span class="av" style="background:'+AV.u+'">'+initial+'</span><span class="who"><b>'+esc(p.who||"Someone")+'</b><span>on Luxu</span></span></div>'+
+      mediaHTML(p.media)+rail+
+      (p.txt?('<div class="pc-cap"><b class="hand">'+esc(p.who||"Someone")+'</b>'+esc(p.txt)+'</div>'):'')+buy+'</div>';}
   var html="";POSTS.forEach(function(p,idx){html+=seedCard(p,idx);});feed.innerHTML=html;
+
+  // stories strip from the businesses
+  (function(){var s=document.getElementById("stories");if(!s)return;
+    var h='<a class="story you" id="storyYou"><span class="ring"><span class="rimg">+</span></span><span class="sn">Post</span></a>';
+    POSTS.forEach(function(p){h+='<a class="story" href="'+p.href+'"><span class="ring"><span class="rimg">'+p.e+'</span></span><span class="sn">'+esc(p.who.replace("Luxucleen ","").replace("Luxucleen","Luxu"))+'</span></a>';});
+    s.innerHTML=h;
+    var y=document.getElementById("storyYou");if(y)y.addEventListener("click",openSheet);})();
+
   function loadLikes(){try{fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"feed",op:"likes",ids:ids})}).then(function(r){return r.json();}).then(function(d){if(d&&d.likes){for(var k in d.likes){var el=document.getElementById("lkn-"+k);if(el)el.textContent=d.likes[k];}}}).catch(function(){});}catch(e){}}
   function loadLive(){fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"feed",op:"list"})}).then(function(r){return r.json();}).then(function(d){if(d&&d.posts&&d.posts.length){var h="";d.posts.forEach(function(p){h+=liveCard(p);});if(h)feed.insertAdjacentHTML("afterbegin",h);}loadLikes();}).catch(function(){loadLikes();});}
   loadLive();
-  feed.addEventListener("click",function(ev){var b=ev.target.closest?ev.target.closest(".lk-btn"):null;if(!b)return;
-    var id=b.getAttribute("data-id");var now=!liked[id];liked[id]=now;b.className="lk-btn"+(now?" on":"");
-    var hh=b.querySelector(".lkh");if(hh)hh.textContent=now?"♥":"♡";
-    var nn=b.querySelector(".lkn");if(nn){var v=(parseInt(nn.textContent,10)||0)+(now?1:-1);if(v<0)v=0;nn.textContent=v;}
-    try{localStorage.setItem("luxu_liked",JSON.stringify(liked));}catch(e){}
-    try{fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"feed",op:"like",id:id,un:!now})}).then(function(r){return r.json();}).then(function(d){if(d&&typeof d.likes==="number"){var el=document.getElementById("lkn-"+id);if(el)el.textContent=d.likes;}}).catch(function(){});}catch(e){}});
-  var cbox=document.getElementById("composer");
-  document.getElementById("postBtn").addEventListener("click",function(){if(cbox){cbox.hidden=!cbox.hidden;if(!cbox.hidden){var t=document.getElementById("cx_txt");if(t)t.focus();}}});
-  try{var w0=localStorage.getItem("luxu_who");if(w0){var we=document.getElementById("cx_who");if(we)we.value=w0;}}catch(e){}
+
+  // ---- share (free traffic) ----
+  function openShare(url,text){
+    if(navigator.share){navigator.share({title:"Luxu",text:text,url:url}).catch(function(){});return;}
+    var pop=document.getElementById("shpop"),grid=document.getElementById("shgrid");
+    var u=encodeURIComponent(url),t=encodeURIComponent(text+" — on Luxu");
+    grid.innerHTML=
+      '<a class="shb" target="_blank" rel="noopener" href="https://wa.me/?text='+t+'%20'+u+'"><span class="ic">💬</span>WhatsApp</a>'+
+      '<a class="shb" target="_blank" rel="noopener" href="https://t.me/share/url?url='+u+'&text='+t+'"><span class="ic">✈️</span>Telegram</a>'+
+      '<a class="shb" target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?text='+t+'&url='+u+'"><span class="ic">𝕏</span>X</a>'+
+      '<a class="shb" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u='+u+'"><span class="ic">📘</span>Facebook</a>'+
+      '<button type="button" class="shb" id="shCopy"><span class="ic">🔗</span>Copy link</button>';
+    pop.classList.add("open");
+    var c=document.getElementById("shCopy");if(c)c.addEventListener("click",function(){try{navigator.clipboard.writeText(url);c.innerHTML='<span class="ic">✅</span>Copied';}catch(e){}});
+  }
+  document.getElementById("shpop").addEventListener("click",function(e){if(e.target===this)this.classList.remove("open");});
+  document.getElementById("shareApp").addEventListener("click",function(){openShare(SITE+"/luxu/","Luxu — the social app where every post can make money");});
+
+  // ---- feed interactions ----
+  feed.addEventListener("click",function(ev){
+    var lb=ev.target.closest?ev.target.closest(".lk-btn"):null;
+    var sh=ev.target.closest?ev.target.closest(".share-a"):null;
+    var sv=ev.target.closest?ev.target.closest(".sv-btn"):null;
+    var cm=ev.target.closest?ev.target.closest(".cmt-a"):null;
+    if(sh){openShare(sh.getAttribute("data-url"),sh.getAttribute("data-text")||"");return;}
+    if(cm){openSheet();return;}
+    if(sv){var sid=sv.getAttribute("data-id");var sn=!saved[sid];if(sn)saved[sid]=1;else delete saved[sid];sv.className="act sv-btn"+(sn?" saved":"");try{localStorage.setItem("luxu_saved",JSON.stringify(saved));}catch(e){}return;}
+    if(lb){var id=lb.getAttribute("data-id");var now=!liked[id];liked[id]=now;lb.className="act lk-btn"+(now?" on":"");
+      var nn=lb.querySelector(".lkn");if(nn){var v=(parseInt(nn.textContent,10)||0)+(now?1:-1);if(v<0)v=0;nn.textContent=v;}
+      try{if(now)localStorage.setItem("luxu_liked",JSON.stringify(liked));else{delete liked[id];localStorage.setItem("luxu_liked",JSON.stringify(liked));}}catch(e){}
+      try{fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"feed",op:"like",id:id,un:!now})}).then(function(r){return r.json();}).then(function(d){if(d&&typeof d.likes==="number"){var el=document.getElementById("lkn-"+id);if(el)el.textContent=d.likes;}}).catch(function(){});}catch(e){}
+      return;}
+  });
+
+  // ---- compose sheet ----
+  var sheet=document.getElementById("sheet");
+  function openSheet(){sheet.classList.add("open");try{var w0=localStorage.getItem("luxu_who");if(w0){var we=document.getElementById("cx_who");if(we&&!we.value)we.value=w0;}}catch(e){}var t=document.getElementById("cx_txt");if(t)setTimeout(function(){t.focus();},60);}
+  function closeSheet(){sheet.classList.remove("open");}
+  document.getElementById("openPost").addEventListener("click",openSheet);
+  document.getElementById("tPost").addEventListener("click",openSheet);
+  document.getElementById("sheetX").addEventListener("click",closeSheet);
+  sheet.addEventListener("click",function(e){if(e.target===sheet)closeSheet();});
+  document.getElementById("tHome").addEventListener("click",function(){window.scrollTo({top:0,behavior:"smooth"});});
+  document.getElementById("tAsk").addEventListener("click",function(){var o=document.querySelector(".luxorb");if(o)o.click();else location.href="/ask/";});
+
   var cxPost=document.getElementById("cx_post");
   if(cxPost)cxPost.addEventListener("click",function(){
     var who=(document.getElementById("cx_who").value||"").trim();
@@ -163,7 +307,7 @@
     cxPost.disabled=true;if(st)st.textContent="Posting…";
     fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"feed",op:"post",who:who,text:txt,media:media,price:price,paylink:paylink})}).then(function(r){return r.json();}).then(function(d){
       cxPost.disabled=false;
-      if(d&&d.ok&&d.post){feed.insertAdjacentHTML("afterbegin",liveCard(d.post));document.getElementById("cx_txt").value="";document.getElementById("cx_media").value="";document.getElementById("cx_price").value="";document.getElementById("cx_pay").value="";if(st)st.textContent="Posted! It is live.";setTimeout(function(){if(cbox)cbox.hidden=true;if(st)st.textContent="";},1400);}
+      if(d&&d.ok&&d.post){feed.insertAdjacentHTML("afterbegin",liveCard(d.post));document.getElementById("cx_txt").value="";document.getElementById("cx_media").value="";document.getElementById("cx_price").value="";document.getElementById("cx_pay").value="";if(st)st.textContent="Posted! It is live.";window.scrollTo({top:0,behavior:"smooth"});setTimeout(function(){closeSheet();if(st)st.textContent="";},1200);}
       else{if(st)st.textContent=(d&&d.error==="blocked")?"That post was blocked.":((d&&d.error==="too many links")?"Too many links.":"Could not post, try again.");}
     }).catch(function(){cxPost.disabled=false;if(st)st.textContent="Could not post, try again.";});
   });
@@ -173,7 +317,7 @@ var STREAM="https://ice1.somafm.com/beatblender-128-mp3",BASE=0.08,DUCK=0.015;
 var a=new Audio();a.src=STREAM;a.preload="none";a.volume=BASE;
 var on=true;try{if(localStorage.getItem("lux_radio")==="off")on=false;}catch(e){}
 var btn=document.createElement("button");btn.type="button";btn.setAttribute("aria-label","Background music on or off");
-btn.style.cssText="position:fixed;right:14px;bottom:14px;z-index:2147483000;width:46px;height:46px;border-radius:50%;border:0;cursor:pointer;font-size:20px;line-height:46px;text-align:center;background:#0f5aa8;color:#fff;box-shadow:0 4px 14px rgba(0,0,0,.3);opacity:.9";
+btn.style.cssText="position:fixed;right:14px;bottom:80px;z-index:2147483000;width:46px;height:46px;border-radius:50%;border:0;cursor:pointer;font-size:20px;line-height:46px;text-align:center;background:#0f5aa8;color:#fff;box-shadow:0 4px 14px rgba(0,0,0,.3);opacity:.9";
 function icon(){btn.textContent=on?"♪":"🔇";}
 function start(){if(!on)return;try{var p=a.play();if(p&&p.catch)p.catch(function(){});}catch(e){}}
 function stop(){try{a.pause();}catch(e){}}
@@ -188,7 +332,7 @@ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",
 <script>/*lux-theme*/(function(){try{
 function cur(){return document.documentElement.getAttribute("data-theme")==="light"?"light":"dark";}
 var b=document.createElement("button");b.type="button";b.setAttribute("aria-label","Switch light or dark theme");
-b.style.cssText="position:fixed;right:14px;top:14px;z-index:2147483001;width:40px;height:40px;border-radius:50%;border:1px solid rgba(128,128,128,.35);cursor:pointer;font-size:18px;line-height:1;background:rgba(20,22,28,.55);color:#e7ebf1;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)";
+b.style.cssText="position:fixed;right:14px;top:70px;z-index:2147483001;width:40px;height:40px;border-radius:50%;border:1px solid rgba(128,128,128,.35);cursor:pointer;font-size:18px;line-height:1;background:rgba(20,22,28,.55);color:#e7ebf1;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)";
 function icon(){b.textContent=cur()==="light"?"☾":"☀";}
 icon();
 b.addEventListener("click",function(){var next=cur()==="light"?"dark":"light";if(next==="light"){document.documentElement.setAttribute("data-theme","light");}else{document.documentElement.removeAttribute("data-theme");}try{localStorage.setItem("lux_theme",next);}catch(e){}icon();});
