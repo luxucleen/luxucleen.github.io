@@ -165,17 +165,17 @@
 
 <script>/*lux-voice*/(function(){try{
 window.luxVoicePage=true;
-var API="https://ai.luxucleen.com/ask";
-var LANG=(function(){try{return localStorage.getItem("lux_lang")==="es"?"es":"en";}catch(e){return "en";}})();
-function line(){var h=document.querySelector("h1");var l=document.querySelector(".lede,.lux-hero p,.hero p");var t=((h?h.textContent:"")+". "+(l?l.textContent:"")).replace(/\s+/g," ").trim();return t.slice(0,360);}
-var clips=null,i=0,player=null,started=false,fin=false;
+var ES=location.pathname.indexOf("/es/")===0;
+var FILE=ES?"/es/jewelry/audio/intro_es.mp3":"/jewelry/audio/intro_en.mp3";
+var LANG=ES?"es":"en",API="https://ai.luxucleen.com/ask",started=false,fin=false,player=null;
 function finish(){if(fin)return;fin=true;setTimeout(function(){try{if(window.luxFadeIn){window.luxFadeIn();}else if(window.luxRadioStart){window.luxRadioStart();}}catch(e){}},900);}
-function playNext(){if(!clips||i>=clips.length){finish();return;}var c=clips[i++];try{player=new Audio("data:"+(c.type||"audio/mpeg")+";base64,"+c.audio);player.onended=playNext;player.onerror=playNext;var pr=player.play();if(pr&&pr.catch)pr.catch(function(){finish();});}catch(e){playNext();}}
-function begin(){if(started)return;started=true;if(clips){i=0;playNext();}else{fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"say",q:line(),lang:LANG,voice:"both"})}).then(function(r){return r.json();}).then(function(d){if(d&&d.clips&&d.clips.length){clips=d.clips;i=0;playNext();}else{finish();}}).catch(function(){finish();});}}
-function prefetch(){try{fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"say",q:line(),lang:LANG,voice:"both"})}).then(function(r){return r.json();}).then(function(d){if(d&&d.clips){clips=d.clips;}}).catch(function(){});}catch(e){}}
+var clips=null,ci=0;
+function sayNext(){if(!clips||ci>=clips.length){finish();return;}var c=clips[ci++];try{var a=new Audio("data:"+(c.type||"audio/mpeg")+";base64,"+c.audio);a.onended=sayNext;a.onerror=sayNext;var p=a.play();if(p&&p.catch)p.catch(function(){finish();});}catch(e){sayNext();}}
+function sayFallback(){try{var h=document.querySelector("h1"),l=document.querySelector(".lede,.lux-hero p,.hero p");var t=((h?h.textContent:"")+". "+(l?l.textContent:"")).replace(/\s+/g," ").trim().slice(0,360);fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"say",q:t,lang:LANG,voice:"both"})}).then(function(r){return r.json();}).then(function(d){if(d&&d.clips&&d.clips.length){clips=d.clips;ci=0;sayNext();}else{finish();}}).catch(function(){finish();});}catch(e){finish();}}
+function begin(){if(started)return;started=true;try{player=new Audio(FILE);player.onended=finish;player.onerror=sayFallback;var pr=player.play();if(pr&&pr.catch)pr.catch(sayFallback);}catch(e){sayFallback();}}
 var go=function(){document.removeEventListener("click",go);document.removeEventListener("touchstart",go);document.removeEventListener("keydown",go);begin();};
 document.addEventListener("click",go,{once:true});document.addEventListener("touchstart",go,{once:true});document.addEventListener("keydown",go,{once:true});
-if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",prefetch);else prefetch();
+try{var pf=new Audio();pf.preload="auto";pf.src=FILE;}catch(e){}
 }catch(e){}})();</script>
 <script>/*lux-radio*/(function(){try{
 var STREAM="https://ice1.somafm.com/beatblender-128-mp3",BASE=0.05,DUCK=0.015;
