@@ -137,7 +137,7 @@ document.addEventListener("click",go,{once:true});document.addEventListener("tou
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",prefetch);else prefetch();
 }catch(e){}})();</script>
 <script>/*lux-radio*/(function(){try{
-var STREAM="https://ice1.somafm.com/beatblender-128-mp3",BASE=0.05,DUCK=0.015;
+var STREAM="https://ice1.somafm.com/beatblender-128-mp3",BASE=0.08,DUCK=0.015;
 var a=new Audio();a.src=STREAM;a.preload="none";a.volume=BASE;
 var on=true;try{if(localStorage.getItem("lux_radio")==="off")on=false;}catch(e){}
 var btn=document.createElement("button");btn.type="button";btn.setAttribute("aria-label","Background music on or off");
@@ -147,7 +147,7 @@ function start(){if(!on)return;try{var p=a.play();if(p&&p.catch)p.catch(function
 function stop(){try{a.pause();}catch(e){}}
 icon();
 btn.addEventListener("click",function(){on=!on;try{localStorage.setItem("lux_radio",on?"on":"off");}catch(e){}icon();if(on)start();else stop();});
-window.luxDuck=function(d){try{a.volume=d?DUCK:BASE;}catch(e){}};window.luxRadioStart=function(){if(on&&a.paused){start();}};window.luxFadeIn=function(){try{if(!on)return;a.volume=0;start();var _t=0;var _iv=setInterval(function(){_t+=0.1;var v=Math.min(BASE,BASE*(_t/3));try{a.volume=v;}catch(e){}if(_t>=3){clearInterval(_iv);}},100);}catch(e){}};
+window.luxDuck=function(d){try{a.volume=d?DUCK:BASE;}catch(e){}};window.luxRadioStart=function(){if(on&&a.paused){start();}};window.luxFadeIn=function(){try{if(!on)return;a.volume=0;start();var _t=0;var _iv=setInterval(function(){_t+=0.05;var v=Math.min(BASE,BASE*(_t/4));try{a.volume=v;}catch(e){}if(_t>=4){try{a.volume=BASE;}catch(e){}clearInterval(_iv);}},50);}catch(e){}};
 var armed=false;function arm(){if(armed)return;armed=true;var go=function(){document.removeEventListener("click",go);document.removeEventListener("touchstart",go);start();};document.addEventListener("click",go,{once:true});document.addEventListener("touchstart",go,{once:true});}
 function boot(){document.body.appendChild(btn);if(!window.luxVoicePage){arm();}}
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
