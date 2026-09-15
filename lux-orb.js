@@ -96,6 +96,15 @@
       setHint(); // stay quiet on load; the greeting shows on first tap/wake
       try { if (!sessionStorage.getItem("lux_orb_flew")) { sessionStorage.setItem("lux_orb_flew", "1"); setTimeout(flyby, 500); } } catch (e) { setTimeout(flyby, 500); }
       if (PRO && get("lux_hands", "1") !== "0") startWake(); // hands-free auto-listen — Pro, unless turned off in Settings
+      try { // funnel: if they arrived from an ad via /start?want=X, greet them by intent
+        var _in = get("lux_intent", ""), _at = parseInt(get("lux_intent_at", "0"), 10) || 0;
+        if (_in && (Date.now() - _at) < 120000) {
+          var G = ES ? { jewelry: "Aqui por joyeria con hielo? Te ayudo a elegir.", house: "Vas a vender tu casa? Te ayudo a empezar.", sell: "Vas a vender tu casa? Te ayudo a empezar.", trading: "Aqui por trading? Te muestro como funciona.", taxes: "Aqui por tus impuestos? Empecemos.", tax: "Aqui por tus impuestos? Empecemos.", money: "Listo para ganar dinero con nosotros? Te guio.", stack: "Listo para ganar dinero con nosotros? Te guio." }
+                      : { jewelry: "Here for iced-out moissanite? I'll help you pick.", house: "Selling your house? I'll help you start.", sell: "Selling your house? I'll help you start.", trading: "Here for trading? I'll show you how it works.", taxes: "Here for your taxes? Let's get started.", tax: "Here for your taxes? Let's get started.", money: "Ready to make money with us? I'll guide you.", stack: "Ready to make money with us? I'll guide you." };
+          var line = G[_in] || (ES ? "Estoy aqui para ayudarte. Toca y pregunta." : "I'm here to help. Tap me and ask.");
+          setTimeout(function () { say(NAME, line, false); }, 1500);
+        }
+      } catch (e) {}
     }
     function flyby() { try { orb.classList.remove("flyby"); void orb.offsetWidth; orb.classList.add("flyby"); setTimeout(function () { orb.classList.remove("flyby"); }, 1650); } catch (e) {} }
     function wakeCenter(on) { try { if (on) { wrap.classList.add("center"); orb.classList.remove("live", "think", "talk"); orb.classList.add("wake"); } else { wrap.classList.remove("center"); orb.classList.remove("wake"); } } catch (e) {} }

@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Get started &mdash; Luxucleen</title>
+<meta name="description" content="Tell us what you want and we take you straight to it: sell a house fast, trading signals, iced-out jewelry, do your taxes, free AI tools, and more.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://luxucleen.com/start/">
+<link rel="stylesheet" href="/hub.css">
+<style>
+  .wrap{max-width:820px;margin:0 auto;padding:0 22px 60px}
+  .pick{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:13px;margin:22px 0}
+  .p{display:flex;align-items:center;gap:13px;padding:16px;border-radius:16px;text-decoration:none;color:var(--ink);
+     background:linear-gradient(135deg,rgba(46,194,126,.14),rgba(46,194,126,.03));border:1px solid rgba(46,194,126,.32);transition:.15s}
+  .p:hover{transform:translateY(-3px);border-color:rgba(46,194,126,.7);box-shadow:0 12px 30px rgba(0,0,0,.35)}
+  .p .ic{width:44px;height:44px;flex:0 0 auto}
+  .p b{display:block;font-size:15.5px;color:#fff}
+  .p span{display:block;font-size:12.5px;color:var(--dim);margin-top:2px}
+  #splash{position:fixed;inset:0;background:#16181d;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;z-index:9;color:var(--dim);font-size:15px}
+  #splash .dot{width:64px;height:64px;border-radius:50%;background:radial-gradient(circle at 32% 30%,#7ef0c0,#2ea6ff 46%,#7a5cff 100%);animation:sp 1s ease-in-out infinite}
+  @keyframes sp{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+</style>
+</head>
+<body class="hub">
+<div id="splash" hidden><div class="dot"></div><div id="sptxt">Taking you there&hellip;</div></div>
+<script>/* funnel router: an ad can deep-link ?want=X straight to the right product (EN + ES tables) */
+(function(){
+  var EN={
+    money:"/stack",makemoney:"/stack","make-money":"/stack",stack:"/stack",business:"/ask/#build",
+    house:"/we-buy-houses",sell:"/we-buy-houses","sell-house":"/we-buy-houses",sellhouse:"/we-buy-houses",cash:"/we-buy-houses",
+    realestate:"/real-estate","real-estate":"/real-estate",surplus:"/real-estate",foreclosure:"/we-buy-houses",
+    trading:"/trading",signals:"/trading",bot:"/trading",forex:"/trading",gold:"/trading",
+    jewelry:"/jewelry",moissanite:"/jewelry",vvs:"/jewelry",rings:"/jewelry",chains:"/jewelry",
+    taxes:"/taxes",tax:"/taxes",dmv:"/dmv",landscaping:"/landscaping",lawn:"/landscaping",
+    books:"/books",book:"/books",security:"/security",scan:"/security",code:"/security",
+    papeles:"/papeles",immigration:"/papeles",visa:"/work-visas",papers:"/papeles",
+    affiliates:"/affiliates",affiliate:"/affiliates",promote:"/affiliates",truek:"/truek",car:"/truek",
+    tv:"/tv28live",live:"/tv28live",ask:"/ask",help:"/ask",tools:"/ask",
+    store:"/store",education:"/free-education",learn:"/free-education",free:"/free-education"
+  };
+  var ES={
+    money:"/es/stack",makemoney:"/es/stack","make-money":"/es/stack",stack:"/es/stack",business:"/es/ask/#build",
+    house:"/we-buy-houses/es",sell:"/we-buy-houses/es","sell-house":"/we-buy-houses/es",sellhouse:"/we-buy-houses/es",cash:"/we-buy-houses/es",
+    realestate:"/es/real-estate","real-estate":"/es/real-estate",surplus:"/es/real-estate",foreclosure:"/we-buy-houses/es",
+    trading:"/es/trading",signals:"/es/trading",bot:"/es/trading",forex:"/es/trading",gold:"/es/trading",
+    jewelry:"/es/jewelry",moissanite:"/es/jewelry",vvs:"/es/jewelry",rings:"/es/jewelry",chains:"/es/jewelry",
+    taxes:"/es/taxes",tax:"/es/taxes",dmv:"/dmv",landscaping:"/es/landscaping",lawn:"/es/landscaping",
+    books:"/books",book:"/books",security:"/es/security",scan:"/es/security",code:"/es/security",
+    papeles:"/papeles",immigration:"/papeles",visa:"/work-visas",papers:"/papeles",
+    affiliates:"/affiliates",affiliate:"/affiliates",promote:"/affiliates",truek:"/truek",car:"/truek",
+    tv:"/es/tv28live",live:"/es/tv28live",ask:"/es/ask",help:"/es/ask",tools:"/es/ask",
+    store:"/es/store",education:"/es/free-education",learn:"/es/free-education",free:"/es/free-education"
+  };
+  function qp(n){try{return new URLSearchParams(location.search).get(n)||"";}catch(e){return "";}}
+  var want=(qp("want")||qp("to")||qp("for")||qp("p")||"").toLowerCase().replace(/[^a-z-]/g,"");
+  var ad=(qp("ad")||qp("utm_campaign")||qp("c")||"").toLowerCase();
+  var isES=location.pathname.indexOf("/es/")===0;
+  var dest=(isES?ES:EN)[want]||"";
+  if(dest){
+    try{localStorage.setItem("lux_intent",want);localStorage.setItem("lux_intent_at",String(Date.now()));if(ad)localStorage.setItem("lux_ad",ad);}catch(e){}
+    var s=document.getElementById("splash");if(s){s.hidden=false;}
+    setTimeout(function(){location.replace(dest);},350);
+  }
+})();
+</script>
+
+<header class="hhead">
+  <a class="hbrand" href="/">Luxu<span>cleen</span> LLC</a>
+  <nav class="hnav">
+    <a href="/">Home</a>
+    <a class="lang" href="/es/start/" hreflang="es" lang="es">Espa&ntilde;ol</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <section class="id" style="padding-top:26px">
+    <h1>What do you want to do?</h1>
+    <p class="tag lede">Pick one and we take you straight to it. Everything below is a real Luxucleen business &mdash; some free, some you earn from, all in one place.</p>
+  </section>
+
+  <div class="pick">
+    <a class="p" href="/we-buy-houses/"><i class="ic re">RE</i><div><b>Sell my house fast</b><span>Any condition, cash offer, close on your date.</span></div></a>
+    <a class="p" href="/stack/"><i class="ic sk">SK</i><div><b>Make money with us</b><span>Stack our businesses &mdash; we build & run them, you keep 88%.</span></div></a>
+    <a class="p" href="/trading/"><i class="ic tr">TR</i><div><b>Trading signals & bots</b><span>GRID28 for MetaTrader + the 28-day challenge. 18+, risk.</span></div></a>
+    <a class="p" href="/jewelry/"><i class="ic jw">JW</i><div><b>Iced-out jewelry</b><span>Real moissanite & VVS at the best price.</span></div></a>
+    <a class="p" href="/taxes/"><i class="ic tx">TX</i><div><b>Do my taxes</b><span>AI does your yearly taxes &mdash; cheaper than TurboTax.</span></div></a>
+    <a class="p" href="/ask/"><i class="ic ai">AI</i><div><b>Free AI tools</b><span>Ask Bridge28, scan your code, launch an idea &mdash; free.</span></div></a>
+    <a class="p" href="/dmv/"><i class="ic dv">DV</i><div><b>DMV errands</b><span>We wait in line so you don't miss work.</span></div></a>
+    <a class="p" href="/landscaping/"><i class="ic ls">LS</i><div><b>Lawn & grounds care</b><span>Commercial lawn care in Richmond, VA.</span></div></a>
+  </div>
+
+  <p class="note" style="text-align:center;color:var(--dim);font-size:13.5px">Not sure? <a href="/" style="color:var(--green2)">See everything Luxucleen does &rsaquo;</a> &nbsp;or tap the orb and ask.</p>
+</main>
+
+<footer class="hfoot">
+  <div class="fmap">
+    <a href="/">Home</a>
+    <a href="/store/">Store</a>
+    <a href="/ask/">Ask</a>
+    <a href="/contact/">Contact</a>
+    <a href="/legal/">Legal</a>
+  </div>
+  &copy; 2026 Luxucleen LLC &middot; Midlothian, Virginia
+</footer>
+<script>/*lux-radio*/(function(){try{
+var STREAM="https://ice1.somafm.com/beatblender-128-mp3",BASE=0.08,DUCK=0.015;
+var a=new Audio();a.src=STREAM;a.preload="none";a.volume=BASE;
+var on=true;try{if(localStorage.getItem("lux_radio")==="off")on=false;}catch(e){}
+var btn=document.createElement("button");btn.type="button";btn.setAttribute("aria-label","Background music on or off");
+btn.style.cssText="position:fixed;right:14px;bottom:14px;z-index:2147483000;width:46px;height:46px;border-radius:50%;border:0;cursor:pointer;font-size:20px;line-height:46px;text-align:center;background:#0f5aa8;color:#fff;box-shadow:0 4px 14px rgba(0,0,0,.3);opacity:.9";
+function icon(){btn.textContent=on?"♪":"🔇";}
+function start(){if(!on)return;try{var p=a.play();if(p&&p.catch)p.catch(function(){});}catch(e){}}
+function stop(){try{a.pause();}catch(e){}}
+icon();
+btn.addEventListener("click",function(){on=!on;try{localStorage.setItem("lux_radio",on?"on":"off");}catch(e){}icon();if(on)start();else stop();});
+window.luxDuck=function(d){try{a.volume=(typeof d==="number")?d:(d?DUCK:BASE);}catch(e){}};window.luxRadioStart=function(){if(on&&a.paused){start();}};window.luxFadeIn=function(){try{if(!on)return;a.volume=0;start();var _t=0;var _iv=setInterval(function(){_t+=0.05;var v=Math.min(BASE,BASE*(_t/4));try{a.volume=v;}catch(e){}if(_t>=4){try{a.volume=BASE;}catch(e){}clearInterval(_iv);}},50);}catch(e){}};
+var armed=false;function arm(){if(armed)return;armed=true;var go=function(){document.removeEventListener("click",go);document.removeEventListener("touchstart",go);start();};document.addEventListener("click",go,{once:true});document.addEventListener("touchstart",go,{once:true});}
+function boot(){document.body.appendChild(btn);if(!window.luxVoicePage){arm();}}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
+}catch(e){}})();</script>
+<script>/*lux-theme*/(function(){try{
+function cur(){return document.documentElement.getAttribute("data-theme")==="light"?"light":"dark";}
+var b=document.createElement("button");b.type="button";b.setAttribute("aria-label","Switch light or dark theme");
+b.style.cssText="position:fixed;right:14px;top:14px;z-index:2147483001;width:40px;height:40px;border-radius:50%;border:1px solid rgba(128,128,128,.35);cursor:pointer;font-size:18px;line-height:1;background:rgba(20,22,28,.55);color:#e7ebf1;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)";
+function icon(){b.textContent=cur()==="light"?"☾":"☀";}
+icon();
+b.addEventListener("click",function(){var next=cur()==="light"?"dark":"light";if(next==="light"){document.documentElement.setAttribute("data-theme","light");}else{document.documentElement.removeAttribute("data-theme");}try{localStorage.setItem("lux_theme",next);}catch(e){}icon();});
+function boot(){document.body.appendChild(b);}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
+}catch(e){}})();</script>
+<script defer src="/lux-orb.js"></script>
+</body>
+</html>
