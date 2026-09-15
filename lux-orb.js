@@ -46,13 +46,16 @@
     var css = document.createElement("style");
     css.textContent = [
       ".luxorb-wrap{position:fixed;left:18px;bottom:18px;z-index:2147483040;font:14px/1.4 -apple-system,Segoe UI,Roboto,system-ui,sans-serif;-webkit-user-select:none;user-select:none}",
-      ".luxorb{width:60px;height:60px;border-radius:50%;cursor:pointer;position:relative;border:0;padding:0;background:radial-gradient(circle at 32% 30%,#7ef0c0,#2ea6ff 46%,#7a5cff 100%);box-shadow:0 6px 22px rgba(46,166,255,.45),0 0 0 rgba(126,240,192,.6);transition:transform .18s ease,box-shadow .3s ease;animation:luxorbFloat 4.2s ease-in-out infinite}",
-      ".luxorb:hover{transform:scale(1.06)}",
+      ".luxorb{width:60px;height:60px;border-radius:50%;cursor:pointer;position:relative;border:0;padding:0;opacity:.9;background:radial-gradient(circle at 32% 30%,rgba(126,240,192,.92),rgba(46,166,255,.85) 46%,rgba(122,92,255,.8) 100%);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);box-shadow:0 6px 22px rgba(46,166,255,.4),0 0 18px rgba(126,240,192,.35);transition:transform .18s ease,box-shadow .3s ease,opacity .3s ease;animation:luxorbFloat 4.2s ease-in-out infinite,luxorbHue 8s ease-in-out infinite alternate}",
+      ".luxorb:hover{transform:scale(1.06);opacity:1}",
+      ".luxorb::before{content:'';position:absolute;inset:-3px;border-radius:50%;background:conic-gradient(from 0deg,rgba(126,240,192,0),rgba(126,240,192,.45) 20%,rgba(46,166,255,0) 45%,rgba(122,92,255,.4) 70%,rgba(126,240,192,0));opacity:.6;animation:luxorbSwirl 6s linear infinite;pointer-events:none}",
       ".luxorb::after{content:'';position:absolute;inset:8px;border-radius:50%;background:radial-gradient(circle at 60% 65%,rgba(255,255,255,.5),rgba(255,255,255,0) 60%);opacity:.7}",
       ".luxorb.live{animation:luxorbFloat 4.2s ease-in-out infinite,luxorbPulse 1.15s ease-in-out infinite}",
       ".luxorb.think{animation:luxorbFloat 4.2s ease-in-out infinite,luxorbSpin 1s linear infinite}",
       ".luxorb.talk{box-shadow:0 6px 22px rgba(126,92,255,.6),0 0 26px rgba(126,240,192,.7)}",
-      "@keyframes luxorbFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}",
+      "@keyframes luxorbFloat{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-6px) scale(1.045)}}",
+      "@keyframes luxorbSwirl{to{transform:rotate(360deg)}}",
+      "@keyframes luxorbHue{0%{filter:hue-rotate(-8deg)}100%{filter:hue-rotate(14deg)}}",
       "@keyframes luxorbPulse{0%,100%{box-shadow:0 6px 22px rgba(46,166,255,.45),0 0 0 0 rgba(126,240,192,.55)}50%{box-shadow:0 6px 22px rgba(46,166,255,.55),0 0 0 14px rgba(126,240,192,0)}}",
       "@keyframes luxorbSpin{to{transform:rotate(360deg)}}",
       "@keyframes luxFly{0%{transform:translate(0,0) scale(1)}18%{transform:translate(26vw,-46vh) scale(1.18)}52%{transform:translate(74vw,-26vh) scale(1.12)}80%{transform:translate(16vw,-30vh) scale(1.14)}100%{transform:translate(0,0) scale(1)}}",
@@ -71,7 +74,7 @@
       ".luxorb-bubble .bar{display:flex;gap:9px;margin-top:8px;align-items:center;justify-content:space-between}",
       ".luxorb-bubble .bar small{color:#8fa3bd;font-size:11px}",
       ".luxorb-bubble .bar a{color:#7ef0c0;cursor:pointer;font-size:11px;text-decoration:none}",
-      "@media (prefers-reduced-motion:reduce){.luxorb,.luxorb.live,.luxorb.think,.luxorb.flyby{animation:none}}"
+      "@media (prefers-reduced-motion:reduce){.luxorb,.luxorb.live,.luxorb.think,.luxorb.flyby{animation:none}.luxorb::before{animation:none}}"
     ].join("");
     (document.head || document.documentElement).appendChild(css);
 
@@ -172,13 +175,21 @@
         orb.classList.add("talk"); duck(true);
         var u = new SpeechSynthesisUtterance(String(t).slice(0, 300));
         u.lang = (LANG === "es") ? "es-US" : "en-US";
+        u.rate = 1.02; u.pitch = 1.06; // warmer, more alive than the flat default
         try {
-          var vs = (VOICES && VOICES.length) ? VOICES : (window.speechSynthesis.getVoices() || []), pick = null, want = (LANG === "es") ? "es" : "en";
+          // pick the most NATURAL voice on the device (neural voices first), not a generic robotic one
+          var vs = (VOICES && VOICES.length) ? VOICES : (window.speechSynthesis.getVoices() || []), want = (LANG === "es") ? "es" : "en";
+          var PREF = ["natural", "aria", "jenny", "michelle", "ava", "emma", "nicole", "bella", "google", "samantha", "victoria", "zira", "paulina", "monica", "female"];
+          var best = null, bestScore = -1;
           for (var i = 0; i < vs.length; i++) {
-            var n = (vs[i].name || "").toLowerCase(), lg = (vs[i].lang || "").toLowerCase();
-            if (lg.indexOf(want) === 0) { if (/female|samantha|victoria|zira|paulina|monica|google/.test(n)) { pick = vs[i]; break; } if (!pick) pick = vs[i]; }
+            var v = vs[i], n = (v.name || "").toLowerCase(), lg = (v.lang || "").toLowerCase();
+            if (lg.indexOf(want) !== 0) continue;
+            var sc = 1;
+            for (var j = 0; j < PREF.length; j++) { if (n.indexOf(PREF[j]) >= 0) { sc = 100 - j; break; } }
+            if (n.indexOf("female") < 0 && /\bmale\b|daniel|david|alex|fred|jorge|diego/.test(n)) sc -= 60; // avoid male/robotic defaults
+            if (sc > bestScore) { bestScore = sc; best = v; }
           }
-          if (pick) u.voice = pick;
+          if (best) u.voice = best;
         } catch (e) {}
         u.onend = function () { finishTalk(); };
         u.onerror = function () { finishTalk(); };
