@@ -171,10 +171,6 @@ brand names in paid search, disclose paid links, never promote trading products 
 Commission is not owed on refunded, disputed or fraudulent orders.
 
 ## COMMUNITY
-- Somos Bulls, the Spanish-language trading community:
-  Telegram https://t.me/+UY60VlpKhvS9wh3i
-  WhatsApp https://whatsapp.com/channel/0029VbAdPCYBFLgbiiDKt62C
-  Instagram https://www.instagram.com/somosbullsok
 - YouTube https://www.youtube.com/@djbrightfuture
 - Instagram https://www.instagram.com/djbrightfutures
 - TikTok https://www.tiktok.com/@djbrightfutures
