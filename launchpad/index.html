@@ -45,6 +45,16 @@
   .back{color:var(--dim)!important}
   .pron{background:radial-gradient(700px 300px at 12% -20%,#123020,#0b0e14 60%);border:1px solid #1e3a2a;border-radius:14px;padding:16px 18px;margin:14px 0;color:#cfe6d8}
   .pron b{color:#37d67a}
+  .edit{margin:2px 0 12px}
+  .editrow{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 8px}
+  .editrow input{flex:1 1 240px;min-width:0;background:var(--bg);border:1.5px solid var(--accent);border-radius:11px;padding:12px 14px;font-size:15px;color:inherit;font-family:inherit}
+  .editrow input:focus{outline:none;box-shadow:0 0 0 3px rgba(55,214,122,.15)}
+  .editrow button{background:var(--accent);color:#fff;border:0;border-radius:11px;padding:12px 18px;font-weight:800;font-family:inherit;cursor:pointer;white-space:nowrap}
+  .editrow button[disabled]{opacity:.6;cursor:default}
+  .editrow2{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:0 0 10px}
+  .ebtn{background:var(--bg);border:1px solid var(--line);color:var(--accent);border-radius:10px;padding:10px 14px;font-weight:800;font-size:13px;cursor:pointer;font-family:inherit}
+  .ebtn:hover{border-color:var(--accent)}
+  .editstatus{color:var(--dim);font-size:12.5px}
 </style>
 </head>
 <body>
@@ -83,6 +93,14 @@
         <button type="button" id="share">&#128242; Tap to share</button>
         <button type="button" id="copy">Copy link</button>
         <span class="url" id="url"></span>
+      </div>
+      <div class="edit">
+        <div class="editrow"><input id="editq" type="text" maxlength="300" placeholder="Tell the AI what to change - e.g. make the headline bigger, add a pricing section, use blue"><button type="button" id="applyedit">AI edit &#10024;</button></div>
+        <div class="editrow2">
+          <label class="ebtn" for="photo">&#128247; Add photo</label><input id="photo" type="file" accept="image/*" style="display:none">
+          <button type="button" class="ebtn" id="addvid">&#127909; Add video</button>
+          <span class="editstatus" id="editstatus"></span>
+        </div>
       </div>
       <iframe id="frame" class="lpframe" title="Your live page"></iframe>
       <div class="pron">
@@ -126,7 +144,7 @@
   var idea = $("idea"), go = $("go"), status = $("status"), out = $("out"), frame = $("frame"), url = $("url"), open = $("open"), share = $("share"), copy = $("copy"), exs = $("exs");
   var EX = ["a mobile car-wash that comes to people at work","a weekend meal-prep service for gym-goers","a pressure-washing service for driveways","a bookkeeping service for solo contractors","an Airbnb turnover-cleaning service"];
   EX.forEach(function(e){ var c=document.createElement("span"); c.className="ex"; c.textContent=e; c.addEventListener("click",function(){ idea.value=e; idea.focus(); }); exs.appendChild(c); });
-  var liveUrl = "";
+  var liveUrl = "", cur = null;
   function build(){
     var q = (idea.value||"").trim(); if(!q){ idea.focus(); return; }
     go.disabled = true; out.className = "lpout"; status.textContent = "Bridge28 is building and publishing your page… (about 10–20 seconds)";
@@ -135,8 +153,11 @@
       .then(function(d){
         if (d && d.signup_required){ status.innerHTML = (d.answer || "You have used your free page.") + ' <a href="/stack/" style="color:var(--accent);font-weight:800">Unlock more &rarr;</a>'; go.disabled=false; return; }
         if (d && d.ok && d.url){
-          liveUrl = d.url; status.textContent = "";
-          url.textContent = d.url; open.href = d.url; frame.src = d.url;
+          cur = {id:d.id, token:d.token, html:d.html||""};
+          try{ var ps=JSON.parse(localStorage.getItem("lux_pages")||"[]"); ps.push({id:d.id,token:d.token,url:d.url,ts:Date.now()}); localStorage.setItem("lux_pages",JSON.stringify(ps.slice(-50))); }catch(e){}
+          liveUrl = d.url; status.textContent = ""; editstatus.textContent = "";
+          url.textContent = d.url; open.href = d.url;
+          if (d.html){ frame.removeAttribute("src"); frame.srcdoc = d.html; } else { frame.src = d.url; }
           out.className = "lpout show";
           go.disabled = false; go.textContent = "Build another →";
         } else {
@@ -150,6 +171,16 @@
   idea.addEventListener("keydown", function(e){ if(e.key==="Enter"){ e.preventDefault(); build(); } });
   share.addEventListener("click", function(){ if(!liveUrl) return; if(navigator.share){ navigator.share({title:"My Luxucleen page", url:liveUrl}).catch(function(){}); } else { try{ navigator.clipboard.writeText(liveUrl); share.textContent="Link copied"; }catch(e){} } });
   copy.addEventListener("click", function(){ if(!liveUrl) return; try{ navigator.clipboard.writeText(liveUrl); copy.textContent="Copied"; setTimeout(function(){copy.textContent="Copy link";},1500);}catch(e){} });
+  /* ---- EDITOR: live AI edits, add photo, add video (all free) ---- */
+  function post2(d){ return fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(d)}).then(function(r){return r.json();}); }
+  var editq=$("editq"), applyedit=$("applyedit"), editstatus=$("editstatus"), photo=$("photo"), addvid=$("addvid");
+  function preview(h){ frame.removeAttribute("src"); frame.srcdoc=h; }
+  function saveHtml(){ if(!cur) return; editstatus.textContent="Saving\u2026"; post2({mode:"save",id:cur.id,token:cur.token,html:cur.html}).then(function(d){ if(d&&d.html){ cur.html=d.html; preview(d.html); editstatus.textContent="Saved \u2713"; } else { editstatus.textContent=(d&&d.error)||"Could not save"; } }).catch(function(){ editstatus.textContent="Could not save"; }); }
+  function insertSnippet(sn){ if(!cur) return; var h=cur.html||""; cur.html = h.indexOf("</body>")>=0 ? h.replace("</body>", sn+"</body>") : (h+sn); saveHtml(); }
+  if(applyedit) applyedit.addEventListener("click", function(){ var q=(editq.value||"").trim(); if(!q||!cur) return; applyedit.disabled=true; editstatus.textContent="Bridge28 is editing\u2026"; post2({mode:"edit",id:cur.id,token:cur.token,q:q}).then(function(d){ applyedit.disabled=false; if(d&&d.html){ cur.html=d.html; preview(d.html); editq.value=""; editstatus.textContent="Done \u2713"; } else { editstatus.textContent=(d&&d.error)||"Edit failed - try again"; } }).catch(function(){ applyedit.disabled=false; editstatus.textContent="Edit failed - try again"; }); });
+  if(editq) editq.addEventListener("keydown", function(e){ if(e.key==="Enter"){ e.preventDefault(); applyedit.click(); } });
+  if(photo) photo.addEventListener("change", function(){ var f=photo.files&&photo.files[0]; if(!f||!cur) return; editstatus.textContent="Adding photo\u2026"; var fr=new FileReader(); fr.onload=function(){ var img=new Image(); img.onload=function(){ var mx=1000,w=img.width,hh=img.height; if(w>mx){hh=Math.round(hh*mx/w);w=mx;} var c=document.createElement("canvas"); c.width=w; c.height=hh; c.getContext("2d").drawImage(img,0,0,w,hh); var durl=c.toDataURL("image/jpeg",0.82); insertSnippet('<img src="'+durl+'" style="max-width:100%;display:block;margin:14px auto;border-radius:10px">'); photo.value=""; }; img.onerror=function(){ editstatus.textContent="Could not read that image"; }; img.src=fr.result; }; fr.readAsDataURL(f); });
+  if(addvid) addvid.addEventListener("click", function(){ if(!cur) return; var u=prompt("Paste a YouTube link (upload your video to YouTube for free, then paste it here):"); if(!u) return; var m=String(u).match(/(?:v=|youtu\.be\/|embed\/)([A-Za-z0-9_-]{11})/); if(!m){ editstatus.textContent="That does not look like a YouTube link"; return; } insertSnippet('<div style="max-width:100%;margin:14px auto"><iframe src="https://www.youtube-nocookie.com/embed/'+m[1]+'" style="width:100%;aspect-ratio:16/9;border:0;border-radius:10px;display:block" allowfullscreen></iframe></div>'); });
   try { var pf = new URLSearchParams(location.search).get("idea"); if(pf){ idea.value = pf.slice(0,200); } } catch(e){}
 })();
 </script>
