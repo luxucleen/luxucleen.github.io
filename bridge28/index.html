@@ -174,7 +174,11 @@
   .modal input,.modal select{width:100%;background:#0a0d13;border:1px solid #243040;color:#e6e9ee;border-radius:10px;padding:12px 14px;font-size:15px;font-family:inherit}
   .modal input:focus,.modal select:focus{outline:none;border-color:#37d67a;box-shadow:0 0 0 3px rgba(55,214,122,.18)}
   .modal .go{margin-top:16px;width:100%;background:linear-gradient(135deg,#37d67a,#2bb768);color:#03140a;border:0;border-radius:12px;padding:14px;font-weight:800;font-size:16px;cursor:pointer}
-  .modal .go:disabled{opacity:.6}
+  .modal .go:disabled{opacity:.5;cursor:default}
+  .modal .suterms{max-height:130px;overflow:auto;background:#0a0d13;border:1px solid #243040;border-radius:10px;padding:10px 12px;font-size:12px;color:#93a1b3;line-height:1.55;margin:12px 0 8px}
+  .modal .suterms a{color:#37d67a}
+  .modal .suagree{display:flex;gap:9px;align-items:flex-start;font-size:12.5px;color:#cfd6de;font-weight:600;margin:2px 0 0}
+  .modal .suagree input{width:auto;margin:2px 0 0;flex:0 0 auto}
   .modal .x{position:absolute;top:10px;right:12px;background:transparent;border:0;color:#8a95a8;font-size:26px;cursor:pointer;line-height:1}
   .modal .deal2{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 4px}
   .modal .deal2 span{background:#0a0d13;border:1px solid #243040;border-radius:999px;padding:5px 11px;font:700 12px ui-monospace,Menlo,monospace;color:#9fb0c3}
@@ -206,7 +210,9 @@
       <option>Other</option>
     </select>
     <input id="su_detail" type="text" placeholder="Your payout handle / email / account so we can pay you">
-    <button class="go" id="su_go" type="button">Create my workspace &rarr;</button>
+    <div class="suterms" id="su_terms"></div>
+    <label class="suagree"><input type="checkbox" id="su_agree" disabled> <span id="m_agree">I have read and agree to the Agreement and the Terms &amp; Privacy Policy.</span></label>
+    <button class="go" id="su_go" type="button" disabled>Create my workspace &rarr;</button>
     <p class="err" id="su_err" hidden></p>
     <p class="fine" id="m_fine">One workspace per email, no password needed. You keep 88%; we build and run each business, a written
     agreement first. <a href="/agreements/#build">Read the agreement</a>.</p>
@@ -246,6 +252,8 @@
       m_lem:"Best business email", m_lpay:"How do you want to get paid your 88%?",
       pay0:"Pick a payout method…", sudetail:"Your payout handle / email / account so we can pay you",
       su_go:"Create my workspace &rarr;",
+      m_terms:'By creating a workspace you agree: Luxucleen builds and runs the businesses you choose, you keep <b>88%</b> of the net profit and Luxucleen keeps 12%, and nothing starts until you sign a separate written agreement for that business. There is no guarantee of profit or income. We store the email and payout method you enter here only to create your workspace and pay you &mdash; we do not sell your information. Bridge28 is an AI and can be wrong; for anything involving money, property, taxes or legal matters, a person reviews it. Trading and financial tools are for adults 18+ and involve risk. Read the full <a href="/agreements/" target="_blank">Agreements</a> and <a href="/legal/" target="_blank">Terms &amp; Privacy</a>. Luxucleen LLC, Midlothian, Virginia.',
+      m_agree:'I have read and agree to the Agreement and the Terms &amp; Privacy Policy.',
       m_fine:'One workspace per email, no password needed. You keep 88%; we build and run each business, a written agreement first. <a href="/agreements/#build">Read the agreement</a>.',
       building:{plan:"business plan",page:"landing page",ad:"ads",email:"pitch email",checklist:"launch checklist",audio:"audio pitch"}
     },
@@ -275,6 +283,8 @@
       m_lem:"Mejor correo de negocio", m_lpay:"&iquest;C&oacute;mo quieres cobrar tu 88%?",
       pay0:"Elige un m&eacute;todo de pago…", sudetail:"Tu usuario / correo / cuenta de pago para poder pagarte",
       su_go:"Crear mi espacio &rarr;",
+      m_terms:'Al crear un espacio aceptas: Luxucleen construye y maneja los negocios que elijas, te quedas con el <b>88%</b> de la ganancia neta y Luxucleen se queda con el 12%, y nada empieza hasta que firmes un acuerdo por escrito para ese negocio. No hay garant&iacute;a de ganancia ni de ingresos. Guardamos el correo y el m&eacute;todo de pago que pongas aqu&iacute; solo para crear tu espacio y pagarte &mdash; no vendemos tu informaci&oacute;n. Bridge28 es una IA y puede equivocarse; para asuntos de dinero, propiedad, impuestos o legales, una persona lo revisa. Las herramientas de trading y finanzas son para adultos 18+ e implican riesgo. Lee los <a href="/agreements/" target="_blank">Acuerdos</a> y los <a href="/legal/" target="_blank">T&eacute;rminos y Privacidad</a>. Luxucleen LLC, Midlothian, Virginia.',
+      m_agree:'He le&iacute;do y acepto el Acuerdo y los T&eacute;rminos y la Privacidad.',
       m_fine:'Un espacio por correo, sin contrase&ntilde;a. Te quedas con 88%; construimos y manejamos cada negocio, un acuerdo por escrito primero. <a href="/agreements/#build">Lee el acuerdo</a>.',
       building:{plan:"plan de negocio",page:"p&aacute;gina web",ad:"anuncios",email:"correo de venta",checklist:"lista de lanzamiento",audio:"audio pitch"}
     }
@@ -378,6 +388,7 @@
     var sd = $("su_detail"); if (sd) sd.setAttribute("placeholder", dec(t.sudetail));
     $("su_go").innerHTML = t.su_go;
     set("m_fine", t.m_fine);
+    if (t.m_terms) set("m_terms", t.m_terms); if (t.m_agree) set("m_agree", t.m_agree);
     paintVoice();
   }
 
@@ -556,8 +567,10 @@
   function showSignup(){ if (!SUP) { return; } var se = $("su_email"), bm = $("bemail"); if (se && !se.value && bm && bm.value) { se.value = bm.value; } SUP.hidden = false; if (se) { try { se.focus(); } catch (e) {} } }
   function closeSignup(){ if (SUP) { SUP.hidden = true; } }
   if ($("sx")) { $("sx").addEventListener("click", closeSignup); }
+  (function(){ var _t=$("su_terms"), _a=$("su_agree"), _g=$("su_go"); if(_g) _g.disabled=true; if(_t&&_a){ var _c=function(){ if(_t.scrollTop+_t.clientHeight>=_t.scrollHeight-8){ _a.disabled=false; } }; _t.addEventListener("scroll",_c); setTimeout(_c,500); } if(_a&&_g){ _a.addEventListener("change",function(){ _g.disabled=!_a.checked; }); } })();
   if ($("su_go")) { $("su_go").addEventListener("click", function(){
     var se = $("su_email"), sp = $("su_payout"), sd = $("su_detail"), er = $("su_err");
+    var ag = $("su_agree"); if (ag && !ag.checked) { er.hidden = false; er.textContent = LANG==="es"?"Debes leer y aceptar los términos primero.":"Please read and agree to the terms first."; return; }
     var em = (se.value || "").trim();
     if (!(em.indexOf("@") > 0 && em.lastIndexOf(".") > em.indexOf("@") + 1 && em.length > 5 && em.indexOf(" ") < 0)) { er.hidden = false; er.textContent = LANG==="es"?"Escribe un correo de negocio válido.":"Enter a valid business email."; se.focus(); return; }
     var go = $("su_go"); go.disabled = true; go.textContent = LANG==="es"?"Creando…":"Creating…"; er.hidden = true;
