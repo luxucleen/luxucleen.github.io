@@ -171,8 +171,8 @@ function line(){var h=document.querySelector("h1");var l=document.querySelector(
 var clips=null,i=0,player=null,started=false,fin=false;
 function finish(){if(fin)return;fin=true;setTimeout(function(){try{if(window.luxFadeIn){window.luxFadeIn();}else if(window.luxRadioStart){window.luxRadioStart();}}catch(e){}},900);}
 function playNext(){if(!clips||i>=clips.length){finish();return;}var c=clips[i++];try{player=new Audio("data:"+(c.type||"audio/mpeg")+";base64,"+c.audio);player.onended=playNext;player.onerror=playNext;var pr=player.play();if(pr&&pr.catch)pr.catch(function(){finish();});}catch(e){playNext();}}
-function begin(){if(started)return;started=true;if(clips){i=0;playNext();}else{fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"say",q:line(),lang:LANG,voice:"both"})}).then(function(r){return r.json();}).then(function(d){if(d&&d.clips&&d.clips.length){clips=d.clips;i=0;playNext();}else{finish();}}).catch(function(){finish();});}}
-function prefetch(){try{fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"say",q:line(),lang:LANG,voice:"both"})}).then(function(r){return r.json();}).then(function(d){if(d&&d.clips){clips=d.clips;}}).catch(function(){});}catch(e){}}
+function begin(){if(started)return;started=true;if(clips){i=0;playNext();}else{fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"say",q:line(),lang:LANG,voice:"bella"})}).then(function(r){return r.json();}).then(function(d){if(d&&d.clips&&d.clips.length){clips=d.clips;i=0;playNext();}else{finish();}}).catch(function(){finish();});}}
+function prefetch(){try{fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"say",q:line(),lang:LANG,voice:"bella"})}).then(function(r){return r.json();}).then(function(d){if(d&&d.clips){clips=d.clips;}}).catch(function(){});}catch(e){}}
 var go=function(){document.removeEventListener("click",go);document.removeEventListener("touchstart",go);document.removeEventListener("keydown",go);begin();};
 document.addEventListener("click",go,{once:true});document.addEventListener("touchstart",go,{once:true});document.addEventListener("keydown",go,{once:true});
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",prefetch);else prefetch();
@@ -203,5 +203,6 @@ b.addEventListener("click",function(){var next=cur()==="light"?"dark":"light";if
 function boot(){document.body.appendChild(b);}
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
 }catch(e){}})();</script>
+<script defer src="/lux-orb.js"></script>
 </body>
 </html>
