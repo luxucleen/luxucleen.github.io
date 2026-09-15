@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Configuraci&oacute;n &mdash; Luxucleen</title>
+<meta name="description" content="Configura a Luxu, tu asistente de voz: ponle nombre, calíbralo a tu voz, activa el modo manos libres, elige claro u oscuro y cómo inicias sesión.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://luxucleen.com/es/settings/">
+<link rel="stylesheet" href="/hub.css">
+<style>
+  .wrap{max-width:760px;margin:0 auto;padding:0 22px 60px}
+  .card{background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));border:1px solid var(--line);border-radius:18px;padding:18px 18px 20px;margin:16px 0}
+  .card h3{margin:0 0 4px;font-size:17px;color:#fff}
+  .card .sub{margin:0 0 14px;color:var(--dim);font-size:13.5px;line-height:1.5}
+  .row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:11px 0;border-top:1px solid var(--line);flex-wrap:wrap}
+  .row:first-of-type{border-top:0}
+  .row .lab{font-size:14.5px;color:#e9eef5;font-weight:600}
+  .row .lab small{display:block;color:var(--dim);font-weight:400;font-size:12.5px;margin-top:2px;max-width:420px}
+  .in{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);color:#eef2f8;border-radius:10px;padding:9px 11px;font-size:14px;outline:none;min-width:0}
+  .in:focus{border-color:rgba(46,194,126,.55)}
+  .btn{background:linear-gradient(135deg,var(--green2),var(--green));color:#04140b;border:0;border-radius:10px;padding:9px 15px;font-size:14px;font-weight:700;cursor:pointer}
+  .btn.ghost{background:rgba(255,255,255,.06);color:var(--ink);border:1px solid rgba(255,255,255,.16)}
+  .btn:active{transform:translateY(1px)}
+  .seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .seg button{background:transparent;color:var(--dim);border:0;padding:8px 13px;font-size:13.5px;cursor:pointer}
+  .seg button.on{background:rgba(46,194,126,.18);color:#fff}
+  .sw{position:relative;width:50px;height:28px;flex:0 0 auto}
+  .sw input{position:absolute;opacity:0;width:100%;height:100%;margin:0;cursor:pointer}
+  .sw i{position:absolute;inset:0;background:rgba(255,255,255,.14);border-radius:999px;transition:.2s}
+  .sw i::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:.2s}
+  .sw input:checked + i{background:var(--green)}
+  .sw input:checked + i::after{transform:translateX(22px)}
+  .note{font-size:12.5px;color:var(--faint);margin-top:10px;line-height:1.5}
+  .ok{color:var(--green2)} .warn{color:var(--gold)}
+  .pitchbar{height:8px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden;margin-top:8px}
+  .pitchbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green2),var(--gold));transition:width .08s}
+  .cta{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  a.plain{color:var(--green2);text-decoration:none}
+</style>
+</head>
+<body class="hub">
+<header class="hhead">
+  <a class="hbrand" href="/">Luxu<span>cleen</span> LLC</a>
+  <nav class="hnav">
+    <a href="/es/">Inicio</a>
+    <a class="lang" href="/settings/" hreflang="en" lang="en">English</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <section class="id" style="padding-top:24px">
+    <h1>Configuraci&oacute;n</h1>
+    <p class="tag lede">Configura a Luxu, tu asistente de voz &mdash; ponle nombre, enséñale tu voz y elige cómo se ve e inicia sesión todo. Todo aquí se guarda en tu dispositivo.</p>
+  </section>
+
+  <!-- LUXU -->
+  <section class="card">
+    <h3>Luxu &mdash; tu asistente de voz</h3>
+    <p class="sub">El orbe flotante en cada página. Di su nombre y te escucha, responde en voz alta y te recuerda.</p>
+
+    <div class="row">
+      <span class="lab">Su nombre<small>Llámalo como quieras. Responde a este nombre cuando hablas.</small></span>
+      <span class="cta"><input class="in" id="s_name" type="text" maxlength="40" placeholder="Luxu" style="width:150px"><button class="btn" id="s_name_save">Guardar</button></span>
+    </div>
+
+    <div class="row">
+      <span class="lab">Manos libres (siempre escuchando)<small>Luxu escucha su nombre hasta que lo apagas. Solo miembros Pro. La música baja mientras está activo.</small></span>
+      <label class="sw"><input type="checkbox" id="s_hands"><i></i></label>
+    </div>
+
+    <div class="row">
+      <span class="lab">Voz</span>
+      <span class="seg" id="s_voice"><button data-v="bella" class="on">Bella</button><button data-v="liam">Liam</button></span>
+    </div>
+
+    <div class="row">
+      <span class="lab">Calibra tu voz<small>Graba unos segundos para que Luxu aprenda tu tono. Luego puede responder solo a tu voz.</small></span>
+      <button class="btn ghost" id="s_cal">Grabar 3 segundos</button>
+    </div>
+    <div class="pitchbar"><i id="s_pitch"></i></div>
+    <div class="note" id="s_cal_out">Aún no calibrado.</div>
+
+    <div class="row">
+      <span class="lab">Responder solo a mi voz<small>Mejor esfuerzo: Luxu compara el tono de quien habla con tu calibración. Es una coincidencia de tono, no una huella de voz perfecta &mdash; voces parecidas pueden pasar.</small></span>
+      <label class="sw"><input type="checkbox" id="s_only"><i></i></label>
+    </div>
+
+    <div class="row">
+      <span class="lab">Memoria<small>Lo que le has dicho a Luxu en este dispositivo.</small></span>
+      <button class="btn ghost" id="s_forget">Borrar memoria de Luxu</button>
+    </div>
+  </section>
+
+  <!-- APPEARANCE -->
+  <section class="card">
+    <h3>Apariencia e idioma</h3>
+    <div class="row">
+      <span class="lab">Tema</span>
+      <span class="seg" id="s_theme"><button data-t="light">Claro</button><button data-t="dark">Oscuro</button><button data-t="system">Sistema</button></span>
+    </div>
+    <div class="row">
+      <span class="lab">Idioma</span>
+      <span class="cta"><a class="btn ghost" href="/">English</a><a class="btn ghost" href="/es/">Espa&ntilde;ol</a></span>
+    </div>
+  </section>
+
+  <!-- ACCOUNT / LOGIN -->
+  <section class="card">
+    <h3>Tu cuenta y formas de iniciar sesión</h3>
+    <p class="sub">Inicia sesión para guardar tu pila, activar Luxu manos libres y mantener tu memoria en todos tus dispositivos.</p>
+
+    <div class="row">
+      <span class="lab">Tu correo de trabajo<small>Se usa para guardar tu pila y pagarte. También activa las funciones Pro aquí.</small></span>
+      <span class="cta"><input class="in" id="s_email" type="email" placeholder="you@email.com" style="width:190px"><button class="btn" id="s_email_save">Guardar</button></span>
+    </div>
+    <div class="note" id="s_pro_state"></div>
+
+    <div class="row">
+      <span class="lab">Inicia sesión con Google<small>Para tu correo y ver YouTube con sesión iniciada, aquí en Luxucleen.</small></span>
+      <button class="btn ghost" id="s_google">Continuar con Google</button>
+    </div>
+
+    <div class="row">
+      <span class="lab">Método de pago<small>Cómo quieres cobrar cuando tus negocios ganen.</small></span>
+      <span class="cta">
+        <span class="seg" id="s_payout"><button data-p="cashapp">Cash App</button><button data-p="paypal">PayPal</button><button data-p="zelle">Zelle</button><button data-p="bank">Bank</button></span>
+      </span>
+    </div>
+    <div class="note">Nota honesta: los videos de YouTube ya se reproducen aquí sin iniciar sesión. Leer tu Gmail dentro de Luxucleen necesita que Google revise y apruebe la app primero &mdash; lo activamos en cuanto esté listo.</div>
+  </section>
+
+  <!-- PRIVACY -->
+  <section class="card">
+    <h3>Privacidad</h3>
+    <p class="sub">Todo en esta página se guarda solo en este navegador, en este dispositivo. No vendemos tu información. Al borrar abajo se elimina de aquí.</p>
+    <div class="cta"><button class="btn ghost" id="s_clear">Borrar todo en este dispositivo</button></div>
+  </section>
+
+  <p class="note" style="text-align:center;margin-top:18px">Luxucleen LLC &middot; Midlothian, Virginia &middot; <a class="plain" href="/legal/">Terms &amp; Privacy</a> &middot; <a class="plain" href="/agreements/">Agreements</a></p>
+</main>
+
+<footer class="hfoot">
+  <div class="fmap">
+    <a href="/es/">Inicio</a>
+    <a href="/es/store/">Tienda</a>
+    <a href="/es/ask/">Preguntar</a>
+    <a href="/es/contact/">Contacto</a>
+    <a href="/legal/">Legal</a>
+  </div>
+  &copy; 2026 Luxucleen LLC
+</footer>
+
+<script>/* settings logic */
+(function(){
+  function $(id){return document.getElementById(id);}
+  function g(k,d){try{var v=localStorage.getItem(k);return v===null?d:v;}catch(e){return d;}}
+  function s(k,v){try{localStorage.setItem(k,v);}catch(e){}}
+  function rm(k){try{localStorage.removeItem(k);}catch(e){}}
+
+  // name
+  $("s_name").value = g("lux_orb_name","");
+  $("s_name_save").addEventListener("click",function(){var v=$("s_name").value.trim().slice(0,40);if(v){s("lux_orb_name",v);flash($("s_name_save"),"Saved");}});
+
+  // hands-free (pro)
+  var pro = g("lux_pro","")==="1" || !!g("lux_email","");
+  $("s_hands").checked = g("lux_hands","")==="1";
+  $("s_hands").addEventListener("change",function(){
+    if($("s_hands").checked && !pro){ $("s_hands").checked=false; alert("El modo manos libres es una función Pro. Agrega tu correo de trabajo abajo para activarlo."); return; }
+    s("lux_hands", $("s_hands").checked?"1":"0");
+    // lux_pro flag lets the orb auto-listen; keep it in sync with hands + pro
+    s("lux_pro", (pro && $("s_hands").checked)?"1":g("lux_pro",""));
+  });
+
+  // voice
+  (function(){var cur=g("lux_orb_voice","bella");document.querySelectorAll("#s_voice button").forEach(function(b){b.classList.toggle("on",b.dataset.v===cur);b.addEventListener("click",function(){s("lux_orb_voice",b.dataset.v);document.querySelectorAll("#s_voice button").forEach(function(x){x.classList.toggle("on",x===b);});});});})();
+
+  // theme
+  (function(){
+    var cur=g("lux_theme","system");
+    function apply(t){ if(t==="system"){document.documentElement.removeAttribute("data-theme");} else {document.documentElement.setAttribute("data-theme",t);} }
+    document.querySelectorAll("#s_theme button").forEach(function(b){b.classList.toggle("on",b.dataset.t===cur);b.addEventListener("click",function(){s("lux_theme",b.dataset.t);apply(b.dataset.t);document.querySelectorAll("#s_theme button").forEach(function(x){x.classList.toggle("on",x===b);});});});
+  })();
+
+  // email / pro
+  function paintPro(){var em=g("lux_email","");$("s_pro_state").innerHTML = em ? ('<span class="ok">Pro activo para '+em.replace(/</g,"")+' &mdash; Luxu manos libres y memoria entre dispositivos activados.</span>') : 'Aún sin cuenta. Agrega tu correo para activar Pro.';}
+  $("s_email").value = g("lux_email","");
+  $("s_email_save").addEventListener("click",function(){var v=$("s_email").value.trim().slice(0,160);if(v && v.indexOf("@")>0){s("lux_email",v);s("lux_pro","1");pro=true;paintPro();flash($("s_email_save"),"Saved");}else{alert("Ingresa un correo válido.");}});
+  paintPro();
+
+  // google (honest: needs owner OAuth client id)
+  $("s_google").addEventListener("click",function(){
+    var cid = window.LUX_GOOGLE_CLIENT_ID || "";
+    if(!cid){ alert("El inicio con Google casi está listo. Falta un paso de Luxucleen (el client ID de Google). YouTube ya se reproduce aquí sin iniciar sesión."); return; }
+    var redir = encodeURIComponent(location.origin+"/settings/");
+    location.href = "https://accounts.google.com/o/oauth2/v2/auth?client_id="+cid+"&redirect_uri="+redir+"&response_type=token&scope="+encodeURIComponent("openid email profile https://www.googleapis.com/auth/youtube.readonly")+"&prompt=consent";
+  });
+
+  // payout
+  (function(){var cur=g("lux_payout","");document.querySelectorAll("#s_payout button").forEach(function(b){b.classList.toggle("on",b.dataset.p===cur);b.addEventListener("click",function(){s("lux_payout",b.dataset.p);document.querySelectorAll("#s_payout button").forEach(function(x){x.classList.toggle("on",x===b);});});});})();
+
+  // clear
+  $("s_forget").addEventListener("click",function(){rm("lux_orb_hist");alert("La memoria de Luxu en este dispositivo fue borrada.");});
+  $("s_clear").addEventListener("click",function(){if(confirm("¿Borrar toda la configuración de Luxucleen en este dispositivo?")){["lux_orb_name","lux_orb_hist","lux_orb_id","lux_orb_pos","lux_hands","lux_pro","lux_orb_voice","lux_theme","lux_email","lux_payout","lux_voice_profile","lux_only_me"].forEach(rm);location.reload();}});
+
+  // only-me
+  $("s_only").checked = g("lux_only_me","")==="1";
+  $("s_only").addEventListener("change",function(){
+    if($("s_only").checked && !g("lux_voice_profile","")){ $("s_only").checked=false; alert("Primero graba tu voz (Calibra arriba), luego activa esto."); return; }
+    s("lux_only_me",$("s_only").checked?"1":"0");
+  });
+
+  // ---- voice calibration (Web Audio pitch) ----
+  function autoCorrelate(buf, sr){
+    var SIZE=buf.length, rms=0, i, j;
+    for(i=0;i<SIZE;i++){rms+=buf[i]*buf[i];}
+    rms=Math.sqrt(rms/SIZE); if(rms<0.008) return -1;
+    var r1=0,r2=SIZE-1,th=0.2;
+    for(i=0;i<SIZE/2;i++){if(Math.abs(buf[i])<th){r1=i;break;}}
+    for(i=1;i<SIZE/2;i++){if(Math.abs(buf[SIZE-i])<th){r2=SIZE-i;break;}}
+    var b2=buf.slice(r1,r2); var N=b2.length; var c=new Float32Array(N);
+    for(i=0;i<N;i++){for(j=0;j<N-i;j++){c[i]+=b2[j]*b2[j+i];}}
+    var d=0; while(d<N-1 && c[d]>c[d+1])d++;
+    var maxv=-1,maxp=-1;
+    for(i=d;i<N;i++){if(c[i]>maxv){maxv=c[i];maxp=i;}}
+    if(maxp<=0) return -1;
+    var x1=c[maxp-1]||0,x2=c[maxp],x3=c[maxp+1]||0, a=(x1+x3-2*x2)/2, b=(x3-x1)/2, T=maxp;
+    if(a) T=maxp-b/(2*a);
+    var f=sr/T; return (f>60&&f<500)?f:-1;
+  }
+  $("s_cal").addEventListener("click",function(){
+    if(!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia)){$("s_cal_out").innerHTML='<span class="warn">Este navegador no puede usar el micrófono.</span>';return;}
+    $("s_cal").disabled=true; $("s_cal_out").textContent="Escuchando... habla normal: di tu nombre y hey Luxu.";
+    navigator.mediaDevices.getUserMedia({audio:true}).then(function(stream){
+      var AC=window.AudioContext||window.webkitAudioContext; var ac=new AC();
+      var src=ac.createMediaStreamSource(stream); var an=ac.createAnalyser(); an.fftSize=2048; src.connect(an);
+      var buf=new Float32Array(an.fftSize); var hits=[]; var t0=Date.now();
+      (function tick(){
+        an.getFloatTimeDomainData(buf);
+        var f=autoCorrelate(buf,ac.sampleRate);
+        if(f>0){hits.push(f); var pct=Math.max(0,Math.min(100,(f-70)/(350-70)*100)); $("s_pitch").style.width=pct+"%";}
+        if(Date.now()-t0<3200){requestAnimationFrame(tick);} else {
+          stream.getTracks().forEach(function(t){t.stop();}); ac.close();
+          $("s_cal").disabled=false; $("s_pitch").style.width="0";
+          if(hits.length<8){$("s_cal_out").innerHTML='<span class="warn">No escuché suficiente. Intenta en un lugar silencioso.</span>';return;}
+          hits.sort(function(a,b){return a-b;});
+          var mean=hits[Math.floor(hits.length/2)];
+          var lo=hits[Math.floor(hits.length*0.12)], hi=hits[Math.floor(hits.length*0.88)];
+          var prof={mean:Math.round(mean),lo:Math.round(lo),hi:Math.round(hi),n:hits.length};
+          s("lux_voice_profile",JSON.stringify(prof));
+          $("s_cal_out").innerHTML='<span class="ok">Listo. Tu voz es de unos '+prof.mean+' Hz ('+prof.lo+'-'+prof.hi+'). Ahora puedes activar "responder solo a mi voz".</span>';
+        }
+      })();
+    }).catch(function(){$("s_cal").disabled=false;$("s_cal_out").innerHTML='<span class="warn">El permiso del micrófono fue bloqueado. Permítelo e intenta otra vez.</span>';});
+  });
+  (function(){var p=g("lux_voice_profile","");if(p){try{var o=JSON.parse(p);$("s_cal_out").innerHTML='<span class="ok">Calibrado: unos '+o.mean+' Hz.</span> Regrábalo cuando quieras.';}catch(e){}}})();
+
+  function flash(btn,txt){var old=btn.textContent;btn.textContent=txt;setTimeout(function(){btn.textContent=old;},1300);}
+})();
+</script>
+<script>/*lux-radio*/(function(){try{
+var STREAM="https://ice1.somafm.com/beatblender-128-mp3",BASE=0.08,DUCK=0.015;
+var a=new Audio();a.src=STREAM;a.preload="none";a.volume=BASE;
+var on=true;try{if(localStorage.getItem("lux_radio")==="off")on=false;}catch(e){}
+var btn=document.createElement("button");btn.type="button";btn.setAttribute("aria-label","Background music on or off");
+btn.style.cssText="position:fixed;right:14px;bottom:14px;z-index:2147483000;width:46px;height:46px;border-radius:50%;border:0;cursor:pointer;font-size:20px;line-height:46px;text-align:center;background:#0f5aa8;color:#fff;box-shadow:0 4px 14px rgba(0,0,0,.3);opacity:.9";
+function icon(){btn.textContent=on?"♪":"🔇";}
+function start(){if(!on)return;try{var p=a.play();if(p&&p.catch)p.catch(function(){});}catch(e){}}
+function stop(){try{a.pause();}catch(e){}}
+icon();
+btn.addEventListener("click",function(){on=!on;try{localStorage.setItem("lux_radio",on?"on":"off");}catch(e){}icon();if(on)start();else stop();});
+window.luxDuck=function(d){try{a.volume=(typeof d==="number")?d:(d?DUCK:BASE);}catch(e){}};window.luxRadioStart=function(){if(on&&a.paused){start();}};window.luxFadeIn=function(){try{if(!on)return;a.volume=0;start();var _t=0;var _iv=setInterval(function(){_t+=0.05;var v=Math.min(BASE,BASE*(_t/4));try{a.volume=v;}catch(e){}if(_t>=4){try{a.volume=BASE;}catch(e){}clearInterval(_iv);}},50);}catch(e){}};
+var armed=false;function arm(){if(armed)return;armed=true;var go=function(){document.removeEventListener("click",go);document.removeEventListener("touchstart",go);start();};document.addEventListener("click",go,{once:true});document.addEventListener("touchstart",go,{once:true});}
+function boot(){document.body.appendChild(btn);if(!window.luxVoicePage){arm();}}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
+}catch(e){}})();</script>
+<script>/*lux-theme*/(function(){try{
+function cur(){return document.documentElement.getAttribute("data-theme")==="light"?"light":"dark";}
+var b=document.createElement("button");b.type="button";b.setAttribute("aria-label","Switch light or dark theme");
+b.style.cssText="position:fixed;right:14px;top:14px;z-index:2147483001;width:40px;height:40px;border-radius:50%;border:1px solid rgba(128,128,128,.35);cursor:pointer;font-size:18px;line-height:1;background:rgba(20,22,28,.55);color:#e7ebf1;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)";
+function icon(){b.textContent=cur()==="light"?"☾":"☀";}
+icon();
+b.addEventListener("click",function(){var next=cur()==="light"?"dark":"light";if(next==="light"){document.documentElement.setAttribute("data-theme","light");}else{document.documentElement.removeAttribute("data-theme");}try{localStorage.setItem("lux_theme",next);}catch(e){}icon();});
+function boot(){document.body.appendChild(b);}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
+}catch(e){}})();</script>
+<script defer src="/lux-orb.js"></script>
+</body>
+</html>

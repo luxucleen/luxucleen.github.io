@@ -21,6 +21,7 @@
     var ID = get("lux_orb_id", "");
     if (!ID) { ID = "o" + Math.random().toString(36).slice(2, 10) + Date.now().toString(36); set("lux_orb_id", ID); }
     var MEMID = EMAIL || ID; // Pro (signed-up) => durable, cross-device memory keyed by email
+    var VOICE = get("lux_orb_voice", "bella"); // Settings can switch Luxu to Liam
 
     var hist = []; try { hist = JSON.parse(get("lux_orb_hist", "[]")) || []; } catch (e) { hist = []; }
     function saveHist() { try { set("lux_orb_hist", JSON.stringify(hist.slice(-24))); } catch (e) {} }
@@ -94,7 +95,7 @@
       restorePos();
       setHint(); // stay quiet on load; the greeting shows on first tap/wake
       try { if (!sessionStorage.getItem("lux_orb_flew")) { sessionStorage.setItem("lux_orb_flew", "1"); setTimeout(flyby, 500); } } catch (e) { setTimeout(flyby, 500); }
-      if (PRO) startWake(); // hands-free auto-listen — Pro only (music ducks low the whole time it's on)
+      if (PRO && get("lux_hands", "1") !== "0") startWake(); // hands-free auto-listen — Pro, unless turned off in Settings
     }
     function flyby() { try { orb.classList.remove("flyby"); void orb.offsetWidth; orb.classList.add("flyby"); setTimeout(function () { orb.classList.remove("flyby"); }, 1650); } catch (e) {} }
     function wakeCenter(on) { try { if (on) { wrap.classList.add("center"); orb.classList.remove("live", "think", "talk"); orb.classList.add("wake"); } else { wrap.classList.remove("center"); orb.classList.remove("wake"); } } catch (e) {} }
@@ -119,7 +120,7 @@
       hist.push({ r: "u", t: text }); saveHist();
       fetch(API, {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mode: "talk", q: text, lang: LANG, name: NAME, mem: MEMID, history: hist.slice(-10), voice: "bella" })
+        body: JSON.stringify({ mode: "talk", q: text, lang: LANG, name: NAME, mem: MEMID, history: hist.slice(-10), voice: VOICE })
       }).then(function (r) { return r.json(); }).then(function (d) {
         orb.classList.remove("think");
         var ans = (d && d.answer) ? d.answer : T.err;
@@ -158,6 +159,14 @@
     // ---------- speech recognition (wake-name + command) ----------
     var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
     var rec = null, wakeOn = false, mode = "idle"; // idle | wake | command
+    // ---- optional "only my voice" pitch gate (Settings > calibrate; opt-in, fail-open) ----
+    var ONLYME = get("lux_only_me", "") === "1", PROFILE = null;
+    try { PROFILE = JSON.parse(get("lux_voice_profile", "null")); } catch (e) {}
+    var pitchNow = -1, pmStream = null, pmCtx = null;
+    function acorr(buf, sr) { var N = buf.length, rms = 0, i, j; for (i = 0; i < N; i++) rms += buf[i] * buf[i]; rms = Math.sqrt(rms / N); if (rms < 0.008) return -1; var c = new Float32Array(N); for (i = 0; i < N; i++) { for (j = 0; j < N - i; j++) c[i] += buf[j] * buf[j + i]; } var d = 0; while (d < N - 1 && c[d] > c[d + 1]) d++; var mv = -1, mp = -1; for (i = d; i < N; i++) { if (c[i] > mv) { mv = c[i]; mp = i; } } if (mp <= 0) return -1; var f = sr / mp; return (f > 60 && f < 500) ? f : -1; }
+    function startPitchMon() { if (!ONLYME || !PROFILE || pmStream || !(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)) return; try { navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true } }).then(function (st) { pmStream = st; var AC = window.AudioContext || window.webkitAudioContext; pmCtx = new AC(); var sn = pmCtx.createMediaStreamSource(st); var an = pmCtx.createAnalyser(); an.fftSize = 2048; sn.connect(an); var buf = new Float32Array(an.fftSize); (function loop() { if (!pmStream) return; try { an.getFloatTimeDomainData(buf); var f = acorr(buf, pmCtx.sampleRate); if (f > 0) pitchNow = f; } catch (e) {} setTimeout(loop, 120); })(); }).catch(function () { ONLYME = false; }); } catch (e) { ONLYME = false; } }
+    function stopPitchMon() { try { if (pmStream) { pmStream.getTracks().forEach(function (t) { t.stop(); }); pmStream = null; } if (pmCtx) { pmCtx.close(); pmCtx = null; } } catch (e) {} }
+    function pitchOk() { if (!ONLYME || !PROFILE) return true; if (pitchNow <= 0) return true; return pitchNow >= (PROFILE.lo - 25) && pitchNow <= (PROFILE.hi + 25); }
     function newRec(continuous) {
       var r = new SR(); r.lang = ES ? "es-ES" : "en-US";
       r.continuous = continuous; r.interimResults = true; r.maxAlternatives = 1; return r;
@@ -175,7 +184,7 @@
     }
     function startWake() {
       if (!SR) { setHint(); return; }
-      wakeOn = true; duck(true); startListen(); // music drops low + pleasant so you can talk to Luxu anytime
+      wakeOn = true; duck(true); startPitchMon(); startListen(); // music drops low + pleasant so you can talk to Luxu anytime
     }
     function startListen() {
       if (!SR || !wakeOn) return;
@@ -186,7 +195,7 @@
         var txt = "";
         for (var i = ev.resultIndex; i < ev.results.length; i++) txt += ev.results[i][0].transcript;
         last = txt;
-        if (mode === "wake" && nameHit(txt)) { mode = "command"; cmdCapture(); }
+        if (mode === "wake" && nameHit(txt)) { if (pitchOk()) { mode = "command"; cmdCapture(); } } // only-my-voice gate (fail-open)
       };
       rec.onerror = function () {};
       rec.onend = function () { if (wakeOn && mode === "wake") { setTimeout(startListen, 400); } };
@@ -194,19 +203,19 @@
     }
     function cmdCapture() {
       try { if (rec) { rec.onend = null; rec.abort(); } } catch (e) {}
-      wakeCenter(true); say(NAME, T.listening, true); // heard its name: fly to the middle, glowing
+      wakeCenter(true); duck(0); say(NAME, T.listening, true); // heard its name: mute music into the mic, fly to center, glow
       var r = newRec(false); var got = "", done = false;
       r.onresult = function (ev) { got = ""; for (var i = 0; i < ev.results.length; i++) got += ev.results[i][0].transcript; };
       r.onerror = function () {};
       r.onend = function () {
         if (done) return; done = true;
         var cmd = stripName(got);
-        if (cmd) ask(cmd); else { wakeCenter(false); say(NAME, T.err, false); if (wakeOn) setTimeout(startListen, 500); }
+        if (cmd) ask(cmd); else { wakeCenter(false); duck(true); say(NAME, T.err, false); if (wakeOn) setTimeout(startListen, 500); }
       };
-      try { r.start(); } catch (e) { wakeCenter(false); if (wakeOn) setTimeout(startListen, 500); }
+      try { r.start(); } catch (e) { wakeCenter(false); duck(true); if (wakeOn) setTimeout(startListen, 500); }
       setTimeout(function () { try { r.stop(); } catch (e) {} }, 6000);
     }
-    function stopWake() { wakeOn = false; duck(false); try { if (rec) { rec.onend = null; rec.abort(); } } catch (e) {} orb.classList.remove("live"); } // music back to normal
+    function stopWake() { wakeOn = false; duck(false); stopPitchMon(); try { if (rec) { rec.onend = null; rec.abort(); } } catch (e) {} orb.classList.remove("live"); } // music back to normal
 
     // tap the orb: Pro toggles hands-free; everyone gets one-shot listen (or type)
     orb.addEventListener("click", function (e) {
@@ -223,7 +232,7 @@
     });
     function oneShot() {
       if (!SR) { elIn.focus(); return; }
-      say(NAME, T.listening, true); orb.classList.add("live"); duck(true);
+      say(NAME, T.listening, true); orb.classList.add("live"); duck(0); // mute music into the mic while capturing your words
       var r = newRec(false), got = "", done = false;
       r.onresult = function (ev) { got = ""; for (var i = 0; i < ev.results.length; i++) got += ev.results[i][0].transcript; };
       r.onerror = function () {};
