@@ -97,6 +97,13 @@
   .shgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0 6px}
   .shb{display:flex;flex-direction:column;align-items:center;gap:7px;background:rgba(127,127,127,.08);border:1px solid var(--line);border-radius:14px;padding:14px 6px;text-decoration:none;color:inherit;cursor:pointer;font-size:12px;font-weight:700}
   .shb .ic{font-size:24px}
+  .clist{max-height:46vh;overflow:auto;margin:4px 0 12px}
+  .cmt{display:flex;gap:9px;padding:9px 0;border-top:1px solid var(--line)}
+  .cmt:first-child{border-top:0}
+  .cmt .cav{width:32px;height:32px;border-radius:50%;flex:0 0 auto;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px}
+  .cmt .cbody{font-size:14px;line-height:1.45;word-break:break-word}
+  .cmt .cbody b{font-size:13px;margin-right:6px}
+  .cempty{color:var(--dim);font-size:14px;text-align:center;padding:14px 0}
   .back{color:var(--dim)!important}
 </style>
 </head>
@@ -152,6 +159,17 @@
   </div>
 </div>
 
+<div class="sheet" id="csheet">
+  <div class="sheet-c">
+    <div class="sheet-hd"><b>Comentarios</b><button type="button" class="x" id="csheetX" aria-label="Cerrar">&times;</button></div>
+    <div class="clist" id="clist"></div>
+    <input id="cc_who" class="cxin" type="text" maxlength="60" placeholder="Tu nombre o @usuario">
+    <textarea id="cc_txt" class="cxin" maxlength="300" rows="2" placeholder="Agrega un comentario&hellip;"></textarea>
+    <button type="button" class="cxpost" id="cc_post">Comentar</button>
+    <span class="cxst" id="cc_status"></span>
+  </div>
+</div>
+
 <div class="shpop" id="shpop">
   <div class="shpop-c">
     <b>Compartir &mdash; trae gente</b>
@@ -204,7 +222,7 @@
     var on=liked[id]?" on":"",sv=saved[id]?" saved":"";
     return '<div class="pc-act">'+
       '<button type="button" class="act lk-btn'+on+'" data-id="'+id+'" aria-label="Me gusta">'+SVG_HEART+'<b class="cnt lkn" id="lkn-'+id+'">0</b></button>'+
-      '<button type="button" class="act cmt-a" data-id="'+id+'" aria-label="Comentar">'+SVG_CMT+'</button>'+
+      '<button type="button" class="act cmt-a" data-id="'+id+'" aria-label="Comentar">'+SVG_CMT+'<b class="cnt cmn" id="cmn-'+id+'">0</b></button>'+
       '<button type="button" class="act share-a" data-url="'+esc(shareUrl)+'" data-text="'+esc(shareText)+'" aria-label="Compartir">'+SVG_SHARE+'</button>'+
       '<button type="button" class="act sv-btn'+sv+'" data-id="'+id+'" aria-label="Guardar">'+SVG_SAVE+'</button>'+
       '</div>';
@@ -234,7 +252,8 @@
     var y=document.getElementById("storyYou");if(y)y.addEventListener("click",openSheet);})();
 
   function loadLikes(){try{fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"feed",op:"likes",ids:ids})}).then(function(r){return r.json();}).then(function(d){if(d&&d.likes){for(var k in d.likes){var el=document.getElementById("lkn-"+k);if(el)el.textContent=d.likes[k];}}}).catch(function(){});}catch(e){}}
-  function loadLive(){fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"feed",op:"list"})}).then(function(r){return r.json();}).then(function(d){if(d&&d.posts&&d.posts.length){var h="";d.posts.forEach(function(p){h+=liveCard(p);});if(h)feed.insertAdjacentHTML("afterbegin",h);}loadLikes();}).catch(function(){loadLikes();});}
+  function loadCounts(){try{fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"feed",op:"counts",ids:ids})}).then(function(r){return r.json();}).then(function(d){if(d&&d.counts){for(var k in d.counts){var el=document.getElementById("cmn-"+k);if(el)el.textContent=d.counts[k];}}}).catch(function(){});}catch(e){}}
+  function loadLive(){fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"feed",op:"list"})}).then(function(r){return r.json();}).then(function(d){if(d&&d.posts&&d.posts.length){var h="";d.posts.forEach(function(p){h+=liveCard(p);});if(h)feed.insertAdjacentHTML("afterbegin",h);}loadLikes();loadCounts();}).catch(function(){loadLikes();loadCounts();});}
   loadLive();
 
   function openShare(url,text){
@@ -259,7 +278,7 @@
     var sv=ev.target.closest?ev.target.closest(".sv-btn"):null;
     var cm=ev.target.closest?ev.target.closest(".cmt-a"):null;
     if(sh){openShare(sh.getAttribute("data-url"),sh.getAttribute("data-text")||"");return;}
-    if(cm){openSheet();return;}
+    if(cm){openComments(cm.getAttribute("data-id"));return;}
     if(sv){var sid=sv.getAttribute("data-id");var sn=!saved[sid];if(sn)saved[sid]=1;else delete saved[sid];sv.className="act sv-btn"+(sn?" saved":"");try{localStorage.setItem("luxu_saved",JSON.stringify(saved));}catch(e){}return;}
     if(lb){var id=lb.getAttribute("data-id");var now=!liked[id];liked[id]=now;lb.className="act lk-btn"+(now?" on":"");
       var nn=lb.querySelector(".lkn");if(nn){var v=(parseInt(nn.textContent,10)||0)+(now?1:-1);if(v<0)v=0;nn.textContent=v;}
@@ -294,6 +313,32 @@
       if(d&&d.ok&&d.post){feed.insertAdjacentHTML("afterbegin",liveCard(d.post));document.getElementById("cx_txt").value="";document.getElementById("cx_media").value="";document.getElementById("cx_price").value="";document.getElementById("cx_pay").value="";if(st)st.textContent="¡Publicado! Ya está en vivo.";window.scrollTo({top:0,behavior:"smooth"});setTimeout(function(){closeSheet();if(st)st.textContent="";},1200);}
       else{if(st)st.textContent=(d&&d.error==="blocked")?"Esa publicación fue bloqueada.":((d&&d.error==="too many links")?"Demasiados enlaces.":"No se pudo publicar, intenta de nuevo.");}
     }).catch(function(){cxPost.disabled=false;if(st)st.textContent="No se pudo publicar, intenta de nuevo.";});
+  });
+
+  // ---- comentarios ----
+  var curCid=null,csheet=document.getElementById("csheet");
+  function cmtRow(c){var i=esc((c.who||"?").slice(0,1).toUpperCase());return '<div class="cmt"><span class="cav">'+i+'</span><span class="cbody"><b>'+esc(c.who||"Alguien")+'</b>'+esc(c.txt||"")+'</span></div>';}
+  function renderCmts(list){var cl=document.getElementById("clist");if(!list||!list.length){cl.innerHTML='<div class="cempty">A&uacute;n no hay comentarios. S&eacute; el primero.</div>';return;}var h="";list.forEach(function(c){h+=cmtRow(c);});cl.innerHTML=h;}
+  function openComments(id){curCid=id;csheet.classList.add("open");var cl=document.getElementById("clist");cl.innerHTML='<div class="cempty">Cargando&hellip;</div>';
+    try{var w0=localStorage.getItem("luxu_who");if(w0){var we=document.getElementById("cc_who");if(we&&!we.value)we.value=w0;}}catch(e){}
+    fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"feed",op:"comments",id:id})}).then(function(r){return r.json();}).then(function(d){renderCmts(d&&d.comments);}).catch(function(){renderCmts([]);});}
+  function closeComments(){csheet.classList.remove("open");curCid=null;}
+  document.getElementById("csheetX").addEventListener("click",closeComments);
+  csheet.addEventListener("click",function(e){if(e.target===csheet)closeComments();});
+  var ccPost=document.getElementById("cc_post");
+  if(ccPost)ccPost.addEventListener("click",function(){
+    if(!curCid)return;
+    var who=(document.getElementById("cc_who").value||"").trim();
+    var txt=(document.getElementById("cc_txt").value||"").trim();
+    var st=document.getElementById("cc_status");
+    if(!txt){if(st)st.textContent="Escribe un comentario.";return;}
+    try{if(who)localStorage.setItem("luxu_who",who);}catch(e){}
+    ccPost.disabled=true;if(st)st.textContent="Publicando…";
+    fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"feed",op:"comment",id:curCid,who:who,text:txt})}).then(function(r){return r.json();}).then(function(d){
+      ccPost.disabled=false;
+      if(d&&d.ok&&d.comment){var cl=document.getElementById("clist");var em=cl.querySelector(".cempty");if(em)cl.innerHTML="";cl.insertAdjacentHTML("beforeend",cmtRow(d.comment));document.getElementById("cc_txt").value="";if(st)st.textContent="";var cn=document.getElementById("cmn-"+curCid);if(cn&&typeof d.count==="number")cn.textContent=d.count;}
+      else{if(st)st.textContent=(d&&d.error==="blocked")?"Eso fue bloqueado.":((d&&d.error==="too many links")?"Demasiados enlaces.":"No se pudo publicar.");}
+    }).catch(function(){ccPost.disabled=false;if(st)st.textContent="No se pudo publicar.";});
   });
 }catch(e){}})();</script>
 <script>/*lux-radio*/(function(){try{
