@@ -120,6 +120,12 @@
     // ---------- radio duck ----------
     function duck(on) { try { if (window.luxDuck) window.luxDuck(on); } catch (e) {} }
 
+    // ---------- on-device voice unlock (phones block speak() unless it is armed inside a tap) ----------
+    var VOICES = [], _ttsWarm = false;
+    function loadVoices() { try { if (window.speechSynthesis) { var v = window.speechSynthesis.getVoices(); if (v && v.length) VOICES = v; } } catch (e) {} }
+    try { if (window.speechSynthesis) { loadVoices(); window.speechSynthesis.onvoiceschanged = loadVoices; } } catch (e) {}
+    function warmTTS() { try { if (_ttsWarm || !window.speechSynthesis || !window.SpeechSynthesisUtterance) return; _ttsWarm = true; loadVoices(); var w = new SpeechSynthesisUtterance(" "); w.volume = 0; try { window.speechSynthesis.cancel(); } catch (e) {} window.speechSynthesis.speak(w); } catch (e) {} }
+
     // ---------- talk to the worker ----------
     var busy = false;
     function ask(text) {
@@ -167,7 +173,7 @@
         var u = new SpeechSynthesisUtterance(String(t).slice(0, 300));
         u.lang = (LANG === "es") ? "es-US" : "en-US";
         try {
-          var vs = window.speechSynthesis.getVoices() || [], pick = null, want = (LANG === "es") ? "es" : "en";
+          var vs = (VOICES && VOICES.length) ? VOICES : (window.speechSynthesis.getVoices() || []), pick = null, want = (LANG === "es") ? "es" : "en";
           for (var i = 0; i < vs.length; i++) {
             var n = (vs[i].name || "").toLowerCase(), lg = (vs[i].lang || "").toLowerCase();
             if (lg.indexOf(want) === 0) { if (/female|samantha|victoria|zira|paulina|monica|google/.test(n)) { pick = vs[i]; break; } if (!pick) pick = vs[i]; }
@@ -178,6 +184,7 @@
         u.onerror = function () { finishTalk(); };
         try { window.speechSynthesis.cancel(); } catch (e) {}
         window.speechSynthesis.speak(u);
+        try { window.speechSynthesis.resume(); } catch (e) {}
       } catch (e) { finishTalk(); }
     }
     function finishTalk() {
@@ -250,7 +257,7 @@
     // tap the orb: Pro toggles hands-free; everyone gets one-shot listen (or type)
     orb.addEventListener("click", function (e) {
       if (dragMoved) { dragMoved = false; return; }
-      show(); autohide(9000);
+      show(); autohide(9000); warmTTS(); // arm the on-device voice inside this tap so she can speak after the reply loads
       if (SR) {
         if (PRO) { // toggle hands-free
           if (wakeOn) { stopWake(); say(NAME, T.off, false); setHint(); }
@@ -272,7 +279,7 @@
     }
 
     // typed fallback
-    function sendTyped() { var v = elIn.value.trim(); if (v) { elIn.value = ""; ask(v); } }
+    function sendTyped() { warmTTS(); var v = elIn.value.trim(); if (v) { elIn.value = ""; ask(v); } }
     elSnd.addEventListener("click", sendTyped);
     elIn.addEventListener("keydown", function (e) { if (e.key === "Enter") sendTyped(); });
 
@@ -289,7 +296,7 @@
         if (p && typeof p.l === "number") { wrap.style.left = Math.max(4, Math.min(innerWidth - 64, p.l)) + "px"; wrap.style.right = "auto"; wrap.style.bottom = Math.max(4, Math.min(innerHeight - 64, p.b)) + "px"; }
       } catch (e) {}
     }
-    function down(x, y) { dragging = true; dragMoved = false; sx = x; sy = y; var r = wrap.getBoundingClientRect(); ox = r.left; oy = innerHeight - r.bottom; }
+    function down(x, y) { warmTTS(); dragging = true; dragMoved = false; sx = x; sy = y; var r = wrap.getBoundingClientRect(); ox = r.left; oy = innerHeight - r.bottom; } // arm the voice at the very start of the touch
     function move(x, y) {
       if (!dragging) return; var dx = x - sx, dy = y - sy;
       if (Math.abs(dx) + Math.abs(dy) > 5) dragMoved = true;
