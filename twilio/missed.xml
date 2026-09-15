@@ -3,7 +3,7 @@
 <Response>
   <Say language="en-US">We could not pick up right now. Please leave your name, your number and the property address after the tone, and a person will call you back.</Say>
   <Say language="es-MX">No pudimos contestar en este momento. Deje su nombre, su numero y la direccion de la propiedad despues del tono, y una persona le devuelve la llamada.</Say>
-  <Record maxLength="120" playBeep="true" action="https://luxucleen.com/twilio/thanks.xml" method="GET"/>
+  <Record maxLength="120" timeout="5" playBeep="true" transcribe="true" transcribeCallback="https://ai.luxucleen.com/voicemail" action="https://ai.luxucleen.com/voicemail" method="POST"/>
   <Say language="en-US">We did not hear a message. Goodbye.</Say>
   <Hangup/>
 </Response>
