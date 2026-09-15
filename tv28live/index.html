@@ -127,8 +127,7 @@
   /* ---- watch-party room (shared chat + viewer count + AI co-host) ---- */
   function rid(){ return Math.random().toString(36).slice(2,8); }
   var params=new URLSearchParams(location.search);
-  var room=(params.get("room")||"").replace(/[^a-z0-9]/gi,"").slice(0,16);
-  if(!room){ room=rid(); params.set("room",room); history.replaceState(null,"","?"+params.toString()); }
+  var room=(params.get("room")||"lobby").replace(/[^a-z0-9]/gi,"").slice(0,16)||"lobby";
   var url="https://luxucleen.com/tv28live/?room="+room;
   $("roomUrl").textContent=url;
   var client=(function(){try{var c=localStorage.getItem("tv_client");if(!c){c=rid()+rid();localStorage.setItem("tv_client",c);}return c;}catch(e){return rid();}})();
