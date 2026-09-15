@@ -54,6 +54,12 @@
       "@keyframes luxorbFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}",
       "@keyframes luxorbPulse{0%,100%{box-shadow:0 6px 22px rgba(46,166,255,.45),0 0 0 0 rgba(126,240,192,.55)}50%{box-shadow:0 6px 22px rgba(46,166,255,.55),0 0 0 14px rgba(126,240,192,0)}}",
       "@keyframes luxorbSpin{to{transform:rotate(360deg)}}",
+      "@keyframes luxFly{0%{transform:translate(0,0) scale(1)}18%{transform:translate(26vw,-46vh) scale(1.18)}52%{transform:translate(74vw,-26vh) scale(1.12)}80%{transform:translate(16vw,-30vh) scale(1.14)}100%{transform:translate(0,0) scale(1)}}",
+      ".luxorb.flyby{animation:luxFly 1.5s cubic-bezier(.5,.05,.3,1) 1 !important}",
+      ".luxorb-wrap{transition:transform .55s cubic-bezier(.3,.75,.2,1)}",
+      ".luxorb-wrap.center{transform:translate(min(42vw,340px),-42vh)}",
+      "@keyframes luxWake{0%,100%{transform:scale(1.45);box-shadow:0 0 30px 6px rgba(126,240,192,.65),0 0 60px 16px rgba(46,166,255,.42)}50%{transform:scale(1.62);box-shadow:0 0 46px 12px rgba(126,240,192,.92),0 0 86px 26px rgba(46,166,255,.62)}}",
+      ".luxorb.wake{animation:luxWake 1.15s ease-in-out infinite !important}",
       ".luxorb-bubble{position:absolute;left:0;bottom:72px;max-width:min(78vw,340px);background:rgba(16,19,26,.92);color:#eaf2ff;border:1px solid rgba(126,240,192,.28);border-radius:14px;padding:10px 13px;box-shadow:0 10px 30px rgba(0,0,0,.4);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);opacity:0;transform:translateY(6px);transition:opacity .2s,transform .2s;pointer-events:none}",
       ".luxorb-bubble.show{opacity:1;transform:translateY(0);pointer-events:auto}",
       ".luxorb-bubble .who{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#7ef0c0;margin-bottom:3px}",
@@ -64,7 +70,7 @@
       ".luxorb-bubble .bar{display:flex;gap:9px;margin-top:8px;align-items:center;justify-content:space-between}",
       ".luxorb-bubble .bar small{color:#8fa3bd;font-size:11px}",
       ".luxorb-bubble .bar a{color:#7ef0c0;cursor:pointer;font-size:11px;text-decoration:none}",
-      "@media (prefers-reduced-motion:reduce){.luxorb,.luxorb.live,.luxorb.think{animation:none}}"
+      "@media (prefers-reduced-motion:reduce){.luxorb,.luxorb.live,.luxorb.think,.luxorb.flyby{animation:none}}"
     ].join("");
     (document.head || document.documentElement).appendChild(css);
 
@@ -88,8 +94,11 @@
       restorePos();
       say(NAME, T.hi, false);
       setHint();
-      if (PRO) startWake(); // hands-free auto-listen — Pro only
+      try { if (!sessionStorage.getItem("lux_orb_flew")) { sessionStorage.setItem("lux_orb_flew", "1"); setTimeout(flyby, 500); } } catch (e) { setTimeout(flyby, 500); }
+      if (PRO) startWake(); // hands-free auto-listen — Pro only (music ducks low the whole time it's on)
     }
+    function flyby() { try { orb.classList.remove("flyby"); void orb.offsetWidth; orb.classList.add("flyby"); setTimeout(function () { orb.classList.remove("flyby"); }, 1650); } catch (e) {} }
+    function wakeCenter(on) { try { if (on) { wrap.classList.add("center"); orb.classList.remove("live", "think", "talk"); orb.classList.add("wake"); } else { wrap.classList.remove("center"); orb.classList.remove("wake"); } } catch (e) {} }
 
     function setHint() { elHint.textContent = PRO ? T.hint : T.off; }
 
@@ -142,8 +151,9 @@
       } catch (e) { next(); }
     }
     function finishTalk() {
-      orb.classList.remove("talk"); duck(false);
-      if (PRO && wakeOn) setTimeout(startListen, 350); // resume hands-free
+      wakeCenter(false); orb.classList.remove("talk"); // return to the corner
+      if (PRO && wakeOn) { duck(true); setTimeout(startListen, 350); } // still listening -> keep music low
+      else duck(false); // one-shot done -> music back
     }
 
     // ---------- speech recognition (wake-name + command) ----------
@@ -166,7 +176,7 @@
     }
     function startWake() {
       if (!SR) { setHint(); return; }
-      wakeOn = true; startListen();
+      wakeOn = true; duck(true); startListen(); // music drops low + pleasant so you can talk to Luxu anytime
     }
     function startListen() {
       if (!SR || !wakeOn) return;
@@ -185,19 +195,19 @@
     }
     function cmdCapture() {
       try { if (rec) { rec.onend = null; rec.abort(); } } catch (e) {}
-      say(NAME, T.listening, true); orb.classList.add("live");
+      wakeCenter(true); say(NAME, T.listening, true); // heard its name: fly to the middle, glowing
       var r = newRec(false); var got = "", done = false;
       r.onresult = function (ev) { got = ""; for (var i = 0; i < ev.results.length; i++) got += ev.results[i][0].transcript; };
       r.onerror = function () {};
       r.onend = function () {
-        orb.classList.remove("live"); if (done) return; done = true;
+        if (done) return; done = true;
         var cmd = stripName(got);
-        if (cmd) ask(cmd); else { say(NAME, T.err, false); if (wakeOn) setTimeout(startListen, 500); }
+        if (cmd) ask(cmd); else { wakeCenter(false); say(NAME, T.err, false); if (wakeOn) setTimeout(startListen, 500); }
       };
-      try { r.start(); } catch (e) { if (wakeOn) setTimeout(startListen, 500); }
+      try { r.start(); } catch (e) { wakeCenter(false); if (wakeOn) setTimeout(startListen, 500); }
       setTimeout(function () { try { r.stop(); } catch (e) {} }, 6000);
     }
-    function stopWake() { wakeOn = false; try { if (rec) { rec.onend = null; rec.abort(); } } catch (e) {} orb.classList.remove("live"); }
+    function stopWake() { wakeOn = false; duck(false); try { if (rec) { rec.onend = null; rec.abort(); } } catch (e) {} orb.classList.remove("live"); } // music back to normal
 
     // tap the orb: Pro toggles hands-free; everyone gets one-shot listen (or type)
     orb.addEventListener("click", function (e) {
@@ -206,7 +216,7 @@
       if (SR) {
         if (PRO) { // toggle hands-free
           if (wakeOn) { stopWake(); say(NAME, T.off, false); setHint(); }
-          else { startWake(); say(NAME, T.hi, false); setHint(); }
+          else { startWake(); flyby(); say(NAME, T.hi, false); setHint(); }
         } else { // free: one-shot listen
           oneShot();
         }
@@ -214,11 +224,11 @@
     });
     function oneShot() {
       if (!SR) { elIn.focus(); return; }
-      say(NAME, T.listening, true); orb.classList.add("live");
+      say(NAME, T.listening, true); orb.classList.add("live"); duck(true);
       var r = newRec(false), got = "", done = false;
       r.onresult = function (ev) { got = ""; for (var i = 0; i < ev.results.length; i++) got += ev.results[i][0].transcript; };
       r.onerror = function () {};
-      r.onend = function () { orb.classList.remove("live"); if (done) return; done = true; if (got.trim()) ask(got.trim()); else say(NAME, T.err, false); };
+      r.onend = function () { orb.classList.remove("live"); if (done) return; done = true; if (got.trim()) ask(got.trim()); else { duck(false); say(NAME, T.err, false); } };
       try { r.start(); } catch (e) {}
       setTimeout(function () { try { r.stop(); } catch (e) {} }, 6000);
     }

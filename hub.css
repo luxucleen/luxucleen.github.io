@@ -143,3 +143,21 @@ body.hub .fine a{color:var(--green)}   /* only the fine-print links carry the bl
 :root[data-theme="light"] .ring span{background:#f4f6fb;color:#111621}
 :root[data-theme="light"] .fine,:root[data-theme="light"] .hfoot,:root[data-theme="light"] .fine p{color:#5c6675}
 :root[data-theme="light"] .fine strong,:root[data-theme="light"] .fine h2{color:#111621}
+
+/*lux-megamenu*/
+.hnav{position:relative}
+.hnav .npin{color:var(--ink)!important;font-weight:700;background:rgba(46,194,126,.16);border:1px solid rgba(46,194,126,.42)}
+.navtog{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.menubtn{cursor:pointer;color:var(--ink);font-size:13px;font-weight:700;padding:6px 13px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.05);display:inline-flex;align-items:center;gap:5px}
+.menubtn i{font-style:normal;font-size:10px;transition:.2s}
+.navtog:checked ~ .menubtn i{transform:rotate(180deg)}
+.menubtn:hover{border-color:rgba(46,194,126,.55);color:#fff}
+.megaback{display:none;position:fixed;inset:0;z-index:2147483030;background:rgba(0,0,0,.4)}
+.megamenu{display:none;position:absolute;top:calc(100% + 10px);right:0;width:min(700px,92vw);z-index:2147483031;background:#1b1e25;border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:0 22px 55px rgba(0,0,0,.55);grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:12px 22px;text-align:left}
+.navtog:checked ~ .megaback{display:block}
+.navtog:checked ~ .megamenu{display:grid}
+.mgrp h4{margin:0 0 6px;font-size:10.5px;letter-spacing:1.3px;text-transform:uppercase;color:var(--gold)}
+.mgrp a{display:block;color:var(--dim);text-decoration:none;font-size:13.5px;padding:5px 0;border:0;background:none;border-radius:6px}
+.mgrp a:hover{color:var(--green2);background:none;border:0}
+:root[data-theme="light"] .megamenu{background:#fff}
+@media(max-width:560px){.hnav .npin{display:none}.megamenu{position:fixed;top:auto;bottom:0;left:0;right:0;width:auto;max-height:78vh;overflow:auto;border-radius:18px 18px 0 0}}
