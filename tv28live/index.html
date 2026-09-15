@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>tv28Live &mdash; free live TV, watch together | Luxucleen</title>
-<meta name="description" content="Watch free live TV - world news, markets and space - on one beautiful page, together. Share a link, watch live with friends, chat while you watch, and ask the Bridge28 AI co-host anything.">
+<meta name="description" content="Watch free live TV - world news, Spanish, markets, music, kids and space - on one beautiful page, together. Share a link, watch live with friends, chat per channel, and ask the Bridge28 AI co-host anything.">
 <meta name="robots" content="index,follow">
 <link rel="stylesheet" href="/site.css">
 <link rel="canonical" href="https://luxucleen.com/tv28live/">
@@ -15,7 +15,7 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://luxucleen.com/tv28live/">
 <meta property="og:title" content="tv28Live &mdash; free live TV, watch together">
-<meta property="og:description" content="Free live TV on one page. Share a link, watch together, chat, and an AI co-host watches with you.">
+<meta property="og:description" content="Free live TV on one page. Share a link, watch together, chat per channel, and an AI co-host watches with you.">
 <meta property="og:site_name" content="Luxucleen LLC">
 <meta property="og:locale" content="en_US">
 <style>
@@ -24,13 +24,13 @@
   .player{position:relative;width:100%;aspect-ratio:16/9;background:#000;border:1px solid var(--line);border-radius:14px;overflow:hidden}
   .player iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
   .chrow{display:flex;gap:8px;overflow-x:auto;padding:10px 0 2px;-webkit-overflow-scrolling:touch}
-  .chip{flex:0 0 auto;background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:9px 13px;font-size:13px;font-weight:700;cursor:pointer;color:inherit;white-space:nowrap}
+  .chip{flex:0 0 auto;background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:9px 13px;font-size:13px;font-weight:700;cursor:pointer;color:inherit;white-space:nowrap;text-align:left}
   .chip.on{border-color:var(--accent);color:var(--accent)}
   .chip small{display:block;color:var(--dim);font-weight:600;font-size:11px}
   .chat{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:14px;background:var(--soft);min-height:360px;max-height:70vh}
-  .chathead{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;border-bottom:1px solid var(--line);font-weight:800;font-size:14px}
-  .live{color:#37d67a;font-size:12.5px;font-weight:700}
-  .live b{color:inherit}
+  .chathead{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;border-bottom:1px solid var(--line);font-weight:800;font-size:14px;gap:8px}
+  .chathead #chName{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .live{color:#37d67a;font-size:12.5px;font-weight:700;white-space:nowrap}
   .msgs{flex:1;overflow-y:auto;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
   .m{font-size:14px;line-height:1.4}
   .m .who{font-weight:800;color:var(--accent)}
@@ -67,10 +67,10 @@
   <p class="crumb"><a href="/">Luxucleen LLC</a> &rsaquo; tv28Live</p>
   <section class="hero">
     <h1>tv28Live &mdash; free live TV, together.</h1>
-    <p class="lede">Free live world news, markets and space, on one page. <b>Share the link, watch live with friends</b>,
-    chat while you watch, and ask the <b>Bridge28 AI co-host</b> anything &mdash; type <b>@bridge28</b> in the chat.</p>
+    <p class="lede">Free live news, Spanish, markets, music, kids and space &mdash; on one page. Each channel has its <b>own live chat and crowd</b>.
+    <b>Share the link, watch with friends</b>, and ask the <b>Bridge28 AI co-host</b> anything &mdash; type <b>@bridge28</b> in the chat.</p>
     <div class="share">
-      <button type="button" id="shareBtn">&#128242; Share this room</button>
+      <button type="button" id="shareBtn">&#128242; Share this channel</button>
       <span class="u" id="roomUrl"></span>
     </div>
   </section>
@@ -81,7 +81,7 @@
       <div class="chrow" id="chrow"></div>
     </div>
     <div class="chat">
-      <div class="chathead"><span id="chName">Live chat</span><span class="live">&#128308; <b id="vcount">1</b> watching</span></div>
+      <div class="chathead"><span id="chName">Live chat</span><span class="live">&#128308; <b id="vcount">1</b> here</span></div>
       <div class="msgs" id="msgs"></div>
       <div class="react" id="react"></div>
       <div class="cin"><input id="cmsg" type="text" maxlength="280" placeholder="Say something… (type @bridge28 to ask the AI)"><button type="button" id="csend">Send</button></div>
@@ -89,8 +89,8 @@
   </div>
 
   <ul>
-    <li class="small">Live channels are official free 24/7 streams (world news, markets, NASA) embedded from their own channels &mdash; not rebroadcast. If a stream is between shows, pick another.</li>
-    <li class="small">Chat is public and light &mdash; be kind. Messages are temporary. This is for fun, not private conversation.</li>
+    <li class="small">Live channels are official free 24/7 streams embedded from their own channels &mdash; not rebroadcast. If a stream is between shows, pick another. More channels (incl. free public-domain movies) are being added.</li>
+    <li class="small">Each channel has its own chat, and it's public &mdash; be kind. Messages are temporary. This is for fun, not private conversation.</li>
   </ul>
 </main>
 
@@ -112,62 +112,68 @@
   var API="https://ai.luxucleen.com/ask";
   var $=function(id){return document.getElementById(id);};
   var CH=[
-    {n:"ABC News Live",id:"UCBi2mrWuNuyYy4gbM6fU18Q",t:"US news"},
-    {n:"Al Jazeera",id:"UCNye-wNBqNL5ZzHSJj3l8Bg",t:"World news"},
-    {n:"France 24",id:"UCQfwfsi5VrQ8yKZ-UWmAEFg",t:"World news"},
-    {n:"DW News",id:"UCknLrEdhRCp1aegoMqRaCZg",t:"World news"},
-    {n:"Bloomberg TV",id:"UCIALMKvObZNtJ6AmdCLP7Lg",t:"Markets"},
-    {n:"NASA Live",id:"UCLA_DiR1FfKNvjuUpBHmylQ",t:"Space"}
+    {n:"ABC News Live",k:"abc",id:"UCBi2mrWuNuyYy4gbM6fU18Q",t:"News"},
+    {n:"Sky News",k:"sky",id:"UC8avqgy4vdE3g_oLSfwfDXA",t:"News"},
+    {n:"LiveNOW FOX",k:"fox",id:"UCJg9wBPyKMNA5sRDnvzmkdg",t:"News"},
+    {n:"Bloomberg TV",k:"bloom",id:"UCIALMKvObZNtJ6AmdCLP7Lg",t:"Markets"},
+    {n:"Al Jazeera",k:"aljz",id:"UCNye-wNBqNL5ZzHSJj3l8Bg",t:"World"},
+    {n:"France 24",k:"fr24",id:"UCQfwfsi5VrQ8yKZ-UWmAEFg",t:"World"},
+    {n:"DW News",k:"dw",id:"UCknLrEdhRCp1aegoMqRaCZg",t:"World"},
+    {n:"France 24 Espanol",k:"fr24es",id:"UCUdOoVWuWmgo1wByzcsyKDQ",t:"Espanol"},
+    {n:"DW Espanol",k:"dwes",id:"UCT4Jg8h03dD0iN3Pb5L0PMA",t:"Espanol"},
+    {n:"Lofi Girl",k:"lofi",id:"UCSJ4gkVC6NrvII8umztf0Ow",t:"Music"},
+    {n:"Kids TV",k:"kids",id:"UCfXdCQfn2Wly74kX-vyPubw",t:"Kids"},
+    {n:"NASA Live",k:"nasa",id:"UCLA_DiR1FfKNvjuUpBHmylQ",t:"Space"}
   ];
-  var frame=$("tvframe"), chrow=$("chrow");
-  function playCh(i,unmute){ frame.src="https://www.youtube-nocookie.com/embed/live_stream?channel="+CH[i].id+"&autoplay=1&mute="+(unmute?"0":"1"); var b=chrow.children; for(var k=0;k<b.length;k++)b[k].className="chip"+(k===i?" on":""); }
-  CH.forEach(function(c,i){ var el=document.createElement("button"); el.className="chip"; el.innerHTML=c.n+"<small>"+c.t+"</small>"; el.addEventListener("click",function(){ playCh(i,true); }); chrow.appendChild(el); });
-  playCh(0,false); // first channel autoplays muted; tap any channel for sound
-
-  /* ---- watch-party room (shared chat + viewer count + AI co-host) ---- */
+  var frame=$("tvframe"), chrow=$("chrow"), msgs=$("msgs");
+  var room="", cursor=0, pending=[], curCh=-1, url="";
   function rid(){ return Math.random().toString(36).slice(2,8); }
-  var params=new URLSearchParams(location.search);
-  var room=(params.get("room")||"lobby").replace(/[^a-z0-9]/gi,"").slice(0,16)||"lobby";
-  var url="https://luxucleen.com/tv28live/?room="+room;
-  $("roomUrl").textContent=url;
   var client=(function(){try{var c=localStorage.getItem("tv_client");if(!c){c=rid()+rid();localStorage.setItem("tv_client",c);}return c;}catch(e){return rid();}})();
   var name=(function(){try{return localStorage.getItem("tv_name")||"";}catch(e){return "";}})();
-  var msgs=$("msgs"), cursor=0, pending=[];
   function esc(t){var d=document.createElement("div");d.textContent=t;return d.innerHTML;}
   function add(m){ var d=document.createElement("div"); d.className="m"+(m.ai?" ai":""); d.innerHTML='<span class="who">'+esc(m.n)+':</span> '+esc(m.t); msgs.appendChild(d); msgs.scrollTop=msgs.scrollHeight; }
-  function poll(send){
-    var body={mode:"tv",room:room,client:client,since:cursor};
-    if(send){ body.msg=send; body.name=name||"guest"; }
+  function poll(sendtxt){
+    if(!room) return;
+    var rq=room, body={mode:"tv",room:room,client:client,since:cursor};
+    if(sendtxt){ body.msg=sendtxt; body.name=name||"guest"; }
     fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)})
       .then(function(r){return r.json();})
       .then(function(d){
+        if(rq!==room) return; // channel changed mid-request; ignore stale
         if(d && typeof d.viewers==="number") $("vcount").textContent=d.viewers;
-        (d.msgs||[]).forEach(function(m){
-          if(m.n===(name||"guest") && pending.indexOf(m.t)>=0){ pending.splice(pending.indexOf(m.t),1); return; } // skip my echo
-          add(m);
-        });
+        (d.msgs||[]).forEach(function(m){ if(m.n===(name||"guest") && pending.indexOf(m.t)>=0){ pending.splice(pending.indexOf(m.t),1); return; } add(m); });
         if(d && d.cursor) cursor=d.cursor;
       }).catch(function(){});
   }
+  function setChannel(i,unmute){
+    frame.src="https://www.youtube-nocookie.com/embed/live_stream?channel="+CH[i].id+"&autoplay=1&mute="+(unmute?"0":"1");
+    var b=chrow.children; for(var k=0;k<b.length;k++)b[k].className="chip"+(k===i?" on":"");
+    if(curCh===i) return;
+    curCh=i; room="ch_"+CH[i].k; cursor=0; pending=[]; msgs.innerHTML="";
+    $("chName").textContent=CH[i].n+" chat";
+    url="https://luxucleen.com/tv28live/?ch="+CH[i].k; $("roomUrl").textContent=url;
+    try{var p2=new URLSearchParams(location.search);p2.set("ch",CH[i].k);history.replaceState(null,"","?"+p2.toString());}catch(e){}
+    poll();
+  }
+  CH.forEach(function(c,i){ var el=document.createElement("button"); el.className="chip"; el.innerHTML=esc(c.n)+"<small>"+esc(c.t)+"</small>"; el.addEventListener("click",function(){ setChannel(i,true); }); chrow.appendChild(el); });
+  var want=(new URLSearchParams(location.search).get("ch")||"").replace(/[^a-z0-9]/gi,"");
+  var start=0; for(var j=0;j<CH.length;j++){ if(CH[j].k===want){ start=j; break; } }
+  setChannel(start,false); // autoplay muted; tap a channel for sound
+  setInterval(function(){ poll(); }, 3000);
+
   function send(){
     var t=($("cmsg").value||"").trim(); if(!t) return;
     if(!name){ try{ name=(prompt("Pick a name for the chat:")||"guest").slice(0,24); localStorage.setItem("tv_name",name); }catch(e){ name="guest"; } }
-    $("cmsg").value="";
-    pending.push(t); add({n:name,t:t}); // optimistic echo
-    poll(t);
+    $("cmsg").value=""; pending.push(t); add({n:name,t:t}); poll(t);
   }
   $("csend").addEventListener("click",send);
   $("cmsg").addEventListener("keydown",function(e){ if(e.key==="Enter"){ e.preventDefault(); send(); } });
-  poll(); setInterval(function(){ poll(); }, 3000);
 
-  /* reactions - floating emojis (local delight) */
-  var EM=["🔥","❤️","😂","👏","😮"];
-  var rc=$("react");
+  var EM=["🔥","❤️","😂","👏","😮"], rc=$("react");
   EM.forEach(function(e){ var b=document.createElement("button"); b.textContent=e; b.addEventListener("click",function(){ floatEmoji(e); }); rc.appendChild(b); });
   function floatEmoji(e){ var s=document.createElement("div"); s.className="float"; s.textContent=e; s.style.left=(20+Math.random()*60)+"%"; document.body.appendChild(s); setTimeout(function(){ s.remove(); },2300); }
 
-  /* share */
-  $("shareBtn").addEventListener("click",function(){ if(navigator.share){ navigator.share({title:"Watch live TV with me on tv28Live",url:url}).catch(function(){}); } else { try{ navigator.clipboard.writeText(url); $("shareBtn").textContent="Link copied!"; setTimeout(function(){$("shareBtn").innerHTML="&#128242; Share this room";},1500); }catch(e){} } });
+  $("shareBtn").addEventListener("click",function(){ if(navigator.share){ navigator.share({title:"Watch live TV with me on tv28Live",url:url}).catch(function(){}); } else { try{ navigator.clipboard.writeText(url); $("shareBtn").textContent="Link copied!"; setTimeout(function(){$("shareBtn").innerHTML="&#128242; Share this channel";},1500); }catch(e){} } });
 })();
 </script>
 <script>/*lux-theme*/(function(){try{
