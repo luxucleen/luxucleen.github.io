@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script>/*lux-lang-router*/(function(){try{if(localStorage.getItem("lux_theme")==="light"){document.documentElement.setAttribute("data-theme","light");}}catch(e){}try{var E={"/":1,"/ask/":1,"/stack/":1,"/real-estate/":1,"/trading/":1,"/contact/":1,"/community/":1,"/landscaping/":1,"/launchpad/":1,"/jewelry/":1,"/security/":1};var p=location.pathname.replace(/index\.html$/,"");if(p.charAt(p.length-1)!=="/"&&p.indexOf(".")<0)p+="/";if(p==="")p="/";var onES=p.indexOf("/es/")===0||p==="/es"||p==="/es/";var s=null;try{s=localStorage.getItem("lux_lang");}catch(e){}var pref=s;if(!pref){var l=(navigator.language||(navigator.languages&&navigator.languages[0])||"en").toLowerCase();pref=l.indexOf("es")===0?"es":"en";}if(pref==="es"&&!onES){if(E[p])location.replace("/es"+(p==="/"?"/":p));}else if(pref==="en"&&onES){location.replace(p.replace(/^\/es/,"")||"/");}}catch(e){}try{document.addEventListener("DOMContentLoaded",function(){var a=document.querySelectorAll("a[hreflang],a.lang");for(var i=0;i<a.length;i++){a[i].addEventListener("click",function(){try{var h=this.getAttribute("href")||"";localStorage.setItem("lux_lang",(h.indexOf("/es/")===0||h==="/es"||h==="/es/")?"es":"en");}catch(e){}});}});}catch(e){}})();</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Free code vulnerability scanner | Luxucleen</title>
+<meta name="description" content="Paste your code and scan it for security vulnerabilities free - our AI reviews it like a hacker and shows every hole plus the exact fix. No install, no Docker, no key. Every Luxucleen product passes this before launch.">
+<meta name="robots" content="index,follow">
+<link rel="stylesheet" href="/site.css">
+<link rel="canonical" href="https://luxucleen.com/security/">
+<link rel="alternate" hreflang="en" href="https://luxucleen.com/security/">
+<link rel="alternate" hreflang="es" href="https://luxucleen.com/es/security/">
+<link rel="alternate" hreflang="x-default" href="https://luxucleen.com/security/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://luxucleen.com/security/">
+<meta property="og:title" content="Free code vulnerability scanner - Luxucleen">
+<meta property="og:description" content="Paste your code, scan it for vulnerabilities free, get the exact fixes. No Docker, no key.">
+<meta property="og:site_name" content="Luxucleen LLC">
+<meta property="og:locale" content="en_US">
+<style>
+  .scbox{border:1px solid var(--line);border-radius:16px;background:var(--soft);padding:18px;margin:16px 0}
+  #code{width:100%;min-height:200px;box-sizing:border-box;background:var(--bg);border:1.5px solid var(--line);border-radius:12px;padding:14px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;line-height:1.5;color:inherit;resize:vertical}
+  #code:focus{outline:none;border-color:var(--accent)}
+  .scrow{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:10px 0 0}
+  .scrow button{background:var(--accent);color:#fff;border:0;border-radius:11px;padding:13px 22px;font-size:16px;font-weight:800;font-family:inherit;cursor:pointer}
+  .scrow button:hover{background:var(--accent2)}
+  .scrow button[disabled]{opacity:.6;cursor:default}
+  .scstatus{color:var(--dim);font-size:14px;margin:10px 0 0;min-height:1px}
+  .scout{display:none;margin-top:14px}
+  .scout.show{display:block}
+  #res{white-space:pre-wrap;word-break:break-word;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:16px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;line-height:1.55;max-height:60vh;overflow:auto;color:inherit}
+  .steps{counter-reset:s;list-style:none;padding:0;margin:14px 0}
+  .steps li{position:relative;padding:0 0 14px 42px;color:var(--dim)}
+  .steps li:before{counter-increment:s;content:counter(s);position:absolute;left:0;top:-2px;width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center}
+  .steps li b{color:inherit}
+  .back{color:var(--dim)!important}
+  .pron{background:radial-gradient(700px 300px at 12% -20%,#123020,#0b0e14 60%);border:1px solid #1e3a2a;border-radius:14px;padding:16px 18px;margin:14px 0;color:#cfe6d8}
+  .pron b{color:#37d67a}
+  .small{color:var(--dim);font-size:13px}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="/">Luxu<span>cleen</span> LLC</a>
+    <nav>
+      <a class="back" href="/">&larr; All sections</a>
+      <a href="/bridge28/">Bridge28</a>
+      <a class="lang" href="/es/security/" hreflang="es" lang="es">Espa&ntilde;ol</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <p class="crumb"><a href="/">Luxucleen LLC</a> &rsaquo; Security scanner</p>
+
+  <section class="hero">
+    <h1>Scan your code for vulnerabilities &mdash; free.</h1>
+    <p class="lede">Paste your code. Our AI reviews it like a real hacker and shows you <b>every hole plus the exact fix</b> &mdash;
+    injection, XSS, leaked keys, broken logins and more. No install, no Docker, no API key. Every product built on
+    Luxucleen passes this before we call it finished.</p>
+  </section>
+
+  <div class="scbox">
+    <textarea id="code" placeholder="Paste your code here (any language) - a route, a login, an API handler, a whole file..." spellcheck="false"></textarea>
+    <div class="scrow">
+      <button type="button" id="go">Scan for vulnerabilities &rarr;</button>
+      <span class="small">Private: we scan it and don't store your code.</span>
+    </div>
+    <p class="scstatus" id="status"></p>
+    <div class="scout" id="out">
+      <pre id="res"></pre>
+      <div class="pron"><b>Want it fixed and built right?</b> Luxucleen builds and runs your whole idea with the best security baked in &mdash; you keep <b>88%</b>. <a href="/stack/" style="color:#37d67a;font-weight:800">Start on the stack &rarr;</a></div>
+    </div>
+  </div>
+
+  <h2>Why ours is better</h2>
+  <ol class="steps">
+    <li><b>Free and instant.</b> The pro tools need Docker, a paid AI key and a setup guide. Ours runs in your browser &mdash; paste, scan, done.</li>
+    <li><b>It finds the real holes.</b> Injection, cross-site scripting, hardcoded secrets, broken access control, weak crypto &mdash; each with a severity and the exact fix.</li>
+    <li><b>Every Luxucleen product passes it.</b> Nothing we build for you is called finished until it clears this gate. The best security in the world, built in.</li>
+  </ol>
+
+  <ul>
+    <li class="small">This is an AI security review to help you catch and fix issues fast &mdash; a strong first line, not a legal guarantee. For anything that handles money or personal data, have a human security review too.</li>
+    <li class="small">Questions or a deeper live pen-test? <a href="mailto:hello@luxucleen.com?subject=Security%20scan">hello@luxucleen.com</a>.</li>
+  </ul>
+</main>
+
+<footer class="wrap">
+  <div class="fmap">
+    <a href="/">All sections</a>
+    <a href="/security/">Security scanner</a>
+    <a href="/bridge28/">Bridge28</a>
+    <a href="/stack/">Stack</a>
+    <a href="/contact/">Contact</a>
+    <a href="/legal/">Legal</a>
+  </div>
+  &copy; 2026 Luxucleen LLC &middot; Midlothian, Virginia &middot; SCC Entity ID 11952713<br>
+  <span class="small">The scanner gives an AI security review, not a guarantee. Luxucleen LLC.</span>
+</footer>
+
+<script>
+(function(){
+  var API = "https://ai.luxucleen.com/ask";
+  var LANG = (function(){ try { return localStorage.getItem("lux_lang") === "es" ? "es" : "en"; } catch(e){ return "en"; } })();
+  var $ = function(id){ return document.getElementById(id); };
+  var code = $("code"), go = $("go"), status = $("status"), out = $("out"), res = $("res");
+  function scan(){
+    var c = (code.value||"").trim(); if(!c){ code.focus(); return; }
+    go.disabled = true; out.className = "scout"; status.textContent = "Scanning your code for vulnerabilities… (about 10–20 seconds)";
+    fetch(API, {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({mode:"scan", q:c.slice(0,14000), lang:LANG})})
+      .then(function(r){ return r.json(); })
+      .then(function(d){
+        go.disabled = false; go.textContent = "Scan again →";
+        if (d && d.ok && d.answer){ res.textContent = d.answer; out.className = "scout show"; status.textContent = ""; }
+        else { status.textContent = (d && d.answer) || "Could not scan just now — try again in a moment, or email hello@luxucleen.com."; }
+      })
+      .catch(function(){ go.disabled = false; status.textContent = "Could not reach the scanner — try again in a moment."; });
+  }
+  go.addEventListener("click", scan);
+})();
+</script>
+<script>/*lux-voice*/(function(){try{
+window.luxVoicePage=true;
+var API="https://ai.luxucleen.com/ask";
+var LANG=(function(){try{return localStorage.getItem("lux_lang")==="es"?"es":"en";}catch(e){return "en";}})();
+function line(){var h=document.querySelector("h1");var l=document.querySelector(".lede,.lux-hero p,.hero p");var t=((h?h.textContent:"")+". "+(l?l.textContent:"")).replace(/\s+/g," ").trim();return t.slice(0,360);}
+var clips=null,i=0,player=null,started=false,fin=false;
+function finish(){if(fin)return;fin=true;setTimeout(function(){try{if(window.luxFadeIn){window.luxFadeIn();}else if(window.luxRadioStart){window.luxRadioStart();}}catch(e){}},900);}
+function playNext(){if(!clips||i>=clips.length){finish();return;}var c=clips[i++];try{player=new Audio("data:"+(c.type||"audio/mpeg")+";base64,"+c.audio);player.onended=playNext;player.onerror=playNext;var pr=player.play();if(pr&&pr.catch)pr.catch(function(){finish();});}catch(e){playNext();}}
+function begin(){if(started)return;started=true;if(clips){i=0;playNext();}else{fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"say",q:line(),lang:LANG,voice:"both"})}).then(function(r){return r.json();}).then(function(d){if(d&&d.clips&&d.clips.length){clips=d.clips;i=0;playNext();}else{finish();}}).catch(function(){finish();});}}
+function prefetch(){try{fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"say",q:line(),lang:LANG,voice:"both"})}).then(function(r){return r.json();}).then(function(d){if(d&&d.clips){clips=d.clips;}}).catch(function(){});}catch(e){}}
+var go=function(){document.removeEventListener("click",go);document.removeEventListener("touchstart",go);document.removeEventListener("keydown",go);begin();};
+document.addEventListener("click",go,{once:true});document.addEventListener("touchstart",go,{once:true});document.addEventListener("keydown",go,{once:true});
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",prefetch);else prefetch();
+}catch(e){}})();</script>
+<script>/*lux-radio*/(function(){try{
+var STREAM="https://ice1.somafm.com/beatblender-128-mp3",BASE=0.05,DUCK=0.015;
+var a=new Audio();a.src=STREAM;a.preload="none";a.volume=BASE;
+var on=true;try{if(localStorage.getItem("lux_radio")==="off")on=false;}catch(e){}
+var btn=document.createElement("button");btn.type="button";btn.setAttribute("aria-label","Background music on or off");
+btn.style.cssText="position:fixed;right:14px;bottom:14px;z-index:2147483000;width:46px;height:46px;border-radius:50%;border:0;cursor:pointer;font-size:20px;line-height:46px;text-align:center;background:#0f5aa8;color:#fff;box-shadow:0 4px 14px rgba(0,0,0,.3);opacity:.9";
+function icon(){btn.textContent=on?"♪":"🔇";}
+function start(){if(!on)return;try{var p=a.play();if(p&&p.catch)p.catch(function(){});}catch(e){}}
+function stop(){try{a.pause();}catch(e){}}
+icon();
+btn.addEventListener("click",function(){on=!on;try{localStorage.setItem("lux_radio",on?"on":"off");}catch(e){}icon();if(on)start();else stop();});
+window.luxDuck=function(d){try{a.volume=d?DUCK:BASE;}catch(e){}};window.luxRadioStart=function(){if(on&&a.paused){start();}};window.luxFadeIn=function(){try{if(!on)return;a.volume=0;start();var _t=0;var _iv=setInterval(function(){_t+=0.1;var v=Math.min(BASE,BASE*(_t/3));try{a.volume=v;}catch(e){}if(_t>=3){clearInterval(_iv);}},100);}catch(e){}};
+var armed=false;function arm(){if(armed)return;armed=true;var go=function(){document.removeEventListener("click",go);document.removeEventListener("touchstart",go);start();};document.addEventListener("click",go,{once:true});document.addEventListener("touchstart",go,{once:true});}
+function boot(){document.body.appendChild(btn);if(!window.luxVoicePage){arm();}}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
+}catch(e){}})();</script>
+<script>/*lux-theme*/(function(){try{
+function cur(){return document.documentElement.getAttribute("data-theme")==="light"?"light":"dark";}
+var b=document.createElement("button");b.type="button";b.setAttribute("aria-label","Switch light or dark theme");
+b.style.cssText="position:fixed;right:14px;top:14px;z-index:2147483001;width:40px;height:40px;border-radius:50%;border:1px solid rgba(128,128,128,.35);cursor:pointer;font-size:18px;line-height:1;background:rgba(20,22,28,.55);color:#e7ebf1;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)";
+function icon(){b.textContent=cur()==="light"?"☾":"☀";}
+icon();
+b.addEventListener("click",function(){var next=cur()==="light"?"dark":"light";if(next==="light"){document.documentElement.setAttribute("data-theme","light");}else{document.documentElement.removeAttribute("data-theme");}try{localStorage.setItem("lux_theme",next);}catch(e){}icon();});
+function boot(){document.body.appendChild(b);}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
+}catch(e){}})();</script>
+</body>
+</html>
