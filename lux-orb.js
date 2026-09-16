@@ -323,7 +323,7 @@
     document.addEventListener("mousemove", function (e) { move(e.clientX, e.clientY); });
     document.addEventListener("mouseup", up);
     orb.addEventListener("touchstart", function (e) { var t = e.touches[0]; down(t.clientX, t.clientY); }, { passive: true });
-    document.addEventListener("touchmove", function (e) { if (dragging) { var t = e.touches[0]; move(t.clientX, t.clientY); } }, { passive: true });
+    document.addEventListener("touchmove", function (e) { if (dragging) { var t = e.touches[0]; move(t.clientX, t.clientY); if (e.cancelable) e.preventDefault(); } }, { passive: false }); // drag the orb only - not the page behind it
     document.addEventListener("touchend", up);
 
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot); else boot();
