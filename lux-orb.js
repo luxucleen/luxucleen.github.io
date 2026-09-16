@@ -142,6 +142,7 @@
       }).then(function (r) { return r.json(); }).then(function (d) {
         orb.classList.remove("think");
         var ans = (d && d.answer) ? d.answer : T.err;
+        lastAns = ans;   // remembered so the on-device voice can speak it if the cloud clip is blocked
         hist.push({ r: "a", t: ans }); saveHist();
         say(NAME, ans, true); autohide(9000);
         if (d && d.clips && d.clips.length) speak(d.clips);
@@ -155,16 +156,19 @@
     }
 
     // ---------- Aura playback ----------
-    var audio = null, queue = [], qi = 0;
+    var audio = null, queue = [], qi = 0, lastAns = "", playedAny = false;
     function speak(clips) {
-      queue = clips || []; qi = 0; orb.classList.add("talk"); duck(true); next();
+      queue = clips || []; qi = 0; playedAny = false; orb.classList.add("talk"); duck(true); next();
     }
     function next() {
-      if (qi >= queue.length) return finishTalk();
+      // if NO cloud clip actually played (radio muted / audio channel blocked on the phone), fall back to the
+      // on-device voice so she is ALWAYS heard - even with the music muted. (Christian: mute was silencing agents.)
+      if (qi >= queue.length) { if (!playedAny && lastAns) { var t = lastAns; lastAns = ""; return speakText(t); } return finishTalk(); }
       var c = queue[qi++]; if (!c || !c.audio) return next();
       try {
         audio = new Audio("data:" + (c.type || "audio/mpeg") + ";base64," + c.audio);
         audio.onended = next; audio.onerror = next;
+        audio.onplay = function () { playedAny = true; };
         var p = audio.play(); if (p && p.catch) p.catch(function () { next(); });
       } catch (e) { next(); }
     }
@@ -200,7 +204,7 @@
     }
     function finishTalk() {
       wakeCenter(false); orb.classList.remove("talk"); // return to the corner
-      if (PRO && wakeOn) { duck(true); setTimeout(startListen, 350); } // still listening -> keep music low
+      if (PRO && wakeOn) { duck(0); setTimeout(startListen, 350); } // reopening the mic -> music FULLY silent so she hears you
       else duck(false); // one-shot done -> music back
     }
 
@@ -232,7 +236,7 @@
     }
     function startWake() {
       if (!SR) { setHint(); return; }
-      wakeOn = true; duck(true); startPitchMon(); startListen(); // music drops low + pleasant so you can talk to Luxu anytime
+      wakeOn = true; duck(0); startPitchMon(); startListen(); // music FULLY silent while the mic is open so she hears you, not the song
     }
     function startListen() {
       if (!SR || !wakeOn) return;
@@ -258,9 +262,9 @@
       r.onend = function () {
         if (done) return; done = true;
         var cmd = stripName(got);
-        if (cmd) ask(cmd); else { wakeCenter(false); duck(true); say(NAME, T.err, false); if (wakeOn) setTimeout(startListen, 500); }
+        if (cmd) ask(cmd); else { wakeCenter(false); duck(0); say(NAME, T.err, false); if (wakeOn) setTimeout(startListen, 500); }
       };
-      try { r.start(); } catch (e) { wakeCenter(false); duck(true); if (wakeOn) setTimeout(startListen, 500); }
+      try { r.start(); } catch (e) { wakeCenter(false); duck(0); if (wakeOn) setTimeout(startListen, 500); }
       setTimeout(function () { try { r.stop(); } catch (e) {} }, 6000);
     }
     function stopWake() { wakeOn = false; duck(false); stopPitchMon(); try { if (rec) { rec.onend = null; rec.abort(); } } catch (e) {} orb.classList.remove("live"); } // music back to normal
