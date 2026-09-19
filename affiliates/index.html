@@ -13,9 +13,13 @@
 <meta property="og:url" content="https://luxucleen.com/affiliates/">
 <meta property="og:title" content="Affiliate Program &mdash; Luxucleen LLC | Commission paid automatically through Gumroad">
 <meta property="og:description" content="Promote Luxucleen products with your own Gumroad link and keep a share of every sale: 35 percent on higher-priced one-time products, 30 percent on The Phone Test, 20 percent on monthly plans for the life of the subscription.">
+<meta property="og:image" content="https://luxucleen.com/og/affiliates.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://luxucleen.com/og/affiliates.png">
 <meta property="og:site_name" content="Luxucleen LLC">
 <meta property="og:locale" content="en_US">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Affiliate Program &mdash; Luxucleen LLC | Commission paid automatically through Gumroad">
 <meta name="twitter:description" content="Promote Luxucleen products with your own Gumroad link and keep a share of every sale: 35 percent on higher-priced one-time products, 30 percent on The Phone Test, 20 percent on monthly plans for the life of the subscription.">
 <script type="application/ld+json">
@@ -151,7 +155,7 @@ window.luxVoicePage=true;var player=null,armed=false;
 function done(){setTimeout(function(){if(window.luxFadeIn){window.luxFadeIn();}else if(window.luxRadioStart){window.luxRadioStart();}if(window.luxDuck){window.luxDuck(false);}},900);}
 function arm(){if(armed)return;armed=true;var go=function(){document.removeEventListener("click",go);document.removeEventListener("touchstart",go);play();};document.addEventListener("click",go,{once:true});document.addEventListener("touchstart",go,{once:true});}
 function play(){try{if(!player){player=new Audio("audio/intro_en.mp3");player.addEventListener("ended",done);}if(window.luxDuck){window.luxDuck(true);}var p=player.play();if(p&&p.catch){p.catch(function(){if(window.luxDuck){window.luxDuck(false);}arm();});}}catch(e){arm();}}
-function boot(){play();}if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
+function boot(){setTimeout(play,1800);}if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
 }catch(e){}})();</script>
 <script>/*lux-radio*/(function(){try{
 var STREAM="https://ice1.somafm.com/beatblender-128-mp3",BASE=0.08,DUCK=0.015;

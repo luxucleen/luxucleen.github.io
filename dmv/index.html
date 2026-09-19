@@ -5,9 +5,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DMV Errands, Done For You | Luxucleen (Richmond, VA)</title>
+<meta name="twitter:card" content="summary_large_image">
 <meta name="description" content="We handle your DMV errands so you don't miss work. Richmond, Virginia. We do it online, send a verified person on your behalf, or book and prep your visit.">
 <meta property="og:title" content="We do your DMV errands so you don't miss work - Richmond, VA">
 <meta property="og:description" content="A sticker, a registration, a title, a renewal - we handle it while you stay at work. Verified, safe, honest about what only you can do.">
+<meta property="og:image" content="https://luxucleen.com/og/dmv.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://luxucleen.com/og/dmv.png">
 <style>
   :root{ --ink:#141a24; --muted:#5b6672; --line:#e6e9ee; --bg:#ffffff; --soft:#f5f7fa; --brand:#1f6feb; --brand-ink:#ffffff; --good:#1a7f4b; }
   *{ box-sizing:border-box; }
@@ -113,7 +118,7 @@ window.luxVoicePage=true;var player=null,armed=false;
 function done(){setTimeout(function(){if(window.luxFadeIn){window.luxFadeIn();}else if(window.luxRadioStart){window.luxRadioStart();}if(window.luxDuck){window.luxDuck(false);}},900);}
 function arm(){if(armed)return;armed=true;var go=function(){document.removeEventListener("click",go);document.removeEventListener("touchstart",go);play();};document.addEventListener("click",go,{once:true});document.addEventListener("touchstart",go,{once:true});}
 function play(){try{if(!player){player=new Audio("audio/intro_en.mp3");player.addEventListener("ended",done);}if(window.luxDuck){window.luxDuck(true);}var p=player.play();if(p&&p.catch){p.catch(function(){if(window.luxDuck){window.luxDuck(false);}arm();});}}catch(e){arm();}}
-function boot(){play();}if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
+function boot(){setTimeout(play,1800);}if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
 }catch(e){}})();</script>
 <script>/*lux-radio*/(function(){try{
 var STREAM="https://ice1.somafm.com/beatblender-128-mp3",BASE=0.08,DUCK=0.015;

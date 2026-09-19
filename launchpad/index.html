@@ -5,6 +5,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Launchpad &mdash; one sentence to a live page | Luxucleen</title>
+<meta name="twitter:card" content="summary_large_image">
 <meta name="description" content="Type one sentence and Bridge28 builds you a real business landing page and publishes it to a live link you can share in seconds - free. Test any idea with real people before you spend a dime. When it works, Luxucleen builds and runs it and you keep 88%.">
 <meta name="robots" content="index,follow">
 <link rel="stylesheet" href="/site.css">
@@ -16,6 +17,10 @@
 <meta property="og:url" content="https://luxucleen.com/launchpad/">
 <meta property="og:title" content="Launchpad &mdash; one sentence to a live page">
 <meta property="og:description" content="Type one sentence, get a real live business page to share in seconds. Free. When it works, we build and run it - you keep 88%.">
+<meta property="og:image" content="https://luxucleen.com/og/launchpad.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://luxucleen.com/og/launchpad.png">
 <meta property="og:site_name" content="Luxucleen LLC">
 <meta property="og:locale" content="en_US">
 <style>
@@ -191,10 +196,10 @@ var LANG=(function(){try{return localStorage.getItem("lux_lang")==="es"?"es":"en
 function line(){var h=document.querySelector("h1");var l=document.querySelector(".lede,.lux-hero p,.hero p");var t=((h?h.textContent:"")+". "+(l?l.textContent:"")).replace(/\s+/g," ").trim();return t.slice(0,360);}
 var clips=null,i=0,player=null,started=false,fin=false;
 function finish(){if(fin)return;fin=true;setTimeout(function(){try{if(window.luxFadeIn){window.luxFadeIn();}else if(window.luxRadioStart){window.luxRadioStart();}}catch(e){}},900);}
-function playNext(){if(!clips||i>=clips.length){finish();return;}var c=clips[i++];try{player=new Audio("data:"+(c.type||"audio/mpeg")+";base64,"+c.audio);player.onended=playNext;player.onerror=playNext;var pr=player.play();if(pr&&pr.catch)pr.catch(function(){finish();});}catch(e){playNext();}}
+function playNext(){if(!clips||i>=clips.length){finish();return;}var c=clips[i++];try{player=new Audio("data:"+(c.type||"audio/mpeg")+";base64,"+c.audio);player.onended=function(){setTimeout(playNext,700);};player.onerror=playNext;var pr=player.play();if(pr&&pr.catch)pr.catch(function(){finish();});}catch(e){playNext();}}
 function begin(){if(started)return;started=true;if(clips){i=0;playNext();}else{fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"say",q:line(),lang:LANG,voice:"both"})}).then(function(r){return r.json();}).then(function(d){if(d&&d.clips&&d.clips.length){clips=d.clips;i=0;playNext();}else{finish();}}).catch(function(){finish();});}}
 function prefetch(){try{fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"say",q:line(),lang:LANG,voice:"both"})}).then(function(r){return r.json();}).then(function(d){if(d&&d.clips){clips=d.clips;}}).catch(function(){});}catch(e){}}
-var go=function(){document.removeEventListener("click",go);document.removeEventListener("touchstart",go);document.removeEventListener("keydown",go);begin();};
+var go=function(){document.removeEventListener("click",go);document.removeEventListener("touchstart",go);document.removeEventListener("keydown",go);try{var _u=new Audio("data:audio/wav;base64,UklGRiYAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YQIAAAAAAA==");_u.volume=0;var _up=_u.play();if(_up&&_up.catch)_up.catch(function(){});}catch(e){}setTimeout(begin,1800);};
 document.addEventListener("click",go,{once:true});document.addEventListener("touchstart",go,{once:true});document.addEventListener("keydown",go,{once:true});
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",prefetch);else prefetch();
 }catch(e){}})();</script>

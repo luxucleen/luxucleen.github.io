@@ -5,11 +5,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Luxucleen Books &mdash; we write your book with AI, you sell it on Amazon and keep 88%</title>
+<meta name="twitter:card" content="summary_large_image">
 <meta name="description" content="We build your book with AI - outline, chapters, cover, Kindle and paperback files - and help you publish it on Amazon under your own account. You keep 88% of the earnings, we keep 12% for building it. Working with Amazon, not against it.">
 <meta name="robots" content="index,follow">
 <link rel="canonical" href="https://luxucleen.com/books/">
 <meta property="og:title" content="We build your book with AI. You sell it on Amazon and keep 88%.">
 <meta property="og:description" content="Tell us your idea. We build the whole book and get it Amazon-ready; you publish it under your account and keep 88%, we keep 12%.">
+<meta property="og:image" content="https://luxucleen.com/og/books.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://luxucleen.com/og/books.png">
 <link rel="stylesheet" href="/site.css">
 <style>
   .kicker{color:var(--accent);font-weight:800;font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin:0 0 10px}
@@ -143,7 +148,7 @@ window.luxVoicePage=true;var player=null,armed=false;
 function done(){setTimeout(function(){if(window.luxFadeIn){window.luxFadeIn();}else if(window.luxRadioStart){window.luxRadioStart();}if(window.luxDuck){window.luxDuck(false);}},900);}
 function arm(){if(armed)return;armed=true;var go=function(){document.removeEventListener("click",go);document.removeEventListener("touchstart",go);play();};document.addEventListener("click",go,{once:true});document.addEventListener("touchstart",go,{once:true});}
 function play(){try{if(!player){player=new Audio("audio/intro_en.mp3");player.addEventListener("ended",done);}if(window.luxDuck){window.luxDuck(true);}var p=player.play();if(p&&p.catch){p.catch(function(){if(window.luxDuck){window.luxDuck(false);}arm();});}}catch(e){arm();}}
-function boot(){play();}if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
+function boot(){setTimeout(play,1800);}if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
 }catch(e){}})();</script>
 <script>/*lux-radio*/(function(){try{
 var STREAM="https://ice1.somafm.com/beatblender-128-mp3",BASE=0.08,DUCK=0.015;

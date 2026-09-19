@@ -5,9 +5,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>We Buy Houses - Cash, Any Condition | Luxucleen</title>
+<meta name="twitter:card" content="summary_large_image">
 <meta name="description" content="We buy houses for cash - any condition, you pick the closing date. No agents, no fees, no repairs. Tell us about your house and get a cash offer.">
 <meta property="og:title" content="We buy houses - cash, any condition, you pick the date">
 <meta property="og:description" content="Sell your house fast for cash. Any condition, no agents, no fees. Tell us about it and get an offer.">
+<meta property="og:image" content="https://luxucleen.com/og/we-buy-houses.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://luxucleen.com/og/we-buy-houses.png">
 <style>
   :root{ --ink:#141a24; --muted:#5b6672; --line:#e6e9ee; --bg:#ffffff; --soft:#f4f6f9; --brand:#0f5aa8; --brand-ink:#ffffff; --good:#1a7f4b; }
   *{ box-sizing:border-box; } html,body{ margin:0; }
@@ -113,7 +118,7 @@ window.luxVoicePage=true;var player=null,armed=false;
 function done(){setTimeout(function(){if(window.luxFadeIn){window.luxFadeIn();}else if(window.luxRadioStart){window.luxRadioStart();}if(window.luxDuck){window.luxDuck(false);}},900);}
 function arm(){if(armed)return;armed=true;var go=function(){document.removeEventListener("click",go);document.removeEventListener("touchstart",go);play();};document.addEventListener("click",go,{once:true});document.addEventListener("touchstart",go,{once:true});}
 function play(){try{if(!player){player=new Audio("audio/intro_en.mp3");player.addEventListener("ended",done);}if(window.luxDuck){window.luxDuck(true);}var p=player.play();if(p&&p.catch){p.catch(function(){if(window.luxDuck){window.luxDuck(false);}arm();});}}catch(e){arm();}}
-function boot(){play();}if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
+function boot(){setTimeout(play,1800);}if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
 }catch(e){}})();</script>
 <script>/*lux-radio*/(function(){try{
 var STREAM="https://ice1.somafm.com/beatblender-128-mp3",BASE=0.08,DUCK=0.015;
