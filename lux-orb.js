@@ -173,7 +173,9 @@
       hist.push({ r: "u", t: text }); saveHist();
       fetch(API, {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mode: "talk", q: text, lang: LANG, name: NAME, mem: MEMID, history: hist.slice(-10), voice: VOICE })
+        // send more turns so the agent keeps the thread of the conversation = better context for people
+        // (2026-09-19; was -10. saveHist keeps 24, so this is still bounded.)
+        body: JSON.stringify({ mode: "talk", q: text, lang: LANG, name: NAME, mem: MEMID, history: hist.slice(-16), voice: VOICE })
       }).then(function (r) { return r.json(); }).then(function (d) {
         orb.classList.remove("think");
         var ans = (d && d.answer) ? d.answer : T.err;
@@ -207,34 +209,68 @@
         var p = audio.play(); if (p && p.catch) p.catch(function () { next(); });
       } catch (e) { next(); }
     }
-    // Free on-device voice so she always talks back, even when the cloud voice is capped.
+    // pick the most NATURAL voice on the device (neural voices first), not a generic robotic one
+    function _pickVoice() {
+      try {
+        var vs = (VOICES && VOICES.length) ? VOICES : (window.speechSynthesis.getVoices() || []), want = (LANG === "es") ? "es" : "en";
+        var PREF = ["natural", "aria", "jenny", "michelle", "ava", "emma", "nicole", "bella", "google", "samantha", "victoria", "zira", "paulina", "monica", "female"];
+        var best = null, bestScore = -1;
+        for (var i = 0; i < vs.length; i++) {
+          var v = vs[i], n = (v.name || "").toLowerCase(), lg = (v.lang || "").toLowerCase();
+          if (lg.indexOf(want) !== 0) continue;
+          var sc = 1;
+          for (var j = 0; j < PREF.length; j++) { if (n.indexOf(PREF[j]) >= 0) { sc = 100 - j; break; } }
+          if (n.indexOf("female") < 0 && /\bmale\b|daniel|david|alex|fred|jorge|diego/.test(n)) sc -= 60; // avoid male/robotic defaults
+          if (sc > bestScore) { bestScore = sc; best = v; }
+        }
+        return best;
+      } catch (e) { return null; }
+    }
+    // Split the WHOLE answer into short, sentence-sized pieces so the on-device voice says ALL of it.
+    // (2026-09-19, Christian "people should get a better context": was slice(0,300) = the voice cut the
+    // answer off mid-thought; browsers also silently drop an over-long single utterance, so we chunk +
+    // queue instead — the same "deliver the whole thing, don't truncate" fix as the Telegram bridge.)
+    function _ttsChunks(t) {
+      t = String(t || "").replace(/\s+/g, " ").trim();
+      if (!t) return [];
+      var MAX = 200, out = [], buf = "";
+      function wrap(s) { s = s.trim(); while (s.length > MAX) { var cut = s.lastIndexOf(" ", MAX); if (cut < 40) cut = MAX; out.push(s.slice(0, cut).trim()); s = s.slice(cut).trim(); } if (s) out.push(s); }
+      var toks = t.match(/[^.!?\n]+[.!?]+|\S[^.!?\n]*$/g) || [t];   // sentence-ish tokens (no lookbehind = old-Safari safe)
+      for (var i = 0; i < toks.length; i++) {
+        var s = toks[i].trim(); if (!s) continue;
+        if ((buf ? buf + " " + s : s).length <= MAX) { buf = buf ? buf + " " + s : s; }      // group short sentences
+        else { if (buf) { out.push(buf); buf = ""; } if (s.length <= MAX) buf = s; else wrap(s); }  // flush, then wrap a long one
+      }
+      if (buf) out.push(buf);
+      return out;
+    }
+    // Free on-device voice so she always talks back, even when the cloud voice is capped —
+    // and now says the ENTIRE answer, chunk by chunk, not just the first 300 characters.
+    var _ttsPump = null;
     function speakText(t) {
       try {
         if (!t || !window.speechSynthesis || !window.SpeechSynthesisUtterance) return finishTalk();
         orb.classList.add("talk"); duck(true);
-        var u = new SpeechSynthesisUtterance(String(t).slice(0, 300));
-        u.lang = (LANG === "es") ? "es-US" : "en-US";
-        u.rate = 1.02; u.pitch = 1.06; // warmer, more alive than the flat default
-        try {
-          // pick the most NATURAL voice on the device (neural voices first), not a generic robotic one
-          var vs = (VOICES && VOICES.length) ? VOICES : (window.speechSynthesis.getVoices() || []), want = (LANG === "es") ? "es" : "en";
-          var PREF = ["natural", "aria", "jenny", "michelle", "ava", "emma", "nicole", "bella", "google", "samantha", "victoria", "zira", "paulina", "monica", "female"];
-          var best = null, bestScore = -1;
-          for (var i = 0; i < vs.length; i++) {
-            var v = vs[i], n = (v.name || "").toLowerCase(), lg = (v.lang || "").toLowerCase();
-            if (lg.indexOf(want) !== 0) continue;
-            var sc = 1;
-            for (var j = 0; j < PREF.length; j++) { if (n.indexOf(PREF[j]) >= 0) { sc = 100 - j; break; } }
-            if (n.indexOf("female") < 0 && /\bmale\b|daniel|david|alex|fred|jorge|diego/.test(n)) sc -= 60; // avoid male/robotic defaults
-            if (sc > bestScore) { bestScore = sc; best = v; }
-          }
-          if (best) u.voice = best;
-        } catch (e) {}
-        u.onend = function () { finishTalk(); };
-        u.onerror = function () { finishTalk(); };
+        var chunks = _ttsChunks(t);
+        if (!chunks.length) return finishTalk();
+        var best = _pickVoice();
         try { window.speechSynthesis.cancel(); } catch (e) {}
-        window.speechSynthesis.speak(u);
-        try { window.speechSynthesis.resume(); } catch (e) {}
+        try { clearInterval(_ttsPump); } catch (e) {}
+        // Chrome silently pauses speech ~14s in; a gentle resume pump keeps a long, multi-chunk answer flowing.
+        _ttsPump = setInterval(function () { try { if (window.speechSynthesis.speaking) window.speechSynthesis.resume(); } catch (e) {} }, 8000);
+        var idx = 0, done = false;
+        function stop() { if (done) return; done = true; try { clearInterval(_ttsPump); } catch (e) {} finishTalk(); }
+        function sayNext() {
+          if (idx >= chunks.length) return stop();
+          var u = new SpeechSynthesisUtterance(chunks[idx++]);
+          u.lang = (LANG === "es") ? "es-US" : "en-US";
+          u.rate = 1.02; u.pitch = 1.06; // warmer, more alive than the flat default
+          if (best) u.voice = best;
+          u.onend = function () { sayNext(); };
+          u.onerror = function () { sayNext(); }; // one bad chunk must not kill the rest of the answer
+          try { window.speechSynthesis.speak(u); window.speechSynthesis.resume(); } catch (e) { sayNext(); }
+        }
+        sayNext();
       } catch (e) { finishTalk(); }
     }
     function finishTalk() {
