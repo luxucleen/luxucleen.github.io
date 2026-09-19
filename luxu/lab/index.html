@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script>/*lux-lang-router*/(function(){try{if(localStorage.getItem("lux_theme")==="light"){document.documentElement.setAttribute("data-theme","light");}}catch(e){}})();</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Luxu Lab &mdash; make Luxucleen unhackable, together</title>
+<meta name="description" content="Luxu Lab is where the community makes Luxucleen unhackable. Type an idea to harden the site, our AI agents review it in the background, and approved ideas put you on the leaderboard. Climb the boards, earn your rank.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://luxucleen.com/luxu/lab/">
+<link rel="alternate" hreflang="en" href="https://luxucleen.com/luxu/lab/">
+<link rel="alternate" hreflang="es" href="https://luxucleen.com/es/luxu/lab/">
+<link rel="alternate" hreflang="x-default" href="https://luxucleen.com/luxu/lab/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://luxucleen.com/luxu/lab/">
+<meta property="og:title" content="Luxu Lab &mdash; make Luxucleen unhackable, together">
+<meta property="og:description" content="Type an idea to harden the site. Our agents review it. Approved ideas put you on the leaderboard. Climb the boards.">
+<meta property="og:image" content="https://luxucleen.com/og/luxu-lab.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://luxucleen.com/og/luxu-lab.png">
+<meta property="og:site_name" content="Luxucleen LLC">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Luxu Lab &mdash; make Luxucleen unhackable, together">
+<meta name="twitter:description" content="Submit a security idea, agents review it, climb the leaderboard.">
+<link rel="stylesheet" href="/site.css">
+<style>
+  :root{--lxw:640px;--vio:#7c5cff;--vio2:#9d7bff;--grn:#2ea27e;--gold:#f5c451;--silver:#c7d0dc;--bronze:#d08a4a}
+  body{padding-bottom:calc(72px + env(safe-area-inset-bottom))}
+  .lab-grad{background:linear-gradient(90deg,var(--vio),var(--grn));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  /* app bar */
+  .lxtop{position:sticky;top:0;z-index:35;display:flex;align-items:center;gap:10px;padding:11px 15px;background:color-mix(in srgb,var(--soft) 82%,transparent);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .lxtop .wm{font-weight:900;font-size:21px;letter-spacing:-.5px;text-decoration:none;color:inherit;line-height:1;display:flex;align-items:center;gap:7px}
+  .lxtop .wm .sh{font-size:19px}
+  .lxtop .sp{margin-left:auto}
+  .ib{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:rgba(127,127,127,.08);color:inherit;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font:inherit;text-decoration:none;font-size:13px;font-weight:700}
+  main.wrap{max-width:var(--lxw)}
+  /* hero */
+  .hero-l{position:relative;text-align:center;padding:30px 16px 14px;overflow:hidden}
+  .hero-l::before{content:"";position:absolute;inset:-40% -10% auto;height:340px;background:radial-gradient(60% 60% at 30% 0,rgba(124,92,255,.28),transparent 70%),radial-gradient(55% 55% at 80% 10%,rgba(46,162,126,.24),transparent 70%);filter:blur(6px);z-index:-1}
+  .shield{width:78px;height:78px;margin:0 auto 12px;border-radius:22px;background:linear-gradient(150deg,var(--vio),var(--grn));display:flex;align-items:center;justify-content:center;font-size:40px;box-shadow:0 14px 40px rgba(124,92,255,.42);animation:float 4.5s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+  .hero-l h1{font-size:31px;line-height:1.12;letter-spacing:-.7px;margin:0 0 8px;font-weight:900}
+  .hero-l p{font-size:16px;color:var(--dim);margin:0 auto;max-width:460px;line-height:1.5}
+  .stats{display:flex;gap:10px;justify-content:center;margin:18px auto 4px;flex-wrap:wrap}
+  .stat{flex:1 1 96px;max-width:150px;min-width:96px;background:var(--soft);border:1px solid var(--line);border-radius:15px;padding:13px 10px}
+  .stat b{display:block;font-size:26px;font-weight:900;line-height:1;background:linear-gradient(90deg,var(--vio),var(--grn));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .stat span{display:block;font-size:11.5px;color:var(--dim);margin-top:5px;text-transform:uppercase;letter-spacing:.05em;font-weight:700}
+  /* cards */
+  .sec{margin:22px auto 0}
+  .kick{font:800 11px/1 ui-monospace,Menlo,monospace;letter-spacing:.13em;text-transform:uppercase;color:var(--vio2)}
+  .box{background:var(--soft);border:1px solid var(--line);border-radius:18px;padding:17px 16px;margin-top:9px}
+  .box h2{font-size:19px;margin:2px 0 3px;border:0;padding:0}
+  .box .sub{font-size:13.5px;color:var(--dim);margin:0 0 13px;line-height:1.45}
+  .fin{width:100%;box-sizing:border-box;background:rgba(127,127,127,.07);border:1px solid var(--line);border-radius:12px;padding:12px 13px;color:inherit;font:inherit;font-size:15px;margin-bottom:10px}
+  textarea.fin{resize:vertical;min-height:82px}
+  .frow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  select.fin{appearance:none;-webkit-appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--dim) 50%),linear-gradient(135deg,var(--dim) 50%,transparent 50%);background-position:calc(100% - 18px) 19px,calc(100% - 13px) 19px;background-size:5px 5px;background-repeat:no-repeat}
+  .go{width:100%;background:linear-gradient(135deg,var(--vio),var(--grn));color:#fff;border:0;border-radius:13px;padding:15px;font-weight:800;cursor:pointer;font:inherit;font-size:15.5px;box-shadow:0 8px 22px rgba(124,92,255,.35);transition:transform .1s,filter .15s}
+  .go:hover{filter:brightness(1.06)}.go:active{transform:scale(.985)}.go:disabled{opacity:.6;cursor:default}
+  .verd{margin-top:12px;border-radius:13px;padding:14px;display:none;animation:pop .34s cubic-bezier(.2,1.3,.5,1)}
+  .verd.show{display:block}
+  @keyframes pop{from{opacity:0;transform:translateY(8px) scale(.97)}to{opacity:1;transform:none}}
+  .verd .vh{font-weight:900;font-size:16px;display:flex;align-items:center;gap:8px}
+  .verd .vr{font-size:13.5px;color:var(--dim);margin-top:5px;line-height:1.45}
+  .verd.ok{background:rgba(46,162,126,.12);border:1px solid rgba(46,162,126,.45)}
+  .verd.ok .vh{color:var(--grn)}
+  .verd.wait{background:rgba(245,196,81,.1);border:1px solid rgba(245,196,81,.45)}
+  .verd.wait .vh{color:var(--gold)}
+  .verd.no{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.4)}
+  .verd.no .vh{color:#ef4444}
+  /* how */
+  .how{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:11px}
+  .how .st{background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:12px 10px;text-align:center}
+  .how .st .n{width:26px;height:26px;border-radius:50%;margin:0 auto 7px;background:linear-gradient(135deg,var(--vio),var(--grn));color:#fff;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center}
+  .how .st b{display:block;font-size:13px;margin-bottom:2px}
+  .how .st span{font-size:11.5px;color:var(--dim);line-height:1.35}
+  /* leaderboard */
+  .btabs{display:flex;gap:7px;margin:11px 0 4px;overflow-x:auto;scrollbar-width:none}
+  .btabs::-webkit-scrollbar{display:none}
+  .btab{flex:0 0 auto;background:var(--soft);border:1px solid var(--line);color:var(--dim);border-radius:999px;padding:9px 15px;font:inherit;font-size:13.5px;font-weight:800;cursor:pointer;white-space:nowrap}
+  .btab.on{background:linear-gradient(135deg,var(--vio),var(--grn));color:#fff;border-color:transparent}
+  .yourank{display:none;margin:10px 0 2px;background:linear-gradient(135deg,rgba(124,92,255,.14),rgba(46,162,126,.12));border:1px solid var(--line);border-radius:13px;padding:11px 14px;font-size:13.5px;align-items:center;gap:10px}
+  .yourank.show{display:flex}
+  .yourank b{font-size:16px;color:var(--vio2)}
+  .lbrow{display:flex;align-items:center;gap:13px;padding:12px 4px;border-top:1px solid var(--line)}
+  .lbrow:first-child{border-top:0}
+  .rk{width:30px;text-align:center;font-weight:900;font-size:16px;color:var(--dim);flex:0 0 auto}
+  .rk.g{color:var(--gold)}.rk.s{color:var(--silver)}.rk.b{color:var(--bronze)}
+  .rk .med{font-size:21px}
+  .lbav{width:38px;height:38px;border-radius:50%;flex:0 0 auto;background:linear-gradient(135deg,var(--vio),var(--grn));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px}
+  .lbwho{flex:1;font-weight:700;font-size:14.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .lbwho.me{color:var(--vio2)}
+  .lbpts{font-weight:900;font-size:15px}
+  .lbpts small{font-weight:700;font-size:11px;color:var(--dim);margin-left:3px}
+  .empty{color:var(--dim);font-size:14px;text-align:center;padding:22px 10px;line-height:1.5}
+  /* wall */
+  .wall{display:flex;flex-direction:column;gap:9px;margin-top:9px}
+  .idea{background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:13px 14px}
+  .idea .it{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+  .idea .tag{font:800 10px/1 ui-monospace,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--grn);border:1px solid rgba(46,162,126,.4);border-radius:999px;padding:4px 8px}
+  .idea .by{font-size:12px;color:var(--dim);margin-left:auto}
+  .idea .tx{font-size:14.5px;line-height:1.5;word-break:break-word}
+  .idea .ap{font-size:12px;color:var(--grn);margin-top:6px;font-weight:700}
+  .note{color:var(--dim);font-size:13px;text-align:center;padding:14px 12px 4px;line-height:1.5}
+  /* tab bar */
+  .tabbar{position:fixed;left:0;right:0;bottom:0;z-index:38;display:flex;align-items:center;background:color-mix(in srgb,var(--soft) 92%,transparent);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:7px 6px calc(7px + env(safe-area-inset-bottom))}
+  .tab{flex:1;background:none;border:0;cursor:pointer;color:var(--dim);display:flex;flex-direction:column;align-items:center;gap:2px;font:inherit;text-decoration:none;padding:2px 0}
+  .tab svg{width:23px;height:23px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .tab .tl{font-size:11px;font-weight:700}
+  .tab.on{color:var(--vio2)}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="/">Luxu<span>cleen</span> LLC</a>
+    <nav>
+      <a href="/luxu/">&larr; Luxu</a>
+      <a class="lang" href="/es/luxu/lab/" hreflang="es" lang="es">Espa&ntilde;ol</a>
+    </nav>
+  </div>
+</header>
+
+<div class="lxtop">
+  <a class="wm" href="/luxu/lab/"><span class="sh">&#128737;&#65039;</span> Luxu <span class="lab-grad">Lab</span></a>
+  <span class="sp"></span>
+  <button type="button" class="ib" id="shareLab">Share</button>
+</div>
+
+<main class="wrap">
+  <section class="hero-l">
+    <div class="shield">&#128737;&#65039;</div>
+    <h1>Make Luxucleen <span class="lab-grad">unhackable</span>,<br>together.</h1>
+    <p>Got an idea to make the site safer? Drop it in the box. Our AI agents review every idea in the background &mdash; approved ones harden Luxucleen and put you on the leaderboard.</p>
+    <div class="stats" id="stats">
+      <div class="stat"><b id="s_appr">&mdash;</b><span>Ideas live</span></div>
+      <div class="stat"><b id="s_people">&mdash;</b><span>Contributors</span></div>
+      <div class="stat"><b id="s_pend">&mdash;</b><span>In review</span></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <span class="kick">The Skill Box</span>
+    <div class="box">
+      <h2>Type a way to harden Luxucleen</h2>
+      <p class="sub">A login fix, a payment safeguard, a smarter bot rule, a data protection &mdash; anything that makes us tougher. Real, constructive ideas only. The gate is the guard: sketchy submissions never take effect.</p>
+      <input id="f_who" class="fin" type="text" maxlength="60" placeholder="Your name or @handle">
+      <div class="frow">
+        <select id="f_area" class="fin">
+          <option value="general">Area&hellip; General</option>
+          <option value="login">Login &amp; accounts</option>
+          <option value="payments">Payments</option>
+          <option value="data">Data &amp; privacy</option>
+          <option value="bots">AI &amp; bots</option>
+          <option value="site">Site &amp; code</option>
+          <option value="scams">Scam &amp; abuse</option>
+        </select>
+        <button type="button" class="go" id="f_go" style="box-shadow:none">Submit idea</button>
+      </div>
+      <textarea id="f_skill" class="fin" maxlength="600" placeholder="Describe your idea in a sentence or two&hellip;"></textarea>
+      <button type="button" class="go" id="f_go2">Submit to the agents &rarr;</button>
+      <div class="verd" id="verd"><div class="vh" id="verd_h"></div><div class="vr" id="verd_r"></div></div>
+      <div class="how">
+        <div class="st"><div class="n">1</div><b>You submit</b><span>Your idea, one box.</span></div>
+        <div class="st"><div class="n">2</div><b>Agents review</b><span>AI checks it&rsquo;s safe &amp; useful.</span></div>
+        <div class="st"><div class="n">3</div><b>You climb</b><span>Approved = points + rank.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <span class="kick">Leaderboards &mdash; earn your spot</span>
+    <div class="box">
+      <h2>Who&rsquo;s on top</h2>
+      <p class="sub">Different ways to win. Harden security, create posts, or rack up the all-around board. Everyone can see their rank.</p>
+      <div class="btabs" id="btabs">
+        <button type="button" class="btab on" data-cat="security">&#128737;&#65039; Security</button>
+        <button type="button" class="btab" data-cat="creators">&#127912; Creators</button>
+        <button type="button" class="btab" data-cat="all">&#127942; All-around</button>
+      </div>
+      <div class="yourank" id="yourank"></div>
+      <div id="board"><div class="empty">Loading the board&hellip;</div></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <span class="kick">Approved ideas &mdash; the wall</span>
+    <div class="wall" id="wall"><div class="empty">The wall lights up as ideas get approved. Be the first.</div></div>
+    <p class="note">Luxu Lab is new. Every approved idea makes Luxucleen safer for everyone &mdash; and moves you up the board. Share it to grow the game.</p>
+  </section>
+</main>
+
+<footer class="wrap">
+  <div class="fmap">
+    <a href="/">All sections</a>
+    <a href="/luxu/">Luxu</a>
+    <a href="/luxu/lab/">Luxu Lab</a>
+    <a href="/security/">Security</a>
+    <a href="/legal/">Legal</a>
+  </div>
+  &copy; 2026 Luxucleen LLC &middot; Midlothian, Virginia &middot; SCC Entity ID 11952713
+</footer>
+
+<nav class="tabbar">
+  <a class="tab" href="/luxu/"><svg viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span class="tl">Luxu</span></a>
+  <button type="button" class="tab on" id="tLab"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/></svg><span class="tl">Lab</span></button>
+  <button type="button" class="tab" id="tBoard"><svg viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M6 4h12v5a6 6 0 0 1-12 0zM6 6H3v2a4 4 0 0 0 3 3.9M18 6h3v2a4 4 0 0 1-3 3.9"/></svg><span class="tl">Boards</span></button>
+  <a class="tab" href="/"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><span class="tl">Discover</span></a>
+</nav>
+
+<script>/*luxu-lab*/(function(){try{
+  var API="https://ai.luxucleen.com/ask",SITE="https://luxucleen.com";
+  function esc(s){var d=document.createElement("div");d.textContent=(s==null?"":String(s));return d.innerHTML;}
+  function post(body){return fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)}).then(function(r){return r.json();});}
+  function slug(s){return (String(s||"").toLowerCase().replace(/[^a-z0-9]+/g,"").slice(0,32))||"";}
+  function initial(s){return esc((String(s||"?").trim().slice(0,1)||"?").toUpperCase());}
+  var mySlug="";try{var w0=localStorage.getItem("luxu_who");if(w0){var fw=document.getElementById("f_who");if(fw)fw.value=w0;mySlug=slug(w0);}}catch(e){}
+
+  function countUp(el,to){if(!el)return;to=to|0;var f=0,step=Math.max(1,Math.ceil(to/22));var iv=setInterval(function(){f+=step;if(f>=to){f=to;clearInterval(iv);}el.textContent=f;},28);}
+
+  // ---- submit ----
+  function submit(){
+    var who=(document.getElementById("f_who").value||"").trim();
+    var area=document.getElementById("f_area").value||"general";
+    var skill=(document.getElementById("f_skill").value||"").trim();
+    var v=document.getElementById("verd"),vh=document.getElementById("verd_h"),vr=document.getElementById("verd_r");
+    if(skill.length<8){v.className="verd show no";vh.innerHTML="&#9995; Add a little more";vr.textContent="Give the agents a real idea to review — a sentence or two.";return;}
+    try{if(who)localStorage.setItem("luxu_who",who);mySlug=slug(who);}catch(e){}
+    var b1=document.getElementById("f_go2");b1.disabled=true;var old=b1.textContent;b1.textContent="Sending to the agents…";
+    v.className="verd show wait";vh.innerHTML="&#9203; Reviewing…";vr.textContent="Our agents are reading your idea.";
+    post({mode:"feed",op:"lab_submit",who:who,area:area,skill:skill}).then(function(d){
+      b1.disabled=false;b1.textContent=old;
+      if(!d||(!d.status&&!d.ok)){throw 0;}
+      var st=d.status||"pending",rs=d.reason||"";
+      if(st==="approved"){v.className="verd show ok";vh.innerHTML="&#9989; Approved — you’re on the board!";vr.textContent=rs||"A clear, safe improvement. Nice one.";}
+      else if(st==="rejected"){v.className="verd show no";vh.innerHTML="&#9995; Not a fit";vr.textContent=rs||"The agents didn’t clear this one. Try another angle.";}
+      else{v.className="verd show wait";vh.innerHTML="&#9203; In review";vr.textContent=rs||"Queued for our agents — check back soon.";}
+      document.getElementById("f_skill").value="";
+      loadStats();loadBoard(curCat);loadWall();
+    }).catch(function(){
+      b1.disabled=false;b1.textContent=old;
+      // graceful pre-launch: keep the idea on the device so nothing is lost
+      try{var dr=JSON.parse(localStorage.getItem("luxu_lab_drafts")||"[]");dr.push({who:who,area:area,skill:skill,ts:Date.now()});localStorage.setItem("luxu_lab_drafts",JSON.stringify(dr.slice(-20)));}catch(e){}
+      v.className="verd show wait";vh.innerHTML="&#9203; Saved — opening soon";vr.textContent="Luxu Lab goes fully live shortly. Your idea is saved and will be reviewed the moment it opens.";
+    });
+  }
+  document.getElementById("f_go2").addEventListener("click",submit);
+  var fgo=document.getElementById("f_go");if(fgo)fgo.addEventListener("click",submit);
+
+  // ---- stats ----
+  function loadStats(){
+    post({mode:"feed",op:"lab_list"}).then(function(d){
+      if(!d||!d.ok){return;}
+      var items=d.items||[],people={};
+      items.forEach(function(it){var s=slug(it.who);if(s)people[s]=1;});
+      countUp(document.getElementById("s_appr"),items.length);
+      countUp(document.getElementById("s_people"),Object.keys(people).length);
+      countUp(document.getElementById("s_pend"),d.pending||0);
+    }).catch(function(){});
+  }
+
+  // ---- leaderboard ----
+  var curCat="security";
+  function medal(i){return i===0?"&#129351;":i===1?"&#129352;":i===2?"&#129353;":"";}
+  function loadBoard(cat){
+    curCat=cat;var host=document.getElementById("board");host.innerHTML='<div class="empty">Loading the board…</div>';
+    post({mode:"feed",op:"board",cat:cat}).then(function(d){
+      var rows=(d&&d.rows)||[];
+      var yr=document.getElementById("yourank");yr.className="yourank";
+      if(!rows.length){host.innerHTML='<div class="empty">No one on this board yet.<br>Submit the first idea and claim rank #1. &#128081;</div>';return;}
+      var html="",myPos=-1;
+      rows.forEach(function(r,i){
+        var me=(mySlug&&r.slug===mySlug);if(me)myPos=i+1;
+        var cls=i===0?"g":i===1?"s":i===2?"b":"";
+        var rkh=medal(i)?'<span class="med">'+medal(i)+'</span>':("#"+(i+1));
+        html+='<div class="lbrow"><span class="rk '+cls+'">'+rkh+'</span>'+
+          '<span class="lbav">'+initial(r.who)+'</span>'+
+          '<span class="lbwho'+(me?" me":"")+'">'+esc(r.who)+(me?" &middot; you":"")+'</span>'+
+          '<span class="lbpts">'+(r.pts|0)+'<small>pts</small></span></div>';
+      });
+      host.innerHTML=html;
+      if(myPos>0){yr.className="yourank show";yr.innerHTML='You&rsquo;re <b>#'+myPos+'</b> on this board. Keep grinding to climb. &#128293;';}
+      else if(mySlug){yr.className="yourank show";yr.innerHTML='You&rsquo;re not on this board yet &mdash; submit an idea to get on it. &#128640;';}
+    }).catch(function(){host.innerHTML='<div class="empty">The board opens the moment we go live.</div>';});
+  }
+  var btabs=document.getElementById("btabs");
+  btabs.addEventListener("click",function(e){var t=e.target.closest?e.target.closest(".btab"):null;if(!t)return;
+    Array.prototype.forEach.call(btabs.children,function(c){c.className="btab";});t.className="btab on";loadBoard(t.getAttribute("data-cat"));});
+  document.getElementById("tBoard").addEventListener("click",function(){document.getElementById("btabs").scrollIntoView({behavior:"smooth",block:"center"});});
+
+  // ---- wall ----
+  function loadWall(){
+    post({mode:"feed",op:"lab_list"}).then(function(d){
+      var items=(d&&d.items)||[],host=document.getElementById("wall");
+      if(!items.length){host.innerHTML='<div class="empty">The wall lights up as ideas get approved. Be the first. &#10024;</div>';return;}
+      var html="";items.forEach(function(it){
+        html+='<div class="idea"><div class="it"><span class="tag">'+esc(it.area||"general")+'</span><span class="by">'+esc(it.who||"Someone")+'</span></div>'+
+          '<div class="tx">'+esc(it.skill)+'</div>'+
+          (it.reason?'<div class="ap">&#9989; '+esc(it.reason)+'</div>':'')+'</div>';
+      });
+      host.innerHTML=html;
+    }).catch(function(){});
+  }
+
+  // ---- share ----
+  document.getElementById("shareLab").addEventListener("click",function(){
+    var url=SITE+"/luxu/lab/",text="Help make Luxucleen unhackable — drop a security idea and climb the leaderboard on Luxu Lab";
+    if(navigator.share){navigator.share({title:"Luxu Lab",text:text,url:url}).catch(function(){});return;}
+    try{navigator.clipboard.writeText(url);this.textContent="Copied!";var b=this;setTimeout(function(){b.textContent="Share";},1500);}catch(e){}
+  });
+
+  loadStats();loadBoard("security");loadWall();
+}catch(e){}})();</script>
+<script>/*lux-theme*/(function(){try{
+function cur(){return document.documentElement.getAttribute("data-theme")==="light"?"light":"dark";}
+var b=document.createElement("button");b.type="button";b.setAttribute("aria-label","Switch light or dark theme");
+b.style.cssText="position:fixed;right:14px;top:70px;z-index:2147483001;width:40px;height:40px;border-radius:50%;border:1px solid rgba(128,128,128,.35);cursor:pointer;font-size:18px;line-height:1;background:rgba(20,22,28,.55);color:#e7ebf1;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)";
+function icon(){b.textContent=cur()==="light"?"☾":"☀";}
+icon();
+b.addEventListener("click",function(){var next=cur()==="light"?"dark":"light";if(next==="light"){document.documentElement.setAttribute("data-theme","light");}else{document.documentElement.removeAttribute("data-theme");}try{localStorage.setItem("lux_theme",next);}catch(e){}icon();});
+function boot(){document.body.appendChild(b);}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
+}catch(e){}})();</script>
+<script defer src="/lux-orb.js"></script>
+</body>
+</html>

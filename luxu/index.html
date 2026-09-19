@@ -259,11 +259,13 @@
     return '<div class="pc"><div class="pc-h"><span class="av" style="background:'+AV.u+'">'+initial+'</span><span class="who"><b>'+esc(p.who||"Someone")+'</b><span>on Luxu</span></span></div>'+
       mediaHTML(p.media)+rail+
       (p.txt?('<div class="pc-cap"><b class="hand">'+esc(p.who||"Someone")+'</b>'+esc(p.txt)+'</div>'):'')+buy+'</div>';}
-  var html="";POSTS.forEach(function(p,idx){html+=seedCard(p,idx);});feed.innerHTML=html;
+  var LABBANNER='<a href="/luxu/lab/" style="display:block;margin:10px auto 4px;max-width:600px;text-decoration:none"><div style="display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,rgba(124,92,255,.16),rgba(46,162,126,.14));border:1px solid var(--line);border-radius:16px;padding:14px 15px"><span style="font-size:30px">&#128737;&#65039;</span><span style="flex:1"><b style="display:block;font-size:15px;color:inherit">Luxu Lab &mdash; make Luxucleen unhackable</b><span style="font-size:12.5px;color:var(--dim)">Drop a security idea, agents review it, climb the leaderboard &rarr;</span></span></div></a>';
+  var html=LABBANNER;POSTS.forEach(function(p,idx){html+=seedCard(p,idx);});feed.innerHTML=html;
 
   // stories strip from the businesses
   (function(){var s=document.getElementById("stories");if(!s)return;
     var h='<a class="story you" id="storyYou"><span class="ring"><span class="rimg">+</span></span><span class="sn">Post</span></a>';
+    h+='<a class="story" href="/luxu/lab/"><span class="ring" style="background:conic-gradient(from 135deg,#7c5cff,#2ea27e,#7c5cff)"><span class="rimg">&#128737;&#65039;</span></span><span class="sn">Luxu Lab</span></a>';
     POSTS.forEach(function(p){h+='<a class="story" href="'+p.href+'"><span class="ring"><span class="rimg">'+p.e+'</span></span><span class="sn">'+esc(p.who.replace("Luxucleen ","").replace("Luxucleen","Luxu"))+'</span></a>';});
     s.innerHTML=h;
     var y=document.getElementById("storyYou");if(y)y.addEventListener("click",openSheet);})();
