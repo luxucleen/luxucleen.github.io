@@ -42,6 +42,26 @@
       ph: "Type, or tap to talk…", rename: "What should you call me?", off: "Voice off"
     };
 
+    // ---------- new-visitor welcome (first time on this site; {name} = the orb's name) ----------
+    var NEWG_EN = [
+      "Welcome — looks like you're new here. I'm {name}. Tap me and I'll show you around.",
+      "Hey, first time here? Welcome. I'm {name} — ask me anything about what we do.",
+      "New here? Glad you came. Tap me and I'll point you to the right thing.",
+      "Welcome to Luxucleen. I'm {name}, your guide — tap me whenever you want a hand.",
+      "First visit? Let me welcome you. Tap me and tell me what brought you in.",
+      "Welcome in. I'm {name}. Jewelry, your house, taxes, or trading — I'll help you find it.",
+      "Hey there, new face! I'm {name}. Tap me and I'll get you where you're going."
+    ];
+    var NEWG_ES = [
+      "Bienvenido — parece que eres nuevo aqui. Soy {name}. Tocame y te muestro todo.",
+      "Hola, ¿primera vez aqui? Bienvenido. Soy {name} — preguntame lo que sea.",
+      "¿Nuevo por aqui? Que bueno que llegaste. Tocame y te guio.",
+      "Bienvenido a Luxucleen. Soy {name}, tu guia — tocame cuando quieras ayuda.",
+      "¿Primera visita? Dejame darte la bienvenida. Tocame y dime que te trae.",
+      "Bienvenido. Soy {name}. Joyeria, tu casa, impuestos o trading — te ayudo a encontrarlo.",
+      "¡Hola, cara nueva! Soy {name}. Tocame y te llevo a donde vas."
+    ];
+
     // ---------- styles (injected once) ----------
     var css = document.createElement("style");
     css.textContent = [
@@ -99,13 +119,28 @@
       setHint(); // stay quiet on load; the greeting shows on first tap/wake
       try { if (!sessionStorage.getItem("lux_orb_flew")) { sessionStorage.setItem("lux_orb_flew", "1"); setTimeout(flyby, 500); } } catch (e) { setTimeout(flyby, 500); }
       if (PRO && get("lux_hands", "1") !== "0") startWake(); // hands-free auto-listen — Pro, unless turned off in Settings
+      var greeted = false;
       try { // funnel: if they arrived from an ad via /start?want=X, greet them by intent
         var _in = get("lux_intent", ""), _at = parseInt(get("lux_intent_at", "0"), 10) || 0;
         if (_in && (Date.now() - _at) < 120000) {
           var G = ES ? { jewelry: "Aqui por joyeria con hielo? Te ayudo a elegir.", house: "Vas a vender tu casa? Te ayudo a empezar.", sell: "Vas a vender tu casa? Te ayudo a empezar.", trading: "Aqui por trading? Te muestro como funciona.", taxes: "Aqui por tus impuestos? Empecemos.", tax: "Aqui por tus impuestos? Empecemos.", money: "Listo para ganar dinero con nosotros? Te guio.", stack: "Listo para ganar dinero con nosotros? Te guio." }
                       : { jewelry: "Here for iced-out moissanite? I'll help you pick.", house: "Selling your house? I'll help you start.", sell: "Selling your house? I'll help you start.", trading: "Here for trading? I'll show you how it works.", taxes: "Here for your taxes? Let's get started.", tax: "Here for your taxes? Let's get started.", money: "Ready to make money with us? I'll guide you.", stack: "Ready to make money with us? I'll guide you." };
           var line = G[_in] || (ES ? "Estoy aqui para ayudarte. Toca y pregunta." : "I'm here to help. Tap me and ask.");
+          greeted = true;
           setTimeout(function () { say(NAME, line, false); }, 1500);
+        }
+      } catch (e) {}
+      // NEW VISITOR: first time on THIS site -> a warm welcome (rotating, many variations). A
+      // localStorage "first visit" flag beats IP here: per-person, no backend, no privacy issue.
+      // A returning visitor stays quiet (as designed); the ad-funnel greeting above wins if present.
+      try {
+        if (!get("lux_returning", "")) {
+          set("lux_returning", String(Date.now()));
+          if (!greeted) {
+            var NG = ES ? NEWG_ES : NEWG_EN;
+            var g = NG[Math.floor(Math.random() * NG.length)].replace(/\{name\}/g, NAME);
+            setTimeout(function () { say(NAME, g, false); try { speakText(g); } catch (e2) {} }, 1900);
+          }
         }
       } catch (e) {}
     }
