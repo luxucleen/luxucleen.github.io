@@ -228,9 +228,39 @@
     paintMute();
     elMute.addEventListener("click", function () { TEXT_ONLY = !TEXT_ONLY; set("lux_text_only", TEXT_ONLY ? "1" : "0"); paintMute(); if (TEXT_ONLY) stopSpeaking(); });
 
+    // ---------- location-aware text: fill [data-lux-region] with the visitor's area (Christian: "not only
+    // Puerto Rico - change based on the location"). ONLY fires on pages that mark region text, so no other
+    // page pays a network call. Cached 24h. Honest fallback ("your area"/"tu zona") when geo is unknown -
+    // and it never claims a product is live somewhere; the pages use it for "coming to <area>" framing. ----------
+    function luxRegion(cb) {
+      var c = null; try { c = JSON.parse(get("lux_geo", "null")); } catch (e) {}
+      if (c && c.t && (Date.now() - c.t) < 86400000) { cb(c); return; }
+      try {
+        fetch("https://ipapi.co/json/").then(function (r) { return r.json(); }).then(function (d) {
+          var o = { region: (d && (d.region || d.city)) || "", city: (d && d.city) || "", country: (d && d.country_name) || "", cc: (d && d.country_code) || "", t: Date.now() };
+          try { set("lux_geo", JSON.stringify(o)); } catch (e) {}
+          cb(o);
+        }).catch(function () { cb(c || null); });
+      } catch (e) { cb(c || null); }
+    }
+    function fillRegions() {
+      try {
+        var els = document.querySelectorAll("[data-lux-region]");
+        if (!els.length) return;                    // gate: no marked text -> no geo call
+        luxRegion(function (o) {
+          var region = (o && o.region) ? String(o.region).slice(0, 40) : "";
+          for (var i = 0; i < els.length; i++) {
+            var el = els[i], def = el.getAttribute("data-lux-default") || (ES ? "tu zona" : "your area");
+            el.textContent = region || def;
+          }
+        });
+      } catch (e) {}
+    }
+
     function boot() {
       document.body.appendChild(wrap);
       restorePos();
+      try { fillRegions(); } catch (e) {}
       setHint(); // stay quiet on load; the greeting shows on first tap/wake
       var flewThisLoad = false;
       try { if (!sessionStorage.getItem("lux_orb_flew")) { sessionStorage.setItem("lux_orb_flew", "1"); flewThisLoad = true; setTimeout(flyby, 500); } } catch (e) { flewThisLoad = true; setTimeout(flyby, 500); }
