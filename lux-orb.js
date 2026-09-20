@@ -27,6 +27,25 @@
     var hist = []; try { hist = JSON.parse(get("lux_orb_hist", "[]")) || []; } catch (e) { hist = []; }
     function saveHist() { try { set("lux_orb_hist", JSON.stringify(hist.slice(-24))); } catch (e) {} }
 
+    // ---------- who is this person? (per-browser signals — no backend, no IP needed) ----------
+    // signed in = they made an account (sign-up consent stamp) or opened an encrypted vault.
+    var SIGNED = false; try { SIGNED = !!(localStorage.getItem("lux_signup_agreed_v1") || localStorage.getItem("orbit_vault_v1")); } catch (e) {}
+    var RETURNING = !!get("lux_returning", "");                // been here before (flag set on first visit)
+    var VISITS = parseInt(get("lux_visits", "0"), 10) || 0;    // how many times they've come
+    var PERSON = "";                                           // their OWN first name, once learned (never assumed)
+    try { PERSON = ((get("lux_person", "") || "").match(/[\p{L}][\p{L} .'\-]{0,23}/u) || [""])[0].trim().split(/\s+/)[0] || ""; } catch (e) { PERSON = ""; }
+    function todGreet() { var h = new Date().getHours(); return ES ? (h < 12 ? "Buenos dias" : (h < 19 ? "Buenas tardes" : "Buenas noches")) : (h < 12 ? "Good morning" : (h < 18 ? "Good afternoon" : "Good evening")); }
+    function pageCtx() { var p = path.toLowerCase(); if (/jewel|joy/.test(p)) return "jewelry"; if (/we-buy|real-estate|surplus|casa|foreclos|inherit|hered/.test(p)) return "house"; if (/tax|impuesto/.test(p)) return "taxes"; if (/trad/.test(p)) return "trading"; if (/stack|launchpad|\/start|money|dinero/.test(p)) return "money"; return ""; }
+    function greetedToday() { try { var d = new Date().toISOString().slice(0, 10); if (get("lux_greet_day", "") === d) return true; set("lux_greet_day", d); return false; } catch (e) { return false; } }
+    function learnName(t) {   // if they tell us their name, remember it — greet them by it next time
+      try {
+        if (PERSON) return;
+        var m = String(t || "").match(/(?:i'?m|i am|my name is|this is|soy|me llamo|mi nombre es)\s+([\p{L}][\p{L}.'\-]{1,23})/iu);
+        var stop = /^(here|looking|not|just|interested|trying|from|on|in|a|an|the|sorry|good|fine|ok|okay|back|new|ready|done|sure|aqui|buscando|bien|listo|nuevo|de|un|una|el|la|bueno|solo)$/i;
+        if (m && m[1] && !stop.test(m[1])) { var nm = m[1].charAt(0).toUpperCase() + m[1].slice(1); PERSON = nm; set("lux_person", nm); }
+      } catch (e) {}
+    }
+
     var T = ES ? {
       hint: 'Di "' + NAME + '"', listening: "Te escucho…", thinking: "Pensando…",
       hi: "Hola, soy " + NAME + ". Toca o di mi nombre.",
@@ -43,25 +62,46 @@
       ph: "Type, or tap to talk…", rename: "What should you call me?", off: "Voice off"
     };
 
-    // ---------- new-visitor welcome (first time on this site; {name} = the orb's name) ----------
+    // ---------- greetings (rotating; {name}=assistant name, {tod}=time of day, {p}=their name or "") ----------
+    // A brand-new visitor gets a warm welcome (no "you look new" labeling); a returning or signed-in
+    // person is greeted by name and welcomed BACK — never told they're new. {p} stays empty until learned.
     var NEWG_EN = [
-      "Welcome — looks like you're new here. I'm {name}. Tap me and I'll show you around.",
-      "Hey, first time here? Welcome. I'm {name} — ask me anything about what we do.",
-      "New here? Glad you came. Tap me and I'll point you to the right thing.",
-      "Welcome to Luxucleen. I'm {name}, your guide — tap me whenever you want a hand.",
-      "First visit? Let me welcome you. Tap me and tell me what brought you in.",
-      "Welcome in. I'm {name}. Jewelry, your house, taxes, or trading — I'll help you find it.",
-      "Hey there, new face! I'm {name}. Tap me and I'll get you where you're going."
+      "Welcome to Luxucleen. I'm {name} — tap me and I'll show you around.",
+      "Hey, welcome. I'm {name}. Ask me anything about what we do.",
+      "Welcome in. I'm {name}, your guide — tap me whenever you want a hand.",
+      "Glad you're here. I'm {name}. Jewelry, your house, taxes, or trading — I'll point you to it.",
+      "Welcome. I'm {name}. Tell me what you came for and I'll take you straight there."
     ];
     var NEWG_ES = [
-      "Bienvenido — parece que eres nuevo aqui. Soy {name}. Tocame y te muestro todo.",
-      "Hola, ¿primera vez aqui? Bienvenido. Soy {name} — preguntame lo que sea.",
-      "¿Nuevo por aqui? Que bueno que llegaste. Tocame y te guio.",
-      "Bienvenido a Luxucleen. Soy {name}, tu guia — tocame cuando quieras ayuda.",
-      "¿Primera visita? Dejame darte la bienvenida. Tocame y dime que te trae.",
-      "Bienvenido. Soy {name}. Joyeria, tu casa, impuestos o trading — te ayudo a encontrarlo.",
-      "¡Hola, cara nueva! Soy {name}. Tocame y te llevo a donde vas."
+      "Bienvenido a Luxucleen. Soy {name} — tocame y te muestro todo.",
+      "Hola, bienvenido. Soy {name}. Preguntame lo que sea.",
+      "Bienvenido. Soy {name}, tu guia — tocame cuando quieras ayuda.",
+      "Que bueno que llegaste. Soy {name}. Joyeria, tu casa, impuestos o trading — te llevo.",
+      "Bienvenido. Soy {name}. Dime que buscas y te llevo directo."
     ];
+    var BACKG_EN = [   // signed-in / known member
+      "{tod}{p}. Welcome back — want to pick up where you left off?",
+      "{tod}{p}. Good to have you back. What are we doing today?",
+      "Welcome back{p}. Tap me whenever you need a hand.",
+      "{tod}{p}. Right where you left it — what's next?"
+    ];
+    var BACKG_ES = [
+      "{tod}{p}. Que bueno verte de nuevo — seguimos donde lo dejaste?",
+      "{tod}{p}. Me alegra tenerte de vuelta. Que hacemos hoy?",
+      "Bienvenido de nuevo{p}. Tocame cuando necesites algo.",
+      "{tod}{p}. Todo sigue donde lo dejaste — que sigue?"
+    ];
+    var SEENG_EN = [   // been here before, not signed in
+      "{tod}. Good to see you again — where should we pick up?",
+      "Welcome back. Need a hand with anything?",
+      "{tod}. Back again — tap me and I'll help you find it."
+    ];
+    var SEENG_ES = [
+      "{tod}. Que bueno verte otra vez — por donde seguimos?",
+      "Bienvenido de nuevo. Te ayudo con algo?",
+      "{tod}. De vuelta — tocame y te ayudo a encontrarlo."
+    ];
+    function fillG(s) { return s.replace(/\{name\}/g, NAME).replace(/\{tod\}/g, todGreet()).replace(/\{p\}/g, PERSON ? (", " + PERSON) : ""); }
 
     // ---------- styles (injected once) ----------
     var css = document.createElement("style");
@@ -95,6 +135,10 @@
       ".luxorb-bubble .bar{display:flex;gap:9px;margin-top:8px;align-items:center;justify-content:space-between}",
       ".luxorb-bubble .bar small{color:#8fa3bd;font-size:11px}",
       ".luxorb-bubble .bar a{color:#7ef0c0;cursor:pointer;font-size:11px;text-decoration:none}",
+      ".luxorb-bubble .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}",
+      ".luxorb-bubble .chip{background:rgba(126,240,192,.12);border:1px solid rgba(126,240,192,.34);color:#eaf2ff;border-radius:999px;padding:6px 11px;font-size:12.5px;line-height:1;cursor:pointer;transition:background .15s,transform .1s}",
+      ".luxorb-bubble .chip:hover{background:rgba(126,240,192,.22)}",
+      ".luxorb-bubble .chip:active{transform:scale(.96)}",
       "@media (prefers-reduced-motion:reduce){.luxorb,.luxorb.live,.luxorb.think,.luxorb.flyby{animation:none}.luxorb::before{animation:none}}"
     ].join("");
     (document.head || document.documentElement).appendChild(css);
@@ -106,13 +150,14 @@
     var bubble = document.createElement("div"); bubble.className = "luxorb-bubble";
     bubble.innerHTML =
       '<div class="who"></div><div class="msg"></div>' +
+      '<div class="chips" aria-label="quick options"></div>' +
       '<div class="row"><input type="text" aria-label="message"><button class="snd" type="button" aria-label="send">↑</button></div>' +
       '<div class="bar"><small></small><a class="mute"></a><a class="rn"></a></div>';
     wrap.appendChild(bubble); wrap.appendChild(orb);
     var elWho = bubble.querySelector(".who"), elMsg = bubble.querySelector(".msg"),
         elIn = bubble.querySelector("input"), elSnd = bubble.querySelector(".snd"),
         elHint = bubble.querySelector(".bar small"), elRn = bubble.querySelector(".rn"),
-        elMute = bubble.querySelector(".mute");
+        elMute = bubble.querySelector(".mute"), elChips = bubble.querySelector(".chips");
     elIn.placeholder = T.ph; elRn.textContent = ES ? "renombrar" : "rename";
     // one-tap voice mute, right inside the chat (Christian: "chats must have a section where I can turn this off")
     function paintMute() { elMute.textContent = TEXT_ONLY ? (ES ? "🔊 activar voz" : "🔊 voice on") : (ES ? "🔇 solo texto" : "🔇 text only"); }
@@ -137,17 +182,24 @@
           setTimeout(function () { say(NAME, line, false); }, 1500);
         }
       } catch (e) {}
-      // NEW VISITOR: first time on THIS site -> a warm welcome (rotating, many variations). A
-      // localStorage "first visit" flag beats IP here: per-person, no backend, no privacy issue.
-      // A returning visitor stays quiet (as designed); the ad-funnel greeting above wins if present.
+      // GREETING — knows who this is (per browser) and never labels a returning person "new".
+      //   signed in -> warm "welcome back", by name if known, a soft spoken hello ONCE a day
+      //   returning -> "good to see you again", TEXT only (comfortable; never announces you're new)
+      //   brand new -> a warm welcome + a spoken hello (their real first time here)
+      // The ad-funnel intent greeting above still wins when present.
       try {
-        if (!get("lux_returning", "")) {
-          set("lux_returning", String(Date.now()));
-          if (!greeted) {
-            var NG = ES ? NEWG_ES : NEWG_EN;
-            var g = NG[Math.floor(Math.random() * NG.length)].replace(/\{name\}/g, NAME);
-            setTimeout(function () { say(NAME, g, false); if (!TEXT_ONLY) { try { speakText(g); } catch (e2) {} } }, 1900);
-          }
+        set("lux_visits", String(VISITS + 1));
+        if (!RETURNING) set("lux_returning", String(Date.now()));
+        if (!greeted) {
+          var arr, speakIt;
+          if (SIGNED) { arr = ES ? BACKG_ES : BACKG_EN; speakIt = !greetedToday(); }
+          else if (RETURNING || VISITS > 0) { arr = ES ? SEENG_ES : SEENG_EN; speakIt = false; }
+          else { arr = ES ? NEWG_ES : NEWG_EN; speakIt = true; }
+          var g = fillG(arr[Math.floor(Math.random() * arr.length)]);
+          setTimeout(function () {
+            say(NAME, g, true); autohide(11000); renderChips(chipsFor(pageCtx()));
+            if (speakIt && !TEXT_ONLY) { try { speakText(g); } catch (e2) {} }
+          }, RETURNING ? 1200 : 1900);
         }
       } catch (e) {}
     }
@@ -162,8 +214,56 @@
     function autohide(ms) { if (hideTimer) clearTimeout(hideTimer); hideTimer = setTimeout(function () { bubble.classList.remove("show"); }, ms || 6500); }
     function say(who, msg, keep) { elWho.textContent = who; elMsg.textContent = msg; show(); if (!keep) autohide(); }
 
-    // ---------- radio duck ----------
-    function duck(on) { try { if (window.luxDuck) window.luxDuck(on); } catch (e) {} }
+    // ---------- quick options (tappable; navigate = instant + reliable on a static site) ----------
+    function chipsFor(ctx) {
+      var H = ES ? {
+        house: [["Vender mi casa", "/es/real-estate/", "house"], ["Oferta en efectivo", "/we-buy-houses/es/", "house"]],
+        jewelry: [["Ver la joyeria", "/es/jewelry/", "jewelry"], ["Es real la moissanita?", "/es/guides/la-moissanita-es-real/", "jewelry"]],
+        taxes: [["Mis impuestos", "/es/taxes/", "taxes"], ["IA vs TurboTax", "/es/guides/impuestos-con-ia-vs-turbotax/", "taxes"]],
+        trading: [["Como funciona", "/es/trading/", "trading"]],
+        money: [["Ganar dinero", "/es/stack/", "money"], ["Empezar", "/es/start/", "money"]],
+        "": [["Vender mi casa", "/es/real-estate/", "house"], ["Joyeria", "/es/jewelry/", "jewelry"], ["Impuestos con IA", "/es/taxes/", "taxes"], ["Ganar dinero", "/es/stack/", "money"]]
+      } : {
+        house: [["Sell my house", "/real-estate/", "house"], ["Get a cash offer", "/we-buy-houses/", "house"]],
+        jewelry: [["See the jewelry", "/jewelry/", "jewelry"], ["Is moissanite real?", "/guides/is-moissanite-real/", "jewelry"]],
+        taxes: [["My taxes", "/taxes/", "taxes"], ["AI vs TurboTax", "/guides/ai-taxes-vs-turbotax/", "taxes"]],
+        trading: [["How trading works", "/trading/", "trading"]],
+        money: [["Make money with us", "/stack/", "money"], ["Get started", "/start/", "money"]],
+        "": [["Sell my house", "/real-estate/", "house"], ["Jewelry", "/jewelry/", "jewelry"], ["AI taxes", "/taxes/", "taxes"], ["Make money", "/stack/", "money"]]
+      };
+      return (H[ctx] || H[""]).slice(0, 4);
+    }
+    function renderChips(list) {
+      try {
+        if (!elChips) return;
+        elChips.innerHTML = "";
+        if (!list || !list.length) { elChips.style.display = "none"; return; }
+        elChips.style.display = "flex";
+        list.forEach(function (c) {
+          var b = document.createElement("button"); b.type = "button"; b.className = "chip"; b.textContent = c[0];
+          b.addEventListener("click", function () {
+            var go = c[1], intent = c[2] || "";
+            if (go && /^\/[a-z0-9\/_\-]*$/i.test(go)) {
+              try { if (intent) { set("lux_intent", intent); set("lux_intent_at", String(Date.now())); } } catch (e) {}
+              try { location.href = go; } catch (e) {}
+            } else { ask(c[0]); }
+          });
+          elChips.appendChild(b);
+        });
+      } catch (e) {}
+    }
+
+    // ---------- music: FULLY STOP while Luxu is listening OR talking, then resume ----------
+    // Christian: "whenever the agents talk, or Luxu is listening, the music has to stop."
+    // duck(0) / duck(true)  => HOLD  (pause the music)
+    // duck(false)           => RELEASE (resume it)
+    // One guard so listen -> think -> talk stays silent the WHOLE time, then the music
+    // comes back exactly once. Real pause via luxRadioHold/Release; full-mute fallback for
+    // any older page shell that doesn't have them yet.
+    var musicHeld = false;
+    function holdMusic() { if (musicHeld) return; musicHeld = true; try { if (window.luxRadioHold) window.luxRadioHold(); else if (window.luxDuck) window.luxDuck(0); } catch (e) {} }
+    function releaseMusic() { if (!musicHeld) return; musicHeld = false; try { if (window.luxRadioRelease) window.luxRadioRelease(); else if (window.luxDuck) window.luxDuck(false); } catch (e) {} }
+    function duck(on) { if (on === false) releaseMusic(); else holdMusic(); }
 
     // ---------- on-device voice unlock (phones block speak() unless it is armed inside a tap) ----------
     var VOICES = [], _ttsWarm = false;
@@ -175,6 +275,7 @@
     var busy = false;
     function ask(text) {
       text = (text || "").trim(); if (!text || busy) return;
+      learnName(text); try { renderChips(null); } catch (e) {}
       busy = true; orb.classList.remove("live"); orb.classList.add("think");
       say(NAME, T.thinking, true);
       hist.push({ r: "u", t: text }); saveHist();
@@ -341,7 +442,7 @@
       r.onend = function () {
         if (done) return; done = true;
         var cmd = stripName(got);
-        if (cmd) ask(cmd); else { wakeCenter(false); duck(0); say(NAME, T.err, false); if (wakeOn) setTimeout(startListen, 500); }
+        if (cmd) ask(cmd); else { wakeCenter(false); say(NAME, T.err, false); if (wakeOn) { duck(0); setTimeout(startListen, 500); } else duck(false); }
       };
       try { r.start(); } catch (e) { wakeCenter(false); duck(0); if (wakeOn) setTimeout(startListen, 500); }
       setTimeout(function () { try { r.stop(); } catch (e) {} }, 6000);
