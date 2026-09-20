@@ -1,11 +1,19 @@
-# Luxucleen LLC - everyone is welcome, including AI answer engines.
-# Machine-readable summary for AI: https://luxucleen.com/llms.txt
+# Luxucleen LLC — robots policy
+# We WELCOME the answer engines that read us and CITE us with a link (they send real visitors).
+# We BLOCK the bulk crawlers whose only job is to vacuum content for AI training or resale.
+# Note: robots.txt is a request, not a wall — the enforced block lives at the edge (Cloudflare).
 
-User-agent: *
+# ---- Search + citation engines: WELCOME (these link back and send traffic) ----
+User-agent: Googlebot
 Allow: /
 
-# AI answer engines / assistants - explicitly welcome to read and cite us
-User-agent: GPTBot
+User-agent: Bingbot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Applebot
 Allow: /
 
 User-agent: OAI-SearchBot
@@ -14,22 +22,105 @@ Allow: /
 User-agent: ChatGPT-User
 Allow: /
 
-User-agent: ClaudeBot
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Claude-User
 Allow: /
 
 User-agent: Claude-Web
 Allow: /
 
-User-agent: PerplexityBot
-Allow: /
+# ---- AI training / bulk-scrape / resale crawlers: BLOCKED ----
+# (These take content to train models or resell data; they do not send visitors.)
+User-agent: GPTBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
 
 User-agent: Google-Extended
-Allow: /
+Disallow: /
 
 User-agent: Applebot-Extended
-Allow: /
+Disallow: /
 
 User-agent: Amazonbot
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: Meta-ExternalAgent
+Disallow: /
+
+User-agent: meta-externalagent
+Disallow: /
+
+User-agent: FacebookBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: cohere-ai
+Disallow: /
+
+User-agent: Diffbot
+Disallow: /
+
+User-agent: Omgilibot
+Disallow: /
+
+User-agent: Omgili
+Disallow: /
+
+User-agent: ImagesiftBot
+Disallow: /
+
+User-agent: PetalBot
+Disallow: /
+
+User-agent: DataForSeoBot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: Scrapy
+Disallow: /
+
+User-agent: magpie-crawler
+Disallow: /
+
+User-agent: YouBot
+Disallow: /
+
+User-agent: TurnitinBot
+Disallow: /
+
+User-agent: Timpibot
+Disallow: /
+
+User-agent: VelenPublicWebCrawler
+Disallow: /
+
+# ---- Everyone else: allowed to read the public pages (blocking all is ignored by bad bots anyway) ----
+User-agent: *
 Allow: /
 
+# Text & Data Mining reservation (EU DSM Art. 4): automated use for AI training is NOT permitted
+# without a written licence. Citation with a link is welcome. Contact: hello@luxucleen.com
 Sitemap: https://luxucleen.com/sitemap.xml

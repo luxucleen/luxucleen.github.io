@@ -1,0 +1,15 @@
+# ai.txt — AI usage policy for luxucleen.com (Luxucleen LLC)
+# TDM Reservation Protocol / EU DSM Directive Article 4 opt-out.
+
+User-Agent: *
+
+# Training an AI model on this site's content is NOT permitted without a written licence.
+Disallow-AI-Training: /
+Disallow-AI-Content-Ingestion: /
+
+# Reading a page to ANSWER a user and citing us with a working link back IS welcome.
+Allow-AI-Citation: /
+
+# Reproducing this site's structure, design, or code to clone it is prohibited.
+Contact: hello@luxucleen.com
+Policy: https://luxucleen.com/agreements/
