@@ -38,7 +38,17 @@
   .hero h1{font-size:clamp(26px,7vw,44px);margin:.2em 0 .1em;line-height:1.08;background:linear-gradient(135deg,#fff,#9fe9ff 55%,#c9b7ff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
   .hero p{color:var(--dim);max-width:640px;margin:6px auto;font-size:15.5px}
   .lock{max-width:440px;margin:22px auto;background:linear-gradient(180deg,rgba(20,27,40,.92),rgba(11,14,20,.96));border:1px solid var(--line);border-radius:20px;padding:26px 22px;box-shadow:0 0 0 1px rgba(43,232,255,.06),0 30px 80px rgba(0,0,0,.5);text-align:center}
-  .lock .bigcore{width:76px;height:76px;margin:2px auto 12px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#dffcff 0%,#2be8ff 24%,#7c5cff 62%,#0b0e14 84%);box-shadow:0 0 34px rgba(43,232,255,.5),0 0 66px rgba(124,92,255,.4)}
+  /* smoke orb (ChatGPT-style): swirling plasma inside a glassy sphere — GPU-cheap, no JS */
+  .lock .orb{position:relative;width:92px;height:92px;margin:2px auto 14px;border-radius:50%;overflow:hidden;isolation:isolate;background:radial-gradient(circle at 50% 42%,#20184f 0%,#0a0820 78%);box-shadow:0 0 30px rgba(124,92,255,.55),0 0 70px rgba(43,232,255,.28),inset 0 0 26px rgba(0,0,0,.55),inset 0 2px 10px rgba(255,255,255,.12)}
+  .lock .orb .sm{position:absolute;width:62%;height:62%;left:19%;top:19%;border-radius:50%;filter:blur(11px);mix-blend-mode:screen;will-change:transform}
+  .lock .orb .sm.a{background:radial-gradient(closest-side,rgba(124,92,255,.95),transparent 72%);animation:orbA 7.5s linear infinite}
+  .lock .orb .sm.b{background:radial-gradient(closest-side,rgba(43,232,255,.90),transparent 72%);animation:orbB 10.5s linear infinite}
+  .lock .orb .sm.c{background:radial-gradient(closest-side,rgba(255,110,199,.75),transparent 72%);animation:orbC 13.5s linear infinite}
+  .lock .orb .gloss{position:absolute;inset:0;border-radius:50%;pointer-events:none;background:radial-gradient(circle at 35% 26%,rgba(255,255,255,.9),rgba(255,255,255,.16) 16%,transparent 40%)}
+  @keyframes orbA{from{transform:rotate(0deg) translateX(15%) rotate(0deg)}to{transform:rotate(360deg) translateX(15%) rotate(-360deg)}}
+  @keyframes orbB{from{transform:rotate(120deg) translateX(22%) rotate(0deg)}to{transform:rotate(-240deg) translateX(22%) rotate(360deg)}}
+  @keyframes orbC{from{transform:rotate(240deg) translateX(12%) rotate(0deg)}to{transform:rotate(600deg) translateX(12%) rotate(-360deg)}}
+  @media(prefers-reduced-motion:reduce){.lock .orb .sm{animation:none}}
   .lock h2{margin:.1em 0 .3em;font-size:20px}
   .lock p{color:var(--dim);font-size:13.5px;margin:.2em 0 1em}
   input,textarea,select{width:100%;background:#0b1119;border:1.5px solid #2f4a5a;color:var(--ink);border-radius:12px;padding:13px 14px;font-size:15px;font-family:inherit;outline:none}
@@ -48,13 +58,24 @@
   .btn.ghost{background:#0f141d;border:1px solid #243040;color:var(--ink);box-shadow:none}
   .btn.sm{width:auto;padding:9px 13px;font-size:13px;border-radius:999px}
   .warn{color:var(--gold);font-size:12px;background:rgba(255,215,106,.08);border:1px solid rgba(255,215,106,.28);border-radius:10px;padding:9px 11px;margin-top:10px;text-align:left}
-  .agree{display:none;text-align:left;background:rgba(124,92,255,.06);border:1px solid rgba(124,92,255,.28);border-radius:14px;padding:13px 13px 8px;margin-top:12px}
+  /* clickwrap consent — clean full-width rows (each label = exactly [box][one prose span]) */
+  .agree{display:none;text-align:left;background:rgba(124,92,255,.05);border:1px solid rgba(124,92,255,.26);border-radius:14px;padding:4px 2px 2px;margin-top:12px;overflow:hidden}
   .agree.show{display:block}
-  .agree .ah{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--vi);margin-bottom:9px}
-  .agree label{display:flex;gap:10px;align-items:flex-start;font-size:12.6px;color:#cfd6e4;line-height:1.5;margin:0 0 11px;cursor:pointer}
-  .agree input[type=checkbox]{width:20px;height:20px;flex:0 0 auto;margin:1px 0 0;accent-color:var(--cy);cursor:pointer}
+  .agree .ah{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--vi);margin:9px 13px 7px}
+  .agree label{display:flex;gap:11px;align-items:flex-start;font-size:13px;color:#cfd6e4;line-height:1.5;margin:0;padding:11px 13px;cursor:pointer;border-top:1px solid rgba(124,92,255,.13);transition:background .12s}
+  .agree label:hover{background:rgba(124,92,255,.06)}
+  .agree label:has(input:checked){background:rgba(46,194,126,.08)}
+  .agree label>span{flex:1 1 auto;min-width:0}
+  .agree input[type=checkbox]{width:20px;height:20px;flex:0 0 auto;margin:1px 0 0;accent-color:var(--gr);cursor:pointer}
   .agree a{color:var(--cy);text-decoration:none;border-bottom:1px dotted rgba(43,232,255,.5)}
-  .agree .rd{display:block;text-align:center;margin:3px 0 4px;font-weight:800;font-size:12.5px;border-bottom:0}
+  .agree b{color:#eaf0fb;font-weight:800}
+  .agree .rd{display:block;text-align:center;margin:0;padding:11px;font-weight:800;font-size:12.5px;border-bottom:0;border-top:1px solid rgba(124,92,255,.13)}
+  /* master-key rules (live, Facebook-style) */
+  .keyreq{text-align:left;margin-top:10px;font-size:12px;color:var(--dim)}
+  .keyreq .kr{display:flex;align-items:center;gap:7px;margin:4px 0}
+  .keyreq .kr::before{content:"\25CB";font-size:12px;color:var(--dim);flex:0 0 auto}
+  .keyreq .kr.ok{color:#bfe9cf} .keyreq .kr.ok::before{content:"\2713";color:var(--gr)}
+  .keyreq .kr.bad{color:#f2b6ab} .keyreq .kr.bad::before{content:"\2715";color:var(--rd)}
   .btn:disabled{opacity:.42;cursor:not-allowed;filter:grayscale(.35);box-shadow:none}
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;margin-top:14px}
   .card{background:linear-gradient(180deg,rgba(20,27,40,.9),rgba(11,14,20,.95));border:1px solid var(--line);border-radius:16px;padding:14px;position:relative;overflow:hidden;cursor:pointer;transition:.15s}
@@ -114,18 +135,23 @@
       <p>Unlimited, encrypted storage in the cloud &mdash; the smart SSD only <b>you</b> can open. Your key is made on your device and never leaves it, so no one (not even us) can read your Orbits. With AI built in.</p>
     </div>
     <div class="lock">
-      <div class="bigcore"></div>
+      <div class="orb" aria-hidden="true"><span class="sm a"></span><span class="sm b"></span><span class="sm c"></span><span class="gloss"></span></div>
       <h2 id="lockTitle">Open your Orbit</h2>
       <p id="lockSub">Enter your master key to decrypt your vault.</p>
-      <div class="field"><input id="pass" type="password" placeholder="Master key" autocomplete="off" autocapitalize="off" spellcheck="false"></div>
-      <div class="field hide" id="pass2wrap"><input id="pass2" type="password" placeholder="Confirm master key" autocomplete="off"></div>
+      <div class="field"><input id="pass" type="password" placeholder="Master key" maxlength="1028" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"></div>
+      <div class="field hide" id="pass2wrap"><input id="pass2" type="password" placeholder="Confirm master key" maxlength="1028" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"></div>
+      <div class="keyreq hide" id="keyReq">
+        <div class="kr" data-k="len">8 to 1028 characters (make it long &mdash; it&rsquo;s the only key)</div>
+        <div class="kr" data-k="space">No spaces</div>
+        <div class="kr" data-k="chars">Letters, numbers &amp; simple symbols &mdash; no punctuation like . , &rsquo; &quot; ; : -</div>
+      </div>
       <div class="warn" id="firstWarn" style="display:none">&#128273; This master key encrypts everything. We can&rsquo;t see it or reset it &mdash; if you lose it, your Orbits can&rsquo;t be recovered. Write it somewhere safe.</div>
       <div class="agree" id="agreeWrap">
         <div class="ah">Sign up &mdash; agree once</div>
-        <label><input type="checkbox" id="a_age"> I&rsquo;m 18 or older and can legally enter this agreement. <a href="/agreements/#s3" target="_blank" rel="noopener">&sect;3</a></label>
-        <label><input type="checkbox" id="a_terms"> I&rsquo;ve read and agree to the <a href="/agreements/" target="_blank" rel="noopener">Terms of Service</a>, including <b>binding individual arbitration</b> and the <b>class-action &amp; jury-trial waiver</b>. <a href="/agreements/#s30" target="_blank" rel="noopener">&sect;30&ndash;32</a></label>
-        <label><input type="checkbox" id="a_advice"> I understand Luxucleen isn&rsquo;t a bank, lawyer or financial advisor, gives <b>no professional advice</b>, and <b>doesn&rsquo;t guarantee any income or result</b>. <a href="/agreements/#s4" target="_blank" rel="noopener">&sect;4&middot;5&middot;15</a></label>
-        <label><input type="checkbox" id="a_key"> I understand <b>my master key is mine alone</b> &mdash; Luxucleen can&rsquo;t see or reset it, and if I lose it my data can&rsquo;t be recovered. <a href="/agreements/#s11" target="_blank" rel="noopener">&sect;11</a></label>
+        <label><input type="checkbox" id="a_age"><span>I&rsquo;m 18 or older and can legally enter this agreement. <a href="/agreements/#s3" target="_blank" rel="noopener">&sect;3</a></span></label>
+        <label><input type="checkbox" id="a_terms"><span>I&rsquo;ve read and agree to the <a href="/agreements/" target="_blank" rel="noopener">Terms of Service</a>, including <b>binding individual arbitration</b> and the <b>class-action &amp; jury-trial waiver</b>. <a href="/agreements/#s30" target="_blank" rel="noopener">&sect;30&ndash;32</a></span></label>
+        <label><input type="checkbox" id="a_advice"><span>I understand Luxucleen isn&rsquo;t a bank, lawyer or financial advisor, gives <b>no professional advice</b>, and <b>doesn&rsquo;t guarantee any income or result</b>. <a href="/agreements/#s4" target="_blank" rel="noopener">&sect;4&middot;5&middot;15</a></span></label>
+        <label><input type="checkbox" id="a_key"><span>I understand <b>my master key is mine alone</b> &mdash; Luxucleen can&rsquo;t see or reset it, and if I lose it my data can&rsquo;t be recovered. <a href="/agreements/#s11" target="_blank" rel="noopener">&sect;11</a></span></label>
         <a class="rd" href="/agreements/" target="_blank" rel="noopener">Read the full agreement &rarr;</a>
       </div>
       <button class="btn" id="unlockBtn">Unlock</button>
@@ -253,6 +279,36 @@ function setSync(){ const dot=$("#sdot"),t=$("#stxt");
 let NEWMODE=false;
 const AGREE_IDS=["a_age","a_terms","a_advice","a_key"];
 function allAgreed(){ return AGREE_IDS.every(id=>{const el=document.getElementById(id);return el&&el.checked;}); }
+
+/* ---------- master-key policy (enforced on CREATE only; unlock just tries to decrypt so we never
+   lock out an existing user whose key predates these rules). No spaces, up to 1028 chars, and a
+   blocked-symbol set (the punctuation Christian excluded — also the chars that carry injection payloads). */
+const KEY_MIN=8, KEY_MAX=1028;
+const KEY_EXCLUDE=".,'\";:-•^%#}{][\\|~<>€£¥=+!?";   // . , ' " ; : - • ^ % # } { ] [ \ | ~ < > € £ ¥ = + ! ?
+function keyBadChar(p){ for(let i=0;i<p.length;i++){ if(KEY_EXCLUDE.indexOf(p[i])>=0) return p[i]; } return ""; }
+function keyProblem(p){
+  if(!p) return "Enter a master key.";
+  if(/\s/.test(p)) return "No spaces in your key — make it one solid string.";
+  if(p.length<KEY_MIN) return "Use at least "+KEY_MIN+" characters.";
+  if(p.length>KEY_MAX) return "Master key can be up to "+KEY_MAX+" characters.";
+  const bad=keyBadChar(p); if(bad) return "That character isn’t allowed in a key: "+bad;
+  return null;
+}
+function paintKeyReq(){
+  const box=document.getElementById("keyReq"); if(!box) return;
+  if(!NEWMODE){ box.classList.add("hide"); return; }
+  box.classList.remove("hide");
+  const p=($("#pass").value)||"", typed=p.length>0;
+  const set=(k,ok)=>{ const el=box.querySelector('.kr[data-k="'+k+'"]'); if(!el)return;
+    el.classList.remove("ok","bad"); if(typed) el.classList.add(ok?"ok":"bad"); };
+  const bad=keyBadChar(p);
+  set("len", p.length>=KEY_MIN && p.length<=KEY_MAX);
+  set("space", !/\s/.test(p));
+  const charsEl=box.querySelector('.kr[data-k="chars"]');
+  if(charsEl) charsEl.innerHTML = bad ? ("Remove this character: <b>"+esc(bad)+"</b>")
+    : "Letters, numbers &amp; simple symbols &mdash; no punctuation like . , &rsquo; &quot; ; : -";
+  set("chars", !bad);
+}
 function refreshCreateBtn(){ $("#unlockBtn").disabled = NEWMODE && !allAgreed(); }   // clickwrap: can't create until every box is ticked
 function applyMode(){                                                                // single source of truth for the lock-card view (create vs unlock)
   $("#pass2wrap").classList.toggle("hide",!NEWMODE);
@@ -262,7 +318,7 @@ function applyMode(){                                                           
   $("#lockSub").textContent=NEWMODE?"Pick a master key, then agree to the terms. This key is the ONLY key to your data.":"Enter your master key to decrypt your vault.";
   $("#toggleNew").textContent=NEWMODE?"Have an Orbit already? Unlock →":"First time? Create your account →";
   $("#unlockBtn").textContent=NEWMODE?"Agree & Create my Orbit":"Unlock";
-  refreshCreateBtn();
+  refreshCreateBtn(); paintKeyReq();
 }
 function stampConsent(){                                                             // one-time signature, bound to the account + synced (inside the encrypted vault)
   if(NEWMODE){
@@ -276,9 +332,12 @@ function stampConsent(){                                                        
 AGREE_IDS.forEach(id=>{const el=document.getElementById(id); if(el) el.onchange=refreshCreateBtn;});
 $("#toggleNew").onclick=e=>{e.preventDefault();NEWMODE=!NEWMODE;applyMode();};
 $("#unlockBtn").onclick=async()=>{
-  const p=$("#pass").value; if(!p||p.length<6){alert("Master key must be at least 6 characters.");return;}
-  if(NEWMODE && p!==$("#pass2").value){alert("The two keys don't match.");return;}
-  if(NEWMODE && !allAgreed()){alert("Please tick the four boxes to agree to the terms, then create your account.");return;}
+  const p=$("#pass").value;
+  if(NEWMODE){
+    const kp=keyProblem(p); if(kp){alert(kp);paintKeyReq();return;}
+    if(p!==$("#pass2").value){alert("The two keys don't match.");return;}
+    if(!allAgreed()){alert("Please tick the four boxes to agree to the terms, then create your account.");return;}
+  } else if(!p){ alert("Enter your master key.");return; }
   $("#unlockBtn").textContent="Opening…"; $("#unlockBtn").disabled=true;
   PASS=p;
   const rem=await cloudLoad();
@@ -398,6 +457,7 @@ document.querySelectorAll(".ov").forEach(o=>o.onclick=e=>{if(e.target===o)o.clas
 (function(){ const has=(()=>{try{return!!localStorage.getItem(LS_VAULT)}catch(e){return false}})();
   if(!has) NEWMODE=true;
   applyMode(); })();
+$("#pass").addEventListener("input",paintKeyReq);
 $("#pass").addEventListener("keydown",e=>{if(e.key==="Enter")$("#unlockBtn").click();});
 $("#pass2").addEventListener("keydown",e=>{if(e.key==="Enter")$("#unlockBtn").click();});
 </script>
