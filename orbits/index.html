@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Orbits &mdash; your encrypted cloud SSD | Luxucleen</title>
+<meta name="description" content="Orbits is Luxucleen's encrypted cloud SSD - the brain of your business. Unlimited secure storage that only YOU can unlock (zero-knowledge, encrypted on your device), with AI built in. Better than a password manager. luxucleen.com/orbits">
+<link rel="canonical" href="https://luxucleen.com/orbits/">
+<meta property="og:title" content="Orbits &mdash; your encrypted cloud SSD">
+<meta property="og:description" content="Unlimited, encrypted, zero-knowledge storage - the brain of your business, with AI inside. Only you hold the key.">
+<meta property="og:type" content="website">
+<style>
+  :root{--bg:#07090f;--ink:#e8ecf3;--dim:#8a95a8;--line:#1a2230;--cy:#2be8ff;--vi:#7c5cff;--gr:#2ec27e;--rd:#f0553a;--gold:#ffd76a}
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 -apple-system,system-ui,Segoe UI,Roboto,sans-serif;min-height:100vh;overflow-x:hidden}
+  body{background:radial-gradient(1000px 600px at 50% -10%,rgba(124,92,255,.16),transparent 60%),radial-gradient(800px 500px at 50% 110%,rgba(43,232,255,.10),transparent 60%),var(--bg)}
+  #stars{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.8}
+  .wrap{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:18px 16px 120px}
+  header.top{display:flex;align-items:center;gap:12px;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:11px;font-weight:900;letter-spacing:.02em}
+  .core{width:34px;height:34px;border-radius:50%;flex:0 0 auto;background:radial-gradient(circle at 35% 30%,#dffcff 0%,#2be8ff 22%,#7c5cff 60%,#0b0e14 82%);box-shadow:0 0 22px rgba(43,232,255,.55),0 0 44px rgba(124,92,255,.35);animation:pulse 3.6s ease-in-out infinite}
+  @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+  .brand b{font-size:19px}
+  .brand span{color:var(--dim);font-weight:800;font-size:11px;letter-spacing:.14em;text-transform:uppercase;display:block;margin-top:-2px}
+  .back{color:var(--dim);text-decoration:none;font-weight:800;font-size:13px;background:#0f141d;border:1px solid #243040;border-radius:999px;padding:8px 13px;white-space:nowrap}
+  .tag{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gr);background:rgba(46,194,126,.1);border:1px solid rgba(46,194,126,.3);border-radius:999px;padding:5px 10px}
+  .hero{text-align:center;padding:14px 6px 8px}
+  .hero h1{font-size:clamp(26px,7vw,44px);margin:.2em 0 .1em;line-height:1.08;background:linear-gradient(135deg,#fff,#9fe9ff 55%,#c9b7ff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .hero p{color:var(--dim);max-width:640px;margin:6px auto;font-size:15.5px}
+  .lock{max-width:440px;margin:22px auto;background:linear-gradient(180deg,rgba(20,27,40,.92),rgba(11,14,20,.96));border:1px solid var(--line);border-radius:20px;padding:26px 22px;box-shadow:0 0 0 1px rgba(43,232,255,.06),0 30px 80px rgba(0,0,0,.5);text-align:center}
+  .lock .bigcore{width:76px;height:76px;margin:2px auto 12px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#dffcff 0%,#2be8ff 24%,#7c5cff 62%,#0b0e14 84%);box-shadow:0 0 34px rgba(43,232,255,.5),0 0 66px rgba(124,92,255,.4)}
+  .lock h2{margin:.1em 0 .3em;font-size:20px}
+  .lock p{color:var(--dim);font-size:13.5px;margin:.2em 0 1em}
+  input,textarea,select{width:100%;background:#0b1119;border:1.5px solid #2f4a5a;color:var(--ink);border-radius:12px;padding:13px 14px;font-size:15px;font-family:inherit;outline:none}
+  input:focus,textarea:focus,select:focus{border-color:var(--cy)}
+  .btn{background:linear-gradient(135deg,var(--cy),var(--vi));color:#03121a;border:0;border-radius:12px;padding:13px 16px;font-weight:900;font-size:15px;cursor:pointer;box-shadow:0 8px 24px rgba(43,232,255,.2);width:100%}
+  .btn:active{transform:translateY(1px)}
+  .btn.ghost{background:#0f141d;border:1px solid #243040;color:var(--ink);box-shadow:none}
+  .btn.sm{width:auto;padding:9px 13px;font-size:13px;border-radius:999px}
+  .warn{color:var(--gold);font-size:12px;background:rgba(255,215,106,.08);border:1px solid rgba(255,215,106,.28);border-radius:10px;padding:9px 11px;margin-top:10px;text-align:left}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;margin-top:14px}
+  .card{background:linear-gradient(180deg,rgba(20,27,40,.9),rgba(11,14,20,.95));border:1px solid var(--line);border-radius:16px;padding:14px;position:relative;overflow:hidden;cursor:pointer;transition:.15s}
+  .card:hover{border-color:#2f4a5a;transform:translateY(-2px);box-shadow:0 14px 40px rgba(0,0,0,.4)}
+  .card .ic{font-size:22px}
+  .card h3{margin:8px 0 2px;font-size:15.5px;word-break:break-word}
+  .card .meta{color:var(--dim);font-size:12px;word-break:break-word}
+  .card .cat{position:absolute;top:10px;right:10px;font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--cy);background:rgba(43,232,255,.1);border:1px solid rgba(43,232,255,.25);border-radius:999px;padding:3px 8px}
+  .toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0 4px}
+  .toolbar .search{flex:1 1 200px;min-width:0}
+  .pill{background:#0f141d;border:1px solid #243040;color:var(--dim);border-radius:999px;padding:8px 13px;font-size:12.5px;font-weight:800;cursor:pointer;user-select:none;white-space:nowrap}
+  .pill.on{color:#03121a;background:linear-gradient(135deg,var(--cy),var(--vi));border-color:transparent}
+  .status{font-size:12px;color:var(--dim);display:flex;align-items:center;gap:6px}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--dim)}
+  .dot.ok{background:var(--gr);box-shadow:0 0 8px var(--gr)}
+  .dot.local{background:var(--gold)}
+  .empty{text-align:center;color:var(--dim);padding:40px 10px}
+  /* modal */
+  .ov{position:fixed;inset:0;z-index:40;background:rgba(3,5,10,.7);backdrop-filter:blur(4px);display:none;align-items:flex-end;justify-content:center;padding:0}
+  .ov.show{display:flex}
+  .sheet{width:100%;max-width:560px;background:linear-gradient(180deg,#0f1622,#0a0d13);border:1px solid var(--line);border-radius:20px 20px 0 0;padding:18px 16px 26px;max-height:92vh;overflow:auto;box-shadow:0 -20px 60px rgba(0,0,0,.6)}
+  @media(min-width:640px){.ov{align-items:center}.sheet{border-radius:20px}}
+  .sheet h2{margin:.1em 0 .6em;font-size:18px}
+  .field{margin:9px 0}
+  .field label{display:block;font-size:12px;color:var(--dim);font-weight:800;letter-spacing:.04em;margin-bottom:5px;text-transform:uppercase}
+  .rowb{display:flex;gap:8px}.rowb .btn{flex:1}
+  .aiout{background:#0a0d13;border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:10px;font-size:14px;white-space:pre-wrap;color:#cfe8ff;display:none}
+  .aiout.show{display:block}
+  .health{display:flex;gap:10px;align-items:center;margin:10px 0}
+  .ring{--v:0;width:64px;height:64px;border-radius:50%;flex:0 0 auto;background:conic-gradient(var(--gr) calc(var(--v)*1%),#1a2230 0);display:grid;place-items:center;font-weight:900}
+  .ring i{width:50px;height:50px;border-radius:50%;background:#0a0d13;display:grid;place-items:center;font-style:normal;font-size:15px}
+  .fab{position:fixed;right:16px;bottom:18px;z-index:30;background:linear-gradient(135deg,var(--cy),var(--vi));color:#03121a;border:0;border-radius:999px;padding:15px 20px;font-weight:900;font-size:15px;box-shadow:0 12px 34px rgba(43,232,255,.32);cursor:pointer}
+  .dock{position:fixed;left:0;right:0;bottom:0;z-index:20;background:linear-gradient(180deg,transparent,rgba(7,9,15,.92));padding:10px 12px calc(10px + env(safe-area-inset-bottom));display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+  .foot{color:var(--dim);font-size:12px;text-align:center;margin-top:22px;line-height:1.6}
+  .foot a{color:var(--cy)}
+  .hide{display:none!important}
+</style>
+</head>
+<body>
+<canvas id="stars"></canvas>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="/" style="text-decoration:none;color:inherit">
+      <span class="core"></span>
+      <span><b>Orbits</b><span>Encrypted cloud SSD</span></span>
+    </a>
+    <div style="display:flex;gap:8px;align-items:center">
+      <span class="tag" id="synctag"><span class="status"><span class="dot" id="sdot"></span><span id="stxt">local</span></span></span>
+      <a class="back" href="/office/">&larr; Office</a>
+    </div>
+  </header>
+
+  <!-- LOCK SCREEN -->
+  <section id="lockView">
+    <div class="hero">
+      <h1>The brain of your business.</h1>
+      <p>Unlimited, encrypted storage in the cloud &mdash; the smart SSD only <b>you</b> can open. Your key is made on your device and never leaves it, so no one (not even us) can read your Orbits. With AI built in.</p>
+    </div>
+    <div class="lock">
+      <div class="bigcore"></div>
+      <h2 id="lockTitle">Open your Orbit</h2>
+      <p id="lockSub">Enter your master key to decrypt your vault.</p>
+      <div class="field"><input id="pass" type="password" placeholder="Master key" autocomplete="off" autocapitalize="off" spellcheck="false"></div>
+      <div class="field hide" id="pass2wrap"><input id="pass2" type="password" placeholder="Confirm master key" autocomplete="off"></div>
+      <button class="btn" id="unlockBtn">Unlock</button>
+      <div class="warn" id="firstWarn" style="display:none">&#128273; This master key encrypts everything. We can&rsquo;t see it or reset it &mdash; if you lose it, your Orbits can&rsquo;t be recovered. Write it somewhere safe.</div>
+      <p style="margin-top:12px"><a href="#" id="toggleNew" style="color:var(--cy);font-size:13px;text-decoration:none">First time? Create your Orbit &rarr;</a></p>
+    </div>
+    <p class="foot">Zero-knowledge, end-to-end encrypted on your device (AES-256-GCM). Stored on Luxucleen&rsquo;s cloud SSD. Better than a password manager &mdash; your Orbits also power your AI. &middot; <a href="/office/">Office</a></p>
+  </section>
+
+  <!-- VAULT -->
+  <section id="vaultView" class="hide">
+    <div class="toolbar">
+      <input class="search" id="q" placeholder="Search your Orbits&hellip;" autocomplete="off">
+      <span class="pill" data-f="all">All</span>
+      <span class="pill" data-f="login">Logins</span>
+      <span class="pill" data-f="note">Notes</span>
+      <span class="pill" data-f="card">Cards</span>
+      <span class="pill" data-f="business">Business</span>
+      <span class="pill" data-f="key">Keys</span>
+    </div>
+    <div id="grid" class="grid"></div>
+    <div id="empty" class="empty">Your Orbit is empty. Tap <b>+ New</b> to store your first thing.</div>
+    <p class="foot">Encrypted on this device &middot; synced to your cloud SSD &middot; only your master key opens it.</p>
+  </section>
+</div>
+
+<button class="fab hide" id="addFab">+ New</button>
+<div class="dock hide" id="dock">
+  <span class="pill" id="tGen">&#127922; Password</span>
+  <span class="pill" id="tHealth">&#128737;&#65039; Health</span>
+  <span class="pill" id="tAsk">&#10024; Ask AI</span>
+  <span class="pill" id="tLock">&#128274; Lock</span>
+</div>
+
+<!-- item editor -->
+<div class="ov" id="editOv"><div class="sheet">
+  <h2 id="editTitle">New Orbit</h2>
+  <div class="field"><label>Type</label>
+    <select id="fType">
+      <option value="login">Login</option><option value="note">Secure note</option>
+      <option value="card">Card</option><option value="business">Business data</option>
+      <option value="key">API key / secret</option>
+    </select></div>
+  <div class="field"><label>Title</label><input id="fTitle" placeholder="e.g. Chase login, LLC EIN, Stripe key"></div>
+  <div class="field" id="fUserWrap"><label>Username / email</label><input id="fUser" autocomplete="off"></div>
+  <div class="field" id="fSecretWrap"><label>Password / secret</label>
+    <div class="rowb"><input id="fSecret" autocomplete="off"><button class="btn ghost sm" id="genInline">&#127922;</button></div></div>
+  <div class="field"><label>Notes</label><textarea id="fNotes" rows="3"></textarea></div>
+  <div class="field"><label>Tag (optional)</label><input id="fTag" placeholder="real-estate, trading, taxes&hellip;"></div>
+  <div class="rowb" style="margin-top:8px">
+    <button class="btn ghost" id="delBtn" style="display:none">Delete</button>
+    <button class="btn" id="saveBtn">Save to Orbit</button>
+  </div>
+  <button class="btn ghost sm" id="closeEdit" style="margin:12px auto 0;display:block">Close</button>
+</div></div>
+
+<!-- ai tool sheet -->
+<div class="ov" id="aiOv"><div class="sheet">
+  <h2 id="aiTitle">&#10024; Orbit AI</h2>
+  <div id="aiBody"></div>
+  <div class="aiout" id="aiOut"></div>
+  <button class="btn ghost sm" id="closeAi" style="margin:14px auto 0;display:block">Close</button>
+</div></div>
+
+<script>
+"use strict";
+const API="https://ai.luxucleen.com/ask";
+const $=s=>document.querySelector(s), enc=new TextEncoder(), dec=new TextDecoder();
+const LS_ID="lux_mem", LS_VAULT="orbit_vault_v1", LS_SHA="orbit_sha_v1";
+
+/* stable per-user id (shared with the Luxu orb if present) */
+function myId(){ let id=localStorage.getItem(LS_ID); if(!id){ id="o_"+(crypto.randomUUID?crypto.randomUUID():Date.now()+"_"+Math.random().toString(36).slice(2)); try{localStorage.setItem(LS_ID,id)}catch(e){} } return id; }
+
+/* ---------- zero-knowledge crypto: key from master passphrase, never leaves device ---------- */
+function b64e(buf){ let s="",b=new Uint8Array(buf); for(let i=0;i<b.length;i++)s+=String.fromCharCode(b[i]); return btoa(s); }
+function b64d(str){ const s=atob(str),b=new Uint8Array(s.length); for(let i=0;i<s.length;i++)b[i]=s.charCodeAt(i); return b; }
+async function deriveKey(pass,salt){
+  const base=await crypto.subtle.importKey("raw",enc.encode(pass),"PBKDF2",false,["deriveKey"]);
+  return crypto.subtle.deriveKey({name:"PBKDF2",salt,iterations:250000,hash:"SHA-256"},base,{name:"AES-GCM",length:256},false,["encrypt","decrypt"]);
+}
+async function encryptVault(obj,pass){
+  const salt=crypto.getRandomValues(new Uint8Array(16)), iv=crypto.getRandomValues(new Uint8Array(12));
+  const key=await deriveKey(pass,salt);
+  const ct=await crypto.subtle.encrypt({name:"AES-GCM",iv},key,enc.encode(JSON.stringify(obj)));
+  const env=new Uint8Array(16+12+ct.byteLength); env.set(salt,0); env.set(iv,16); env.set(new Uint8Array(ct),28);
+  return b64e(env);                                   // opaque blob: salt|iv|ciphertext
+}
+async function decryptVault(blob,pass){
+  const env=b64d(blob), salt=env.slice(0,16), iv=env.slice(16,28), ct=env.slice(28);
+  const key=await deriveKey(pass,salt);
+  const pt=await crypto.subtle.decrypt({name:"AES-GCM",iv},key,ct);        // throws if wrong key / tampered
+  return JSON.parse(dec.decode(pt));
+}
+
+/* ---------- state ---------- */
+let PASS=null, VAULT={v:1,check:"orbit-ok",items:[]}, SHA=null, FILTER="all", EDIT_ID=null, ONLINE=false;
+
+/* ---------- cloud SSD (worker orbit mode); offline-first, best-effort ---------- */
+async function cloudLoad(){
+  try{ const r=await fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"orbit",op:"load",mem:myId()})});
+    const j=await r.json(); if(j&&j.ok&&!j.offline){ ONLINE=true; return {blob:j.blob||"",sha:j.sha||null}; } if(j&&j.offline)ONLINE=false; }catch(e){ONLINE=false;}
+  return null;
+}
+async function cloudSave(blob){
+  try{ const r=await fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"orbit",op:"save",mem:myId(),blob,sha:SHA})});
+    const j=await r.json();
+    if(j&&j.conflict){ const rem=await cloudLoad(); if(rem&&rem.blob){ try{ const other=await decryptVault(rem.blob,PASS); mergeInto(other); SHA=rem.sha; return await persist(true);}catch(e){} } return false; }
+    if(j&&j.ok){ ONLINE=true; SHA=j.sha||SHA; try{localStorage.setItem(LS_SHA,SHA||"")}catch(e){} return true; }
+  }catch(e){ONLINE=false;}
+  return false;
+}
+function mergeInto(other){                              // last-write-wins by updated ts (conflict resolution across devices)
+  const byId={}; (VAULT.items||[]).forEach(it=>byId[it.id]=it);
+  (other.items||[]).forEach(it=>{ const cur=byId[it.id]; if(!cur||(it.updated||0)>(cur.updated||0)) byId[it.id]=it; });
+  VAULT.items=Object.values(byId).sort((a,b)=>(b.updated||0)-(a.updated||0));
+}
+async function persist(skipCloud){
+  try{localStorage.setItem(LS_VAULT,await encryptVault(VAULT,PASS));}catch(e){}   // local first = instant + offline
+  setSync(); if(skipCloud) return true;
+  const blob=await encryptVault(VAULT,PASS); const ok=await cloudSave(blob); setSync(); return ok;
+}
+function setSync(){ const dot=$("#sdot"),t=$("#stxt");
+  if(ONLINE){dot.className="dot ok";t.textContent="synced";} else {dot.className="dot local";t.textContent="on this device";} }
+
+/* ---------- unlock flow ---------- */
+let NEWMODE=false;
+$("#toggleNew").onclick=e=>{e.preventDefault();NEWMODE=!NEWMODE;
+  $("#pass2wrap").classList.toggle("hide",!NEWMODE); $("#firstWarn").style.display=NEWMODE?"block":"none";
+  $("#lockTitle").textContent=NEWMODE?"Create your Orbit":"Open your Orbit";
+  $("#lockSub").textContent=NEWMODE?"Pick a master key. This is the ONLY key to your data.":"Enter your master key to decrypt your vault.";
+  $("#toggleNew").textContent=NEWMODE?"Have an Orbit already? Unlock →":"First time? Create your Orbit →";
+};
+$("#unlockBtn").onclick=async()=>{
+  const p=$("#pass").value; if(!p||p.length<6){alert("Master key must be at least 6 characters.");return;}
+  if(NEWMODE && p!==$("#pass2").value){alert("The two keys don't match.");return;}
+  $("#unlockBtn").textContent="Opening…"; $("#unlockBtn").disabled=true;
+  PASS=p;
+  const rem=await cloudLoad();
+  const localBlob=(()=>{try{return localStorage.getItem(LS_VAULT)}catch(e){return null}})();
+  const blob=(rem&&rem.blob)||localBlob; if(rem)SHA=rem.sha;
+  if(blob){
+    try{ VAULT=await decryptVault(blob,PASS); if(rem&&localBlob&&rem.blob!==localBlob){ try{mergeInto(await decryptVault(localBlob,PASS));}catch(e){} } }
+    catch(e){ $("#unlockBtn").textContent="Unlock";$("#unlockBtn").disabled=false; alert("Wrong master key for this Orbit."); return; }
+  } else if(!NEWMODE){
+    // nothing stored yet + they didn't choose "create" -> treat as new anyway
+    VAULT={v:1,check:"orbit-ok",items:[]};
+  } else { VAULT={v:1,check:"orbit-ok",items:[]}; }
+  await persist(false);
+  openVault();
+};
+function openVault(){ $("#lockView").classList.add("hide"); $("#vaultView").classList.remove("hide");
+  $("#addFab").classList.remove("hide"); $("#dock").classList.remove("hide"); setSync(); render(); }
+
+/* ---------- render ---------- */
+const ICON={login:"🔑",note:"📝",card:"💳",business:"🏢",key:"🔐"};
+function render(){
+  const g=$("#grid"), qv=$("#q").value.trim().toLowerCase();
+  let items=(VAULT.items||[]).slice();
+  if(FILTER!=="all") items=items.filter(i=>i.type===FILTER);
+  if(qv) items=items.filter(i=>((i.title||"")+" "+(i.user||"")+" "+(i.notes||"")+" "+(i.tag||"")).toLowerCase().includes(qv));
+  $("#empty").style.display=items.length?"none":"block";
+  g.innerHTML=items.map(i=>`<div class="card" data-id="${i.id}">
+    <span class="cat">${i.type}</span><div class="ic">${ICON[i.type]||"🟣"}</div>
+    <h3>${esc(i.title||"Untitled")}</h3>
+    <div class="meta">${esc(i.user||"")}${i.tag?` &middot; #${esc(i.tag)}`:""}</div></div>`).join("");
+  g.querySelectorAll(".card").forEach(c=>c.onclick=()=>openEdit(c.dataset.id));
+}
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));}
+
+/* ---------- filters / search ---------- */
+document.querySelectorAll(".pill[data-f]").forEach(p=>p.onclick=()=>{
+  document.querySelectorAll(".pill[data-f]").forEach(x=>x.classList.remove("on")); p.classList.add("on"); FILTER=p.dataset.f; render();});
+document.querySelector('.pill[data-f="all"]').classList.add("on");
+$("#q").oninput=render;
+
+/* ---------- editor ---------- */
+function openEdit(id){ EDIT_ID=id||null; const it=id?(VAULT.items.find(x=>x.id===id)||{}):{};
+  $("#editTitle").textContent=id?"Edit Orbit":"New Orbit";
+  $("#fType").value=it.type||"login"; $("#fTitle").value=it.title||""; $("#fUser").value=it.user||"";
+  $("#fSecret").value=it.secret||""; $("#fNotes").value=it.notes||""; $("#fTag").value=it.tag||"";
+  $("#delBtn").style.display=id?"block":"none"; typeToggle(); $("#editOv").classList.add("show"); }
+function typeToggle(){ const t=$("#fType").value; $("#fUserWrap").style.display=(t==="login")?"block":"none";
+  $("#fSecretWrap").style.display=(t==="note")?"none":"block"; }
+$("#fType").onchange=typeToggle;
+$("#addFab").onclick=()=>openEdit(null);
+$("#closeEdit").onclick=()=>$("#editOv").classList.remove("show");
+$("#genInline").onclick=()=>{$("#fSecret").value=genPass(20);};
+$("#saveBtn").onclick=async()=>{
+  const now=Date.now();
+  const item={id:EDIT_ID||("i_"+now+"_"+Math.random().toString(36).slice(2,7)),type:$("#fType").value,
+    title:$("#fTitle").value.trim(),user:$("#fUser").value.trim(),secret:$("#fSecret").value,
+    notes:$("#fNotes").value.trim(),tag:$("#fTag").value.trim().replace(/^#/,""),updated:now,created:EDIT_ID?undefined:now};
+  if(!item.title){alert("Give it a title.");return;}
+  if(EDIT_ID){ const i=VAULT.items.findIndex(x=>x.id===EDIT_ID); item.created=VAULT.items[i].created||now; VAULT.items[i]=item; }
+  else VAULT.items.unshift(item);
+  $("#saveBtn").textContent="Saving…";$("#saveBtn").disabled=true;
+  await persist(false); $("#saveBtn").textContent="Save to Orbit";$("#saveBtn").disabled=false;
+  $("#editOv").classList.remove("show"); render();
+};
+$("#delBtn").onclick=async()=>{ if(!EDIT_ID||!confirm("Delete this from your Orbit?"))return;
+  VAULT.items=VAULT.items.filter(x=>x.id!==EDIT_ID); await persist(false); $("#editOv").classList.remove("show"); render(); };
+
+/* ---------- AI functions (client-side = private; nothing leaves your device unless YOU ask) ---------- */
+function genPass(n){ n=n||20; const A="ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%^&*-_=+"; let o="",r=crypto.getRandomValues(new Uint32Array(n)); for(let i=0;i<n;i++)o+=A[r[i]%A.length]; return o; }
+$("#tLock").onclick=()=>location.reload();
+$("#tGen").onclick=()=>{ aiOpen("🎲 Strong password",
+  `<div class="field"><label>Length</label><input id="pgn" type="number" value="20" min="8" max="64"></div>
+   <button class="btn" id="pgo">Generate</button>`);
+  $("#pgo").onclick=()=>{ const v=genPass(Math.max(8,Math.min(64,+$("#pgn").value||20)));
+    aiShow(v+"\n\nTap to copy — then paste it into a new Login."); $("#aiOut").onclick=()=>navByCopy(v); }; };
+$("#tHealth").onclick=()=>{ aiOpen("🛡️ Vault health","");
+  const items=(VAULT.items||[]).filter(i=>i.secret); const seen={}, weak=[], reused=[];
+  items.forEach(i=>{ const p=i.secret; if(p.length<10||/^[a-z]+$/i.test(p)||/^\d+$/.test(p)) weak.push(i.title);
+    seen[p]=(seen[p]||[]).concat(i.title); });
+  Object.values(seen).forEach(list=>{ if(list.length>1) reused.push(list.join(", ")); });
+  const total=items.length||1, bad=new Set([...weak,...reused.flat()]).size;
+  const score=Math.max(0,Math.round(100-(weak.length*18+reused.length*22)/total*100*0.6));
+  const ring=`<div class="health"><div class="ring" style="--v:${score}"><i>${score}</i></div>
+    <div style="font-size:13px;color:var(--dim)">${score>=85?"Strong. Your Orbit is in great shape.":score>=60?"Decent — a few to fix.":"Needs attention."}</div></div>`;
+  let msg="";
+  if(weak.length)msg+="⚠️ Weak secrets: "+weak.join(", ")+"\n\n";
+  if(reused.length)msg+="♻️ Reused across: "+reused.join("  |  ")+"\n\n";
+  if(!weak.length&&!reused.length)msg="✅ No weak or reused secrets found. Nice.";
+  $("#aiBody").innerHTML=ring; aiShow(msg); };
+$("#tAsk").onclick=()=>{ aiOpen("✨ Ask AI about your Orbit",
+  `<div class="field"><label>Your question</label><textarea id="aq" rows="2" placeholder="e.g. which of my logins should I change first?"></textarea></div>
+   <div class="warn">Only a short, non-secret summary of your item TITLES/notes is sent to answer — never your passwords or card numbers.</div>
+   <button class="btn" id="ago" style="margin-top:8px">Ask</button>`);
+  $("#ago").onclick=async()=>{ const q=$("#aq").value.trim(); if(!q)return;
+    const summary=(VAULT.items||[]).slice(0,40).map(i=>`- ${i.type}: ${i.title}${i.tag?" #"+i.tag:""}`).join("\n");
+    $("#ago").textContent="Thinking…";$("#ago").disabled=true; aiShow("…");
+    try{ const r=await fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({mode:"chat",q:`I keep a private encrypted vault. Here is a list of my item titles only (no secrets):\n${summary}\n\nQuestion: ${q}\nGive a short, practical answer.`})});
+      const j=await r.json(); aiShow((j&&(j.answer||j.reply))||"Couldn't reach the AI just now."); }
+    catch(e){ aiShow("Offline — try again when connected."); }
+    $("#ago").textContent="Ask";$("#ago").disabled=false; }; };
+function aiOpen(t,html){ $("#aiTitle").innerHTML=t; $("#aiBody").innerHTML=html; $("#aiOut").className="aiout"; $("#aiOut").textContent=""; $("#aiOv").classList.add("show"); }
+function aiShow(t){ const o=$("#aiOut"); o.textContent=t; o.className="aiout show"; }
+function navByCopy(v){ try{navigator.clipboard.writeText(v);}catch(e){} const o=$("#aiOut"); const old=o.textContent; o.textContent="Copied ✔\n\n"+old; }
+$("#closeAi").onclick=()=>$("#aiOv").classList.remove("show");
+document.querySelectorAll(".ov").forEach(o=>o.onclick=e=>{if(e.target===o)o.classList.remove("show");});
+
+/* ---------- starfield ---------- */
+(function(){ const c=$("#stars"),x=c.getContext("2d");let w,h,st;
+  function rz(){w=c.width=innerWidth;h=c.height=innerHeight;st=Array.from({length:Math.min(120,(w*h)/12000)},()=>({x:Math.random()*w,y:Math.random()*h,z:Math.random()*.8+.2,s:Math.random()*1.4+.3}));}
+  function draw(){x.clearRect(0,0,w,h);for(const p of st){p.y+=p.z*.12;if(p.y>h)p.y=0;x.globalAlpha=p.z;x.fillStyle=p.s>1.3?"#7c5cff":"#2be8ff";x.beginPath();x.arc(p.x,p.y,p.s,0,7);x.fill();}x.globalAlpha=1;requestAnimationFrame(draw);}
+  addEventListener("resize",rz);rz();draw();
+})();
+
+/* first-time hint */
+(function(){ const has=(()=>{try{return!!localStorage.getItem(LS_VAULT)}catch(e){return false}})();
+  if(!has){ NEWMODE=true; $("#pass2wrap").classList.remove("hide"); $("#firstWarn").style.display="block";
+    $("#lockTitle").textContent="Create your Orbit"; $("#lockSub").textContent="Pick a master key. This is the ONLY key to your data.";
+    $("#toggleNew").textContent="Have an Orbit already? Unlock →"; } })();
+$("#pass").addEventListener("keydown",e=>{if(e.key==="Enter")$("#unlockBtn").click();});
+$("#pass2").addEventListener("keydown",e=>{if(e.key==="Enter")$("#unlockBtn").click();});
+</script>
+</body>
+</html>
