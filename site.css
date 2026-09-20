@@ -21,17 +21,25 @@
 html{scroll-behavior:smooth;background:var(--bg)}
 body{margin:0;background:transparent;color:var(--ink);
      font:16px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
-/* floating light orbs - a fixed layer behind everything (hidden on the light theme) */
-body::before{content:"";position:fixed;inset:-12%;z-index:-1;pointer-events:none;
+/* floating colored light-orbs + a slow glare sweep - two fixed layers drifting behind everything.
+   Richer and more alive than the first pass (Christian: "light orbs colored, moves around, glare, very
+   cool"). Kept subtle on the light theme so text stays readable. GPU transforms only, so it is cheap. */
+body::before{content:"";position:fixed;inset:-15%;z-index:-2;pointer-events:none;
   background:
-    radial-gradient(38vmax 38vmax at 18% 22%, rgba(43,232,255,.16), transparent 60%),
-    radial-gradient(32vmax 32vmax at 82% 28%, rgba(124,92,255,.15), transparent 60%),
-    radial-gradient(36vmax 36vmax at 72% 82%, rgba(55,214,122,.13), transparent 62%),
-    radial-gradient(26vmax 26vmax at 26% 86%, rgba(240,169,74,.12), transparent 62%);
-  filter:blur(10px);animation:luxorbs 36s ease-in-out infinite alternate}
-@keyframes luxorbs{0%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(2.5%,-2%,0) scale(1.07)}100%{transform:translate3d(-2%,2.5%,0) scale(1.04)}}
-:root[data-theme="light"] body::before{opacity:0}
-@media (prefers-reduced-motion:reduce){body::before{animation:none}}
+    radial-gradient(30vmax 30vmax at 15% 18%, rgba(43,232,255,.22), transparent 60%),
+    radial-gradient(26vmax 26vmax at 85% 20%, rgba(124,92,255,.22), transparent 60%),
+    radial-gradient(30vmax 30vmax at 80% 80%, rgba(55,214,122,.18), transparent 62%),
+    radial-gradient(22vmax 22vmax at 20% 84%, rgba(240,169,74,.17), transparent 62%),
+    radial-gradient(18vmax 18vmax at 50% 46%, rgba(255,92,180,.13), transparent 66%);
+  filter:blur(14px) saturate(1.2);animation:luxorbs 30s ease-in-out infinite alternate}
+body::after{content:"";position:fixed;inset:-35%;z-index:-1;pointer-events:none;opacity:.55;
+  background:conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(43,232,255,.12) 55deg, transparent 125deg, rgba(124,92,255,.12) 195deg, transparent 265deg, rgba(55,214,122,.10) 320deg, transparent 360deg);
+  mix-blend-mode:screen;filter:blur(34px);animation:luxglare 55s linear infinite}
+@keyframes luxorbs{0%{transform:translate3d(0,0,0) scale(1)}33%{transform:translate3d(3%,-2.5%,0) scale(1.08)}66%{transform:translate3d(-2.5%,2%,0) scale(1.05)}100%{transform:translate3d(1.5%,3%,0) scale(1.07)}}
+@keyframes luxglare{to{transform:rotate(360deg)}}
+:root[data-theme="light"] body::before{opacity:.34;filter:blur(16px) saturate(1)}
+:root[data-theme="light"] body::after{opacity:.24}
+@media (prefers-reduced-motion:reduce){body::before,body::after{animation:none}}
 /* the header theme toggle */
 .themebtn{margin-left:8px;background:transparent;border:1px solid var(--line);color:var(--dim);
      border-radius:999px;width:34px;height:34px;cursor:pointer;font-size:15px;line-height:1;padding:0}

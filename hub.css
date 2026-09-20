@@ -21,6 +21,17 @@ body.hub{margin:0;color:var(--ink);background:#16181d;
   -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 body.hub::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
   background:radial-gradient(1200px 800px at 50% 0,transparent 60%,rgba(0,0,0,.55) 100%)}
+/* animated colored light-orbs + glare over the home hero (matches site.css; Christian: "very cool, glare") */
+body.hub::after{content:"";position:fixed;inset:-20%;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(26vmax 26vmax at 16% 22%, rgba(43,232,255,.16), transparent 60%),
+    radial-gradient(24vmax 24vmax at 84% 26%, rgba(124,92,255,.16), transparent 60%),
+    radial-gradient(26vmax 26vmax at 78% 82%, rgba(46,194,126,.15), transparent 62%),
+    radial-gradient(20vmax 20vmax at 24% 84%, rgba(242,193,78,.13), transparent 62%),
+    conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(56,140,255,.07) 90deg, transparent 180deg, rgba(46,194,126,.06) 270deg, transparent 360deg);
+  mix-blend-mode:screen;filter:blur(22px) saturate(1.18);animation:luxhorbs 34s ease-in-out infinite alternate}
+@keyframes luxhorbs{0%{transform:translate3d(0,0,0) scale(1) rotate(0deg)}50%{transform:translate3d(3%,-2%,0) scale(1.08) rotate(6deg)}100%{transform:translate3d(-2%,3%,0) scale(1.05) rotate(-4deg)}}
+@media (prefers-reduced-motion:reduce){body.hub::after{animation:none}}
 body.hub .fine a{color:var(--green)}   /* only the fine-print links carry the blanket colour */
 .hwrap{max-width:660px;margin:0 auto;padding:0 20px}
 
