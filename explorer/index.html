@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script>/*lux-lang-router*/(function(){try{if(localStorage.getItem("lux_theme")==="light"){document.documentElement.setAttribute("data-theme","light");}}catch(e){}try{var E={"/":1,"/ask/":1,"/stack/":1,"/real-estate/":1,"/trading/":1,"/contact/":1,"/community/":1,"/landscaping/":1,"/launchpad/":1,"/jewelry/":1,"/taxes/":1,"/security/":1,"/store/":1,"/free-education/":1,"/office/":1,"/settings/":1,"/start/":1,"/tv28live/":1,"/agreements/":1,"/guides/":1};var p=location.pathname.replace(/index\.html$/,"");if(p.charAt(p.length-1)!=="/"&&p.indexOf(".")<0)p+="/";if(p==="")p="/";var onES=p.indexOf("/es/")===0||p==="/es"||p==="/es/";var s=null;try{s=localStorage.getItem("lux_lang");}catch(e){}if(s==="en"&&onES){location.replace(p.replace(/^\/es/,"")||"/");}else if(s==="es"&&!onES){if(E[p])location.replace("/es"+(p==="/"?"/":p));}else if(!s&&!onES){var l=(navigator.language||(navigator.languages&&navigator.languages[0])||"en").toLowerCase();if(l.indexOf("es")===0&&E[p])location.replace("/es"+(p==="/"?"/":p));}}catch(e){}try{document.addEventListener("DOMContentLoaded",function(){var a=document.querySelectorAll("a[hreflang],a.lang");for(var i=0;i<a.length;i++){a[i].addEventListener("click",function(){try{var h=this.getAttribute("href")||"";localStorage.setItem("lux_lang",(h.indexOf("/es/")===0||h==="/es"||h==="/es/")?"es":"en");}catch(e){}});}});}catch(e){}})();</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Explorer &mdash; turn any GitHub repo into a diagram + AI context | Luxucleen</title>
+<meta name="twitter:card" content="summary_large_image">
+<meta name="description" content="Paste a GitHub URL and instantly get a visual map of the whole repo, an AI-ready digest of the code you can copy in one click, and an in-browser file browser. Free, no install, no sign-up. Runs entirely in your browser.">
+<meta name="robots" content="index,follow">
+<link rel="stylesheet" href="/site.css">
+<link rel="canonical" href="https://luxucleen.com/explorer/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://luxucleen.com/explorer/">
+<meta property="og:title" content="Explorer - any GitHub repo as a diagram + AI context, free">
+<meta property="og:description" content="Paste a GitHub URL: get a visual map, a one-click AI-ready digest, and an in-browser file browser. No install, no sign-up.">
+<meta property="og:image" content="https://luxucleen.com/og/explorer.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://luxucleen.com/og/explorer.png">
+<meta property="og:site_name" content="Luxucleen LLC">
+<meta property="og:locale" content="en_US">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+{"@type":"ListItem","position":1,"name":"Luxucleen LLC","item":"https://luxucleen.com/"},
+{"@type":"ListItem","position":2,"name":"Explorer","item":"https://luxucleen.com/explorer/"}]}
+</script>
+<style>
+  .exbox{border:1px solid var(--line);border-radius:16px;background:var(--soft);padding:18px;margin:16px 0}
+  .exin{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  #repo{flex:1;min-width:240px;box-sizing:border-box;background:var(--bg);border:1.5px solid var(--line);border-radius:12px;padding:14px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:14px;color:inherit}
+  #repo:focus{outline:none;border-color:var(--accent)}
+  .exin button{background:var(--accent);color:#fff;border:0;border-radius:11px;padding:14px 22px;font-size:16px;font-weight:800;font-family:inherit;cursor:pointer}
+  .exin button:hover{background:var(--accent2)}
+  .exin button[disabled]{opacity:.55;cursor:default}
+  .extrick{color:var(--dim);font-size:13px;margin:10px 2px 0}
+  .extrick code{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-size:12px}
+  .exstatus{color:var(--dim);font-size:14px;margin:10px 0 0;min-height:1px}
+  .exout{display:none;margin-top:8px}
+  .exout.show{display:block}
+  .exhead{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:baseline;border:1px solid var(--line);border-radius:12px;background:var(--bg);padding:12px 14px;margin:6px 0 12px}
+  .exhead b{font-size:17px}
+  .exhead .m{color:var(--dim);font-size:13px}
+  .extabs{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 10px}
+  .extabs button{background:var(--bg);border:1px solid var(--line);color:var(--dim);border-radius:10px;padding:9px 15px;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer}
+  .extabs button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .expanel{display:none}
+  .expanel.on{display:block}
+  .exrow{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:0 0 10px}
+  .exrow button{background:var(--bg);border:1px solid var(--line);color:inherit;border-radius:10px;padding:9px 15px;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer}
+  .exrow button.k{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .exrow label{color:var(--dim);font-size:13px;display:inline-flex;gap:6px;align-items:center}
+  pre.exo{white-space:pre;overflow:auto;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:14px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;line-height:1.5;max-height:62vh;color:inherit}
+  pre.exwrap{white-space:pre-wrap;word-break:break-word}
+  .extree{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;line-height:1.7;max-height:62vh;overflow:auto;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px}
+  .extree details{margin:0}
+  .extree summary{cursor:pointer;list-style:none;color:var(--warm);font-weight:700}
+  .extree summary::-webkit-details-marker{display:none}
+  .extree summary:before{content:"\25B8 ";color:var(--dim)}
+  .extree details[open]>summary:before{content:"\25BE ";color:var(--dim)}
+  .extree .fi{cursor:pointer;color:var(--ink);display:block;padding-left:16px}
+  .extree .fi:hover{color:var(--accent)}
+  .extree ul{list-style:none;margin:0;padding:0 0 0 16px}
+  .exsize{color:var(--dim);font-size:13px;margin:8px 2px 0}
+  .exgrid{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+  @media(min-width:820px){.exbrowse{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:12px}}
+  .back{color:var(--dim)!important}
+  .small{color:var(--dim);font-size:13px}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="/">Luxu<span>cleen</span> LLC</a>
+    <nav>
+      <a class="back" href="/">&larr; All sections</a>
+      <a href="/software/">Software</a>
+      <a class="lang" href="/es/" hreflang="es" lang="es">Espa&ntilde;ol</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <p class="crumb"><a href="/">Luxucleen LLC</a> &rsaquo; Explorer</p>
+
+  <section class="hero">
+    <h1>Turn any GitHub repo into a map &mdash; and AI-ready context.</h1>
+    <p class="lede">Paste a GitHub URL. Explorer draws the whole project as a <b>visual tree</b>, packs the code into an
+    <b>AI-ready digest you copy in one click</b>, and lets you <b>browse every file in your browser</b> &mdash; all three at once.
+    Free, no install, no sign-up. It runs entirely on your machine.</p>
+  </section>
+
+  <div class="exbox">
+    <div class="exin">
+      <input id="repo" type="text" placeholder="Paste a GitHub URL or owner/repo  -  e.g.  facebook/react" spellcheck="false" autocomplete="off">
+      <button type="button" id="go">Explore &rarr;</button>
+    </div>
+    <p class="extrick">Trick: bookmark <code>luxucleen.com/explorer/?repo=owner/name</code>, or in any repo URL change
+      <code>github.com</code> to <code>luxucleen.com/explorer/#github.com</code>. Private repos: add a
+      <a href="#" id="extok">read-only token</a> (kept only in your browser).</p>
+    <p class="exstatus" id="exstatus"></p>
+
+    <div class="exout" id="exout">
+      <div class="exhead" id="exhead"></div>
+      <div class="extabs">
+        <button type="button" data-tab="diagram" class="on">Diagram</button>
+        <button type="button" data-tab="digest">AI Digest</button>
+        <button type="button" data-tab="browse">Browse</button>
+      </div>
+
+      <div class="expanel on" id="p-diagram">
+        <div class="exrow">
+          <button type="button" id="copyMermaid">Copy Mermaid diagram</button>
+          <span class="small">A visual folder map. Copy the Mermaid to render a graph anywhere.</span>
+        </div>
+        <div class="extree" id="dTree"></div>
+        <pre class="exo exwrap" id="dMermaid" style="margin-top:12px"></pre>
+      </div>
+
+      <div class="expanel" id="p-digest">
+        <div class="exrow">
+          <button type="button" class="k" id="copyDigest">Copy for AI</button>
+          <button type="button" id="dlDigest">Download .txt</button>
+          <label><input type="checkbox" id="incFiles" checked> include file contents</label>
+        </div>
+        <p class="exsize" id="dSize"></p>
+        <pre class="exo" id="dDigest"></pre>
+      </div>
+
+      <div class="expanel" id="p-browse">
+        <div class="exbrowse">
+          <div class="extree" id="bTree"></div>
+          <pre class="exo" id="bFile">Click a file to view it here.</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h2>Why ours is better</h2>
+  <ol class="steps" style="counter-reset:s;list-style:none;padding:0;margin:14px 0">
+    <li><b>Three tools in one.</b> A visual map, an AI-ready digest, and a file browser &mdash; the popular URL tricks give you one each, on separate sites. Explorer does all three on one page.</li>
+    <li><b>One-click Copy for AI.</b> The whole repo, structured for an LLM, in your clipboard &mdash; drop it into any AI for instant, accurate answers about the codebase.</li>
+    <li><b>Nothing to sign up for, nothing tracked.</b> It runs in your browser and talks only to GitHub. No account, no install, no analytics. Works on your own private repos with a local token.</li>
+  </ol>
+
+  <ul>
+    <li class="small">Explorer reads public repositories through GitHub's own API and raw file host. For private repos, your token is stored only in this browser and sent only to GitHub.</li>
+    <li class="small">Building something and want it mapped, audited and shipped? <a href="/stack/">Start on the stack &rarr;</a> or email <a href="mailto:hello@luxucleen.com?subject=Explorer">hello@luxucleen.com</a>.</li>
+  </ul>
+</main>
+
+<footer class="wrap">
+  <div class="fmap">
+    <a href="/">All sections</a>
+    <a href="/explorer/">Explorer</a>
+    <a href="/software/">Software</a>
+    <a href="/security/">Security scanner</a>
+    <a href="/stack/">Stack</a>
+    <a href="/contact/">Contact</a>
+    <a href="/legal/">Legal</a>
+  </div>
+  &copy; 2026 Luxucleen LLC &middot; Midlothian, Virginia &middot; SCC Entity ID 11952713<br>
+  <span class="small">Explorer reads public GitHub data in your browser. Luxucleen LLC.</span>
+</footer>
+
+<script>
+/* Explorer - client-side GitHub repo explorer. Talks only to api.github.com + raw.githubusercontent.com. */
+(function(){
+  var $=function(id){return document.getElementById(id);};
+  var input=$("repo"), go=$("go"), status=$("exstatus"), out=$("exout"), head=$("exhead");
+  var state=null;
+
+  var SKIP_EXT=/\.(png|jpe?g|gif|webp|bmp|ico|svg|pdf|zip|gz|tar|rar|7z|mp4|webm|mov|mp3|wav|flac|ogg|woff2?|ttf|eot|otf|bin|exe|dll|so|dylib|class|jar|wasm|lock|min\.js|min\.css|map|ipynb|psd|ai|sketch)$/i;
+  var SKIP_DIR=/(^|\/)(node_modules|\.git|\.next|dist|build|out|vendor|\.venv|venv|__pycache__|\.idea|\.vscode|coverage|target)(\/|$)/i;
+  var PRIORITY=/(^|\/)(readme|package\.json|pyproject\.toml|requirements\.txt|go\.mod|cargo\.toml|composer\.json|gemfile|dockerfile|makefile|index|main|app|server|__init__)/i;
+  var CODE_EXT=/\.(js|jsx|ts|tsx|py|rb|go|rs|java|kt|c|h|cpp|cc|cs|php|swift|scala|sh|sql|html|css|scss|vue|svelte|json|yml|yaml|toml|md|txt|cfg|ini|env\.example)$/i;
+
+  function tok(){try{return localStorage.getItem("lux_gh_token")||"";}catch(e){return "";}}
+
+  function parse(v){
+    v=(v||"").trim(); if(!v) return null;
+    v=v.replace(/^https?:\/\//i,"").replace(/^www\./i,"").replace(/^github\.com\//i,"");
+    var m=v.match(/^([^\/\s#?]+)\/([^\/\s#?]+)(?:\/tree\/([^\/\s#?]+))?/);
+    if(!m) return null;
+    return {owner:m[1], repo:m[2].replace(/\.git$/,""), branch:m[3]||""};
+  }
+
+  function api(path){
+    var h={"Accept":"application/vnd.github+json"}, t=tok();
+    if(t) h.Authorization="Bearer "+t;
+    return fetch("https://api.github.com"+path,{headers:h}).then(function(r){
+      if(r.status===404) throw new Error("Repo not found - is it public? (private repos need a token)");
+      if(r.status===403||r.status===429) return r.json().then(function(j){ throw new Error((j&&j.message&&/rate/i.test(j.message))?"GitHub rate limit hit (60/hr without a token). Add a read-only token below - it stays in your browser.":"GitHub blocked the request ("+r.status+")."); });
+      if(!r.ok) throw new Error("GitHub error "+r.status);
+      return r.json();
+    });
+  }
+
+  function nest(paths){
+    var root={_d:{},_f:[]};
+    paths.forEach(function(p){
+      var parts=p.split("/"), node=root;
+      for(var i=0;i<parts.length-1;i++){ var seg=parts[i]; node._d[seg]=node._d[seg]||{_d:{},_f:[]}; node=node._d[seg]; }
+      node._f.push(parts[parts.length-1]);
+    });
+    return root;
+  }
+
+  function treeText(node,pre){
+    pre=pre||""; var lines=[];
+    var dirs=Object.keys(node._d).sort(), files=node._f.slice().sort();
+    dirs.forEach(function(d){ lines.push(pre+d+"/"); lines.push(treeText(node._d[d],pre+"  ")); });
+    files.forEach(function(f){ lines.push(pre+f); });
+    return lines.filter(Boolean).join("\n");
+  }
+
+  function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+
+  function treeHTML(node,path,clickable){
+    var h="<ul>";
+    Object.keys(node._d).sort().forEach(function(d){
+      h+="<li><details><summary>"+esc(d)+"</summary>"+treeHTML(node._d[d],path+d+"/",clickable)+"</details></li>";
+    });
+    node._f.slice().sort().forEach(function(f){
+      if(clickable) h+='<li><span class="fi" data-p="'+esc(path+f)+'">'+esc(f)+'</span></li>';
+      else h+='<li class="fi" style="cursor:default">'+esc(f)+'</li>';
+    });
+    return h+"</ul>";
+  }
+
+  function mermaid(node,owner,repo){
+    var lines=["graph TD","  R([\""+owner+"/"+repo+"\"])"], n=0, cap=48, id=0;
+    function walk(node,parent){
+      var dirs=Object.keys(node._d).sort();
+      for(var i=0;i<dirs.length && n<cap;i++){
+        var d=dirs[i], nid="N"+(id++);
+        lines.push("  "+nid+"[\""+d.replace(/"/g,"")+"\"]");
+        lines.push("  "+parent+" --> "+nid);
+        n++; walk(node._d[d],nid);
+      }
+    }
+    walk(node,"R");
+    if(n>=cap) lines.push("  R -.-> MORE([\"... more\"])");
+    return lines.join("\n");
+  }
+
+  function pick(paths){
+    // choose files for the digest: priority files first, then code files, capped
+    var keep=[], seen={};
+    paths.forEach(function(p){ if(!SKIP_DIR.test(p)&&!SKIP_EXT.test(p)&&PRIORITY.test(p)){ keep.push(p); seen[p]=1; } });
+    paths.forEach(function(p){ if(keep.length>=45) return; if(seen[p]) return; if(SKIP_DIR.test(p)||SKIP_EXT.test(p)) return; if(CODE_EXT.test(p)) keep.push(p); });
+    return keep.slice(0,45);
+  }
+
+  function raw(owner,repo,branch,p){
+    return fetch("https://raw.githubusercontent.com/"+owner+"/"+repo+"/"+encodeURIComponent(branch)+"/"+p.split("/").map(encodeURIComponent).join("/"))
+      .then(function(r){ return r.ok?r.text():""; }).catch(function(){ return ""; });
+  }
+
+  function buildDigest(withFiles){
+    var s=state; if(!s) return Promise.resolve("");
+    var hdr="=== "+s.owner+"/"+s.repo+" ===\n"+(s.meta.description||"")+"\n"+
+      (s.meta.language?("Language: "+s.meta.language+"  "):"")+"Stars: "+(s.meta.stargazers_count||0)+
+      "  Default branch: "+s.branch+"\n\nFILE TREE:\n"+treeText(s.root,"")+"\n";
+    if(!withFiles) return Promise.resolve(hdr);
+    var files=pick(s.paths), CAP=190000, total=0, chunks=[];
+    $("dSize").textContent="Fetching "+files.length+" files...";
+    return files.reduce(function(chain,p){
+      return chain.then(function(){
+        if(total>CAP) return;
+        return raw(s.owner,s.repo,s.branch,p).then(function(t){
+          if(!t) return; if(total+t.length>CAP){ t=t.slice(0,Math.max(0,CAP-total)); }
+          total+=t.length; chunks.push("\n=== "+p+" ===\n"+t);
+        });
+      });
+    }, Promise.resolve()).then(function(){
+      return hdr+"\n--- FILES ---\n"+chunks.join("\n")+(total>=CAP?"\n\n[digest capped for size]":"");
+    });
+  }
+
+  function refreshDigest(){
+    var withFiles=$("incFiles").checked;
+    $("dDigest").textContent="Building...";
+    buildDigest(withFiles).then(function(txt){
+      $("dDigest").textContent=txt;
+      var kb=(txt.length/1024).toFixed(1), toks=Math.round(txt.length/4);
+      $("dSize").textContent=kb+" KB  ~"+toks.toLocaleString()+" tokens";
+    });
+  }
+
+  function render(s){
+    state=s;
+    head.innerHTML="<b>"+esc(s.owner)+"/"+esc(s.repo)+"</b>"+
+      (s.meta.description?" <span class='m'>"+esc(s.meta.description)+"</span>":"")+
+      "<span class='m'>"+(s.meta.language?esc(s.meta.language)+" &middot; ":"")+"&#9733; "+(s.meta.stargazers_count||0)+
+      " &middot; "+s.paths.length+" files &middot; "+s.branch+(s.truncated?" &middot; (large repo, partial)":"")+"</span>";
+    $("dTree").innerHTML=treeHTML(s.root,"",false);
+    $("dMermaid").textContent=mermaid(s.root,s.owner,s.repo);
+    $("bTree").innerHTML=treeHTML(s.root,"",true);
+    $("bFile").textContent="Click a file to view it here.";
+    refreshDigest();
+    out.className="exout show"; status.textContent="";
+    try{ history.replaceState(null,"","/explorer/?repo="+s.owner+"/"+s.repo); }catch(e){}
+  }
+
+  function load(info){
+    go.disabled=true; status.textContent="Fetching "+info.owner+"/"+info.repo+"...";
+    var meta;
+    api("/repos/"+info.owner+"/"+info.repo).then(function(m){
+      meta=m; var branch=info.branch||m.default_branch||"main";
+      return api("/repos/"+info.owner+"/"+info.repo+"/git/trees/"+encodeURIComponent(branch)+"?recursive=1").then(function(tr){
+        var paths=(tr.tree||[]).filter(function(x){return x.type==="blob";}).map(function(x){return x.path;});
+        render({owner:info.owner,repo:info.repo,branch:branch,meta:meta,paths:paths,root:nest(paths),truncated:!!tr.truncated});
+      });
+    }).catch(function(e){ status.textContent=(e&&e.message)||"Could not load that repo."; })
+      .then(function(){ go.disabled=false; });
+  }
+
+  function run(){ var info=parse(input.value); if(!info){ status.textContent="Enter a GitHub URL or owner/repo."; return; } load(info); }
+
+  go.addEventListener("click",run);
+  input.addEventListener("keydown",function(e){ if(e.key==="Enter") run(); });
+
+  // tabs
+  Array.prototype.forEach.call(document.querySelectorAll(".extabs button"),function(b){
+    b.addEventListener("click",function(){
+      Array.prototype.forEach.call(document.querySelectorAll(".extabs button"),function(x){x.classList.remove("on");});
+      Array.prototype.forEach.call(document.querySelectorAll(".expanel"),function(x){x.classList.remove("on");});
+      b.classList.add("on"); $("p-"+b.getAttribute("data-tab")).classList.add("on");
+    });
+  });
+
+  // browse: click a file -> load raw
+  $("bTree").addEventListener("click",function(e){
+    var el=e.target.closest?e.target.closest(".fi"):null; if(!el||!el.getAttribute("data-p")||!state) return;
+    var p=el.getAttribute("data-p"); $("bFile").textContent="Loading "+p+"...";
+    if(SKIP_EXT.test(p)){ $("bFile").textContent="("+p+" is a binary/asset - open it on GitHub)"; return; }
+    raw(state.owner,state.repo,state.branch,p).then(function(t){ $("bFile").textContent=t?("// "+p+"\n\n"+t):"(empty or too large)"; });
+  });
+
+  function copy(txt,btn){ var old=btn.textContent; function done(){ btn.textContent="Copied!"; setTimeout(function(){btn.textContent=old;},1400); }
+    try{ navigator.clipboard.writeText(txt).then(done,function(){fallback();}); }catch(e){ fallback(); }
+    function fallback(){ var t=document.createElement("textarea"); t.value=txt; document.body.appendChild(t); t.select(); try{document.execCommand("copy");}catch(e){} document.body.removeChild(t); done(); } }
+
+  $("copyDigest").addEventListener("click",function(){ copy($("dDigest").textContent,this); });
+  $("copyMermaid").addEventListener("click",function(){ copy($("dMermaid").textContent,this); });
+  $("dlDigest").addEventListener("click",function(){ if(!state) return; var b=new Blob([$("dDigest").textContent],{type:"text/plain"}); var a=document.createElement("a"); a.href=URL.createObjectURL(b); a.download=state.owner+"-"+state.repo+"-digest.txt"; a.click(); setTimeout(function(){URL.revokeObjectURL(a.href);},2000); });
+  $("incFiles").addEventListener("change",refreshDigest);
+
+  $("extok").addEventListener("click",function(e){ e.preventDefault();
+    var cur=tok(); var v=prompt("Paste a GitHub read-only token (classic, public_repo or repo scope). Stored ONLY in this browser, sent ONLY to GitHub. Leave blank to clear:",cur);
+    if(v===null) return; try{ if(v.trim()) localStorage.setItem("lux_gh_token",v.trim()); else localStorage.removeItem("lux_gh_token"); }catch(e){}
+    status.textContent=v.trim()?"Token saved in your browser.":"Token cleared.";
+  });
+
+  // deep link: ?repo= / ?url= / #owner/repo / #github.com/owner/repo
+  function fromLocation(){
+    var q=new URLSearchParams(location.search); var v=q.get("repo")||q.get("url")||"";
+    if(!v && location.hash.length>1) v=decodeURIComponent(location.hash.slice(1));
+    if(v){ input.value=v; var info=parse(v); if(info) load(info); }
+  }
+  fromLocation();
+})();
+</script>
+<script>/*lux-voice*/(function(){try{
+window.luxVoicePage=true;
+var API="https://ai.luxucleen.com/ask";
+var LANG=(function(){try{return localStorage.getItem("lux_lang")==="es"?"es":"en";}catch(e){return "en";}})();
+function line(){var h=document.querySelector("h1");var l=document.querySelector(".lede,.lux-hero p,.hero p");var t=((h?h.textContent:"")+". "+(l?l.textContent:"")).replace(/\s+/g," ").trim();return t.slice(0,360);}
+var clips=null,i=0,player=null,started=false,fin=false;
+function finish(){if(fin)return;fin=true;setTimeout(function(){try{if(window.luxFadeIn){window.luxFadeIn();}else if(window.luxRadioStart){window.luxRadioStart();}}catch(e){}},900);}
+function playNext(){if(!clips||i>=clips.length){finish();return;}var c=clips[i++];try{player=new Audio("data:"+(c.type||"audio/mpeg")+";base64,"+c.audio);player.onended=function(){setTimeout(playNext,700);};player.onerror=playNext;var pr=player.play();if(pr&&pr.catch)pr.catch(function(){finish();});}catch(e){playNext();}}
+function begin(){if(started)return;started=true;if(clips){i=0;playNext();}else{fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"say",q:line(),lang:LANG,voice:"both"})}).then(function(r){return r.json();}).then(function(d){if(d&&d.clips&&d.clips.length){clips=d.clips;i=0;playNext();}else{finish();}}).catch(function(){finish();});}}
+function prefetch(){try{fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"say",q:line(),lang:LANG,voice:"both"})}).then(function(r){return r.json();}).then(function(d){if(d&&d.clips){clips=d.clips;}}).catch(function(){});}catch(e){}}
+var go=function(){document.removeEventListener("click",go);document.removeEventListener("touchstart",go);document.removeEventListener("keydown",go);try{var _u=new Audio("data:audio/wav;base64,UklGRiYAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YQIAAAAAAA==");_u.volume=0;var _up=_u.play();if(_up&&_up.catch)_up.catch(function(){});}catch(e){}setTimeout(begin,1800);};
+document.addEventListener("click",go,{once:true});document.addEventListener("touchstart",go,{once:true});document.addEventListener("keydown",go,{once:true});
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",prefetch);else prefetch();
+}catch(e){}})();</script>
+<script>/*lux-radio*/(function(){try{
+var STREAM="https://ice1.somafm.com/beatblender-128-mp3",BASE=0.08,DUCK=0.015;
+var a=new Audio();a.src=STREAM;a.preload="none";a.volume=BASE;
+var on=true;try{if(localStorage.getItem("lux_radio")==="off")on=false;}catch(e){}
+var btn=document.createElement("button");btn.type="button";btn.setAttribute("aria-label","Background music on or off");
+btn.style.cssText="position:fixed;right:14px;bottom:14px;z-index:2147483000;width:46px;height:46px;border-radius:50%;border:0;cursor:pointer;font-size:20px;line-height:46px;text-align:center;background:#0f5aa8;color:#fff;box-shadow:0 4px 14px rgba(0,0,0,.3);opacity:.9";
+function icon(){btn.textContent=on?"♪":"🔇";}
+function start(){if(!on)return;try{var p=a.play();if(p&&p.catch)p.catch(function(){});}catch(e){}}
+function stop(){try{a.pause();}catch(e){}}
+icon();
+btn.addEventListener("click",function(){on=!on;try{localStorage.setItem("lux_radio",on?"on":"off");}catch(e){}icon();if(on)start();else stop();});
+window.luxDuck=function(d){try{a.volume=(typeof d==="number")?d:(d?DUCK:BASE);}catch(e){}};window.luxRadioStart=function(){if(on&&a.paused){start();}};window.luxFadeIn=function(){try{if(!on)return;a.volume=0;start();var _t=0;var _iv=setInterval(function(){_t+=0.05;var v=Math.min(BASE,BASE*(_t/4));try{a.volume=v;}catch(e){}if(_t>=4){try{a.volume=BASE;}catch(e){}clearInterval(_iv);}},50);}catch(e){}};
+var armed=false;function arm(){if(armed)return;armed=true;var go=function(){document.removeEventListener("click",go);document.removeEventListener("touchstart",go);start();};document.addEventListener("click",go,{once:true});document.addEventListener("touchstart",go,{once:true});}
+function boot(){document.body.appendChild(btn);if(!window.luxVoicePage){arm();}}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
+}catch(e){}})();</script>
+<script>/*lux-theme*/(function(){try{
+function cur(){return document.documentElement.getAttribute("data-theme")==="light"?"light":"dark";}
+var b=document.createElement("button");b.type="button";b.setAttribute("aria-label","Switch light or dark theme");
+b.style.cssText="position:fixed;right:14px;top:14px;z-index:2147483001;width:40px;height:40px;border-radius:50%;border:1px solid rgba(128,128,128,.35);cursor:pointer;font-size:18px;line-height:1;background:rgba(20,22,28,.55);color:#e7ebf1;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)";
+function icon(){b.textContent=cur()==="light"?"☾":"☀";}
+icon();
+b.addEventListener("click",function(){var next=cur()==="light"?"dark":"light";if(next==="light"){document.documentElement.setAttribute("data-theme","light");}else{document.documentElement.removeAttribute("data-theme");}try{localStorage.setItem("lux_theme",next);}catch(e){}icon();});
+function boot(){document.body.appendChild(b);}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
+}catch(e){}})();</script>
+<script defer src="/lux-orb.js"></script>
+</body>
+</html>

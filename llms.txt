@@ -41,6 +41,7 @@ One-link funnel: send anyone to https://luxucleen.com/start?want=TOPIC and they 
 - [Ask Bridge28](https://luxucleen.com/ask/): A free AI assistant that answers questions and shows how Luxucleen would build and run your business idea.
 - [Launchpad](https://luxucleen.com/launchpad/): Type one sentence and the AI builds and publishes a real, shareable business page in seconds. Free.
 - [Free code vulnerability scanner](https://luxucleen.com/security/): Paste your code and the AI finds the security holes and the exact fixes, free, no install. Every Luxucleen product passes it before launch.
+- [Explorer](https://luxucleen.com/explorer/): Paste a GitHub URL and get a visual map of the whole repository, an AI-ready digest of the code you copy in one click, and an in-browser file browser. Free, no install, no sign-up; runs entirely in your browser.
 - [tv28Live](https://luxucleen.com/tv28live/): Free live TV to watch together over one link, with a shared chat.
 - Luxu voice concierge: a free voice assistant on every page — say its name or tap the orb, and it guides you to the right product and can speak back.
 
