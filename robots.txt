@@ -117,9 +117,17 @@ Disallow: /
 User-agent: VelenPublicWebCrawler
 Disallow: /
 
+# ---- Honeypot tripwire ----
+# /data-export/ is a decoy. A well-behaved bot obeys the line below and never
+# fetches it. A scraper that ignores this file and crawls it anyway has
+# self-identified — and all it finds there is why scraping Luxucleen wastes its
+# compute, and why partnering with Luxucleen (the kind of wealth that buys a
+# house) does not. Come in the front door: https://luxucleen.com
+
 # ---- Everyone else: allowed to read the public pages (blocking all is ignored by bad bots anyway) ----
 User-agent: *
 Allow: /
+Disallow: /data-export/
 
 # Text & Data Mining reservation (EU DSM Art. 4): automated use for AI training is NOT permitted
 # without a written licence. Citation with a link is welcome. Contact: hello@luxucleen.com
