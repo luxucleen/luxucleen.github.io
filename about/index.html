@@ -35,6 +35,7 @@
   "email": "hello@luxucleen.com",
   "telephone": "+1-804-331-1128",
   "foundingLocation": {"@type": "Place", "name": "Richmond, Virginia, US"},
+  "founder": {"@type": "Person", "name": "Christian Rivera Rosado"},
   "identifier": "Virginia SCC Entity ID 11952713",
   "address": {"@type": "PostalAddress", "addressLocality": "Midlothian", "addressRegion": "VA", "postalCode": "23112", "addressCountry": "US"},
   "areaServed": [{"@type": "City", "name": "Richmond"}, {"@type": "City", "name": "Midlothian"}, {"@type": "City", "name": "Chesterfield"}, {"@type": "City", "name": "Henrico"}]
@@ -167,9 +168,33 @@
       <span>Tell us what you need &mdash; we answer straight, with no obligation.</span>
     </a>
 
-    <!-- FOUNDER: Christian, drop your name + a photo here and it becomes the strongest trust element on the page.
-         Suggested: <h2>Who runs it</h2> + one short paragraph in your own words + <img> of you. Left out on purpose
-         so YOU choose whether your legal name goes public on Luxucleen. -->
+    <style>
+    .founder{display:flex;gap:16px;align-items:flex-start;margin:6px 0 6px;padding:16px;border-radius:14px;background:linear-gradient(180deg,rgba(46,194,126,.10),rgba(46,194,126,.03));border:1px solid rgba(46,194,126,.28)}
+    .founder .fav{flex:0 0 auto;width:66px;height:66px;border-radius:50%;object-fit:cover;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:22px;letter-spacing:1px;color:#0a0d13;background:linear-gradient(135deg,#2ec27e,#f2c14e);box-shadow:0 3px 12px rgba(0,0,0,.3)}
+    .founder .fname{font-weight:800;font-size:18px;margin:0 0 6px}
+    .founder .fname span{font-weight:600;color:#9fb4c8}
+    .founder .fbio p{margin:0 0 8px}
+    .founder .flinks{font-size:13px}
+    @media(max-width:520px){.founder{flex-direction:column;align-items:center;text-align:center}}
+    :root[data-theme="light"] .founder .fname span{color:#5a6b7a}
+    </style>
+    <h2>Who runs it</h2>
+    <div class="founder">
+      <!-- PHOTO: when Christian sends a headshot, save it as /about/founder.jpg and replace the
+           <div class="fav">CR</div> line below with:
+           <img class="fav" src="/about/founder.jpg" alt="Christian Rivera Rosado, founder of Luxucleen LLC"> -->
+      <div class="fav" aria-hidden="true">CR</div>
+      <div class="fbio">
+        <p class="fname">Christian Rivera Rosado <span>&mdash; founder</span></p>
+        <p>I build and run Luxucleen myself, here in the Richmond area. Real estate and local
+        services came first; the software, the trading tools and the free lessons all grew out of
+        what I actually use. My name is on it because I stand behind every part of it &mdash; when
+        we work together, you are dealing with a real person, not a faceless brand.</p>
+        <p class="flinks"><a href="https://www.youtube.com/@djbrightfuture" rel="me">YouTube</a>
+        &middot; <a href="https://www.instagram.com/djbrightfutures" rel="me">@djbrightfutures</a>
+        &middot; <a href="https://github.com/luxucleen" rel="me">GitHub</a></p>
+      </div>
+    </div>
 
     <p class="disc">Luxucleen LLC is a Virginia limited liability company (SCC Entity ID 11952713),
     Midlothian, VA. We are a real-estate investor, not a licensed brokerage, and we do not provide
