@@ -65,6 +65,14 @@
   .zonplug p{margin:4px 0 8px;color:#a89f8a;font-size:13.5px;line-height:1.5}
   .zonplug .shopz{display:inline-block;color:#eacb5b;font-weight:800;font-size:13.5px}
   @media(max-width:520px){.zonplug img{width:56px;height:56px}}
+  .uniplug{margin:6px 0 14px}
+  .uniplug a{display:flex;gap:16px;align-items:center;text-decoration:none;background:linear-gradient(135deg,rgba(55,214,122,.10),rgba(124,110,255,.06));border:1px solid rgba(55,214,122,.35);border-radius:16px;padding:16px 18px}
+  .uniplug a:hover{border-color:#37d67a}
+  .uniplug .ui{flex:0 0 auto;width:56px;height:56px;border-radius:14px;background:linear-gradient(135deg,#37d67a,#1fa85c);display:flex;align-items:center;justify-content:center;font-size:26px}
+  .uniplug .zt{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#04140b;background:#37d67a;border-radius:7px;padding:2px 8px;margin-bottom:6px}
+  .uniplug b{display:block;color:var(--ink,#e7ebf1);font-size:17px}
+  .uniplug p{margin:4px 0 8px;color:var(--muted,#9fb0c3);font-size:13.5px;line-height:1.5}
+  .uniplug .shopz{display:inline-block;color:#37d67a;font-weight:800;font-size:13.5px}
 </style>
 </head>
 <body>
@@ -87,6 +95,18 @@
     <p class="lede">Every price below is read from the store itself when this page is built, so
     nothing here can quietly go stale. Payment and delivery go through Gumroad &mdash; this site has
     no checkout and never sees a card number.</p>
+  </section>
+
+  <section class="uniplug">
+    <a href="/universal/">
+      <span class="ui">&#128722;</span>
+      <div>
+        <span class="zt">New &middot; Universal Store</span>
+        <b>Tell it what you want &mdash; it generates the result</b>
+        <p>Every product, one place: buy it, send an AI agent to call the seller, or the Magnet &mdash; sourced below Amazon and dropshipped.</p>
+        <span class="shopz">Enter the Universal Store &rarr;</span>
+      </div>
+    </a>
   </section>
 
   <section class="zonplug">
