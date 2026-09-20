@@ -55,6 +55,17 @@
  ]
 }
 </script>
+<style>
+  .zonplug{margin:6px 0 30px}
+  .zonplug a{display:flex;gap:16px;align-items:center;text-decoration:none;background:linear-gradient(135deg,#141317,#0d0c10);border:1px solid #2a2720;border-radius:16px;padding:16px 18px;box-shadow:0 8px 26px rgba(0,0,0,.28)}
+  .zonplug a:hover{border-color:#c9a227}
+  .zonplug img{width:74px;height:74px;border-radius:14px;flex:0 0 auto}
+  .zonplug .zt{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#1a1508;background:#c9a227;border-radius:7px;padding:2px 8px;margin-bottom:6px}
+  .zonplug b{display:block;color:#f4f1e8;font-size:17px}
+  .zonplug p{margin:4px 0 8px;color:#a89f8a;font-size:13.5px;line-height:1.5}
+  .zonplug .shopz{display:inline-block;color:#eacb5b;font-weight:800;font-size:13.5px}
+  @media(max-width:520px){.zonplug img{width:56px;height:56px}}
+</style>
 </head>
 <body>
 <header>
@@ -76,6 +87,18 @@
     <p class="lede">Every price below is read from the store itself when this page is built, so
     nothing here can quietly go stale. Payment and delivery go through Gumroad &mdash; this site has
     no checkout and never sees a card number.</p>
+  </section>
+
+  <section class="zonplug">
+    <a href="/zoncarii/">
+      <img src="/zoncarii/img/logo-square.png" alt="Zoncarii" width="74" height="74" loading="lazy">
+      <div>
+        <span class="zt">Apparel &middot; New</span>
+        <b>Zoncarii &mdash; the clothing brand</b>
+        <p>Statement tees, embroidered snapbacks, and the gold-line graphic series &mdash; black and gold, the SZ monogram.</p>
+        <span class="shopz">Shop Zoncarii &rarr;</span>
+      </div>
+    </a>
   </section>
 
   <h2 id="free">Free, or pay what you want</h2>
