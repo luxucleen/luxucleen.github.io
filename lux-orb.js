@@ -62,46 +62,109 @@
       ph: "Type, or tap to talk…", rename: "What should you call me?", off: "Voice off"
     };
 
-    // ---------- greetings (rotating; {name}=assistant name, {tod}=time of day, {p}=their name or "") ----------
-    // A brand-new visitor gets a warm welcome (no "you look new" labeling); a returning or signed-in
-    // person is greeted by name and welcomed BACK — never told they're new. {p} stays empty until learned.
-    var NEWG_EN = [
-      "Welcome to Luxucleen. I'm {name} — tap me and I'll show you around.",
-      "Hey, welcome. I'm {name}. Ask me anything about what we do.",
-      "Welcome in. I'm {name}, your guide — tap me whenever you want a hand.",
-      "Glad you're here. I'm {name}. Jewelry, your house, taxes, or trading — I'll point you to it.",
-      "Welcome. I'm {name}. Tell me what you came for and I'll take you straight there."
-    ];
-    var NEWG_ES = [
-      "Bienvenido a Luxucleen. Soy {name} — tocame y te muestro todo.",
-      "Hola, bienvenido. Soy {name}. Preguntame lo que sea.",
-      "Bienvenido. Soy {name}, tu guia — tocame cuando quieras ayuda.",
-      "Que bueno que llegaste. Soy {name}. Joyeria, tu casa, impuestos o trading — te llevo.",
-      "Bienvenido. Soy {name}. Dime que buscas y te llevo directo."
-    ];
-    var BACKG_EN = [   // signed-in / known member
-      "{tod}{p}. Welcome back — want to pick up where you left off?",
-      "{tod}{p}. Good to have you back. What are we doing today?",
-      "Welcome back{p}. Tap me whenever you need a hand.",
-      "{tod}{p}. Right where you left it — what's next?"
-    ];
-    var BACKG_ES = [
-      "{tod}{p}. Que bueno verte de nuevo — seguimos donde lo dejaste?",
-      "{tod}{p}. Me alegra tenerte de vuelta. Que hacemos hoy?",
-      "Bienvenido de nuevo{p}. Tocame cuando necesites algo.",
-      "{tod}{p}. Todo sigue donde lo dejaste — que sigue?"
-    ];
-    var SEENG_EN = [   // been here before, not signed in
-      "{tod}. Good to see you again — where should we pick up?",
-      "Welcome back. Need a hand with anything?",
-      "{tod}. Back again — tap me and I'll help you find it."
-    ];
-    var SEENG_ES = [
-      "{tod}. Que bueno verte otra vez — por donde seguimos?",
-      "Bienvenido de nuevo. Te ayudo con algo?",
-      "{tod}. De vuelta — tocame y te ayudo a encontrarlo."
-    ];
-    function fillG(s) { return s.replace(/\{name\}/g, NAME).replace(/\{tod\}/g, todGreet()).replace(/\{p\}/g, PERSON ? (", " + PERSON) : ""); }
+    // ---------- smart, live, page-aware greeting (real model; unique every time; time-smart) ----------
+    // Christian: NOT a saved pipeline of canned lines. A real API greeting that is fluent, different every
+    // time, says something specific and smart about THIS page, speaks as the window drops, and KEEPS speaking
+    // a short "how to start today" summary after the window auto-closes. TIME-SMART: come right back and it
+    // stays quiet with the music playing; an hour later it says "oh, nice - you're back". The fly-in parks
+    // FIRST, then the window drops. On-device voice is the always-there fallback when the cloud voice isn't
+    // returned. Never opens the same window with the same greeting (dedup by a stored signature).
+    function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
+    function sameSig(s) { try { return get("lux_greet_sig", "") === String(s || "").slice(0, 90); } catch (e) { return false; } }
+    function rememberSig(s) { try { set("lux_greet_sig", String(s || "").slice(0, 90)); } catch (e) {} }
+    function elapsedBucket() {
+      var last = parseInt(get("lux_orb_last_ts", "0"), 10) || 0, d = last ? (Date.now() - last) : -1;
+      if (last <= 0) return "fresh";
+      if (d < 180000) return "fast";        // < 3 min  -> came right back / just clicking around
+      if (d < 5400000) return "hour";       // < 90 min -> "you're back!"
+      if (d < 43200000) return "today";     // < 12 h
+      if (d < 129600000) return "day";      // < 36 h
+      if (d < 691200000) return "week";     // < 8 days
+      return "long";
+    }
+    function pageInfo() {
+      var title = "Luxucleen";
+      try { var t = (document.title || "").replace(/\s*[|—-].*$/, "").trim(); if (t) title = t; } catch (e) {}
+      var desc = "";
+      try { var m = document.querySelector('meta[name="description"]'); if (m) desc = (m.getAttribute("content") || ""); } catch (e) {}
+      return { title: title, desc: desc.replace(/\s+/g, " ").trim().slice(0, 220), ctx: pageCtx(), path: path };
+    }
+    // combinatorial local fallback (opener x page-line x start, deduped) - varied, never a fixed script
+    function localGreet(info, bucket) {
+      var t = info.title;
+      var openEN = { hour: ["Oh, nice - you're back!", "Back already? I like it.", "Hey, you came back."],
+        today: ["Welcome back.", "Good to see you again.", "Back again - nice."],
+        day: ["Good to see you again.", "Welcome back.", "Hey, welcome back."],
+        week: ["Been a minute - welcome back.", "Good to have you back.", "Welcome back."],
+        long: ["Welcome back - it's been a while.", "Great to see you again."],
+        fresh: ["Welcome to Luxucleen.", "Hey, welcome in.", "Glad you're here."] };
+      var openES = { hour: ["Oh, que bueno - volviste!", "Ya de vuelta? Me gusta.", "Hey, regresaste."],
+        today: ["Bienvenido de nuevo.", "Que bueno verte otra vez.", "De vuelta - que bien."],
+        day: ["Que bueno verte de nuevo.", "Bienvenido de nuevo.", "Hey, bienvenido de nuevo."],
+        week: ["Tiempo sin verte - bienvenido.", "Que bueno tenerte de vuelta.", "Bienvenido de nuevo."],
+        long: ["Bienvenido de nuevo - ha pasado tiempo.", "Que bueno verte otra vez."],
+        fresh: ["Bienvenido a Luxucleen.", "Hey, bienvenido.", "Que bueno que llegaste."] };
+      var aboutEN = { jewelry: "You're on the jewelry - real iced-out moissanite at the best price.",
+        house: "This is where we buy houses for cash, closing on your date.",
+        taxes: "Right page for taxes - AI files them cheaper than TurboTax.",
+        trading: "This is our trading side - real tools and a live 28-day challenge.",
+        money: "This is where hustle turns into a business you actually own.",
+        "": 'This is "' + t + '" - I can walk you through it.' };
+      var aboutES = { jewelry: "Estas en la joyeria - moissanita real al mejor precio.",
+        house: "Aqui compramos casas en efectivo, cerrando en tu fecha.",
+        taxes: "Pagina correcta para impuestos - la IA los hace mas barato que TurboTax.",
+        trading: "Este es el lado de trading - herramientas reales y un reto de 28 dias.",
+        money: "Aqui el esfuerzo se vuelve un negocio que es tuyo.",
+        "": 'Esto es "' + t + '" - te lo explico.' };
+      var startEN = { jewelry: "Want to see the pieces?", house: "Want a cash offer today?", taxes: "Want to start your taxes?",
+        trading: "Want to see how it works?", money: "Want to start building today?", "": "Want me to show you where to start?" };
+      var startES = { jewelry: "Quieres ver las piezas?", house: "Quieres una oferta hoy?", taxes: "Empezamos tus impuestos?",
+        trading: "Quieres ver como funciona?", money: "Empezamos hoy?", "": "Te muestro por donde empezar?" };
+      var opens = (ES ? openES : openEN)[bucket] || (ES ? openES.fresh : openEN.fresh);
+      var about = (ES ? aboutES : aboutEN)[info.ctx] || (ES ? aboutES : aboutEN)[""];
+      var start = (ES ? startES : startEN)[info.ctx] || (ES ? startES : startEN)[""];
+      var line = pick(opens) + " " + about;
+      for (var i = 0; i < 5 && sameSig(line); i++) line = pick(opens) + " " + about;
+      return { line: line, summary: start };
+    }
+    function fetchGreet(info, bucket, cb) {
+      var prev = get("lux_greet_sig", ""), done = false;
+      function fin(d) { if (done) return; done = true; cb(d); }
+      var to = setTimeout(function () { fin(null); }, 3000);   // never make them wait on the model
+      var q = ES
+        ? ("Modo saludo. Eres " + NAME + ", el conserje de voz de Luxucleen. El visitante esta en la pagina \"" + info.title + "\" (" + (info.desc || info.ctx || "Luxucleen") + "). Contexto de regreso: " + bucket + ". Escribe UN saludo corto, calido y humano (max 18 palabras) que diga algo especifico e inteligente de ESTA pagina, natural y distinto cada vez" + (prev ? (". No repitas esta linea: \"" + prev + "\"") : "") + ". Luego, tras '||', una linea corta de como empezar hoy. Sin comillas ni emojis.")
+        : ("Greeting mode. You are " + NAME + ", the Luxucleen voice concierge. The visitor is on the page \"" + info.title + "\" (" + (info.desc || info.ctx || "Luxucleen") + "). Return-context: " + bucket + ". Write ONE short, warm, human greeting (max 18 words) that says something specific and smart about THIS page, natural and different every time" + (prev ? (". Do NOT repeat this line: \"" + prev + "\"") : "") + ". Then after '||', one short line on how they can start today. No quotes, no emojis.");
+      try {
+        fetch(API, { method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ mode: "talk", q: q, lang: LANG, name: NAME, mem: MEMID, voice: TEXT_ONLY ? "off" : VOICE, text_only: TEXT_ONLY, page: info.path, greet: true, bucket: bucket }) })
+          .then(function (r) { return r.json(); }).then(function (d) { clearTimeout(to); fin(d || null); })
+          .catch(function () { clearTimeout(to); fin(null); });
+      } catch (e) { clearTimeout(to); fin(null); }
+    }
+    // fly parks (delay) -> drop the window + speak -> auto-close -> the voice KEEPS summarizing "how to start today"
+    function smartGreet(bucket, delay) {
+      var info = pageInfo(), floorPassed = false, resp, painted = false;
+      function paint() {
+        if (painted || !floorPassed || typeof resp === "undefined") return; painted = true;
+        var d = resp, line = "", summary = "", clips = null;
+        if (d && d.answer) {
+          var parts = String(d.answer).split(/\s*\|\|\s*|\n+/);
+          line = (parts[0] || "").trim().replace(/^["'“‘]+|["'”’]+$/g, "");
+          summary = (parts[1] || "").trim();
+          if (d.clips && d.clips.length) clips = d.clips; else if (d.audio) clips = [{ audio: d.audio, type: d.audio_type }];
+        }
+        if (!line || sameSig(line)) {                 // model empty or repeated -> local, and drop clips (they voiced the rejected line)
+          var lg = localGreet(info, bucket); line = lg.line; summary = summary || lg.summary; clips = null;
+        }
+        rememberSig(line);
+        say(NAME, line, true); autohide(bucket === "hour" ? 6500 : 9500); try { renderChips(chipsFor(info.ctx)); } catch (e) {}
+        if (TEXT_ONLY) return;                         // muted -> words only, no voice
+        if (clips && clips.length) { try { speak(clips); } catch (e) {} }                      // cloud Bella says the whole thing
+        else { try { speakText(summary ? (line + " " + summary) : line); } catch (e) {} }      // on-device: greet + summary, keeps talking past the auto-close
+      }
+      fetchGreet(info, bucket, function (d) { resp = (typeof d === "undefined") ? null : d; paint(); });
+      setTimeout(function () { floorPassed = true; paint(); }, delay);
+    }
 
     // ---------- styles (injected once) ----------
     var css = document.createElement("style");
@@ -169,7 +232,8 @@
       document.body.appendChild(wrap);
       restorePos();
       setHint(); // stay quiet on load; the greeting shows on first tap/wake
-      try { if (!sessionStorage.getItem("lux_orb_flew")) { sessionStorage.setItem("lux_orb_flew", "1"); setTimeout(flyby, 500); } } catch (e) { setTimeout(flyby, 500); }
+      var flewThisLoad = false;
+      try { if (!sessionStorage.getItem("lux_orb_flew")) { sessionStorage.setItem("lux_orb_flew", "1"); flewThisLoad = true; setTimeout(flyby, 500); } } catch (e) { flewThisLoad = true; setTimeout(flyby, 500); }
       if (PRO && get("lux_hands", "1") !== "0") startWake(); // hands-free auto-listen — Pro, unless turned off in Settings
       var greeted = false;
       try { // funnel: if they arrived from an ad via /start?want=X, greet them by intent
@@ -190,16 +254,19 @@
       try {
         set("lux_visits", String(VISITS + 1));
         if (!RETURNING) set("lux_returning", String(Date.now()));
+        var bucket = elapsedBucket();
+        set("lux_orb_last_ts", String(Date.now()));    // stamp the visit AFTER reading the gap
         if (!greeted) {
-          var arr, speakIt;
-          if (SIGNED) { arr = ES ? BACKG_ES : BACKG_EN; speakIt = !greetedToday(); }
-          else if (RETURNING || VISITS > 0) { arr = ES ? SEENG_ES : SEENG_EN; speakIt = false; }
-          else { arr = ES ? NEWG_ES : NEWG_EN; speakIt = true; }
-          var g = fillG(arr[Math.floor(Math.random() * arr.length)]);
-          setTimeout(function () {
-            say(NAME, g, true); autohide(11000); renderChips(chipsFor(pageCtx()));
-            if (speakIt && !TEXT_ONLY) { try { speakText(g); } catch (e2) {} }
-          }, RETURNING ? 1200 : 1900);
+          if (bucket === "fast") {
+            // came right back / just clicked to another page -> stay quiet, let the music play, never repeat.
+            // The orb is still here; a tap opens options. No window drop, no voice. (Christian: "if he returns
+            // fast, it can stay quiet and auto play music.")
+            try { renderChips(chipsFor(pageCtx())); } catch (e3) {}
+          } else {
+            // fly-in parks FIRST, THEN the window drops + speaks; a real, fresh, page-aware line each time.
+            greetedToday(); // keep the once-a-day stamp moving (used elsewhere); does not gate the voice anymore
+            smartGreet(bucket, flewThisLoad ? 2250 : 1150);
+          }
         }
       } catch (e) {}
     }
