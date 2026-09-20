@@ -22,6 +22,7 @@
     if (!ID) { ID = "o" + Math.random().toString(36).slice(2, 10) + Date.now().toString(36); set("lux_orb_id", ID); }
     var MEMID = EMAIL || ID; // Pro (signed-up) => durable, cross-device memory keyed by email
     var VOICE = get("lux_orb_voice", "bella"); // Settings can switch Luxu to Liam
+    var TEXT_ONLY = get("lux_text_only", "") === "1"; // Settings / the in-chat mute: show the words, never speak them
 
     var hist = []; try { hist = JSON.parse(get("lux_orb_hist", "[]")) || []; } catch (e) { hist = []; }
     function saveHist() { try { set("lux_orb_hist", JSON.stringify(hist.slice(-24))); } catch (e) {} }
@@ -106,12 +107,18 @@
     bubble.innerHTML =
       '<div class="who"></div><div class="msg"></div>' +
       '<div class="row"><input type="text" aria-label="message"><button class="snd" type="button" aria-label="send">↑</button></div>' +
-      '<div class="bar"><small></small><a class="rn"></a></div>';
+      '<div class="bar"><small></small><a class="mute"></a><a class="rn"></a></div>';
     wrap.appendChild(bubble); wrap.appendChild(orb);
     var elWho = bubble.querySelector(".who"), elMsg = bubble.querySelector(".msg"),
         elIn = bubble.querySelector("input"), elSnd = bubble.querySelector(".snd"),
-        elHint = bubble.querySelector(".bar small"), elRn = bubble.querySelector(".rn");
+        elHint = bubble.querySelector(".bar small"), elRn = bubble.querySelector(".rn"),
+        elMute = bubble.querySelector(".mute");
     elIn.placeholder = T.ph; elRn.textContent = ES ? "renombrar" : "rename";
+    // one-tap voice mute, right inside the chat (Christian: "chats must have a section where I can turn this off")
+    function paintMute() { elMute.textContent = TEXT_ONLY ? (ES ? "🔊 activar voz" : "🔊 voice on") : (ES ? "🔇 solo texto" : "🔇 text only"); }
+    function stopSpeaking() { try { if (audio) audio.pause(); } catch (e) {} try { if (window.speechSynthesis) window.speechSynthesis.cancel(); } catch (e) {} try { clearInterval(_ttsPump); } catch (e) {} orb.classList.remove("talk"); duck(false); }
+    paintMute();
+    elMute.addEventListener("click", function () { TEXT_ONLY = !TEXT_ONLY; set("lux_text_only", TEXT_ONLY ? "1" : "0"); paintMute(); if (TEXT_ONLY) stopSpeaking(); });
 
     function boot() {
       document.body.appendChild(wrap);
@@ -139,7 +146,7 @@
           if (!greeted) {
             var NG = ES ? NEWG_ES : NEWG_EN;
             var g = NG[Math.floor(Math.random() * NG.length)].replace(/\{name\}/g, NAME);
-            setTimeout(function () { say(NAME, g, false); try { speakText(g); } catch (e2) {} }, 1900);
+            setTimeout(function () { say(NAME, g, false); if (!TEXT_ONLY) { try { speakText(g); } catch (e2) {} } }, 1900);
           }
         }
       } catch (e) {}
@@ -175,14 +182,15 @@
         method: "POST", headers: { "Content-Type": "application/json" },
         // send more turns so the agent keeps the thread of the conversation = better context for people
         // (2026-09-19; was -10. saveHist keeps 24, so this is still bounded.)
-        body: JSON.stringify({ mode: "talk", q: text, lang: LANG, name: NAME, mem: MEMID, history: hist.slice(-16), voice: VOICE })
+        body: JSON.stringify({ mode: "talk", q: text, lang: LANG, name: NAME, mem: MEMID, history: hist.slice(-16), voice: TEXT_ONLY ? "off" : VOICE, text_only: TEXT_ONLY })
       }).then(function (r) { return r.json(); }).then(function (d) {
         orb.classList.remove("think");
         var ans = (d && d.answer) ? d.answer : T.err;
         lastAns = ans;   // remembered so the on-device voice can speak it if the cloud clip is blocked
         hist.push({ r: "a", t: ans }); saveHist();
         say(NAME, ans, true); autohide(9000);
-        if (d && d.clips && d.clips.length) speak(d.clips);
+        if (TEXT_ONLY) finishTalk();                       // voice off -> the words are on screen, stay silent
+        else if (d && d.clips && d.clips.length) speak(d.clips);
         else if (d && d.audio) speak([{ audio: d.audio, type: d.audio_type }]);
         else speakText(ans);
         if (d && d.go && /^\/[a-z0-9\/_-]*$/i.test(d.go)) {

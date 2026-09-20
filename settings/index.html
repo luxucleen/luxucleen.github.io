@@ -82,7 +82,12 @@
     </div>
 
     <div class="row">
-      <span class="lab">Voice</span>
+      <span class="lab">Voice replies<small>On &mdash; Luxu talks out loud. Off &mdash; text only: it shows the words but never speaks, on every section of the site. You can also flip this from the chat bubble on any page.</small></span>
+      <label class="sw"><input type="checkbox" id="s_voice_on"><i></i></label>
+    </div>
+
+    <div class="row">
+      <span class="lab">Voice<small id="s_voice_note"></small></span>
       <span class="seg" id="s_voice"><button data-v="bella" class="on">Bella</button><button data-v="liam">Liam</button></span>
     </div>
 
@@ -142,6 +147,16 @@
     <div class="note">Honest note: YouTube videos already play here without signing in. Reading your Gmail inside Luxucleen needs Google to review and approve the app first &mdash; we will turn it on the moment that is done.</div>
   </section>
 
+  <!-- WHAT'S NEW -->
+  <section class="card">
+    <h3>What&rsquo;s new</h3>
+    <p class="sub">The latest upgrades to Luxucleen.</p>
+    <div class="row"><span class="lab">Luxu sounds human now<small>The phone line and the voice orb talk like a real person &mdash; warmer, natural, and no more repeating the same line at the end of every sentence.</small></span></div>
+    <div class="row"><span class="lab">Text-only mode<small>Turn Luxu&rsquo;s voice off anywhere &mdash; the toggle above, or the mute link right inside the chat bubble on any page.</small></span></div>
+    <div class="row"><span class="lab">Live help chat<small>Type with us on the <a class="plain" href="/contact/">Contact</a> page &mdash; instant text answers, no phone call needed.</small></span></div>
+    <div class="row"><span class="lab">Your Orbits<small>Your encrypted cloud SSD &mdash; open it from <a class="plain" href="/orbits/">Orbits</a> or your <a class="plain" href="/office/">Office</a>.</small></span></div>
+  </section>
+
   <!-- PRIVACY -->
   <section class="card">
     <h3>Privacy</h3>
@@ -186,6 +201,14 @@
 
   // voice
   (function(){var cur=g("lux_orb_voice","bella");document.querySelectorAll("#s_voice button").forEach(function(b){b.classList.toggle("on",b.dataset.v===cur);b.addEventListener("click",function(){s("lux_orb_voice",b.dataset.v);document.querySelectorAll("#s_voice button").forEach(function(x){x.classList.toggle("on",x===b);});});});})();
+
+  // voice replies vs text-only (site-wide: the orb + the live help chat both read lux_text_only)
+  (function(){
+    var vb=$("s_voice_on"), note=$("s_voice_note");
+    function paint(){ var off=g("lux_text_only","")==="1"; if(vb) vb.checked=!off; if(note) note.textContent = off ? "Voice is off (text only). Turn Voice replies on to hear Bella or Liam." : "Which voice Luxu uses when it speaks."; }
+    paint();
+    if(vb) vb.addEventListener("change",function(){ s("lux_text_only", vb.checked ? "0" : "1"); paint(); });
+  })();
 
   // theme
   (function(){
