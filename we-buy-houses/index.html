@@ -24,6 +24,10 @@
   .sub{ color:var(--muted); font-size:17px; margin:0 0 22px; }
   .cta{ display:inline-block; background:var(--brand); color:var(--brand-ink); text-decoration:none; font-weight:700; padding:14px 22px; border-radius:12px; font-size:16px; }
   .note{ color:var(--muted); font-size:13px; margin-top:12px; }
+  .trust{ display:flex; flex-wrap:wrap; gap:8px; margin-top:18px; }
+  .trust .tb{ display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:700; color:#1a5c3c; background:#eaf6ef; border:1px solid #cfe9d9; border-radius:999px; padding:7px 12px; text-decoration:none; line-height:1; }
+  .trust .tb::before{ content:"\2713"; color:var(--good); font-weight:900; }
+  .trust a.tb:hover{ border-color:var(--good); }
   .langbar{ border-bottom:1px solid var(--line); background:#fff; }
   .langbar .wrap{ padding-top:8px; padding-bottom:8px; font-size:13px; }
   .langbar a{ color:var(--brand); text-decoration:none; font-weight:700; } .langbar b{ color:var(--ink); }
@@ -50,6 +54,13 @@
     <p class="sub">Cash offer, any condition, you pick the closing date. No agents, no commissions, no repairs, no cleaning out. Tell us about your house and we'll send you an offer.</p>
     <a class="cta" href="mailto:hello@luxucleen.com?subject=Cash%20offer%20request%20%5BYour%20Name%5D&body=My%20name%3A%20%5BYour%20name%5D%0AHouse%20address%3A%20%5BStreet%2C%20city%2C%20state%5D%0ACondition%3A%20%5BGreat%20%2F%20needs%20work%20%2F%20etc.%5D%0AReach%20me%20at%3A%20%5BPhone%20or%20email%5D">Get my cash offer</a>
     <p class="note">Se habla espanol. Any situation - inherited, vacant, behind on payments, needs work. No obligation.</p>
+    <div class="trust">
+      <a class="tb" href="https://cis.scc.virginia.gov/EntitySearch/Index" target="_blank" rel="noopener">Registered Virginia LLC &middot; SCC 11952713</a>
+      <span class="tb">No fees or commissions</span>
+      <span class="tb">No obligation</span>
+      <span class="tb">You pick the closing date</span>
+      <a class="tb" href="/about/">Who we are</a>
+    </div>
   </div>
 </header>
 
