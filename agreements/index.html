@@ -4,14 +4,14 @@
 <script>/*lux-lang-router*/(function(){try{if(localStorage.getItem("lux_theme")==="light"){document.documentElement.setAttribute("data-theme","light");}}catch(e){}try{var E={"/":1,"/ask/":1,"/stack/":1,"/real-estate/":1,"/trading/":1,"/contact/":1,"/community/":1,"/landscaping/":1,"/launchpad/":1,"/jewelry/":1,"/taxes/":1,"/security/":1,"/store/":1,"/free-education/":1,"/office/":1,"/settings/":1,"/start/":1,"/tv28live/":1,"/agreements/":1,"/guides/":1};var p=location.pathname.replace(/index\.html$/,"");if(p.charAt(p.length-1)!=="/"&&p.indexOf(".")<0)p+="/";if(p==="")p="/";var onES=p.indexOf("/es/")===0||p==="/es"||p==="/es/";var s=null;try{s=localStorage.getItem("lux_lang");}catch(e){}if(s==="en"&&onES){location.replace(p.replace(/^\/es/,"")||"/");}else if(s==="es"&&!onES){if(E[p])location.replace("/es"+(p==="/"?"/":p));}else if(!s&&!onES){var l=(navigator.language||(navigator.languages&&navigator.languages[0])||"en").toLowerCase();if(l.indexOf("es")===0&&E[p])location.replace("/es"+(p==="/"?"/":p));}}catch(e){}try{document.addEventListener("DOMContentLoaded",function(){var a=document.querySelectorAll("a[hreflang],a.lang");for(var i=0;i<a.length;i++){a[i].addEventListener("click",function(){try{var h=this.getAttribute("href")||"";localStorage.setItem("lux_lang",(h.indexOf("/es/")===0||h==="/es"||h==="/es/")?"es":"en");}catch(e){}});}});}catch(e){}})();</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Agreements &mdash; the written deal behind every Luxucleen business</title>
+<title>Agreements &amp; Terms of Service &mdash; the full written deal behind Luxucleen</title>
 <meta name="twitter:card" content="summary_large_image">
-<meta name="description" content="Plain-language agreements for every Luxucleen LLC service: the build-your-business 12% deal, immigration papers navigation, DMV errands, website build and care, Florida surplus recovery, work-visa coordination. Nothing starts without a signed agreement.">
+<meta name="description" content="The complete Luxucleen LLC agreements: a full Master Terms of Service (acceptance, definitions, eligibility, no-professional-advice, electronic signatures, communications and recording consent, AI and automated agents, encrypted Orbits storage, fees, subscriptions, refunds, acceptable use, intellectual property, warranties, limitation of liability, indemnification, arbitration, class-action waiver, governing law) plus every service-specific agreement: build-your-business 12%, immigration navigation, DMV errands, website build and care, Florida surplus recovery, work visas, hiring. Nothing starts without a signed agreement.">
 <meta name="robots" content="index,follow">
 <link rel="stylesheet" href="/site.css">
 <link rel="canonical" href="https://luxucleen.com/agreements/">
-<meta property="og:title" content="Agreements &mdash; the written deal behind every Luxucleen business">
-<meta property="og:description" content="Plain-language agreements for every Luxucleen LLC service. Nothing starts without a signed agreement.">
+<meta property="og:title" content="Agreements &amp; Terms of Service &mdash; the full written deal behind Luxucleen">
+<meta property="og:description" content="The complete Master Terms of Service plus every service-specific agreement. Nothing starts without a signed agreement.">
 <meta property="og:image" content="https://luxucleen.com/og/agreements.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -24,9 +24,32 @@
   .agr ol{padding-left:20px} .agr li{margin:6px 0}
   .agr .sig{border-top:1px dashed var(--line);margin-top:14px;padding-top:12px;font-family:ui-monospace,Menlo,monospace;font-size:13px;color:var(--dim);white-space:pre-line}
   .agr .cta{display:inline-block;margin-top:10px;background:#0f5aa8;color:#fff;text-decoration:none;font-weight:700;padding:11px 16px;border-radius:11px;font-size:15px}
-  .note{background:#fffdf3;border:1px solid #f0e6bf;border-radius:12px;padding:12px 14px;color:#5b5326;font-size:14px}
+  .note{background:var(--warmbg);border:1px solid var(--line);border-radius:12px;padding:12px 14px;color:var(--ink);font-size:14px}
   .toc{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 4px}
   .toc a{background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:13px;text-decoration:none;color:var(--ink);font-weight:600}
+  .updated{color:var(--dim);font-size:13px;margin:6px 0 0}
+  .part{margin:40px 0 4px;padding-top:20px;border-top:2px solid var(--line)}
+  .part .peyebrow{color:var(--accent);font-weight:800;letter-spacing:.06em;text-transform:uppercase;font-size:12px;margin:0}
+  .part h2{margin:4px 0 4px;font-size:26px;line-height:1.15}
+  .part .pintro{color:var(--dim);font-size:15px;margin:2px 0 0}
+  .tocwrap{border:1px solid var(--line);border-radius:14px;background:var(--soft);padding:14px 16px;margin:16px 0}
+  .tocwrap h3{margin:0 0 8px;font-size:15px}
+  .tocgrid{columns:2;column-gap:26px;font-size:14px}
+  @media(max-width:640px){.tocgrid{columns:1}}
+  .tocgrid a{display:block;padding:3px 0;color:var(--ink);text-decoration:none;break-inside:avoid}
+  .tocgrid a:hover{color:var(--accent)}
+  .tocgrid .g{color:var(--dim);font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:.05em;margin:10px 0 4px;break-inside:avoid}
+  .ms{border:1px solid var(--line);border-radius:12px;padding:16px 18px 12px;margin:14px 0;background:var(--soft);color:var(--ink)}
+  .ms h3{margin:0 0 8px;font-size:19px;line-height:1.2}
+  .ms h3 .n{color:var(--accent);font-weight:800;margin-right:8px}
+  .ms p{margin:8px 0;font-size:15.5px;line-height:1.6}
+  .ms ol{padding-left:22px;margin:8px 0} .ms ol li{margin:7px 0;font-size:15px;line-height:1.55}
+  .ms ol.abc{list-style:lower-alpha}
+  .ms .cap{text-transform:uppercase;font-weight:700;font-size:13.5px;letter-spacing:.02em;background:var(--warmbg);border:1px solid var(--line);border-radius:8px;padding:2px 6px}
+  .defs{margin:8px 0} .defs dt{font-weight:700;margin:10px 0 2px} .defs dd{margin:0 0 4px 0;color:var(--dim);font-size:14.5px}
+  .backtop{display:inline-block;margin-top:8px;font-size:13px;color:var(--dim);text-decoration:none}
+  .backtop:hover{color:var(--accent)}
+  .lastupd-badge{display:inline-block;background:var(--warmbg);border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:13px;font-weight:700;color:var(--ink)}
 </style>
 </head>
 <body>
@@ -41,26 +64,675 @@
   </div>
 </header>
 
-<main class="wrap">
-  <p class="crumb"><a href="/">Luxucleen LLC</a> &rsaquo; Agreements</p>
+<main class="wrap" id="top">
+  <p class="crumb"><a href="/">Luxucleen LLC</a> &rsaquo; Agreements &amp; Terms of Service</p>
 
   <section class="hero">
-    <h1>The written deal behind every Luxucleen business.</h1>
-    <p class="lede">Nothing starts without a signed agreement, and every agreement is written so you can read it
-    in five minutes. Here is exactly what each one says.</p>
+    <h1>The full written deal behind every Luxucleen business.</h1>
+    <p class="lede">This page is the complete agreement. Part&nbsp;I is the Master Terms of Service that governs your
+    use of Luxucleen, its website, its AI agents and every service we offer. Part&nbsp;II is the specific written
+    agreement for each service &mdash; the exact deal, the exact price, and the one button that signs it.</p>
+    <p class="updated"><span class="lastupd-badge">Last updated: September 20, 2026</span> &nbsp; Version 2.0 &middot; Luxucleen LLC &middot; SCC Entity ID 11952713</p>
   </section>
 
-  <div class="note"><b>How it works, one button:</b> read the agreement below &rarr; press <b>"I've read it &mdash; sign &amp; send back"</b> &rarr; add your name in the email that opens &rarr; send. That email is your signature. Luxucleen countersigns and replies with the executed copy. Please read the whole agreement first; you may have your own attorney review it. These are the actual terms, not legal advice.</div>
+  <div class="note"><b>How signing works, one button.</b> Read the agreement that applies to you &rarr; press
+  <b>&ldquo;I&rsquo;ve read it &mdash; sign &amp; send back&rdquo;</b> at the end of that service&rsquo;s section &rarr; add your
+  name in the email that opens &rarr; send. That email is your electronic signature under the federal E-SIGN Act and the
+  Virginia Uniform Electronic Transactions Act. Luxucleen countersigns and replies with the executed copy. Please read the
+  whole agreement first. You have the right to have your own attorney review it before you sign. These are the actual
+  terms of the deal; they are written in plain language and are not, by themselves, legal advice to you.</div>
 
-  <div class="toc">
-    <a href="#build">Build your business (12%)</a>
-    <a href="#papeles">Immigration papers</a>
-    <a href="#dmv">DMV errands</a>
-    <a href="#website">Website build + care</a>
-    <a href="#surplus">Florida surplus recovery</a>
-    <a href="#visas">Work-visa coordination</a>
-    <a href="#hiring">Hiring (CHAMBA28)</a>
-    <a href="#other">Affiliates, trading, real estate</a>
+  <div class="tocwrap">
+    <h3>Everything in this agreement</h3>
+    <div class="tocgrid">
+      <span class="g">Part I &mdash; Master Terms of Service</span>
+      <a href="#s1">1. Acceptance of these Terms</a>
+      <a href="#s2">2. Definitions</a>
+      <a href="#s3">3. Eligibility &amp; legal capacity</a>
+      <a href="#s4">4. Who Luxucleen is &mdash; and is not</a>
+      <a href="#s5">5. No professional advice; no advisory relationship</a>
+      <a href="#s6">6. Scope of services &amp; order of precedence</a>
+      <a href="#s7">7. How agreements are formed &amp; electronically signed</a>
+      <a href="#s8">8. Accounts, registration &amp; security</a>
+      <a href="#s9">9. Communications consent; calls, texts &amp; recording</a>
+      <a href="#s10">10. Artificial intelligence &amp; automated agents</a>
+      <a href="#s11">11. Orbits &amp; encrypted storage; your key</a>
+      <a href="#s12">12. Fees, charges, taxes &amp; payment</a>
+      <a href="#s13">13. Subscriptions, recurring billing &amp; auto-renewal</a>
+      <a href="#s14">14. Refunds, credits &amp; chargebacks</a>
+      <a href="#s15">15. Revenue-share arrangements</a>
+      <a href="#s16">16. Your obligations &amp; cooperation</a>
+      <a href="#s17">17. Acceptable use; prohibited conduct</a>
+      <a href="#s18">18. Intellectual property</a>
+      <a href="#s19">19. Your licence to use the site; restrictions</a>
+      <a href="#s20">20. Your content, feedback &amp; the licence you grant</a>
+      <a href="#s21">21. Third-party services, professionals &amp; links</a>
+      <a href="#s22">22. Privacy, confidentiality &amp; data</a>
+      <a href="#s23">23. Security; no guarantee of absolute security</a>
+      <a href="#s24">24. Disclaimer of warranties</a>
+      <a href="#s25">25. Assumption of risk</a>
+      <a href="#s26">26. Limitation of liability</a>
+      <a href="#s27">27. Indemnification</a>
+      <a href="#s28">28. Term, suspension &amp; termination; survival</a>
+      <a href="#s29">29. Informal dispute resolution first</a>
+      <a href="#s30">30. Binding individual arbitration</a>
+      <a href="#s31">31. Class-action &amp; jury-trial waiver</a>
+      <a href="#s32">32. Your right to opt out of arbitration</a>
+      <a href="#s33">33. Governing law &amp; venue</a>
+      <a href="#s34">34. Changes to these Terms</a>
+      <a href="#s35">35. Changes to services &amp; pricing</a>
+      <a href="#s36">36. Force majeure</a>
+      <a href="#s37">37. Assignment &amp; successors</a>
+      <a href="#s38">38. Relationship of the parties</a>
+      <a href="#s39">39. Notices</a>
+      <a href="#s40">40. Severability, waiver, headings &amp; entire agreement</a>
+      <a href="#s41">41. Your consumer rights &amp; clean-business rule</a>
+      <a href="#s42">42. How to reach us</a>
+      <span class="g">Part II &mdash; Service agreements</span>
+      <a href="#build">Build your business (12% / 88%)</a>
+      <a href="#papeles">Immigration papers navigation</a>
+      <a href="#dmv">DMV errands (Virginia)</a>
+      <a href="#website">Website build &amp; care</a>
+      <a href="#surplus">Florida surplus recovery</a>
+      <a href="#visas">Work-visa coordination (H-2A / H-2B)</a>
+      <a href="#hiring">Hiring (CHAMBA28)</a>
+      <a href="#other">Affiliates, trading, real estate</a>
+    </div>
+  </div>
+
+  <!-- ============================= PART I ============================= -->
+  <div class="part" id="master">
+    <p class="peyebrow">Part I</p>
+    <h2>Master Terms of Service</h2>
+    <p class="pintro">These Master Terms (the &ldquo;Terms&rdquo; or &ldquo;Master Agreement&rdquo;) are a binding contract
+    between you and Luxucleen LLC. They apply every time you visit the website, talk to an AI agent, call or text the
+    line, buy a service, or sign any service agreement in Part&nbsp;II. Read them carefully; they include a mandatory
+    arbitration provision and a class-action waiver in Sections&nbsp;30&ndash;32.</p>
+  </div>
+
+  <section class="ms" id="s1">
+    <h3><span class="n">1.</span>Acceptance of these Terms</h3>
+    <ol>
+      <li>By accessing or using luxucleen.com (the &ldquo;Site&rdquo;), any Luxucleen page, tool, phone line, message
+      thread or AI agent, or by requesting, buying or receiving any service from Luxucleen LLC (&ldquo;Luxucleen,&rdquo;
+      &ldquo;we,&rdquo; &ldquo;us&rdquo; or &ldquo;our&rdquo;), you (&ldquo;you,&rdquo; &ldquo;your,&rdquo; the
+      &ldquo;Client,&rdquo; &ldquo;Customer,&rdquo; &ldquo;Owner&rdquo; or &ldquo;User&rdquo;) agree to be bound by these
+      Terms and by the service-specific agreement in Part&nbsp;II that applies to what you are buying.</li>
+      <li>If you do not agree to these Terms, do not use the Site or the services. Your continued use is a renewed
+      acceptance of the version of the Terms then posted.</li>
+      <li>If you are entering into these Terms on behalf of a company or other entity, you represent that you are
+      authorized to bind that entity, and &ldquo;you&rdquo; means that entity.</li>
+    </ol>
+  </section>
+
+  <section class="ms" id="s2">
+    <h3><span class="n">2.</span>Definitions</h3>
+    <p>In these Terms the following words have the meanings given here, whether or not capitalized:</p>
+    <dl class="defs">
+      <dt>&ldquo;Luxucleen&rdquo;</dt><dd>Luxucleen LLC, a Virginia limited liability company, SCC Entity ID 11952713, with its principal office in Midlothian, Virginia.</dd>
+      <dt>&ldquo;Services&rdquo;</dt><dd>Every service Luxucleen offers, including those described in Part&nbsp;II, together with the Site, the AI agents, the phone and messaging lines, and any related tool, content or communication.</dd>
+      <dt>&ldquo;Site&rdquo;</dt><dd>luxucleen.com and every page, subdomain, application and interface Luxucleen operates.</dd>
+      <dt>&ldquo;AI Agent&rdquo; / &ldquo;Luxu&rdquo;</dt><dd>The automated, artificial-intelligence assistants Luxucleen makes available on the Site, by phone, by message or in any product, which generate responses automatically.</dd>
+      <dt>&ldquo;Orbits&rdquo;</dt><dd>Luxucleen&rsquo;s encrypted, zero-knowledge personal-storage feature, in which data is encrypted on your device with a key only you control.</dd>
+      <dt>&ldquo;Service Agreement&rdquo;</dt><dd>Any of the specific written agreements in Part&nbsp;II that you sign for a particular service.</dd>
+      <dt>&ldquo;Content&rdquo;</dt><dd>All text, data, graphics, software, audio, guides, prices and other materials made available through the Services.</dd>
+      <dt>&ldquo;Your Content&rdquo;</dt><dd>Anything you submit, upload, type, record or provide, including documents, business ideas, photos and information about you or your business.</dd>
+      <dt>&ldquo;Fees&rdquo;</dt><dd>The amounts payable for a Service, as stated on the Site or in the applicable Service Agreement.</dd>
+      <dt>&ldquo;Professional&rdquo;</dt><dd>A licensed attorney, tax preparer, accountant, broker, lender or other regulated professional, who is independent of Luxucleen unless expressly stated.</dd>
+      <dt>&ldquo;Applicable Law&rdquo;</dt><dd>All laws, rules and regulations that apply to you, to Luxucleen or to a Service, including the laws of the Commonwealth of Virginia and the United States.</dd>
+    </dl>
+  </section>
+
+  <section class="ms" id="s3">
+    <h3><span class="n">3.</span>Eligibility &amp; legal capacity</h3>
+    <ol>
+      <li>You must be at least 18 years old and have the legal capacity to enter a binding contract. Some Services, such
+      as trading-related content, require you to be 18 or older and are not offered to minors.</li>
+      <li>You must not be barred from receiving the Services under any Applicable Law, and you must not be located in, or a
+      resident of, any jurisdiction subject to a comprehensive embargo or sanction that would make providing the Services
+      unlawful.</li>
+      <li>You agree to provide accurate, current and complete information when you register, request a service or sign an
+      agreement, and to keep it up to date.</li>
+    </ol>
+  </section>
+
+  <section class="ms" id="s4">
+    <h3><span class="n">4.</span>Who Luxucleen is &mdash; and is not</h3>
+    <ol>
+      <li>Luxucleen is a Virginia small business that helps everyday people and small businesses get real things done:
+      building and running businesses, organizing paperwork, running errands, building simple websites, and connecting
+      people with the right licensed Professionals.</li>
+      <li><span class="cap">Luxucleen is not a law firm</span>, is not an attorney, is not a notario, and does not
+      practice law or provide legal representation.</li>
+      <li><span class="cap">Luxucleen is not a real-estate brokerage</span>, is not a licensed real-estate agent, and does
+      not act as your broker.</li>
+      <li><span class="cap">Luxucleen is not a bank, lender, money transmitter, credit-repair organization or debt
+      collector</span>, and does not extend credit, repair credit or promise funding.</li>
+      <li><span class="cap">Luxucleen is not a tax-preparation firm, accounting firm, investment adviser or broker-dealer</span>,
+      and does not prepare tax returns for filing, manage money, or give personalized investment advice.</li>
+      <li>Where a Service requires professional licensure, that work is performed by an independent, licensed Professional,
+      whose fee is separate and disclosed to you in writing before it begins.</li>
+    </ol>
+  </section>
+
+  <section class="ms" id="s5">
+    <h3><span class="n">5.</span>No professional advice; no advisory relationship</h3>
+    <ol>
+      <li>All Content, guides, AI-agent responses, estimates, examples and educational material are provided for general
+      information only. They are <span class="cap">not legal, tax, financial, investment, accounting, immigration,
+      real-estate or other professional advice</span>, and must not be relied on as such.</li>
+      <li>Using the Site, reading a guide, or talking with an AI agent does <span class="cap">not</span> create an
+      attorney-client, fiduciary, broker-client, tax-adviser, investment-adviser or any other professional or advisory
+      relationship between you and Luxucleen.</li>
+      <li>You are responsible for your own decisions. Before acting on anything you find here, you should consult a
+      Professional licensed in your jurisdiction who can review your specific facts. Nothing here is a substitute for that
+      advice, and no result is promised.</li>
+    </ol>
+  </section>
+
+  <section class="ms" id="s6">
+    <h3><span class="n">6.</span>Scope of services &amp; order of precedence</h3>
+    <ol>
+      <li>The Services you receive are those described on the Site and in the Service Agreement you sign. Luxucleen may
+      decline any request in its discretion and does not promise to provide every Service to every person.</li>
+      <li>These Master Terms apply to all Services. A Service Agreement in Part&nbsp;II adds the specific deal for that
+      Service.</li>
+      <li><b>Order of precedence.</b> If a signed Service Agreement and these Master Terms conflict, the signed Service
+      Agreement controls for that Service, but only to the extent of the conflict; in every other respect these Master
+      Terms continue to apply. A separately negotiated and signed written contract (for example, a real-estate purchase or
+      assignment contract) controls over both.</li>
+    </ol>
+  </section>
+
+  <section class="ms" id="s7">
+    <h3><span class="n">7.</span>How agreements are formed &amp; electronically signed</h3>
+    <ol>
+      <li>A Service Agreement is formed when you send the signing email generated by the &ldquo;sign &amp; send back&rdquo;
+      button (or otherwise deliver your written acceptance) and Luxucleen accepts it, in writing or by beginning
+      performance.</li>
+      <li><b>Electronic signatures and records.</b> You consent to transact electronically. Typing your full name in the
+      signing email, clicking &ldquo;send,&rdquo; or otherwise indicating acceptance electronically, is your legally
+      binding electronic signature under the federal Electronic Signatures in Global and National Commerce Act (E-SIGN),
+      15&nbsp;U.S.C. &sect;7001 et&nbsp;seq., and the Virginia Uniform Electronic Transactions Act, Va.&nbsp;Code
+      &sect;59.1-479 et&nbsp;seq. It has the same effect as a handwritten signature on paper.</li>
+      <li><b>Right to paper.</b> You may request a paper copy of any agreement or record, and may withdraw your consent to
+      electronic records, by emailing hello@luxucleen.com; withdrawing consent may prevent Luxucleen from providing a
+      Service that requires electronic delivery.</li>
+      <li>You are responsible for keeping the executed copy Luxucleen returns to you.</li>
+    </ol>
+  </section>
+
+  <section class="ms" id="s8">
+    <h3><span class="n">8.</span>Accounts, registration &amp; security</h3>
+    <ol>
+      <li>Some Services require an account or the submission of information. You agree to provide accurate information and
+      to keep any password or access credential confidential.</li>
+      <li>You are responsible for all activity that occurs under your account or that uses your credentials, and you agree
+      to notify Luxucleen promptly of any unauthorized use or suspected breach.</li>
+      <li>Luxucleen may suspend or close an account that is used in violation of these Terms, that appears compromised, or
+      that is required to protect the Services or other users.</li>
+    </ol>
+  </section>
+
+  <section class="ms" id="s9">
+    <h3><span class="n">9.</span>Communications consent; calls, texts &amp; recording</h3>
+    <ol>
+      <li>By giving Luxucleen your phone number or by contacting our phone or messaging line, you agree that Luxucleen and
+      its AI agents may call, text (SMS/MMS) and message you at that number for service, scheduling, confirmations, support
+      and related purposes, including through automated systems.</li>
+      <li><b>Recording.</b> Calls and voice interactions with the line or an AI agent may be recorded and transcribed for
+      quality, training, record-keeping and to deliver the Service. Where the law of your jurisdiction requires all-party
+      consent to record, your continued participation in the call after this notice is your consent; if you do not consent,
+      end the call and contact us by email instead.</li>
+      <li><b>Message and data rates</b> may apply and are your responsibility. Message frequency varies. You may opt out of
+      non-transactional texts at any time by replying STOP, and get help by replying HELP. Opting out of texts may limit a
+      Service that depends on them.</li>
+      <li>Consent to marketing messages is not a condition of purchasing any Service.</li>
+    </ol>
+  </section>
+
+  <section class="ms" id="s10">
+    <h3><span class="n">10.</span>Artificial intelligence &amp; automated agents</h3>
+    <ol>
+      <li>Luxucleen&rsquo;s AI agents generate responses automatically using artificial intelligence. Their output can be
+      incomplete, out of date, or wrong, and may not fit your specific situation.</li>
+      <li>AI output is Content and is subject to Section&nbsp;5: it is information, not professional advice, and creates no
+      advisory relationship. Do not rely on it for a legal, tax, financial, medical, immigration or other important
+      decision without confirming it with a Professional.</li>
+      <li>You will not use an AI agent to attempt to obtain professional advice it is not permitted to give, to generate
+      unlawful, harmful, infringing or deceptive material, or to probe, attack or reverse-engineer the system.</li>
+      <li>A human review of an AI interaction is available on request where a Service reasonably allows it. Luxucleen may
+      log AI interactions to operate, secure and improve the Services, subject to Section&nbsp;22.</li>
+    </ol>
+  </section>
+
+  <section class="ms" id="s11">
+    <h3><span class="n">11.</span>Orbits &amp; encrypted storage; your key</h3>
+    <ol>
+      <li>Orbits encrypts your data on your own device with a key derived from a secret only you hold. This is
+      &ldquo;zero-knowledge&rdquo; storage: <span class="cap">Luxucleen cannot read your Orbits data and cannot recover your
+      key or passphrase.</span></li>
+      <li>You are solely responsible for remembering and safeguarding your key or passphrase. <span class="cap">If you lose
+      it, your data cannot be recovered by anyone, including Luxucleen</span>, and it will be permanently inaccessible.</li>
+      <li>Orbits is provided on an &ldquo;as is&rdquo; and &ldquo;as available&rdquo; basis. Luxucleen does not warrant
+      uninterrupted availability and is not liable for data you lose because you lost your key, because a device failed, or
+      for reasons outside Luxucleen&rsquo;s reasonable control. Keep your own independent backups of anything important.</li>
+      <li>You will use Orbits only for lawful content that you have the right to store.</li>
+    </ol>
+  </section>
+
+  <section class="ms" id="s12">
+    <h3><span class="n">12.</span>Fees, charges, taxes &amp; payment</h3>
+    <ol>
+      <li>You agree to pay the Fees stated on the Site or in the applicable Service Agreement for the Services you request.
+      Fees are in U.S. dollars.</li>
+      <li>By providing a payment method or authorizing a charge, you represent that you are authorized to use it and you
+      authorize Luxucleen and its third-party payment processors to charge it for the Fees and any authorized costs.</li>
+      <li>Third-party costs (for example, government fees, an independent Professional&rsquo;s fee, advertising spend,
+      domains or hosting) are separate from Luxucleen&rsquo;s Fee, are disclosed before they are incurred, and are your
+      responsibility unless the Service Agreement says otherwise. No cost is charged to you without your prior consent.</li>
+      <li>You are responsible for any taxes associated with your purchase, other than taxes on Luxucleen&rsquo;s net
+      income.</li>
+      <li>Late or failed payments may result in suspension of a Service. Luxucleen does not store full card numbers; card
+      data is handled by PCI-compliant processors.</li>
+    </ol>
+  </section>
+
+  <section class="ms" id="s13">
+    <h3><span class="n">13.</span>Subscriptions, recurring billing &amp; auto-renewal</h3>
+    <ol>
+      <li>Some Services are offered on a recurring subscription (for example, website care at a monthly Fee). By starting a
+      subscription you authorize Luxucleen to charge the recurring Fee to your payment method at the stated interval until
+      you cancel.</li>
+      <li><b>Auto-renewal.</b> Subscriptions renew automatically for successive periods at the then-current Fee until
+      canceled. You may cancel at any time, effective at the end of the current billing period.</li>
+      <li>To cancel, use the method stated in the Service or email hello@luxucleen.com before the next renewal date. Unless
+      Applicable Law or the Service Agreement provides otherwise, canceling stops future charges but does not refund the
+      current period already paid.</li>
+      <li>If Luxucleen changes a recurring Fee, it will give you notice before the change takes effect, and your continued
+      subscription after the effective date is acceptance of the new Fee.</li>
+    </ol>
+  </section>
+
+  <section class="ms" id="s14">
+    <h3><span class="n">14.</span>Refunds, credits &amp; chargebacks</h3>
+    <ol>
+      <li>Refund terms specific to a Service are stated in that Service&rsquo;s agreement in Part&nbsp;II and control for
+      that Service (for example: the immigration navigation fee is fully refunded if no licensed attorney will review your
+      case; the website fee is due only if you keep the site; surplus recovery is contingent, with nothing due unless funds
+      are recovered).</li>
+      <li>Except where a Service Agreement or Applicable Law provides otherwise, Fees for work already performed are
+      earned when performed and are not refundable.</li>
+      <li>If you believe you were charged in error, contact Luxucleen first so it can review and, where appropriate,
+      correct or refund the charge. Initiating a chargeback without contacting Luxucleen first, or for a Service that was
+      delivered as agreed, is a breach of these Terms and may result in suspension of Services.</li>
+    </ol>
+  </section>
+
+  <section class="ms" id="s15">
+    <h3><span class="n">15.</span>Revenue-share arrangements</h3>
+    <ol>
+      <li>Where a Service is offered on a revenue-share basis (see the Build-Your-Business Agreement in Part&nbsp;II),
+      Luxucleen&rsquo;s share is the stated percentage of the business&rsquo;s net profits, calculated and paid as
+      described in that agreement, with a plain monthly statement.</li>
+      <li>Revenue share is not a guarantee of income, profit or any result. A business can make nothing. Nothing in a
+      revenue-share arrangement is investment, securities or financial advice, and no security is offered or sold.</li>
+    </ol>
+  </section>
+
+  <section class="ms" id="s16">
+    <h3><span class="n">16.</span>Your obligations &amp; cooperation</h3>
+    <ol>
+      <li>You agree to give Luxucleen the accurate information, documents and access a Service reasonably needs, on time,
+      and to review what Luxucleen prepares before it is submitted or relied on.</li>
+      <li>You are responsible for your own conduct and, where a Service supports your business (for example, hiring or work
+      visas), for your own legal compliance, including wage, safety, tax, licensing and employment rules that apply to
+      you.</li>
+      <li>Delays or errors caused by information you did not provide, or provided incorrectly, are your responsibility and
+      may affect timelines and Fees.</li>
+    </ol>
+  </section>
+
+  <section class="ms" id="s17">
+    <h3><span class="n">17.</span>Acceptable use; prohibited conduct</h3>
+    <p>You agree not to, and not to help or permit anyone else to:</p>
+    <ol class="abc">
+      <li>use the Services for anything illegal, fraudulent, deceptive, or harmful, or to launder money or evade taxes,
+      sanctions or the law;</li>
+      <li>ask Luxucleen to build, run or assist a business or activity that is unlawful, unsafe, or against Luxucleen&rsquo;s
+      honesty rules;</li>
+      <li>submit false, stolen or misleading information or documents, or impersonate any person or entity;</li>
+      <li>infringe anyone&rsquo;s intellectual-property, privacy, publicity or other rights;</li>
+      <li>upload malware, or attempt to gain unauthorized access to, disrupt, overload, or interfere with the Services or
+      their security;</li>
+      <li>scrape, harvest, data-mine, or use bots to collect Content, or reverse-engineer, decompile or copy
+      Luxucleen&rsquo;s software, models, tools or methods, except as Applicable Law expressly permits;</li>
+      <li>resell, sublicense or commercially exploit the Services or Content without Luxucleen&rsquo;s written permission;
+      or</li>
+      <li>use the Services to harass, threaten, defame or harm any person, or in any way that violates Applicable Law.</li>
+    </ol>
+    <p>Luxucleen may investigate and take any lawful action for a violation, including removing Content, suspending or
+    ending Services, and reporting conduct to the authorities.</p>
+  </section>
+
+  <section class="ms" id="s18">
+    <h3><span class="n">18.</span>Intellectual property</h3>
+    <ol>
+      <li>The Site, its Content, and Luxucleen&rsquo;s software, AI models, tools, templates, designs, text, graphics,
+      brand, name, logos and methods are owned by Luxucleen or its licensors and are protected by intellectual-property
+      laws. All rights not expressly granted are reserved.</li>
+      <li>&ldquo;Luxucleen,&rdquo; the Luxucleen logo, and related marks are trademarks of Luxucleen LLC. You may not use
+      them without prior written permission.</li>
+      <li>When a Service builds something for you (for example, a business brand, a one-page website&rsquo;s text and
+      photos, or your customer list), <b>what is yours stays yours</b>, as detailed in the applicable Service Agreement;
+      Luxucleen&rsquo;s underlying code, templates and tools remain Luxucleen&rsquo;s, and you receive the right to use the
+      deliverable for its intended purpose.</li>
+    </ol>
+  </section>
+
+  <section class="ms" id="s19">
+    <h3><span class="n">19.</span>Your licence to use the site; restrictions</h3>
+    <ol>
+      <li>Subject to these Terms, Luxucleen grants you a limited, personal, non-exclusive, non-transferable, revocable
+      licence to access and use the Site and Content for your own lawful, non-commercial use of the Services.</li>
+      <li>This licence does not include any right to copy, modify, distribute, sell, lease or create derivative works from
+      the Site or Content, or to use it to build a competing product, except as Applicable Law expressly permits or
+      Luxucleen agrees in writing.</li>
+    </ol>
+  </section>
+
+  <section class="ms" id="s20">
+    <h3><span class="n">20.</span>Your content, feedback &amp; the licence you grant</h3>
+    <ol>
+      <li>You keep ownership of Your Content. You grant Luxucleen a non-exclusive, worldwide, royalty-free licence to host,
+      use, reproduce, process and display Your Content solely as needed to provide, secure and improve the Services you
+      request, and as permitted by the Privacy terms.</li>
+      <li>You represent that you have the rights to Your Content and that it does not violate Applicable Law or these
+      Terms.</li>
+      <li><b>Feedback.</b> If you send suggestions or ideas about the Services, you grant Luxucleen a perpetual,
+      irrevocable, royalty-free right to use them without obligation or compensation to you.</li>
+      <li><b>Portfolio.</b> Luxucleen may reference or display work it delivered as an example of its services unless the
+      Service Agreement says otherwise or you ask it not to.</li>
+    </ol>
+  </section>
+
+  <section class="ms" id="s21">
+    <h3><span class="n">21.</span>Third-party services, professionals &amp; links</h3>
+    <ol>
+      <li>The Services may involve, or link to, independent third parties &mdash; licensed attorneys and other
+      Professionals, government offices and the DMV, county clerks, payment processors, hosting providers, and other
+      vendors. Luxucleen does not control them and is not responsible for their acts, omissions, decisions, fees or
+      content.</li>
+      <li>A Professional&rsquo;s advice, work and fee are the Professional&rsquo;s own. Government agencies decide their own
+      matters. Luxucleen&rsquo;s role is to coordinate and assist, not to guarantee any third party&rsquo;s outcome.</li>
+      <li>Your use of a third-party service may be governed by that third party&rsquo;s own terms, which are between you
+      and them.</li>
+    </ol>
+  </section>
+
+  <section class="ms" id="s22">
+    <h3><span class="n">22.</span>Privacy, confidentiality &amp; data</h3>
+    <ol>
+      <li>Luxucleen treats your information as confidential and uses it to provide the Services you request. Information you
+      give for a Service that involves a Professional is shared only with the Professional working on your matter, and is
+      not shared with the government or anyone else except as needed for the Service or as Applicable Law requires.</li>
+      <li>Documents provided for a specific task (for example, a DMV errand) are used only for that task and are not kept
+      afterward beyond what is reasonably needed or legally required.</li>
+      <li>Luxucleen&rsquo;s handling of personal data is further described in its <a href="/legal/">legal and privacy
+      information</a>; where those terms and these conflict on a privacy matter, the privacy terms control.</li>
+      <li>You will not submit other people&rsquo;s personal information unless you have the right to, and you are
+      responsible for the accuracy of what you submit.</li>
+    </ol>
+  </section>
+
+  <section class="ms" id="s23">
+    <h3><span class="n">23.</span>Security; no guarantee of absolute security</h3>
+    <ol>
+      <li>Luxucleen uses reasonable administrative, technical and physical measures designed to protect information. Orbits
+      additionally encrypts your data so that only you can read it (Section&nbsp;11).</li>
+      <li>No method of transmission or storage is perfectly secure. Luxucleen cannot and does not guarantee that the
+      Services or your information will never be accessed, altered or lost, and, to the extent the law allows, is not liable
+      for events beyond its reasonable control.</li>
+    </ol>
+  </section>
+
+  <section class="ms" id="s24">
+    <h3><span class="n">24.</span>Disclaimer of warranties</h3>
+    <ol>
+      <li><span class="cap">The services, the site, the ai agents and all content are provided &ldquo;as is&rdquo; and
+      &ldquo;as available,&rdquo; with all faults and without warranty of any kind.</span></li>
+      <li>To the fullest extent permitted by law, Luxucleen disclaims all warranties, express, implied or statutory,
+      including any implied warranties of merchantability, fitness for a particular purpose, title, accuracy and
+      non-infringement, and any warranty that the Services will be uninterrupted, timely, secure, error-free, or will
+      produce any particular result.</li>
+      <li>No advice or information, whether oral or written, obtained from Luxucleen or an AI agent, creates any warranty
+      not expressly stated here. Some jurisdictions do not allow the exclusion of certain warranties, so parts of this
+      Section may not apply to you.</li>
+    </ol>
+  </section>
+
+  <section class="ms" id="s25">
+    <h3><span class="n">25.</span>Assumption of risk</h3>
+    <ol>
+      <li>Certain activities carry inherent risk. <b>Trading and investing involve substantial risk of loss</b>, are for
+      persons 18 or older, and nothing on the Site is financial or investment advice or a recommendation. <b>Real-estate
+      transactions</b> carry their own risks and are governed by their own separate written contracts. <b>Starting or
+      running a business</b> may result in no profit or a loss.</li>
+      <li>You understand and voluntarily assume these risks. Your decisions and their outcomes are your own
+      responsibility.</li>
+    </ol>
+  </section>
+
+  <section class="ms" id="s26">
+    <h3><span class="n">26.</span>Limitation of liability</h3>
+    <ol>
+      <li><span class="cap">To the fullest extent permitted by law, Luxucleen and its members, managers, employees,
+      contractors and agents will not be liable for any indirect, incidental, special, consequential, exemplary or punitive
+      damages, or for any lost profits, lost business, lost data, or loss of goodwill</span>, arising out of or relating to
+      the Services or these Terms, even if advised of the possibility.</li>
+      <li><span class="cap">Luxucleen&rsquo;s total aggregate liability for all claims arising out of or relating to the
+      Services or these Terms will not exceed the greater of (a)&nbsp;the amount you actually paid Luxucleen for the
+      specific Service giving rise to the claim in the six (6) months before the claim arose, or (b)&nbsp;one hundred U.S.
+      dollars ($100).</span></li>
+      <li>These limits do not apply to liability that cannot be limited under Applicable Law. Some jurisdictions do not
+      allow certain limitations, so parts of this Section may not apply to you. These limitations are a fundamental basis
+      of the bargain between you and Luxucleen.</li>
+    </ol>
+  </section>
+
+  <section class="ms" id="s27">
+    <h3><span class="n">27.</span>Indemnification</h3>
+    <ol>
+      <li>You agree to defend, indemnify and hold harmless Luxucleen and its members, managers, employees, contractors and
+      agents from and against any claims, demands, losses, liabilities, damages, costs and expenses (including reasonable
+      attorneys&rsquo; fees) arising out of or related to: (a)&nbsp;your use of the Services; (b)&nbsp;Your Content or the
+      information you provide; (c)&nbsp;your violation of these Terms or Applicable Law; or (d)&nbsp;your violation of any
+      third-party right.</li>
+      <li>Luxucleen may, at its option, control the defense of any matter subject to indemnification, and you will
+      cooperate.</li>
+    </ol>
+  </section>
+
+  <section class="ms" id="s28">
+    <h3><span class="n">28.</span>Term, suspension &amp; termination; survival</h3>
+    <ol>
+      <li>These Terms apply while you use the Services and, for any Service Agreement, for the term stated in it (many are
+      month-to-month and either party may end them on 30 days&rsquo; written notice, as specified in Part&nbsp;II).</li>
+      <li>Luxucleen may suspend or terminate your access to the Services, or a Service Agreement, immediately if you breach
+      these Terms, if required by law, to protect the Services or others, or if a business or request turns out to be
+      unlawful or against Luxucleen&rsquo;s honesty rules.</li>
+      <li>On termination, amounts owed for work performed remain due, and any part of these Terms that by its nature should
+      survive &mdash; including Sections 5, 14, 18, 20, 24, 26, 27, 30&ndash;33 and 40 &mdash; survives.</li>
+    </ol>
+  </section>
+
+  <section class="ms" id="s29">
+    <h3><span class="n">29.</span>Informal dispute resolution first</h3>
+    <ol>
+      <li>Most concerns can be resolved quickly. Before starting an arbitration or court case, you agree to first contact
+      Luxucleen at hello@luxucleen.com with a short written description of the dispute and the relief you want, and to give
+      the parties 30 days to try to resolve it in good faith.</li>
+      <li>This step is a condition of starting a formal proceeding. The 30-day period tolls any applicable limitations
+      period.</li>
+    </ol>
+  </section>
+
+  <section class="ms" id="s30">
+    <h3><span class="n">30.</span>Binding individual arbitration</h3>
+    <ol>
+      <li><b>Please read this Section carefully &mdash; it affects your legal rights.</b> Except for the matters carved out
+      below, any dispute, claim or controversy arising out of or relating to the Services or these Terms that is not
+      resolved informally will be resolved by <span class="cap">final and binding individual arbitration</span>, rather
+      than in court, administered under the rules of a recognized arbitration provider then in effect. The Federal
+      Arbitration Act governs the interpretation and enforcement of this Section.</li>
+      <li>The arbitration will be conducted by a single neutral arbitrator, seated in or near Richmond, Virginia, or by
+      telephone or video, or on documents alone, as the rules allow. The arbitrator decides all issues, except that a court
+      decides the enforceability of the class-action waiver in Section&nbsp;31.</li>
+      <li><b>Exceptions.</b> Either party may bring an individual claim in small-claims court if it qualifies, and either
+      party may seek injunctive or equitable relief in court to protect intellectual property or stop unauthorized use.</li>
+      <li>Nothing in this Section prevents either party from bringing a matter to the attention of a government agency,
+      which may seek relief on your behalf.</li>
+    </ol>
+  </section>
+
+  <section class="ms" id="s31">
+    <h3><span class="n">31.</span>Class-action &amp; jury-trial waiver</h3>
+    <ol>
+      <li><span class="cap">You and Luxucleen agree that each may bring claims against the other only in an individual
+      capacity, and not as a plaintiff or class member in any purported class, collective, consolidated or representative
+      proceeding.</span></li>
+      <li><span class="cap">To the extent any dispute proceeds in court rather than arbitration, you and Luxucleen each
+      waive any right to a jury trial.</span></li>
+      <li>If this class-action waiver is found unenforceable as to a particular claim, that claim (and only that claim) will
+      proceed in court, and the rest of this Section and Section&nbsp;30 remain in force.</li>
+    </ol>
+  </section>
+
+  <section class="ms" id="s32">
+    <h3><span class="n">32.</span>Your right to opt out of arbitration</h3>
+    <ol>
+      <li>You may opt out of Sections&nbsp;30 and 31 by emailing hello@luxucleen.com with the subject &ldquo;Arbitration
+      Opt-Out&rdquo; within 30 days after you first accept these Terms, stating your name and that you opt out. Opting out
+      will not affect any other part of these Terms.</li>
+    </ol>
+  </section>
+
+  <section class="ms" id="s33">
+    <h3><span class="n">33.</span>Governing law &amp; venue</h3>
+    <ol>
+      <li>These Terms and any dispute are governed by the laws of the Commonwealth of Virginia and applicable U.S. federal
+      law, without regard to conflict-of-laws rules.</li>
+      <li>For any matter not subject to arbitration, you and Luxucleen consent to the exclusive jurisdiction and venue of
+      the state and federal courts located in or serving Chesterfield County, Virginia.</li>
+    </ol>
+  </section>
+
+  <section class="ms" id="s34">
+    <h3><span class="n">34.</span>Changes to these Terms</h3>
+    <ol>
+      <li>Luxucleen may update these Terms from time to time. The &ldquo;Last updated&rdquo; date at the top shows when.
+      Material changes will be indicated by updating that date and, where appropriate, by additional notice.</li>
+      <li>Changes are effective when posted. Your continued use of the Services after the effective date is your acceptance
+      of the updated Terms. If you do not agree, stop using the Services. Changes do not apply retroactively to a dispute of
+      which Luxucleen had notice before the change.</li>
+    </ol>
+  </section>
+
+  <section class="ms" id="s35">
+    <h3><span class="n">35.</span>Changes to services &amp; pricing</h3>
+    <ol>
+      <li>Luxucleen may add, change, suspend or discontinue any Service or feature, and may change prices, in each case on a
+      going-forward basis. For a Service you have already signed and paid for, the price and terms in your signed Service
+      Agreement continue to apply for its stated term.</li>
+    </ol>
+  </section>
+
+  <section class="ms" id="s36">
+    <h3><span class="n">36.</span>Force majeure</h3>
+    <ol>
+      <li>Luxucleen is not liable for any delay or failure to perform caused by events beyond its reasonable control,
+      including acts of God, natural disasters, fire, flood, epidemic or pandemic, war, terrorism, civil unrest, labor
+      disputes, utility, network or internet failures, third-party service outages, or government action.</li>
+    </ol>
+  </section>
+
+  <section class="ms" id="s37">
+    <h3><span class="n">37.</span>Assignment &amp; successors</h3>
+    <ol>
+      <li>You may not assign or transfer these Terms or any Service Agreement without Luxucleen&rsquo;s prior written
+      consent. Luxucleen may assign them, including in connection with a merger, acquisition, reorganization or sale of
+      assets. These Terms bind and benefit the parties and their permitted successors and assigns.</li>
+    </ol>
+  </section>
+
+  <section class="ms" id="s38">
+    <h3><span class="n">38.</span>Relationship of the parties</h3>
+    <ol>
+      <li>You and Luxucleen are independent contractors. Nothing in these Terms creates a partnership, joint venture,
+      employment or franchise relationship, or makes either party the agent of the other, except a limited agency you
+      expressly grant for a specific task (for example, a Virginia DMV power-of-attorney form VSA-70 naming Luxucleen for
+      one errand).</li>
+      <li>Neither party may bind the other or incur any obligation on the other&rsquo;s behalf except as expressly
+      authorized in writing.</li>
+    </ol>
+  </section>
+
+  <section class="ms" id="s39">
+    <h3><span class="n">39.</span>Notices</h3>
+    <ol>
+      <li>Luxucleen may give you notices by email to the address you provided, by posting on the Site, or by message to your
+      phone number. You are responsible for keeping your contact details current.</li>
+      <li>You give Luxucleen notice by emailing hello@luxucleen.com, or by mail to Luxucleen LLC, Midlothian, Virginia.
+      Notices are effective when sent (for email) or received (for mail).</li>
+    </ol>
+  </section>
+
+  <section class="ms" id="s40">
+    <h3><span class="n">40.</span>Severability, waiver, headings &amp; entire agreement</h3>
+    <ol>
+      <li><b>Severability.</b> If any provision of these Terms is held invalid or unenforceable, it will be limited or
+      removed to the minimum extent necessary, and the remaining provisions stay in full force.</li>
+      <li><b>Waiver.</b> Luxucleen&rsquo;s failure to enforce any right or provision is not a waiver of it. A waiver is
+      effective only if in writing and signed by Luxucleen.</li>
+      <li><b>Headings.</b> Section headings are for convenience only and do not affect interpretation.</li>
+      <li><b>Entire agreement.</b> These Master Terms, together with any Service Agreement you sign and any policy expressly
+      incorporated by reference, are the entire agreement between you and Luxucleen on their subject matter and supersede
+      all prior discussions and understandings.</li>
+    </ol>
+  </section>
+
+  <section class="ms" id="s41">
+    <h3><span class="n">41.</span>Your consumer rights &amp; clean-business rule</h3>
+    <ol>
+      <li>Nothing in these Terms waives any right you have under a consumer-protection law that cannot be waived. Where such
+      a law gives you a right that conflicts with these Terms, that right controls to the extent required.</li>
+      <li><b>Your right to your own attorney.</b> You always have the right to have your own attorney review any agreement
+      before you sign it, and, for services you could do yourself (such as filing a surplus claim directly with a county),
+      to do it yourself at no cost to Luxucleen. Our services are a choice, not a requirement.</li>
+      <li><b>Clean business only.</b> Luxucleen will not build, run or assist anything illegal, unsafe, deceptive, or
+      against its honesty rules, and may end any engagement immediately if it turns out to be one of those.</li>
+      <li><b>Accessibility.</b> Luxucleen aims to make the Site usable by everyone; if you have trouble accessing any part,
+      email hello@luxucleen.com and we will help.</li>
+    </ol>
+  </section>
+
+  <section class="ms" id="s42">
+    <h3><span class="n">42.</span>How to reach us</h3>
+    <p>Questions about these Terms, a request for a paper copy, an arbitration opt-out, or any concern:</p>
+    <p><b>Luxucleen LLC</b><br>
+    Midlothian, Virginia &middot; SCC Entity ID 11952713<br>
+    Email: <a href="mailto:hello@luxucleen.com?subject=Agreements%20%26%20Terms">hello@luxucleen.com</a><br>
+    Or use the <a href="/contact/">contact page</a>.</p>
+    <a class="backtop" href="#top">&uarr; Back to top</a>
+  </section>
+
+  <!-- ============================= PART II ============================= -->
+  <div class="part" id="services">
+    <p class="peyebrow">Part II</p>
+    <h2>Service-specific agreements</h2>
+    <p class="pintro">Each of these is the exact written deal for one Service. It is read together with the Master Terms in
+    Part&nbsp;I; where they differ, the signed Service Agreement controls for that Service. Read the one you need, then sign
+    with the button at the end of it.</p>
   </div>
 
   <section class="agr" id="build">
@@ -88,6 +760,7 @@
     <div class="sig">Owner name: ____________________   Date: __________   Signature: ____________________
 Luxucleen LLC by: ____________________   Date: __________   Signature: ____________________</div>
     <a class="cta" href="mailto:hello@luxucleen.com?subject=SIGNED%20-%20Build-Your-Business%20Agreement%20%2812%25%20%2F%2088%25%29%20%5BYour%20Name%5D&body=I%20have%20read%20the%20Build-Your-Business%20Agreement%20at%20luxucleen.com%2Fagreements%2F%23build%20and%20I%20ACCEPT%20its%20terms%3A%20Luxucleen%20builds%20and%20runs%20my%20idea%2C%20keeps%2012%25%20of%20net%20profits%2C%20I%20keep%2088%25%2C%20monthly%20statements%2C%2030-day%20exit%2C%20no%20promises%20of%20profit.%0AMy%20idea%3A%20%5BYour%20business%20idea%5D%0A%0ASigned%20electronically%20by%20typing%20my%20full%20name%3A%20%5BYour%20full%20name%5D%0ADate%3A%20%5BToday%27s%20date%5D%0AEmail%3A%20%5BYour%20email%5D%20%20%20Phone%3A%20%5BYour%20phone%5D%0A%0ALuxucleen%20LLC%20will%20countersign%20and%20reply%20with%20the%20executed%20copy.">I've read it &mdash; sign &amp; send back &rarr;</a>
+    <br><a class="backtop" href="#top">&uarr; Back to top</a>
   </section>
 
   <section class="agr" id="papeles">
@@ -113,6 +786,7 @@ Luxucleen LLC by: ____________________   Date: __________   Signature: _________
     <div class="sig">Client name: ____________________   Date: __________   Signature: ____________________
 Luxucleen LLC by: ____________________   Date: __________   Signature: ____________________</div>
     <a class="cta" href="mailto:hello@luxucleen.com?subject=SIGNED%20-%20PAPELES28%20Navigation%20Service%20Agreement%20%5BYour%20Name%5D&body=I%20have%20read%20the%20PAPELES28%20Navigation%20Service%20Agreement%20at%20luxucleen.com%2Fagreements%2F%23papeles%20and%20I%20ACCEPT%20its%20terms%3A%20%24149%20navigation%20fee%20payable%20in%20parts%2C%20free%20first%20consult%2C%20the%20attorney%27s%20fee%20is%20separate%2C%20this%20is%20not%20legal%20advice%2C%20full%20refund%20if%20no%20licensed%20attorney%20takes%20my%20case.%0AState%20where%20I%20live%3A%20%5BYour%20state%5D%0A%0ASigned%20electronically%20by%20typing%20my%20full%20name%3A%20%5BYour%20full%20name%5D%0ADate%3A%20%5BToday%27s%20date%5D%0AEmail%3A%20%5BYour%20email%5D%20%20%20Phone%3A%20%5BYour%20phone%5D%0A%0ALuxucleen%20LLC%20will%20countersign%20and%20reply%20with%20the%20executed%20copy.">I've read it &mdash; sign &amp; send back &rarr;</a>
+    <br><a class="backtop" href="#top">&uarr; Back to top</a>
   </section>
 
   <section class="agr" id="dmv">
@@ -135,6 +809,7 @@ Luxucleen LLC by: ____________________   Date: __________   Signature: _________
     <div class="sig">Customer name: ____________________   Date: __________   Signature: ____________________
 Luxucleen LLC by: ____________________   Date: __________   Signature: ____________________</div>
     <a class="cta" href="mailto:hello@luxucleen.com?subject=SIGNED%20-%20DMV%20Errand%20Service%20Agreement%20%5BYour%20Name%5D&body=I%20have%20read%20the%20DMV%20Errand%20Service%20Agreement%20at%20luxucleen.com%2Fagreements%2F%23dmv%20and%20I%20ACCEPT%20its%20terms%3A%20%2449%20for%20an%20errand%20done%20online%20or%20by%20mail%2C%20%2499%20in%20person%20as%20my%20agent%2C%20DMV%20fees%20separate%2C%20VSA-70%20power%20of%20attorney%20when%20the%20task%20needs%20it.%0AWhat%20I%20need%3A%20%5BSticker%20%2F%20registration%20%2F%20title%20%2F%20renewal%5D%0ACity%3A%20%5BYour%20city%5D%0A%0ASigned%20electronically%20by%20typing%20my%20full%20name%3A%20%5BYour%20full%20name%5D%0ADate%3A%20%5BToday%27s%20date%5D%0AEmail%3A%20%5BYour%20email%5D%20%20%20Phone%3A%20%5BYour%20phone%5D%0A%0ALuxucleen%20LLC%20will%20countersign%20and%20reply%20with%20the%20executed%20copy.">I've read it &mdash; sign &amp; send back &rarr;</a>
+    <br><a class="backtop" href="#top">&uarr; Back to top</a>
   </section>
 
   <section class="agr" id="website">
@@ -154,6 +829,7 @@ Luxucleen LLC by: ____________________   Date: __________   Signature: _________
     <div class="sig">Client name: ____________________   Business: ____________________   Date: __________   Signature: ____________________
 Luxucleen LLC by: ____________________   Date: __________   Signature: ____________________</div>
     <a class="cta" href="mailto:hello@luxucleen.com?subject=SIGNED%20-%20Website%20Build%20%26%20Care%20Agreement%20%5BYour%20Business%5D&body=I%20have%20read%20the%20Website%20Build%20%26%20Care%20Agreement%20at%20luxucleen.com%2Fagreements%2F%23website%20and%20I%20ACCEPT%20its%20terms%3A%20%24149%20only%20if%20I%20keep%20the%20site%2C%20optional%20care%20at%20%2429%20per%20month%20cancel%20any%20month%2C%20no%20ranking%20promises.%0ABusiness%3A%20%5BYour%20business%5D%0A%0ASigned%20electronically%20by%20typing%20my%20full%20name%3A%20%5BYour%20full%20name%5D%0ADate%3A%20%5BToday%27s%20date%5D%0AEmail%3A%20%5BYour%20email%5D%20%20%20Phone%3A%20%5BYour%20phone%5D%0A%0ALuxucleen%20LLC%20will%20countersign%20and%20reply%20with%20the%20executed%20copy.">I've read it &mdash; sign &amp; send back &rarr;</a>
+    <br><a class="backtop" href="#top">&uarr; Back to top</a>
   </section>
 
   <section class="agr" id="surplus">
@@ -173,6 +849,7 @@ Luxucleen LLC by: ____________________   Date: __________   Signature: _________
     <div class="sig">Claimant name: ____________________   Property: ____________________   Date: __________   Signature: ____________________
 Luxucleen LLC by: ____________________   Date: __________   Signature: ____________________</div>
     <a class="cta" href="mailto:hello@luxucleen.com?subject=SIGNED%20-%20Florida%20Surplus%20Recovery%20Agreement%20%5BYour%20Name%5D&body=I%20have%20read%20the%20Florida%20Surplus%20Recovery%20Agreement%20at%20luxucleen.com%2Fagreements%2F%23surplus%20and%20I%20ACCEPT%20its%20terms%3A%20nothing%20up%20front%2C%20Luxucleen%27s%20fee%20is%20a%20percentage%20of%20recovered%20funds%20capped%20at%2012%25%20%28FS%2045.033%29%2C%20the%20county%20pays%20me%2C%20and%20I%20know%20I%20may%20file%20the%20claim%20myself%20for%20free.%0AProperty%20address%3A%20%5BStreet%2C%20city%2C%20state%5D%0A%0ASigned%20electronically%20by%20typing%20my%20full%20name%3A%20%5BYour%20full%20name%5D%0ADate%3A%20%5BToday%27s%20date%5D%0AEmail%3A%20%5BYour%20email%5D%20%20%20Phone%3A%20%5BYour%20phone%5D%0A%0ALuxucleen%20LLC%20will%20countersign%20and%20reply%20with%20the%20executed%20copy.">I've read it &mdash; sign &amp; send back &rarr;</a>
+    <br><a class="backtop" href="#top">&uarr; Back to top</a>
   </section>
 
   <section class="agr" id="visas">
@@ -191,24 +868,29 @@ Luxucleen LLC by: ____________________   Date: __________   Signature: _________
     <div class="sig">Employer: ____________________   By: ____________________   Date: __________   Signature: ____________________
 Luxucleen LLC by: ____________________   Date: __________   Signature: ____________________</div>
     <a class="cta" href="mailto:hello@luxucleen.com?subject=SIGNED%20-%20Work-Visa%20Coordination%20Agreement%20%5BYour%20Business%5D&body=I%20have%20read%20the%20Work-Visa%20Coordination%20Agreement%20at%20luxucleen.com%2Fagreements%2F%23visas%20and%20I%20ACCEPT%20its%20terms%3A%20the%20fee%20is%20quoted%20in%20writing%20before%20work%2C%20the%20licensed%20attorney%20files%2C%20and%20my%20business%20remains%20responsible%20for%20program%20compliance.%0ABusiness%3A%20%5BYour%20business%5D%0ARoles%20and%20how%20many%3A%20%5BDetails%5D%20%20%20Season%3A%20%5BWhen%5D%0A%0ASigned%20electronically%20by%20typing%20my%20full%20name%3A%20%5BYour%20full%20name%5D%0ADate%3A%20%5BToday%27s%20date%5D%0AEmail%3A%20%5BYour%20email%5D%20%20%20Phone%3A%20%5BYour%20phone%5D%0A%0ALuxucleen%20LLC%20will%20countersign%20and%20reply%20with%20the%20executed%20copy.">I've read it &mdash; sign &amp; send back &rarr;</a>
+    <br><a class="backtop" href="#top">&uarr; Back to top</a>
   </section>
 
   <section class="agr" id="hiring">
     <h2>Hiring (CHAMBA28) &mdash; employer terms</h2>
     <p class="who">Workers register free. Employers pay only when they hire, and every candidate we introduce carries our record.</p>
-    <p>The full employer terms, including the no-circumvention rule, are here: <a href="/hire/terms/">CHAMBA28 employer terms</a>.</p>
+    <p>The full employer terms, including the no-circumvention rule, are here: <a href="/hire/terms/">CHAMBA28 employer terms</a>. Those terms are a Service Agreement under these Master Terms and are read together with Part&nbsp;I.</p>
+    <a class="backtop" href="#top">&uarr; Back to top</a>
   </section>
 
   <section class="agr" id="other">
     <h2>Affiliates, trading, real estate</h2>
-    <p>These are governed by the terms and disclosures on the legal page: <a href="/legal/#affiliates">affiliate terms</a>,
-    the <a href="/legal/#trading">trading risk statement</a> (18+), and the <a href="/legal/#real-estate">real-estate
-    disclosures</a>. A real-estate purchase or assignment is always its own written contract, disclosed to you before
-    signing, and you should have your own attorney review it.</p>
+    <p>These are governed by these Master Terms together with the terms and disclosures on the legal page:
+    <a href="/legal/#affiliates">affiliate terms</a>, the <a href="/legal/#trading">trading risk statement</a> (18+),
+    and the <a href="/legal/#real-estate">real-estate disclosures</a>. A real-estate purchase or assignment is always its
+    own written contract, disclosed to you before signing, and you should have your own attorney review it.</p>
+    <a class="backtop" href="#top">&uarr; Back to top</a>
   </section>
 
-  <p class="small">Luxucleen LLC, Midlothian, Virginia. These templates are provided for your information and are not legal
-  advice; the signed version you receive by email is the agreement. Questions: <a href="mailto:hello@luxucleen.com?subject=Agreements">hello@luxucleen.com</a>.</p>
+  <p class="small">Luxucleen LLC, Midlothian, Virginia. These agreements are written in plain language and are provided for
+  your information; they are the actual terms of the deal, but they are not, by themselves, legal advice to you, and you
+  have the right to have your own attorney review any of them before you sign. The signed version you receive by email is
+  your executed agreement. Questions: <a href="mailto:hello@luxucleen.com?subject=Agreements">hello@luxucleen.com</a>.</p>
 </main>
 
 <footer class="wrap">
@@ -237,7 +919,7 @@ var a=new Audio();a.src=STREAM;a.preload="none";a.volume=BASE;
 var on=true;try{if(localStorage.getItem("lux_radio")==="off")on=false;}catch(e){}
 var btn=document.createElement("button");btn.type="button";btn.setAttribute("aria-label","Background music on or off");
 btn.style.cssText="position:fixed;right:14px;bottom:14px;z-index:2147483000;width:46px;height:46px;border-radius:50%;border:0;cursor:pointer;font-size:20px;line-height:46px;text-align:center;background:#0f5aa8;color:#fff;box-shadow:0 4px 14px rgba(0,0,0,.3);opacity:.9";
-function icon(){btn.textContent=on?"\u266A":"\uD83D\uDD07";}
+function icon(){btn.textContent=on?"♪":"🔇";}
 function start(){if(!on)return;try{var p=a.play();if(p&&p.catch)p.catch(function(){});}catch(e){}}
 function stop(){try{a.pause();}catch(e){}}
 icon();
@@ -252,7 +934,7 @@ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",
 function cur(){return document.documentElement.getAttribute("data-theme")==="light"?"light":"dark";}
 var b=document.createElement("button");b.type="button";b.setAttribute("aria-label","Switch light or dark theme");
 b.style.cssText="position:fixed;right:14px;top:14px;z-index:2147483001;width:40px;height:40px;border-radius:50%;border:1px solid rgba(128,128,128,.35);cursor:pointer;font-size:18px;line-height:1;background:rgba(20,22,28,.55);color:#e7ebf1;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)";
-function icon(){b.textContent=cur()==="light"?"\u263E":"\u2600";}
+function icon(){b.textContent=cur()==="light"?"☾":"☀";}
 icon();
 b.addEventListener("click",function(){var next=cur()==="light"?"dark":"light";if(next==="light"){document.documentElement.setAttribute("data-theme","light");}else{document.documentElement.removeAttribute("data-theme");}try{localStorage.setItem("lux_theme",next);}catch(e){}icon();});
 function boot(){document.body.appendChild(b);}
