@@ -64,7 +64,34 @@
   .b28links{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;font-size:14px}
   .b28links a{color:#2be8ff;text-decoration:none;font-weight:700}
   .b28hint{color:#7d8794;font-size:12px;margin:8px 0 0}
+  /* INICIO DE MIEMBRO (Christian 2026-09-20): un visitante con sesion ve su propio inicio limpio; la
+     parte de ventas se guarda. Los visitantes nuevos + buscadores nunca reciben html.signed-in. */
+  .memberhome{display:none}
+  html.signed-in .memberhome{display:block;animation:rise .6s cubic-bezier(.2,.7,.2,1) both}
+  html.signed-in main>section.id,html.signed-in main>section.b28,
+  html.signed-in main>section.group,html.signed-in main>section.fine{display:none}
+  html.signed-in.show-all .memberhome{display:none}
+  html.signed-in.show-all main>section.id,html.signed-in.show-all main>section.b28,
+  html.signed-in.show-all main>section.group,html.signed-in.show-all main>section.fine{display:block}
+  .mh-hi{text-align:center;padding:26px 0 4px}
+  .mh-hi .mh-ring{width:74px;height:74px;border-radius:50%;margin:0 auto 12px;display:grid;place-items:center;
+    font-weight:900;font-size:26px;color:#03121a;background:radial-gradient(circle at 35% 30%,#dffcff 0%,#2be8ff 26%,#7c5cff 66%,#0b0e14 88%);box-shadow:0 0 26px rgba(43,232,255,.45),0 0 52px rgba(124,92,255,.32)}
+  .mh-hi h1{font-size:29px;line-height:1.14;margin:0 0 6px;letter-spacing:-.5px}
+  .mh-hi .mh-sub{margin:0 auto;max-width:520px;color:var(--dim);font-size:15px}
+  .mh-tiles{margin:22px 0 0}
+  .mh-foot{display:flex;gap:16px;flex-wrap:wrap;align-items:center;justify-content:center;margin:6px 0 10px}
+  .mh-link{color:#2be8ff;text-decoration:none;font-weight:700;background:none;border:0;cursor:pointer;font-size:14px;font-family:inherit;padding:6px 2px}
+  .mh-link:hover{text-decoration:underline}
+  .mh-back{display:none}
+  html.signed-in.show-all .mh-back{display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;
+    margin:6px 0 18px;padding:10px 14px;border:1px solid rgba(43,232,255,.28);border-radius:14px;background:rgba(43,232,255,.06);color:var(--dim);font-size:13.5px}
+  .mh-back button{background:none;border:0;color:#2be8ff;font-weight:800;cursor:pointer;font-size:13.5px;font-family:inherit}
+  .ic.or{background:radial-gradient(circle at 35% 30%,#2be8ff,#7c5cff 78%);color:#03121a}
+  .ic.of{background:linear-gradient(135deg,#64748b,#334155);color:#fff}
+  .ic.ms{background:linear-gradient(135deg,#3b82f6,#1d4ed8);color:#fff}
+  .ic.se{background:linear-gradient(135deg,#94a3b8,#475569);color:#0b1220}
 </style>
+<script>/*lux-member*/(function(){try{var pv=false;try{pv=/[?&]member=1(&|$)/.test(location.search)||location.hash==="#member";}catch(e){}var s=null;try{s=localStorage.getItem("lux_signup_agreed_v1")||localStorage.getItem("orbit_vault_v1");}catch(e){}if(pv||s){document.documentElement.classList.add("signed-in");}}catch(e){}})();</script>
 </head>
 <body class="hub">
 <div class="hwrap">
@@ -118,6 +145,32 @@
   </header>
 
   <main>
+    <section class="memberhome" id="memberHome" aria-label="Tu Luxucleen">
+      <div class="mh-hi">
+        <div class="mh-ring">L</div>
+        <h1 id="mhGreet">Bienvenido de nuevo</h1>
+        <p class="mh-sub" id="mhSince">Tu Luxucleen &mdash; todo lo que usas, en un solo lugar.</p>
+      </div>
+      <div class="mh-tiles">
+        <a class="lk prime" href="/orbits/"><i class="ic or">OR</i><div class="t"><b>Orbits</b><span>Tu b&oacute;veda cifrada &mdash; el cerebro de tu negocio.</span></div><span class="go">&rsaquo;</span></a>
+        <a class="lk" href="/es/office/"><i class="ic of">OF</i><div class="t"><b>Oficina</b><span>Tu espacio de trabajo &mdash; maneja el d&iacute;a desde aqu&iacute;.</span></div><span class="go">&rsaquo;</span></a>
+        <a class="lk" href="/es/stack/"><i class="ic sk">SK</i><div class="t"><b>Mi stack</b><span>Los negocios que est&aacute;s construyendo con nosotros.</span></div><span class="go">&rsaquo;</span></a>
+        <a class="lk" href="/messages/"><i class="ic ms">MS</i><div class="t"><b>Mensajes</b><span>Tu bandeja con el equipo de Luxucleen.</span></div><span class="go">&rsaquo;</span></a>
+        <a class="lk" href="/es/luxu/"><i class="ic lx">LX</i><div class="t"><b>Feed de Luxu</b><span>Nuevas formas de ganar, en un solo scroll.</span></div><span class="go">&rsaquo;</span></a>
+        <a class="lk" href="/es/settings/"><i class="ic se">SE</i><div class="t"><b>Ajustes</b><span>Tu cuenta, idioma y preferencias.</span></div><span class="go">&rsaquo;</span></a>
+      </div>
+      <div class="mh-foot">
+        <a class="mh-link" href="/es/agreements/">Tus acuerdos</a>
+        <a class="mh-link" href="/es/ask/">Preg&uacute;ntale a Bridge28</a>
+        <button type="button" id="mhBrowse" class="mh-link">Ver todo el sitio &rarr;</button>
+      </div>
+    </section>
+
+    <div class="mh-back" id="mhBackBar">
+      <span>Est&aacute;s viendo el sitio completo.</span>
+      <button type="button" id="mhBack">&larr; Volver a tu inicio</button>
+    </div>
+
     <section class="id">
       <div class="ring"><span>L</span></div>
       <h1>Luxucleen LLC</h1>
@@ -291,6 +344,7 @@
 })();
 </script>
 <script>/*lux-voice*/(function(){try{
+if(document.documentElement.classList.contains("signed-in"))return;   /* los miembros no reciben la bienvenida de visitante nuevo */
 window.luxVoicePage=true;var player=null,armed=false;
 function done(){setTimeout(function(){if(window.luxFadeIn){window.luxFadeIn();}else if(window.luxRadioStart){window.luxRadioStart();}if(window.luxDuck){window.luxDuck(false);}},900);}
 function arm(){if(armed)return;armed=true;var go=function(){document.removeEventListener("click",go);document.removeEventListener("touchstart",go);play();};document.addEventListener("click",go,{once:true});document.addEventListener("touchstart",go,{once:true});}
@@ -323,6 +377,15 @@ icon();
 b.addEventListener("click",function(){var next=cur()==="light"?"dark":"light";if(next==="light"){document.documentElement.setAttribute("data-theme","light");}else{document.documentElement.removeAttribute("data-theme");}try{localStorage.setItem("lux_theme",next);}catch(e){}icon();});
 function boot(){document.body.appendChild(b);}
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
+}catch(e){}})();</script>
+<script>/*lux-member-ui*/(function(){try{
+  var root=document.documentElement;
+  if(!root.classList.contains("signed-in"))return;
+  var g=document.getElementById("mhGreet"),sub=document.getElementById("mhSince");
+  try{var h=new Date().getHours();if(g)g.textContent=h<12?"Buenos días":(h<19?"Buenas tardes":"Buenas noches");}catch(e){}
+  try{var raw=localStorage.getItem("lux_signup_agreed_v1");if(raw&&sub){var at=(JSON.parse(raw)||{}).at;if(at){var d=new Date(at);if(!isNaN(d.getTime()))sub.textContent="Miembro desde "+d.toLocaleDateString("es",{month:"long",year:"numeric"})+" · tu Luxucleen, todo en un lugar.";}}}catch(e){}
+  var br=document.getElementById("mhBrowse");if(br)br.addEventListener("click",function(){root.classList.add("show-all");try{window.scrollTo(0,0);}catch(e){}});
+  var bk=document.getElementById("mhBack");if(bk)bk.addEventListener("click",function(){root.classList.remove("show-all");try{window.scrollTo(0,0);}catch(e){}});
 }catch(e){}})();</script>
 <script defer src="/lux-orb.js"></script>
 </body>
