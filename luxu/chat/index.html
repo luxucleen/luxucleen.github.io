@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0e14">
+<title>Luxu — Chat | Luxucleen</title>
+<meta name="description" content="Chat with Luxu, Luxucleen's AI assistant. Ask anything — houses, money, taxes, business. Free, forever.">
+<link rel="stylesheet" href="/luxu-chat.css">
+</head>
+<body>
+<div class="lc-app" id="lcApp">
+  <header class="lc-header">
+    <a class="lc-back" href="/" aria-label="Back to luxucleen.com">‹</a>
+    <div class="lc-avatar" data-avatar data-still>
+      <!-- still picture of Luxu (idle pose) is injected by luxu-chat.js;
+           upload luxu-pose-idle.webp to /assets/luxu-avatar/ -->
+      <span class="lc-online" aria-hidden="true"></span>
+    </div>
+    <div class="lc-id">
+      <b>Luxu</b>
+      <span id="lcStatus"></span>
+    </div>
+    <button class="lc-new" id="lcNew" type="button">＋ New</button>
+  </header>
+
+  <main class="lc-messages" id="lcMessages" aria-live="polite"></main>
+
+  <footer class="lc-footer">
+    <div class="lc-chips" id="lcChips">
+      <button type="button" data-q="I want to sell my house for cash">Sell my house</button>
+      <button type="button" data-q="Tell me about GRID28 trading tools">Trading tools</button>
+      <button type="button" data-q="Help me with trader taxes">AI taxes</button>
+      <button type="button" data-q="How can I make money with Luxucleen?">Make money</button>
+    </div>
+    <form class="lc-inputbar" id="lcForm" autocomplete="off">
+      <button class="lc-plus" type="button" id="lcPlus" aria-label="More options">＋</button>
+      <input id="lcInput" type="text" placeholder="Message Luxu..." maxlength="2000"
+             aria-label="Message Luxu" enterkeyhint="send">
+      <button class="lc-send" id="lcSend" type="submit" aria-label="Send">↑</button>
+    </form>
+    <p class="lc-fine">Luxu is AI and can make mistakes. Free to chat — no sign-up.</p>
+  </footer>
+</div>
+<script src="/luxu-chat.js" defer></script>
+</body>
+</html>

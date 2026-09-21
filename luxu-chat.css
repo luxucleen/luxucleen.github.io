@@ -1,0 +1,318 @@
+/* ==========================================================================
+   LUXU CHAT — /luxu/chat — full-page messenger-style chat
+   Dark, iOS-chat-inspired, matches luxucleen.com tokens.
+   Mobile-first; centers into a 720px column on desktop.
+   ========================================================================== */
+:root {
+  --lc-bg: #0b0e14;
+  --lc-bg2: #10141c;
+  --lc-bubble-ai: #1a2230;
+  --lc-bubble-user: #0a84ff;
+  --lc-text: #f2f4f8;
+  --lc-dim: #9aa4b4;
+  --lc-faint: #697488;
+  --lc-accent: #2be8ff;
+  --lc-line: rgba(255,255,255,.09);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  background: var(--lc-bg);
+  color: var(--lc-text);
+  font-family: -apple-system, "Segoe UI", Inter, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior-y: none;
+}
+
+.lc-app {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  max-width: 720px;
+  margin: 0 auto;
+  border-left: 1px solid var(--lc-line);
+  border-right: 1px solid var(--lc-line);
+  background:
+    radial-gradient(500px 300px at 15% 0%, rgba(46,194,126,.10), transparent 60%),
+    radial-gradient(600px 400px at 90% 100%, rgba(56,140,255,.08), transparent 60%),
+    var(--lc-bg);
+}
+
+/* --- Header ----------------------------------------------------------- */
+.lc-header {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: calc(10px + env(safe-area-inset-top)) 14px 10px;
+  background: rgba(11,14,20,.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--lc-line);
+  z-index: 5;
+}
+.lc-back {
+  color: var(--lc-accent);
+  font-size: 30px;
+  line-height: 1;
+  text-decoration: none;
+  padding: 4px 8px 4px 0;
+}
+.lc-avatar { position: relative; width: 46px; height: 46px; flex: none; }
+.lc-avatar video {
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  box-shadow: 0 0 14px rgba(43,232,255,.35);
+}
+.lc-online {
+  position: absolute; right: 0; bottom: 0;
+  width: 12px; height: 12px; border-radius: 50%;
+  background: #38d98d; border: 2px solid var(--lc-bg);
+}
+.lc-id { flex: 1; min-width: 0; }
+.lc-id b { display: block; font-size: 17px; }
+.lc-id span { font-size: 12.5px; color: var(--lc-dim); }
+.lc-new {
+  background: rgba(255,255,255,.07);
+  color: var(--lc-text);
+  border: 1px solid var(--lc-line);
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 13.5px;
+  cursor: pointer;
+}
+.lc-new:active { transform: scale(.96); }
+
+/* --- Messages ---------------------------------------------------------- */
+.lc-messages {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 16px 14px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.lc-row { display: flex; align-items: flex-end; gap: 8px; max-width: 88%; }
+.lc-row.ai { align-self: flex-start; }
+.lc-row.user { align-self: flex-end; }
+.lc-row .lc-mini {
+  width: 28px; height: 28px; border-radius: 50%;
+  object-fit: cover; flex: none;
+  box-shadow: 0 0 8px rgba(43,232,255,.3);
+}
+.lc-bubble {
+  padding: 11px 15px;
+  font-size: 16px;
+  line-height: 1.45;
+  word-wrap: break-word;
+  animation: lc-rise .22s ease;
+}
+@keyframes lc-rise { from { opacity: 0; transform: translateY(6px); } }
+.lc-row.ai .lc-bubble {
+  background: var(--lc-bubble-ai);
+  border: 1px solid var(--lc-line);
+  border-radius: 20px 20px 20px 6px;
+}
+.lc-row.user .lc-bubble {
+  background: var(--lc-bubble-user);
+  color: #fff;
+  border-radius: 20px 20px 6px 20px;
+  margin-left: auto;
+}
+/* typing indicator */
+.lc-typing { display: inline-flex; gap: 5px; padding: 14px 16px; }
+.lc-typing span {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--lc-dim);
+  animation: lc-bounce 1.2s ease-in-out infinite;
+}
+.lc-typing span:nth-child(2) { animation-delay: .15s; }
+.lc-typing span:nth-child(3) { animation-delay: .3s; }
+@keyframes lc-bounce { 0%, 60%, 100% { transform: none; opacity: .5; } 30% { transform: translateY(-5px); opacity: 1; } }
+
+/* welcome hero inside the chat */
+.lc-welcome { text-align: center; padding: 26px 10px 6px; }
+.lc-welcome video {
+  width: 110px; height: 110px; border-radius: 50%; object-fit: cover;
+  box-shadow: 0 0 30px rgba(43,232,255,.4);
+  margin-bottom: 12px;
+}
+.lc-welcome h2 { font-size: 21px; margin-bottom: 6px; }
+.lc-welcome p { color: var(--lc-dim); font-size: 14.5px; line-height: 1.55; max-width: 420px; margin: 0 auto; }
+
+/* --- Footer / input ----------------------------------------------------- */
+.lc-footer {
+  flex: none;
+  padding: 8px 12px calc(10px + env(safe-area-inset-bottom));
+  background: rgba(11,14,20,.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-top: 1px solid var(--lc-line);
+}
+.lc-chips {
+  display: flex; gap: 8px;
+  overflow-x: auto;
+  padding: 2px 2px 10px;
+  scrollbar-width: none;
+}
+.lc-chips::-webkit-scrollbar { display: none; }
+.lc-chips button {
+  flex: none;
+  background: rgba(43,232,255,.08);
+  border: 1px solid rgba(43,232,255,.35);
+  color: var(--lc-accent);
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 13.5px;
+  cursor: pointer;
+}
+.lc-inputbar {
+  display: flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid var(--lc-line);
+  border-radius: 999px;
+  padding: 6px 6px 6px 4px;
+}
+.lc-plus {
+  width: 36px; height: 36px; flex: none;
+  background: none; border: 0; color: var(--lc-dim);
+  font-size: 24px; cursor: pointer; border-radius: 50%;
+}
+.lc-inputbar input {
+  flex: 1; min-width: 0;
+  background: none; border: 0; outline: 0;
+  color: var(--lc-text); font-size: 16px;
+  padding: 8px 2px;
+}
+.lc-inputbar input::placeholder { color: var(--lc-faint); }
+.lc-send {
+  width: 38px; height: 38px; flex: none;
+  border: 0; border-radius: 50%;
+  background: var(--lc-bubble-user);
+  color: #fff; font-size: 20px; font-weight: 700;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform .12s, opacity .12s;
+}
+.lc-send:disabled { opacity: .35; }
+.lc-send:not(:disabled):active { transform: scale(.92); }
+.lc-fine {
+  text-align: center; color: var(--lc-faint);
+  font-size: 11px; padding-top: 8px;
+}
+
+/* --- Reduced motion ------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  .lc-bubble { animation: none; }
+  .lc-typing span { animation-duration: 2.4s; }
+}
+
+/* --- Living avatar: a LOOP, not a video -------------------------------------
+   Christian's direction: the waiting hero is a LIVING PICTURE — an animated
+   webp in an <img> tag. Looks still, moves in a seamless loop, alive for real.
+   NEVER a <video> element for waiting. Task states (typing-calm / typing-hard)
+   use a hidden video layer that only appears while he types.
+   Layer stack (bottom to top): pure-CSS orb -> pose crossfade -> living picture
+   -> task video. Something is ALWAYS moving, even if every file fails to load.
+   States: waiting (living picture) / thinking (thinking pose) /
+   typing-calm (calm video) / typing-hard (working-hard video).
+   The JS swaps the task video per state; the CSS keeps the fallback alive. */
+.lc-avatar { position: relative; animation: avfloat 4.6s ease-in-out infinite; }
+@keyframes avfloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+.lc-avatar .av-orb {
+  position: absolute; inset: 0; border-radius: 50%; z-index: 0;
+  background: radial-gradient(circle at 35% 30%, #8ff1ff 0%, #2be8ff 24%, #14406b 58%, #0b1626 100%);
+  box-shadow: inset 0 0 18px rgba(43,232,255,.55), 0 0 18px rgba(43,232,255,.35);
+  animation: avorb 3.2s ease-in-out infinite;
+}
+@keyframes avorb {
+  0%,100% { transform: scale(1); filter: brightness(1); }
+  50% { transform: scale(1.07); filter: brightness(1.3); }
+}
+.lc-avatar .av-fallback {
+  position: absolute; inset: 0; border-radius: 50%; overflow: hidden; z-index: 1;
+}
+.lc-avatar .av-fallback img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; border-radius: 50%;
+  opacity: 0; animation: avcycle 12s linear infinite;
+}
+.lc-avatar .av-fallback img:nth-child(2) { animation-delay: 4s; }
+.lc-avatar .av-fallback img:nth-child(3) { animation-delay: 8s; }
+@keyframes avcycle {
+  0% { opacity: 0; transform: scale(.94); }
+  3% { opacity: 1; transform: scale(1); }
+  30% { opacity: 1; transform: scale(1); }
+  36%, 100% { opacity: 0; transform: scale(1); }
+}
+/* the living picture: hidden until decoded, then it IS the loop */
+.lc-avatar img.av-waiting {
+  position: absolute; inset: 0; z-index: 2;
+  width: 100%; height: 100%; object-fit: cover; border-radius: 50%;
+  opacity: 0; transition: opacity .6s ease;
+}
+.lc-avatar.img-live img.av-waiting { opacity: 1; }
+.lc-avatar.img-live .av-fallback,
+.lc-avatar.img-live .av-orb { display: none; }
+/* task video: hidden until a typing state brings it alive */
+.lc-avatar video.av-task {
+  position: absolute; inset: 0; z-index: 3;
+  width: 100%; height: 100%; object-fit: cover; border-radius: 50%;
+  opacity: 0; transition: opacity .5s ease;
+}
+.lc-avatar.task-live video.av-task { opacity: 1; }
+.lc-avatar.task-live img.av-waiting,
+.lc-avatar.task-live .av-fallback,
+.lc-avatar.task-live .av-orb { display: none; }
+.lc-avatar .lc-online { z-index: 4; }
+/* bigger presence, stronger glow */
+.lc-header .lc-avatar { width: 52px; height: 52px; }
+.lc-header .lc-avatar { filter: drop-shadow(0 0 16px rgba(43,232,255,.5)); }
+.lc-welcome .lc-avatar { width: 120px; height: 120px; margin: 0 auto 12px; }
+.lc-welcome .lc-avatar { filter: drop-shadow(0 0 26px rgba(43,232,255,.5)); }
+/* the living picture before the JS wraps it — same size, no flash */
+.lc-welcome > img.av-waiting {
+  width: 120px; height: 120px; object-fit: cover; border-radius: 50%;
+  filter: drop-shadow(0 0 26px rgba(43,232,255,.5));
+  margin: 0 auto 12px; display: block;
+}
+@media (prefers-reduced-motion: reduce) {
+  .lc-avatar, .lc-avatar .av-fallback img, .lc-avatar .av-orb { animation: none; }
+  .lc-avatar .av-fallback img:first-child { opacity: 1; }
+}
+
+/* --- thinking state: picture rests, the thinking pose takes the stage -----
+   (the pulsing orb stays underneath, so he is alive even if the pose file
+   is missing) */
+.lc-avatar.state-thinking img.av-waiting,
+.lc-avatar.state-thinking video.av-task { display: none; }
+.lc-avatar.state-thinking .av-fallback img { animation: none; opacity: 0; }
+.lc-avatar.state-thinking .av-fallback img.think-pose {
+  opacity: 1; animation: avthink 2.6s ease-in-out infinite;
+}
+@keyframes avthink { 0%,100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+@media (prefers-reduced-motion: reduce) {
+  .lc-avatar.state-thinking .av-fallback img.think-pose { animation: none; }
+}
+
+/* --- still header: just the picture — no float, no video ------------------ */
+.lc-avatar[data-still] { animation: none; }
+.lc-avatar .av-still {
+  position: absolute; inset: 0; z-index: 2;
+  width: 100%; height: 100%; object-fit: cover; border-radius: 50%;
+}
+
+/* --- welcome hero: name pill + live status line, like Luxor's ------------- */
+.lc-namepill {
+  display: inline-block; margin: 2px 0 4px; padding: 3px 14px;
+  border-radius: 999px; font-size: 14px; font-weight: 700; letter-spacing: .3px;
+  color: #eaf7ff; background: rgba(43,232,255,.12);
+  border: 1px solid rgba(43,232,255,.35);
+  box-shadow: 0 0 12px rgba(43,232,255,.25);
+}
+.lc-live {
+  font-size: 12.5px; color: #7ef0ff; margin-bottom: 10px; min-height: 18px;
+}
