@@ -1,0 +1,115 @@
+/* hero-orb.css — L-UPGRADE Phase 2: the frosted-glass orb hero.
+   Drop-in OVERRIDE for the hero circle on luxucleen.com. Load AFTER hub.css (or fold these
+   rules into hub.css:49-58 + the light block at :158). Rebuilds `.ring` as a glassmorphism orb
+   with a LIVING LOOP mirage inside, while keeping the "L" mark, the conic ring, and Luxu canon.
+
+   Built against extract/L-UPGRADE-HERO-EXTRACT.md (@main 34cea3e). Every hard constraint in that
+   doc's "§6 CONSTRAINT INVENTORY" is honored — the mapping is in L-UPGRADE-PHASE2-NOTES.md.
+
+   STAGING ARTIFACT ONLY — never merges to main, never live, until Luxor's per-item GO. */
+
+:root{
+  --orb-size:104px;        /* extract §2A: ring is 104x104 */
+  --orb-rim:3px;           /* extract §2A: the 3px band is the ONLY place the conic shows */
+  --orb-frost-blur:7px;    /* frost strength — a starting value; Luxor's directive draft may re-spec */
+  --orb-frost-sat:1.25;
+}
+
+/* ── The ring shell ──────────────────────────────────────────────────────────
+   extract §6.4: the counter-rotation of `.ring span` was LOAD-BEARING (it kept the L
+   upright while the box spun). We remove that dependency: the box no longer spins — only
+   the conic rim (moved to `::before`) does — so the mirage + L live on a naturally-still
+   inner layer and never inherit the spin. */
+.id .ring{
+  width:var(--orb-size); height:var(--orb-size);
+  border-radius:50%; margin:0 auto 16px; padding:0;
+  position:relative; background:none;
+  box-shadow:0 0 0 7px rgba(46,194,126,.10), 0 22px 50px rgba(0,0,0,.55); /* extract §2A halo + drop */
+  animation:none;                       /* the BOX is static now */
+}
+.id .ring::before{                      /* the spinning conic RIM (extract §2A, unchanged palette) */
+  content:""; position:absolute; inset:0; z-index:0; border-radius:50%;
+  background:conic-gradient(from 0deg,var(--green),var(--gold),#38c8ff,var(--green));
+  animation:spin 14s linear infinite;   /* reuses hub.css @keyframes spin, 14s, unchanged */
+}
+
+/* ── The inner orb: fills all but the 3px rim, clips the mirage to the circle, never spins ── */
+.id .ring .orb{
+  position:absolute; inset:var(--orb-rim); z-index:1;   /* the 3px inset reveals the conic band */
+  border-radius:50%; overflow:hidden;                   /* extract §6.5: clip the loop to the circle */
+  display:grid; place-items:center;
+  background:#16181d;                                   /* extract §2B seam color (dark), fallback */
+  isolation:isolate;                                    /* own stacking context for backdrop-filter */
+}
+
+/* Layer 1 — the LIVING LOOP mirage. animated WEBP, never <video> (Luxor directive).
+   Local asset only — extract §6.9 zero-external-request stance. The real motivational-mirage
+   asset is Luxor's video-asset call; it drops into assets/hero-mirage.webp. Until then the CSS
+   aurora below keeps the orb genuinely alive (honest placeholder, NOT a fabricated video). */
+.id .ring .orb-mirage{
+  position:absolute; inset:0; z-index:0; border-radius:50%;
+  background:#0f1116 center center / cover no-repeat;
+  background-image:url("assets/hero-mirage.webp");      /* <-- Luxor's asset slot (local, webp loop) */
+}
+.id .ring .orb-mirage::after{                            /* the placeholder living aurora */
+  content:""; position:absolute; inset:-30%; border-radius:50%;
+  background:
+    radial-gradient(40% 40% at 30% 30%, rgba(46,194,126,.55), transparent 70%),
+    radial-gradient(45% 45% at 72% 40%, rgba(56,200,255,.45), transparent 72%),
+    radial-gradient(50% 50% at 50% 78%, rgba(242,193,78,.42), transparent 74%),
+    radial-gradient(40% 40% at 22% 74%, rgba(124,92,255,.42), transparent 72%);
+  filter:blur(10px) saturate(1.2);
+  mix-blend-mode:screen;
+  animation:orbmirage 18s ease-in-out infinite alternate;
+}
+@keyframes orbmirage{
+  0%{transform:translate3d(-4%,-3%,0) scale(1.05) rotate(0deg)}
+  50%{transform:translate3d(3%,2%,0) scale(1.12) rotate(8deg)}
+  100%{transform:translate3d(-2%,4%,0) scale(1.08) rotate(-6deg)}
+}
+
+/* Layer 2 — the FROST. This is what makes it a frosted-glass orb: it blurs the mirage behind it. */
+.id .ring .orb-frost{
+  position:absolute; inset:0; z-index:1; border-radius:50%;
+  backdrop-filter:blur(var(--orb-frost-blur)) saturate(var(--orb-frost-sat));
+  -webkit-backdrop-filter:blur(var(--orb-frost-blur)) saturate(var(--orb-frost-sat));
+  background:
+    linear-gradient(150deg, rgba(255,255,255,.16), rgba(255,255,255,.02) 42%, rgba(255,255,255,0) 60%),
+    radial-gradient(120% 120% at 30% 22%, rgba(255,255,255,.20), transparent 46%);
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.35), inset 0 -10px 22px rgba(0,0,0,.35);
+  border:1px solid rgba(255,255,255,.14);
+}
+
+/* Layer 3 — the "L" glyph. Own non-rotating layer, ON TOP of the glass so it stays crisp
+   (extract §6.1 MUST survive: L upright, 46px/900/-1px). */
+.id .ring .orb-glyph{
+  position:relative; z-index:2;
+  font-size:46px; font-weight:900; color:#fff; letter-spacing:-1px; line-height:1;
+  text-shadow:0 2px 10px rgba(0,0,0,.45);
+}
+
+/* ── LIGHT THEME — both themes MUST be redefined (extract §6.3) ─────────────── */
+:root[data-theme="light"] .id .ring .orb{background:#f4f6fb}          /* extract hub.css:158 seam */
+:root[data-theme="light"] .id .ring .orb-mirage{background-color:#e9edf5}
+:root[data-theme="light"] .id .ring .orb-frost{
+  background:
+    linear-gradient(150deg, rgba(255,255,255,.55), rgba(255,255,255,.10) 45%, rgba(255,255,255,0) 62%),
+    radial-gradient(120% 120% at 30% 22%, rgba(255,255,255,.60), transparent 48%);
+  border-color:rgba(255,255,255,.50);
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.70), inset 0 -10px 22px rgba(0,0,0,.10);
+}
+:root[data-theme="light"] .id .ring .orb-glyph{color:#111621; text-shadow:0 1px 6px rgba(255,255,255,.6)}
+
+/* ── REDUCED MOTION — the loop must pause/hide too, or the A11y contract breaks (extract §6.7) ── */
+@media (prefers-reduced-motion:reduce){
+  .id .ring::before{animation:none}
+  .id .ring .orb-mirage::after{animation:none}
+}
+/* JS (optional) can also freeze the loop when the tab is hidden — battery, extract §6.10 */
+.id .ring .orb-mirage.is-still::after{animation-play-state:paused}
+
+/* ── RESPONSIVE — orb + glyph scale with the ring, no overflow on iPhone widths (extract §6.8) ── */
+@media (max-width:420px){
+  :root{--orb-size:92px}                 /* extract hub.css:148: 104 -> 92 */
+  .id .ring .orb-glyph{font-size:40px}   /* extract hub.css:148: 46 -> 40 */
+}

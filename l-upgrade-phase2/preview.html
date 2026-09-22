@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>L-UPGRADE Phase 2 — Hero Orb (before / after)</title>
+<!--
+  Self-contained preview. Nothing external loads. LEFT = the live hero (main @34cea3e, verbatim
+  from hero-circle.css). RIGHT = the Phase-2 glass orb (hero-orb.css, inlined below). Toggle
+  dark/light + reduced-motion to check the A11y + theme contracts. STAGING PREVIEW — not live.
+-->
+<style>
+  /* ---- extract slices: the live backdrop + original ring (BEFORE column) ---- */
+  :root{--ink:#eef2f8;--dim:#9aa4b4;--faint:#697488;--green:#2ec27e;--green2:#38d98d;--gold:#f2c14e;--line:rgba(255,255,255,.09);
+        --orb-size:104px;--orb-rim:3px;--orb-frost-blur:7px;--orb-frost-sat:1.25;}
+  body{margin:0;color:var(--ink);background:#16181d;min-height:100vh;
+    background-image:
+      radial-gradient(1100px 620px at 50% -180px,rgba(46,194,126,.30) 0%,rgba(46,194,126,0) 62%),
+      radial-gradient(760px 460px at 108% 8%,rgba(242,193,78,.12) 0%,rgba(242,193,78,0) 60%),
+      radial-gradient(900px 700px at -10% 110%,rgba(56,140,255,.10) 0%,rgba(56,140,255,0) 60%);
+    background-attachment:fixed;
+    font:16px/1.62 ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI Variable Text","Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;}
+  body::after{content:"";position:fixed;inset:-20%;z-index:-1;pointer-events:none;
+    background:
+      radial-gradient(26vmax 26vmax at 16% 22%, rgba(43,232,255,.16), transparent 60%),
+      radial-gradient(24vmax 24vmax at 84% 26%, rgba(124,92,255,.16), transparent 60%),
+      radial-gradient(26vmax 26vmax at 78% 82%, rgba(46,194,126,.15), transparent 62%),
+      radial-gradient(20vmax 20vmax at 24% 84%, rgba(242,193,78,.13), transparent 62%);
+    mix-blend-mode:screen;filter:blur(22px) saturate(1.18);animation:luxhorbs 34s ease-in-out infinite alternate}
+  @keyframes luxhorbs{0%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(3%,-2%,0) scale(1.08)}100%{transform:translate3d(-2%,3%,0) scale(1.05)}}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  .wrap{max-width:820px;margin:0 auto;padding:28px 18px 60px}
+  .bar{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:0 0 26px}
+  .bar button{background:#20242c;color:#eef2f8;border:1px solid var(--line);border-radius:10px;padding:9px 14px;font:inherit;font-size:14px;cursor:pointer}
+  .bar button:hover{border-color:var(--green)}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:560px){.cols{grid-template-columns:1fr}}
+  .card{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:16px;padding:26px 18px 30px;text-align:center}
+  .card h2{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin:0 0 22px;font-weight:700}
+
+  /* BEFORE — verbatim from hero-circle.css */
+  .before .ring{width:var(--orb-size);height:var(--orb-size);border-radius:50%;margin:0 auto;padding:3px;position:relative;
+    background:conic-gradient(from 0deg,var(--green),var(--gold),#38c8ff,var(--green));
+    box-shadow:0 0 0 7px rgba(46,194,126,.08),0 22px 50px rgba(0,0,0,.55);animation:spin 14s linear infinite}
+  .before .ring span{display:grid;place-items:center;width:100%;height:100%;border-radius:50%;background:#16181d;
+    font-size:46px;font-weight:900;color:#fff;letter-spacing:-1px;animation:spin 14s linear infinite reverse}
+
+  /* AFTER — the Phase-2 orb (mirror of hero-orb.css, scoped under .after .id) */
+  .after .id .ring{width:var(--orb-size);height:var(--orb-size);border-radius:50%;margin:0 auto;padding:0;position:relative;background:none;
+    box-shadow:0 0 0 7px rgba(46,194,126,.10),0 22px 50px rgba(0,0,0,.55);animation:none}
+  .after .id .ring::before{content:"";position:absolute;inset:0;z-index:0;border-radius:50%;
+    background:conic-gradient(from 0deg,var(--green),var(--gold),#38c8ff,var(--green));animation:spin 14s linear infinite}
+  .after .id .ring .orb{position:absolute;inset:var(--orb-rim);z-index:1;border-radius:50%;overflow:hidden;display:grid;place-items:center;background:#16181d;isolation:isolate}
+  .after .id .ring .orb-mirage{position:absolute;inset:0;z-index:0;border-radius:50%;background:#0f1116 center/cover no-repeat}
+  .after .id .ring .orb-mirage::after{content:"";position:absolute;inset:-30%;border-radius:50%;
+    background:
+      radial-gradient(40% 40% at 30% 30%, rgba(46,194,126,.55), transparent 70%),
+      radial-gradient(45% 45% at 72% 40%, rgba(56,200,255,.45), transparent 72%),
+      radial-gradient(50% 50% at 50% 78%, rgba(242,193,78,.42), transparent 74%),
+      radial-gradient(40% 40% at 22% 74%, rgba(124,92,255,.42), transparent 72%);
+    filter:blur(10px) saturate(1.2);mix-blend-mode:screen;animation:orbmirage 18s ease-in-out infinite alternate}
+  @keyframes orbmirage{0%{transform:translate3d(-4%,-3%,0) scale(1.05) rotate(0deg)}50%{transform:translate3d(3%,2%,0) scale(1.12) rotate(8deg)}100%{transform:translate3d(-2%,4%,0) scale(1.08) rotate(-6deg)}}
+  .after .id .ring .orb-frost{position:absolute;inset:0;z-index:1;border-radius:50%;
+    backdrop-filter:blur(var(--orb-frost-blur)) saturate(var(--orb-frost-sat));
+    -webkit-backdrop-filter:blur(var(--orb-frost-blur)) saturate(var(--orb-frost-sat));
+    background:linear-gradient(150deg,rgba(255,255,255,.16),rgba(255,255,255,.02) 42%,rgba(255,255,255,0) 60%),radial-gradient(120% 120% at 30% 22%,rgba(255,255,255,.20),transparent 46%);
+    box-shadow:inset 0 1px 1px rgba(255,255,255,.35),inset 0 -10px 22px rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.14)}
+  .after .id .ring .orb-glyph{position:relative;z-index:2;font-size:46px;font-weight:900;color:#fff;letter-spacing:-1px;line-height:1;text-shadow:0 2px 10px rgba(0,0,0,.45)}
+
+  /* light theme */
+  :root[data-theme="light"] body{background:#f4f6fb;color:#1a2230;background-image:radial-gradient(1100px 620px at 50% -180px,rgba(46,194,126,.14),transparent 62%)}
+  :root[data-theme="light"] body::after{display:none}
+  :root[data-theme="light"] .before .ring span{background:#f4f6fb;color:#111621}
+  :root[data-theme="light"] .after .id .ring .orb{background:#f4f6fb}
+  :root[data-theme="light"] .after .id .ring .orb-mirage{background-color:#e9edf5}
+  :root[data-theme="light"] .after .id .ring .orb-frost{background:linear-gradient(150deg,rgba(255,255,255,.55),rgba(255,255,255,.10) 45%,rgba(255,255,255,0) 62%),radial-gradient(120% 120% at 30% 22%,rgba(255,255,255,.60),transparent 48%);border-color:rgba(255,255,255,.50);box-shadow:inset 0 1px 1px rgba(255,255,255,.70),inset 0 -10px 22px rgba(0,0,0,.10)}
+  :root[data-theme="light"] .after .id .ring .orb-glyph{color:#111621;text-shadow:0 1px 6px rgba(255,255,255,.6)}
+
+  /* reduced motion */
+  :root[data-rm="on"] .before .ring,:root[data-rm="on"] .before .ring span,
+  :root[data-rm="on"] .after .id .ring::before,:root[data-rm="on"] .after .id .ring .orb-mirage::after,
+  :root[data-rm="on"] body::after{animation:none}
+  .note{margin:26px auto 0;max-width:640px;color:var(--dim);font-size:13px;text-align:center;line-height:1.7}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="bar">
+      <button id="theme">Toggle dark / light</button>
+      <button id="rm">Toggle reduced-motion</button>
+    </div>
+    <div class="cols">
+      <div class="card before">
+        <h2>Before — live @ main 34cea3e</h2>
+        <div class="ring"><span>L</span></div>
+      </div>
+      <div class="card after">
+        <h2>After — Phase 2 glass orb</h2>
+        <div class="id"><div class="ring">
+          <span class="orb">
+            <span class="orb-mirage" aria-hidden="true"></span>
+            <span class="orb-frost"  aria-hidden="true"></span>
+            <span class="orb-glyph">L</span>
+          </span>
+        </div></div>
+      </div>
+    </div>
+    <p class="note">The mirage inside the glass is the CSS placeholder aurora (a living loop, no
+    &lt;video&gt;). Luxor's real motivational-mirage animated-WEBP drops into
+    <code>assets/hero-mirage.webp</code> — the frost sits over whatever fills that slot.
+    L mark, conic rim, 14s spin, both themes, reduced-motion and the ≤420px scale all preserved.</p>
+  </div>
+  <script>
+    var root=document.documentElement;
+    document.getElementById('theme').onclick=function(){root.setAttribute('data-theme',root.getAttribute('data-theme')==='light'?'':'light')};
+    document.getElementById('rm').onclick=function(){root.setAttribute('data-rm',root.getAttribute('data-rm')==='on'?'':'on')};
+  </script>
+</body>
+</html>
