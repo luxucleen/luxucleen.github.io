@@ -55,3 +55,21 @@ the asset arrives.
 ## Verify it staged (same as Phase 1)
 Fetch `staging/l-upgrade-phase2`, open `l-upgrade-phase2/preview.html` in any browser (no server, no
 external request), toggle the two buttons. The drop-in is `hero-orb.html` + `hero-orb.css` (+ optional `hero-orb.js`).
+
+## DEPLOY-FOLD checklist (added per Luxor's 21:39 verify — records so nobody guesses at deploy time)
+When Phase 2 is folded into `main` (only on Luxor's per-item GO **and** the real mirage asset landing —
+never on the honest placeholder), two things must be done by hand, not assumed:
+
+1. **The mirage asset path is CSS-relative.** `hero-orb.css` references `url("assets/hero-mirage.webp")`.
+   When these rules are folded into `hub.css` on `main`, that resolves against the page root to
+   **`/assets/hero-mirage.webp`** — so the real animated-WEBP must land at **`assets/hero-mirage.webp` ON
+   MAIN**, NOT inside the `l-upgrade-phase2/` staging folder. (Animated WEBP only, local only, never `<video>`.)
+
+2. **Old `.ring` rules are REPLACED, not stacked.** `hub.css` currently drives the hero with the original
+   box-spin + `.ring span` counter-rotation. Those exact old rules must be **removed** when the orb override
+   rules go in — if both live in `hub.css` at once, two animation sources fight (the box would spin AND the
+   rim would spin). Remove the old `.ring` box `animation` + the `.ring span` reverse-`animation` (the
+   counter-rotation that kept the "L" upright); the orb override retires that dependency by spinning the rim
+   alone via `.ring::before`.
+
+Neither change is a rebuild — both are one-time fold-time edits. Recorded here so the fold is mechanical.
