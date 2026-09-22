@@ -1,0 +1,64 @@
+/* hero-circle.css — VERBATIM slices from the LIVE luxucleen.com homepage (main @34cea3e).
+   Source: hub.css (the ONLY stylesheet index.html loads: <link href="/hub.css">) + zero
+   hero rules in the inline <style> (that block is .b28 / .mh-* only). Every rule below is
+   copied byte-exact by line range; nothing edited. body class is <body class="hub">. */
+
+/* --- hub.css:9-12  :root tokens the ring references (--green, --gold) + --dim/--ink --- */
+:root{
+  --ink:#eef2f8; --dim:#9aa4b4; --faint:#697488;
+  --green:#2ec27e; --green2:#38d98d; --gold:#f2c14e; --line:rgba(255,255,255,.09);
+}
+
+/* --- hub.css:14-34  body.hub ground (#16181d = the ring's inner-disc color) + the animated
+       orb/glare layers that sit BEHIND the ring (z-index:-1) --- */
+body.hub{margin:0;color:var(--ink);background:#16181d;
+  background-image:
+    radial-gradient(1100px 620px at 50% -180px,rgba(46,194,126,.30) 0%,rgba(46,194,126,0) 62%),
+    radial-gradient(760px 460px at 108% 8%,rgba(242,193,78,.12) 0%,rgba(242,193,78,0) 60%),
+    radial-gradient(900px 700px at -10% 110%,rgba(56,140,255,.10) 0%,rgba(56,140,255,0) 60%);
+  background-attachment:fixed;
+  font:16px/1.62 ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI Variable Text","Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body.hub::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(1200px 800px at 50% 0,transparent 60%,rgba(0,0,0,.55) 100%)}
+/* animated colored light-orbs + glare over the home hero (matches site.css; Christian: "very cool, glare") */
+body.hub::after{content:"";position:fixed;inset:-20%;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(26vmax 26vmax at 16% 22%, rgba(43,232,255,.16), transparent 60%),
+    radial-gradient(24vmax 24vmax at 84% 26%, rgba(124,92,255,.16), transparent 60%),
+    radial-gradient(26vmax 26vmax at 78% 82%, rgba(46,194,126,.15), transparent 62%),
+    radial-gradient(20vmax 20vmax at 24% 84%, rgba(242,193,78,.13), transparent 62%),
+    conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(56,140,255,.07) 90deg, transparent 180deg, rgba(46,194,126,.06) 270deg, transparent 360deg);
+  mix-blend-mode:screen;filter:blur(22px) saturate(1.18);animation:luxhorbs 34s ease-in-out infinite alternate}
+@keyframes luxhorbs{0%{transform:translate3d(0,0,0) scale(1) rotate(0deg)}50%{transform:translate3d(3%,-2%,0) scale(1.08) rotate(6deg)}100%{transform:translate3d(-2%,3%,0) scale(1.05) rotate(-4deg)}}
+@media (prefers-reduced-motion:reduce){body.hub::after{animation:none}}
+
+/* --- hub.css:49-58  the .id identity block + THE RING (the extraction target) --- */
+.id{text-align:center;padding:30px 0 6px;animation:rise .6s cubic-bezier(.2,.7,.2,1) both}
+.ring{width:104px;height:104px;border-radius:50%;margin:0 auto 16px;padding:3px;position:relative;
+  background:conic-gradient(from 0deg,var(--green),var(--gold),#38c8ff,var(--green));
+  box-shadow:0 0 0 7px rgba(46,194,126,.08),0 22px 50px rgba(0,0,0,.55);animation:spin 14s linear infinite}
+.ring span{display:grid;place-items:center;width:100%;height:100%;border-radius:50%;background:#16181d;
+  font-size:46px;font-weight:900;color:#fff;letter-spacing:-1px;animation:spin 14s linear infinite reverse}
+.id h1{font-size:33px;line-height:1.12;margin:0 0 8px;letter-spacing:-.6px;
+  background:linear-gradient(180deg,#fff 30%,#c8d2e0);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.id .tag{margin:0 auto;max-width:530px;color:var(--dim);font-size:16px}
+.id .meta{margin:13px 0 0;color:#697488;font-size:12.5px;letter-spacing:.4px}
+
+/* --- hub.css:146-149  @keyframes rise + spin, mobile <=420px, reduced-motion --- */
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:420px){.id h1{font-size:28px}.ring{width:92px;height:92px}.ring span{font-size:40px}.lk{padding:14px}.ic{width:42px;height:42px;flex-basis:42px;border-radius:12px}}
+@media(prefers-reduced-motion:reduce){.id,.group,.ring,.ring span{animation:none}}
+
+/* --- hub.css:152-160  light-theme block; hero-relevant lines: 152 body ground,
+       155 .id h1, 157 .id .tag, 158 .ring span (inner disc + L color flip) --- */
+:root[data-theme="light"] body.hub{background:#f4f6fb;color:#1a2230;
+  background-image:radial-gradient(1100px 620px at 50% -180px,rgba(46,194,126,.14),transparent 62%)}
+:root[data-theme="light"] body.hub::before{display:none}
+:root[data-theme="light"] .hbrand,:root[data-theme="light"] .id h1,:root[data-theme="light"] .lk b{color:#111621;-webkit-text-fill-color:currentColor}
+:root[data-theme="light"] .lk{background:#fff;border-color:#e4e8ef;color:#1a2230;box-shadow:0 6px 20px rgba(0,0,0,.06)}
+:root[data-theme="light"] .lk span,:root[data-theme="light"] .id .tag,:root[data-theme="light"] .group h2,:root[data-theme="light"] .hnav a{color:#5c6675}
+:root[data-theme="light"] .ring span{background:#f4f6fb;color:#111621}
+:root[data-theme="light"] .fine,:root[data-theme="light"] .hfoot,:root[data-theme="light"] .fine p{color:#5c6675}
+:root[data-theme="light"] .fine strong,:root[data-theme="light"] .fine h2{color:#111621}
