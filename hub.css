@@ -97,6 +97,7 @@ body.hub .fine a{color:var(--green)}   /* only the fine-print links carry the bl
 .ic.tx{background:linear-gradient(135deg,#818cf8,#4338ca);color:#fff}
 .ic.lh{background:linear-gradient(135deg,#b45309,#f59e0b);color:#fff}
 .ic.bc{background:linear-gradient(135deg,#16a34a,#0d9488);color:#fff}
+.ic.sb{background:linear-gradient(135deg,#0369a1,#4338ca);color:#fff}
 .ic.lx{background:linear-gradient(135deg,#7c3aed,#ec4899);color:#fff}
 .ic.re{background:linear-gradient(135deg,#22a768,#0f4b31)}
 .ic.tr{background:linear-gradient(135deg,#f2c14e,#c9962b);color:#1a1405}
