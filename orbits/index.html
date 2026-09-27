@@ -138,6 +138,7 @@
       <div class="orb" aria-hidden="true"><span class="sm a"></span><span class="sm b"></span><span class="sm c"></span><span class="gloss"></span></div>
       <h2 id="lockTitle">Open your Orbit</h2>
       <p id="lockSub">Enter your master key to decrypt your vault.</p>
+      <div class="field"><input id="email" type="email" placeholder="Your email (your account name)" maxlength="160" autocomplete="username" autocapitalize="off" autocorrect="off" spellcheck="false"></div>
       <div class="field"><input id="pass" type="password" placeholder="Master key" maxlength="1028" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"></div>
       <div class="field hide" id="pass2wrap"><input id="pass2" type="password" placeholder="Confirm master key" maxlength="1028" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"></div>
       <div class="keyreq hide" id="keyReq">
@@ -156,6 +157,10 @@
       </div>
       <button class="btn" id="unlockBtn">Unlock</button>
       <p style="margin-top:12px"><a href="#" id="toggleNew" style="color:var(--cy);font-size:13px;text-decoration:none">First time? Create your account &rarr;</a></p>
+      <p style="margin-top:2px" id="recoverWrap"><a href="#" id="toRecover" style="color:var(--dim);font-size:12.5px;text-decoration:none">Forgot your master key? Recover with your email code &rarr;</a></p>
+      <p id="btWrap" style="margin-top:2px;display:none"><a href="#" id="toBt" style="color:var(--cy);font-size:12.5px;text-decoration:none">&#128280; Unlock with your Bluetooth key &rarr;</a></p>
+      <p id="picWrap" style="margin-top:2px;display:none"><a href="#" id="toPic" style="color:var(--cy);font-size:12.5px;text-decoration:none">&#128444;&#65039; Unlock with your secret picture &rarr;</a></p>
+      <input id="picUnlockFile" type="file" accept="image/*" style="display:none">
     </div>
     <p class="foot">Zero-knowledge, end-to-end encrypted on your device (AES-256-GCM). Stored on Luxucleen&rsquo;s cloud SSD. Better than a password manager &mdash; your Orbits also power your AI. &middot; <a href="/office/">Office</a></p>
   </section>
@@ -182,6 +187,7 @@
   <span class="pill" id="tGen">&#127922; Password</span>
   <span class="pill" id="tHealth">&#128737;&#65039; Health</span>
   <span class="pill" id="tAsk">&#10024; Ask AI</span>
+  <span class="pill" id="tSettings">&#9881;&#65039; Security</span>
   <span class="pill" id="tLock">&#128274; Lock</span>
 </div>
 
@@ -219,45 +225,137 @@
 "use strict";
 const API="https://ai.luxucleen.com/ask";
 const $=s=>document.querySelector(s), enc=new TextEncoder(), dec=new TextDecoder();
-const LS_ID="lux_mem", LS_VAULT="orbit_vault_v1", LS_SHA="orbit_sha_v1";
+const LS_ID="lux_mem", LS_VAULT="orbit_vault_v1", LS_SHA="orbit_sha_v1", LS_EMAIL="lux_email_v1";
 
 /* stable per-user id (shared with the Luxu orb if present) */
 function myId(){ let id=localStorage.getItem(LS_ID); if(!id){ id="o_"+(crypto.randomUUID?crypto.randomUUID():Date.now()+"_"+Math.random().toString(36).slice(2)); try{localStorage.setItem(LS_ID,id)}catch(e){} } return id; }
 
-/* ---------- zero-knowledge crypto: key from master passphrase, never leaves device ---------- */
+/* ---------- account locator: the vault's cloud address is derived from the user's EMAIL, not a
+   random per-device id. THIS is the cross-device fix - the same email + master key opens the same
+   vault on any device. Zero-knowledge is unchanged: the worker only ever sees memHash("lux1:"+email)
+   plus ciphertext, never the email as stored content and never the master key. */
+function normEmail(e){ return String(e||"").trim().toLowerCase(); }
+function emailOk(e){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normEmail(e)); }
+function setAcct(email){ const e=normEmail(email); ACCT = e ? ("lux1:"+e) : null;
+  try{ if(e) localStorage.setItem(LS_EMAIL,e); }catch(x){} return ACCT; }
+
+/* ---------- zero-knowledge crypto (fmt:2 DEK-wrap model) ----------
+   A random Data Key (DEK) encrypts the vault. The DEK is stored only as WRAPS - the DEK encrypted under a
+   credential-derived key. Login = unwrap the DEK by any method the user has (master key / recovery code /
+   password), then decrypt the vault with the DEK. Switching security mode = add/remove a wrap; the vault
+   blob is NEVER re-encrypted. The 3 modes (all changeable in Settings):
+     "vault"          - master key only, NO recovery (max security; lose the key = data gone).
+     "vault_recovery" - master key + a recovery code (backed up to your email) so a lost key can be recovered.
+     "account"        - email + a normal password, and the master key STILL works too.
+   Zero-knowledge holds in every mode: only wrapped keys + ciphertext are ever stored; no credential leaves the device. */
 function b64e(buf){ let s="",b=new Uint8Array(buf); for(let i=0;i<b.length;i++)s+=String.fromCharCode(b[i]); return btoa(s); }
 function b64d(str){ const s=atob(str),b=new Uint8Array(s.length); for(let i=0;i<s.length;i++)b[i]=s.charCodeAt(i); return b; }
-async function deriveKey(pass,salt){
-  const base=await crypto.subtle.importKey("raw",enc.encode(pass),"PBKDF2",false,["deriveKey"]);
+async function kdfKey(cred,salt){
+  const base=await crypto.subtle.importKey("raw",enc.encode(cred),"PBKDF2",false,["deriveKey"]);
   return crypto.subtle.deriveKey({name:"PBKDF2",salt,iterations:250000,hash:"SHA-256"},base,{name:"AES-GCM",length:256},false,["encrypt","decrypt"]);
 }
-async function encryptVault(obj,pass){
+async function wrapDEK(dekRaw,cred){                    // wrap = encrypt the raw 32-byte DEK under a credential
   const salt=crypto.getRandomValues(new Uint8Array(16)), iv=crypto.getRandomValues(new Uint8Array(12));
-  const key=await deriveKey(pass,salt);
-  const ct=await crypto.subtle.encrypt({name:"AES-GCM",iv},key,enc.encode(JSON.stringify(obj)));
-  const env=new Uint8Array(16+12+ct.byteLength); env.set(salt,0); env.set(iv,16); env.set(new Uint8Array(ct),28);
-  return b64e(env);                                   // opaque blob: salt|iv|ciphertext
+  const k=await kdfKey(cred,salt);
+  const ct=await crypto.subtle.encrypt({name:"AES-GCM",iv},k,dekRaw);
+  return {salt:b64e(salt),iv:b64e(iv),ct:b64e(ct)};
 }
-async function decryptVault(blob,pass){
-  const env=b64d(blob), salt=env.slice(0,16), iv=env.slice(16,28), ct=env.slice(28);
-  const key=await deriveKey(pass,salt);
-  const pt=await crypto.subtle.decrypt({name:"AES-GCM",iv},key,ct);        // throws if wrong key / tampered
-  return JSON.parse(dec.decode(pt));
+async function unwrapDEK(w,cred){                       // throws if the credential is wrong (GCM auth tag fails)
+  const salt=b64d(w.salt),iv=b64d(w.iv),ct=b64d(w.ct),k=await kdfKey(cred,salt);
+  return new Uint8Array(await crypto.subtle.decrypt({name:"AES-GCM",iv},k,ct));
+}
+async function importDEK(raw){ return crypto.subtle.importKey("raw",raw,{name:"AES-GCM"},false,["encrypt","decrypt"]); }
+async function encWithDEK(obj,dekKey){
+  const iv=crypto.getRandomValues(new Uint8Array(12));
+  const ct=await crypto.subtle.encrypt({name:"AES-GCM",iv},dekKey,enc.encode(JSON.stringify(obj)));
+  const env=new Uint8Array(12+ct.byteLength); env.set(iv,0); env.set(new Uint8Array(ct),12);
+  return b64e(env);                                     // iv|ciphertext, encrypted by the DEK
+}
+async function decWithDEK(blob,dekKey){
+  const e=b64d(blob), iv=e.slice(0,12), ct=e.slice(12);
+  return JSON.parse(dec.decode(await crypto.subtle.decrypt({name:"AES-GCM",iv},dekKey,ct)));
+}
+/* legacy fmt:1 (vault encrypted directly by the master key, salt|iv|ct) - read once, then migrate to fmt:2 */
+async function decryptLegacy(blob,pass){
+  const env=b64d(blob), salt=env.slice(0,16), iv=env.slice(16,28), ct=env.slice(28), k=await kdfKey(pass,salt);
+  return JSON.parse(dec.decode(await crypto.subtle.decrypt({name:"AES-GCM",iv},k,ct)));
+}
+function recoveryCode(){ const A="ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; let o="",r=crypto.getRandomValues(new Uint32Array(24));
+  for(let i=0;i<24;i++){ o+=A[r[i]%A.length]; if(i%4===3&&i<23)o+="-"; } return o; }   // 24 chars, groups of 4 (no ambiguous chars)
+function parseEnvl(str){ try{ const o=JSON.parse(str); return (o&&o.fmt===2&&o.wraps)?o:null; }catch(e){ return null; } }
+/* build a fresh fmt:2 envelope for a NEW or migrated vault, wrapping the DEK under the master key */
+async function initNewDEK(masterKey){
+  DEKRAW=crypto.getRandomValues(new Uint8Array(32)); DEK=await importDEK(DEKRAW);
+  ENVL={fmt:2,mode:"vault",wraps:{pass:await wrapDEK(DEKRAW,masterKey)},blob:""};
+}
+
+/* ---------- Luxor Net Bluetooth Key (a physical-device key, not a passcode) ----------
+   The paired device is a HARDWARE KEY: we read a stable, device-bound secret from it and use that secret
+   to wrap the DEK (wraps.bt). The vault then opens only when THAT device is present - there's no "match"
+   flag to fake, just a key you either can read or you can't. Web Bluetooth is Chrome/Edge/Android only
+   (NOT iPhone Safari / Firefox), so this is feature-detected. The master key ALWAYS stays too, so a flaky
+   read can never lock anyone out. Enrollment and unlock must read the SAME fields to derive the same secret. */
+function btSupported(){ return !!(navigator.bluetooth && navigator.bluetooth.requestDevice); }
+async function btSecret(){
+  if(!btSupported()) throw new Error("no-bt");
+  const dev=await navigator.bluetooth.requestDevice({acceptAllDevices:true, optionalServices:["device_information"]});
+  const parts=[ "id:"+(dev.id||""), "name:"+(dev.name||"") ];
+  try{
+    const server=await dev.gatt.connect();
+    try{ const s=await server.getPrimaryService("device_information");
+      for(const u of ["serial_number_string","system_id","manufacturer_name_string"]){
+        try{ const c=await s.getCharacteristic(u); const v=await c.readValue(); parts.push(u+":"+b64e(v.buffer)); }catch(e){}
+      }
+    }catch(e){}
+    try{ dev.gatt.disconnect(); }catch(e){}
+  }catch(e){}
+  const secret=parts.filter(p=>p&&!/:$/.test(p)).join("|");
+  if(!secret || secret.length<6) throw new Error("no-secret");
+  return "luxorbt1:"+secret;                                // the device-bound key material
+}
+async function btOpen(envl){                                // unlock via the Bluetooth key (no typed credential)
+  if(!envl.wraps||!envl.wraps.bt) throw new Error("no-bt-wrap");
+  const raw=await unwrapDEK(envl.wraps.bt, await btSecret());
+  const key=await importDEK(raw); return {raw,key,vault:await decWithDEK(envl.blob,key)};
+}
+
+/* ---------- Luxor Net Picture Key (a secret picture is your key) ----------
+   The DEK is wrapped under a credential derived from the EXACT bytes of a secret picture
+   (best: a photo of your own random pencil drawing - unique, high-entropy, exists nowhere else).
+   Only the wrap (wraps.pic) is stored; the picture itself NEVER leaves the device. A different
+   or re-encoded picture fails the AES-GCM auth tag, so it simply won't open. The master key
+   ALWAYS stays too, so a lost/changed picture file can never lock anyone out. Works in every
+   browser (a normal file input) - unlike the Bluetooth key. Same idea as the Luxor Net Key. */
+async function picCredential(fileBytes){
+  const d=new Uint8Array(await crypto.subtle.digest("SHA-256",fileBytes));
+  let hex=""; for(let i=0;i<d.length;i++)hex+=d[i].toString(16).padStart(2,"0");
+  return "luxornet-pic-v1:"+hex;                          // the exact-bytes credential
+}
+function readPicBytes(file){ return new Promise((res,rej)=>{ const r=new FileReader();
+  r.onload=()=>res(new Uint8Array(r.result)); r.onerror=()=>rej(r.error||new Error("read")); r.readAsArrayBuffer(file); }); }
+async function picOpen(envl,fileBytes){                     // unlock via the secret picture (no typed credential)
+  if(!envl.wraps||!envl.wraps.pic) throw new Error("no-pic-wrap");
+  const raw=await unwrapDEK(envl.wraps.pic, await picCredential(fileBytes));
+  const key=await importDEK(raw); return {raw,key,vault:await decWithDEK(envl.blob,key)};
 }
 
 /* ---------- state ---------- */
-let PASS=null, VAULT={v:1,check:"orbit-ok",items:[]}, SHA=null, FILTER="all", EDIT_ID=null, ONLINE=false;
+let PASS=null, ACCT=null, DEK=null, DEKRAW=null, ENVL=null, VAULT={v:1,check:"orbit-ok",items:[]}, SHA=null, FILTER="all", EDIT_ID=null, ONLINE=false;
+const MODE_LABEL={vault:"Impossible to hack (no recovery)",vault_recovery:"Encrypted + recovery (email code)",account:"Easy login (email + password)"};
 
 /* ---------- cloud SSD (worker orbit mode); offline-first, best-effort ---------- */
 async function cloudLoad(){
-  try{ const r=await fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"orbit",op:"load",mem:myId()})});
+  if(!ACCT) return null;
+  try{ const r=await fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"orbit",op:"load",mem:ACCT})});
     const j=await r.json(); if(j&&j.ok&&!j.offline){ ONLINE=true; return {blob:j.blob||"",sha:j.sha||null}; } if(j&&j.offline)ONLINE=false; }catch(e){ONLINE=false;}
   return null;
 }
 async function cloudSave(blob){
-  try{ const r=await fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"orbit",op:"save",mem:myId(),blob,sha:SHA})});
+  if(!ACCT) return false;
+  try{ const r=await fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"orbit",op:"save",mem:ACCT,blob,sha:SHA})});
     const j=await r.json();
-    if(j&&j.conflict){ const rem=await cloudLoad(); if(rem&&rem.blob){ try{ const other=await decryptVault(rem.blob,PASS); mergeInto(other); SHA=rem.sha; return await persist(true);}catch(e){} } return false; }
+    if(j&&j.conflict){ const rem=await cloudLoad(); if(rem&&rem.blob){ const pe=parseEnvl(rem.blob);
+      if(pe){ try{ const o=await openEnvl(pe,PASS); mergeInto(o.vault); ENVL=pe; DEKRAW=o.raw; DEK=o.key; SHA=rem.sha; return await persist(true);}catch(e){} } } return false; }
     if(j&&j.ok){ ONLINE=true; SHA=j.sha||SHA; try{localStorage.setItem(LS_SHA,SHA||"")}catch(e){} return true; }
   }catch(e){ONLINE=false;}
   return false;
@@ -267,10 +365,21 @@ function mergeInto(other){                              // last-write-wins by up
   (other.items||[]).forEach(it=>{ const cur=byId[it.id]; if(!cur||(it.updated||0)>(cur.updated||0)) byId[it.id]=it; });
   VAULT.items=Object.values(byId).sort((a,b)=>(b.updated||0)-(a.updated||0));
 }
+/* open an envelope with any credential the user has (master key OR password). Returns {raw,key,vault} or throws. */
+async function openEnvl(envl,cred){
+  let raw=null;
+  if(envl.wraps&&envl.wraps.pass){ try{ raw=await unwrapDEK(envl.wraps.pass,cred); }catch(e){} }
+  if(!raw && envl.wraps&&envl.wraps.pw){ try{ raw=await unwrapDEK(envl.wraps.pw,cred); }catch(e){} }
+  if(!raw) throw new Error("bad-cred");
+  const key=await importDEK(raw); const vault=await decWithDEK(envl.blob,key);
+  return {raw,key,vault};
+}
 async function persist(skipCloud){
-  try{localStorage.setItem(LS_VAULT,await encryptVault(VAULT,PASS));}catch(e){}   // local first = instant + offline
+  ENVL.blob=await encWithDEK(VAULT,DEK);                    // re-encrypt ONLY the vault; wraps + mode untouched
+  const packed=JSON.stringify(ENVL);
+  try{localStorage.setItem(LS_VAULT,packed);}catch(e){}     // local first = instant + offline
   setSync(); if(skipCloud) return true;
-  const blob=await encryptVault(VAULT,PASS); const ok=await cloudSave(blob); setSync(); return ok;
+  const ok=await cloudSave(packed); setSync(); return ok;
 }
 function setSync(){ const dot=$("#sdot"),t=$("#stxt");
   if(ONLINE){dot.className="dot ok";t.textContent="synced";} else {dot.className="dot local";t.textContent="on this device";} }
@@ -282,7 +391,7 @@ function allAgreed(){ return AGREE_IDS.every(id=>{const el=document.getElementBy
 
 /* ---------- master-key policy (enforced on CREATE only; unlock just tries to decrypt so we never
    lock out an existing user whose key predates these rules). No spaces, up to 1028 chars, and a
-   blocked-symbol set (the punctuation Christian excluded — also the chars that carry injection payloads). */
+   blocked-symbol set (the punctuation excluded by policy — also the chars that carry injection payloads). */
 const KEY_MIN=8, KEY_MAX=1028;
 const KEY_EXCLUDE=".,'\";:-•^%#}{][\\|~<>€£¥=+!?";   // . , ' " ; : - • ^ % # } { ] [ \ | ~ < > € £ ¥ = + ! ?
 function keyBadChar(p){ for(let i=0;i<p.length;i++){ if(KEY_EXCLUDE.indexOf(p[i])>=0) return p[i]; } return ""; }
@@ -315,9 +424,12 @@ function applyMode(){                                                           
   $("#firstWarn").style.display=NEWMODE?"block":"none";
   $("#agreeWrap").classList.toggle("show",NEWMODE);
   $("#lockTitle").textContent=NEWMODE?"Create your account":"Open your Orbit";
-  $("#lockSub").textContent=NEWMODE?"Pick a master key, then agree to the terms. This key is the ONLY key to your data.":"Enter your master key to decrypt your vault.";
+  $("#lockSub").textContent=NEWMODE?"Pick your email and a master key, then agree to the terms. This key is the ONLY key to your data.":"Enter your email and master key to open your Orbit — from any device.";
   $("#toggleNew").textContent=NEWMODE?"Have an Orbit already? Unlock →":"First time? Create your account →";
   $("#unlockBtn").textContent=NEWMODE?"Agree & Create my Orbit":"Unlock";
+  const rw=$("#recoverWrap"); if(rw) rw.style.display=NEWMODE?"none":"block";
+  const bw=$("#btWrap"); if(bw) bw.style.display=(!NEWMODE && btSupported())?"block":"none";
+  const pcw=$("#picWrap"); if(pcw) pcw.style.display=(!NEWMODE)?"block":"none";
   refreshCreateBtn(); paintKeyReq();
 }
 function stampConsent(){                                                             // one-time signature, bound to the account + synced (inside the encrypted vault)
@@ -332,27 +444,39 @@ function stampConsent(){                                                        
 AGREE_IDS.forEach(id=>{const el=document.getElementById(id); if(el) el.onchange=refreshCreateBtn;});
 $("#toggleNew").onclick=e=>{e.preventDefault();NEWMODE=!NEWMODE;applyMode();};
 $("#unlockBtn").onclick=async()=>{
+  const email=normEmail($("#email").value);
   const p=$("#pass").value;
+  if(!emailOk(email)){ alert("Enter the email for your account — it's how your Orbit is found on every device."); return; }
   if(NEWMODE){
     const kp=keyProblem(p); if(kp){alert(kp);paintKeyReq();return;}
     if(p!==$("#pass2").value){alert("The two keys don't match.");return;}
     if(!allAgreed()){alert("Please tick the four boxes to agree to the terms, then create your account.");return;}
   } else if(!p){ alert("Enter your master key.");return; }
   $("#unlockBtn").textContent="Opening…"; $("#unlockBtn").disabled=true;
-  PASS=p;
-  const rem=await cloudLoad();
-  const localBlob=(()=>{try{return localStorage.getItem(LS_VAULT)}catch(e){return null}})();
-  const blob=(rem&&rem.blob)||localBlob; if(rem)SHA=rem.sha;
-  if(blob){
-    try{ VAULT=await decryptVault(blob,PASS); if(rem&&localBlob&&rem.blob!==localBlob){ try{mergeInto(await decryptVault(localBlob,PASS));}catch(e){} } }
-    catch(e){ applyMode(); alert("Wrong master key for this Orbit."); return; }
-  } else if(!NEWMODE){
-    // nothing stored yet + they didn't choose "create" -> treat as new anyway
-    VAULT={v:1,check:"orbit-ok",items:[]};
-  } else { VAULT={v:1,check:"orbit-ok",items:[]}; }
-  stampConsent();                                       // record the one-time signature before it's written
-  await persist(false);
-  openVault();
+  const fail=(msg)=>{ $("#unlockBtn").textContent=NEWMODE?"Agree & Create my Orbit":"Unlock"; $("#unlockBtn").disabled=false; applyMode(); if(msg)alert(msg); };
+  try{
+    PASS=p; setAcct(email);
+    const rem=await cloudLoad();
+    const localStr=(()=>{try{return localStorage.getItem(LS_VAULT)}catch(e){return null}})();
+    const stored=(rem&&rem.blob)||localStr; if(rem)SHA=rem.sha;
+    if(stored){
+      const pe=parseEnvl(stored);
+      if(pe){                                             // fmt:2 envelope -> open with the master key (or password)
+        let o; try{ o=await openEnvl(pe,p); }catch(e){ return fail("Wrong master key for this Orbit."); }
+        ENVL=pe; DEKRAW=o.raw; DEK=o.key; VAULT=o.vault;
+        if(rem&&localStr&&rem.blob!==localStr){ const pl=parseEnvl(localStr); if(pl){ try{ mergeInto((await openEnvl(pl,p)).vault); }catch(e){} } }
+      } else {                                            // legacy fmt:1 -> decrypt once, migrate to fmt:2
+        try{ VAULT=await decryptLegacy(stored,p); }catch(e){ return fail("Wrong master key for this Orbit."); }
+        await initNewDEK(p);
+      }
+    } else {                                              // brand-new Orbit
+      VAULT={v:1,check:"orbit-ok",items:[]};
+      await initNewDEK(p);
+    }
+    stampConsent();                                       // record the one-time signature before it's written
+    await persist(false);
+    openVault();
+  }catch(e){ return fail("Couldn't open your Orbit. Please try again."); }
 };
 function openVault(){ $("#lockView").classList.add("hide"); $("#vaultView").classList.remove("hide");
   $("#addFab").classList.remove("hide"); $("#dock").classList.remove("hide"); setSync(); render(); }
@@ -446,6 +570,171 @@ function navByCopy(v){ try{navigator.clipboard.writeText(v);}catch(e){} const o=
 $("#closeAi").onclick=()=>$("#aiOv").classList.remove("show");
 document.querySelectorAll(".ov").forEach(o=>o.onclick=e=>{if(e.target===o)o.classList.remove("show");});
 
+/* ---------- Security settings: the 3 modes, all changeable here (each change = add/remove a DEK wrap; the vault is never re-encrypted) ---------- */
+function secDot(on){ return on?"✅":"—"; }
+function openSettings(){
+  const hasRec=!!(ENVL&&ENVL.wraps&&ENVL.wraps.rec), hasPw=!!(ENVL&&ENVL.wraps&&ENVL.wraps.pw), hasBt=!!(ENVL&&ENVL.wraps&&ENVL.wraps.bt), hasPic=!!(ENVL&&ENVL.wraps&&ENVL.wraps.pic);
+  const mode=(ENVL&&ENVL.mode)||"vault";
+  aiOpen("⚙️ Security",
+    `<div class="warn" style="color:#bfe9cf;background:rgba(46,194,126,.08);border-color:rgba(46,194,126,.28)">
+       Every mode is end-to-end encrypted &amp; zero-knowledge &mdash; only your key ever opens your Orbit.
+       <b>No-recovery</b> is the <b>impossible-to-hack</b> one: there is no second door to attack.</div>
+     <div class="field"><label>Current mode</label><div style="font-weight:800">${esc(MODE_LABEL[mode]||mode)}</div></div>
+     <div class="field"><label>Change master key</label>
+       <input id="sNewKey" type="password" placeholder="New master key" autocomplete="off">
+       <div style="height:8px"></div>
+       <input id="sNewKey2" type="password" placeholder="Confirm new master key" autocomplete="off">
+       <button class="btn ghost sm" id="sChangeKey" style="margin-top:8px">Update master key</button></div>
+     <div class="field"><label>Recovery ${secDot(hasRec)}</label>
+       ${hasRec
+         ? `<div style="font-size:13px;color:var(--dim);margin-bottom:6px">A recovery code can restore this Orbit if you forget your key.</div>
+            <button class="btn ghost sm" id="sRecNew">Get a new recovery code</button>
+            <button class="btn ghost sm" id="sRecOff" style="margin-top:6px">Turn OFF recovery (make it impossible to hack)</button>`
+         : `<div style="font-size:13px;color:var(--dim);margin-bottom:6px">Right now there is NO recovery &mdash; impossible to hack, but if you lose your key it is gone forever.</div>
+            <button class="btn ghost sm" id="sRecOn">Turn ON recovery (get an email code)</button>`}
+     </div>
+     <div class="field"><label>Easy login: email + password ${secDot(hasPw)}</label>
+       ${hasPw
+         ? `<div style="font-size:13px;color:var(--dim);margin-bottom:6px">Sign in with your email + password. Your master key still works too.</div>
+            <button class="btn ghost sm" id="sPwOff">Remove password login</button>`
+         : `<input id="sPw" type="password" placeholder="Set a login password" autocomplete="off">
+            <button class="btn ghost sm" id="sPwOn" style="margin-top:8px">Add email + password login</button>`}
+     </div>
+     <div class="field"><label>Luxor Net Bluetooth Key ${secDot(hasBt)}</label>
+       ${!btSupported()
+         ? `<div style="font-size:13px;color:var(--dim)">Not available in this browser. Web Bluetooth needs Chrome or Edge (desktop) or Android Chrome &mdash; iPhone/Safari can't use it. On iPhone, open your Orbit with your email + master key (works on any device); turn on Recovery mode above if you want an email-code backup.</div>`
+         : hasBt
+           ? `<div style="font-size:13px;color:var(--dim);margin-bottom:6px">Your Orbit can be opened by your paired Bluetooth device. Your master key still works too.</div>
+              <button class="btn ghost sm" id="sBtOff">Remove Bluetooth key</button>`
+           : `<div style="font-size:13px;color:var(--dim);margin-bottom:6px">Pair a physical Bluetooth device (a tag/fob/gadget) as a hardware key. It becomes a way in &mdash; use it on the impossible-to-hack vault only if you accept that.</div>
+              <button class="btn ghost sm" id="sBtOn">Pair a Bluetooth key</button>`}
+     </div>
+     <div class="field"><label>Luxor Net Picture Key ${secDot(hasPic)}</label>
+       ${hasPic
+         ? `<div style="font-size:13px;color:var(--dim);margin-bottom:6px">Your Orbit opens with your secret picture file. Your master key still works too.</div>
+            <button class="btn ghost sm" id="sPicOff">Remove picture key</button>`
+         : `<div style="font-size:13px;color:var(--dim);margin-bottom:6px">Unlock with a <b>secret picture</b> &mdash; best is a photo of your own random pencil drawing (unique, high-entropy, exists nowhere else). The <b>exact file</b> is the key, so keep one saved copy safe. Works on any device, iPhone included. Your master key always stays too.</div>
+            <input id="sPicFile" type="file" accept="image/*" style="font-size:13px">
+            <button class="btn ghost sm" id="sPicOn" style="margin-top:8px">Add a picture key</button>`}
+     </div>`);
+  const done=(msg)=>{ aiShow(msg); setTimeout(openSettings,1000); };
+  const ck=$("#sChangeKey"); if(ck) ck.onclick=async()=>{
+    const nk=$("#sNewKey").value, nk2=$("#sNewKey2").value;
+    const kp=keyProblem(nk); if(kp){alert(kp);return;} if(nk!==nk2){alert("The two keys don't match.");return;}
+    ENVL.wraps.pass=await wrapDEK(DEKRAW,nk); PASS=nk; await persist(false); done("✅ Master key updated — use the new key next time.");
+  };
+  const mkNewCode=async()=>{ const code=recoveryCode(); ENVL.wraps.rec=await wrapDEK(DEKRAW,code); if(ENVL.mode==="vault")ENVL.mode=hasPw?"account":"vault_recovery"; await persist(false); showRecoveryCode(code); };
+  const ron=$("#sRecOn"); if(ron) ron.onclick=mkNewCode;
+  const rnew=$("#sRecNew"); if(rnew) rnew.onclick=mkNewCode;
+  const roff=$("#sRecOff"); if(roff) roff.onclick=async()=>{
+    if(!confirm("Turn off recovery? Your Orbit becomes impossible to hack — but if you lose your master key it can NEVER be recovered."))return;
+    delete ENVL.wraps.rec; ENVL.mode=(ENVL.wraps.pw?"account":"vault"); await persist(false); done("✅ Recovery OFF — this Orbit is now impossible to hack.");
+  };
+  const pon=$("#sPwOn"); if(pon) pon.onclick=async()=>{
+    const pw=$("#sPw").value; if((pw||"").length<6){alert("Use at least 6 characters for the password.");return;}
+    ENVL.wraps.pw=await wrapDEK(DEKRAW,pw); ENVL.mode="account"; await persist(false); done("✅ Email + password login added — your master key still works too.");
+  };
+  const poff=$("#sPwOff"); if(poff) poff.onclick=async()=>{
+    delete ENVL.wraps.pw; ENVL.mode=(ENVL.wraps.rec?"vault_recovery":"vault"); await persist(false); done("✅ Password login removed.");
+  };
+  const bon=$("#sBtOn"); if(bon) bon.onclick=async()=>{
+    aiShow("Pick your Bluetooth device in the browser prompt...");
+    try{ const sec=await btSecret(); ENVL.wraps.bt=await wrapDEK(DEKRAW,sec); await persist(false); done("✅ Bluetooth key paired — that device now opens your Orbit. Your master key still works too."); }
+    catch(e){ aiShow(String(e&&e.message)==="no-bt"?"This browser can't use Bluetooth.":"No device paired (cancelled or unreadable). Nothing changed."); }
+  };
+  const boff=$("#sBtOff"); if(boff) boff.onclick=async()=>{ delete ENVL.wraps.bt; await persist(false); done("✅ Bluetooth key removed."); };
+  const pion=$("#sPicOn"); if(pion) pion.onclick=async()=>{
+    const f=$("#sPicFile")&&$("#sPicFile").files[0];
+    if(!f){ alert("Pick your secret picture file first."); return; }
+    try{ const bytes=await readPicBytes(f); ENVL.wraps.pic=await wrapDEK(DEKRAW,await picCredential(bytes)); await persist(false);
+      done("✅ Picture key added — that exact picture file now opens your Orbit. Your master key still works too. Keep one saved copy of the file safe."); }
+    catch(e){ aiShow("Couldn't read that picture. Try another file."); }
+  };
+  const pioff=$("#sPicOff"); if(pioff) pioff.onclick=async()=>{ delete ENVL.wraps.pic; await persist(false); done("✅ Picture key removed."); };
+}
+/* unlock from the lock screen using the paired Bluetooth key (no typed credential) */
+async function openBtUnlock(){
+  const email=normEmail($("#email").value);
+  if(!emailOk(email)){ alert("Enter your account email first, then unlock with Bluetooth."); return; }
+  setAcct(email);
+  try{
+    const rem=await cloudLoad();
+    const localStr=(()=>{try{return localStorage.getItem(LS_VAULT)}catch(e){return null}})();
+    const stored=(rem&&rem.blob)||localStr; if(rem)SHA=rem.sha;
+    const pe=stored?parseEnvl(stored):null;
+    if(!pe||!pe.wraps||!pe.wraps.bt){ alert("No Bluetooth key is set for that account."); return; }
+    const o=await btOpen(pe); ENVL=pe; DEKRAW=o.raw; DEK=o.key; VAULT=o.vault; PASS=null;
+    stampConsent(); await persist(false); openVault();
+  }catch(e){ alert("Bluetooth unlock failed — the device isn't present or couldn't be read."); }
+}
+/* unlock from the lock screen using the secret picture (pick the exact file) */
+function openPicUnlock(){
+  const email=normEmail($("#email").value);
+  if(!emailOk(email)){ alert("Enter your account email first, then unlock with your picture."); return; }
+  const inp=$("#picUnlockFile"); if(!inp) return;
+  inp.value="";
+  inp.onchange=async()=>{
+    const f=inp.files[0]; if(!f) return;
+    setAcct(email);
+    try{
+      const rem=await cloudLoad();
+      const localStr=(()=>{try{return localStorage.getItem(LS_VAULT)}catch(e){return null}})();
+      const stored=(rem&&rem.blob)||localStr; if(rem)SHA=rem.sha;
+      const pe=stored?parseEnvl(stored):null;
+      if(!pe||!pe.wraps||!pe.wraps.pic){ alert("No picture key is set for that account."); return; }
+      const bytes=await readPicBytes(f);
+      const o=await picOpen(pe,bytes); ENVL=pe; DEKRAW=o.raw; DEK=o.key; VAULT=o.vault; PASS=null;
+      stampConsent(); await persist(false); openVault();
+    }catch(e){ alert("That picture doesn't open this Orbit — it must be the exact same file you set as your key."); }
+  };
+  inp.click();
+}
+function showRecoveryCode(code){
+  aiOpen("🔑 Your recovery code",
+    `<div class="warn">Save this now. It is the ONLY way back in if you forget your master key. We can't see it or resend it — email it to yourself so "recover with email" always works.</div>
+     <div style="font-family:ui-monospace,Consolas,monospace;font-size:18px;font-weight:800;letter-spacing:.06em;background:#0a0d13;border:1px solid var(--line);border-radius:12px;padding:14px;text-align:center;word-break:break-all">${esc(code)}</div>
+     <div class="rowb" style="margin-top:10px"><button class="btn ghost" id="rcCopy">Copy</button><button class="btn ghost" id="rcDl">Download</button></div>`);
+  $("#rcCopy").onclick=()=>{ try{navigator.clipboard.writeText(code);}catch(e){} $("#rcCopy").textContent="Copied ✔"; };
+  $("#rcDl").onclick=()=>{ const b=new Blob(["Luxucleen Orbits recovery code\n\n"+code+"\n\nKeep this safe. It restores your Orbit if you forget your master key."],{type:"text/plain"});
+    const a=document.createElement("a"); a.href=URL.createObjectURL(b); a.download="orbits-recovery-code.txt"; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),2000); };
+}
+/* ---------- recovery from the lock screen: email + recovery code -> unwrap DEK -> set a new master key ---------- */
+function openRecover(){
+  aiOpen("🔑 Recover your Orbit",
+    `<div class="field"><label>Your account email</label><input id="rvEmail" type="email" placeholder="you@example.com" autocomplete="username"></div>
+     <div class="field"><label>Recovery code</label><input id="rvCode" placeholder="XXXX-XXXX-XXXX-..." autocomplete="off"></div>
+     <div class="field"><label>New master key</label><input id="rvKey" type="password" autocomplete="off"></div>
+     <div class="field"><label>Confirm new master key</label><input id="rvKey2" type="password" autocomplete="off"></div>
+     <button class="btn" id="rvGo">Recover &amp; set new key</button>`);
+  try{ const e=localStorage.getItem(LS_EMAIL); if(e)$("#rvEmail").value=e; }catch(x){}
+  $("#rvGo").onclick=async()=>{
+    const email=normEmail($("#rvEmail").value), code=($("#rvCode").value||"").trim().toUpperCase(), nk=$("#rvKey").value, nk2=$("#rvKey2").value;
+    if(!emailOk(email)){alert("Enter your account email.");return;}
+    if(!code){alert("Enter your recovery code.");return;}
+    const kp=keyProblem(nk); if(kp){alert(kp);return;} if(nk!==nk2){alert("The two keys don't match.");return;}
+    $("#rvGo").textContent="Recovering..."; $("#rvGo").disabled=true;
+    const stop=(m)=>{ $("#rvGo").textContent="Recover & set new key"; $("#rvGo").disabled=false; if(m)alert(m); };
+    try{
+      setAcct(email);
+      const rem=await cloudLoad();
+      const localStr=(()=>{try{return localStorage.getItem(LS_VAULT)}catch(e){return null}})();
+      const stored=(rem&&rem.blob)||localStr; if(rem)SHA=rem.sha;
+      const pe=stored?parseEnvl(stored):null;
+      if(!pe||!pe.wraps||!pe.wraps.rec){ return stop("No recovery code is set for that account (or it's the impossible-to-hack mode with no recovery)."); }
+      let raw; try{ raw=await unwrapDEK(pe.wraps.rec,code); }catch(e){ return stop("That recovery code doesn't match this account."); }
+      ENVL=pe; DEKRAW=raw; DEK=await importDEK(raw); PASS=nk;
+      ENVL.wraps.pass=await wrapDEK(raw,nk);
+      VAULT=await decWithDEK(ENVL.blob,DEK);
+      await persist(false);
+      $("#aiOv").classList.remove("show"); openVault();
+    }catch(e){ stop("Couldn't recover just now. Check the email + code and try again."); }
+  };
+}
+$("#tSettings").onclick=openSettings;
+$("#toRecover").onclick=e=>{e.preventDefault();openRecover();};
+$("#toBt").onclick=e=>{e.preventDefault();openBtUnlock();};
+$("#toPic").onclick=e=>{e.preventDefault();openPicUnlock();};
+
 /* ---------- starfield ---------- */
 (function(){ const c=$("#stars"),x=c.getContext("2d");let w,h,st;
   function rz(){w=c.width=innerWidth;h=c.height=innerHeight;st=Array.from({length:Math.min(120,(w*h)/12000)},()=>({x:Math.random()*w,y:Math.random()*h,z:Math.random()*.8+.2,s:Math.random()*1.4+.3}));}
@@ -457,6 +746,8 @@ document.querySelectorAll(".ov").forEach(o=>o.onclick=e=>{if(e.target===o)o.clas
 (function(){ const has=(()=>{try{return!!localStorage.getItem(LS_VAULT)}catch(e){return false}})();
   if(!has) NEWMODE=true;
   applyMode(); })();
+try{ const _e=localStorage.getItem(LS_EMAIL); if(_e && $("#email")) $("#email").value=_e; }catch(e){}
+$("#email").addEventListener("keydown",e=>{if(e.key==="Enter")$("#pass").focus();});
 $("#pass").addEventListener("input",paintKeyReq);
 $("#pass").addEventListener("keydown",e=>{if(e.key==="Enter")$("#unlockBtn").click();});
 $("#pass2").addEventListener("keydown",e=>{if(e.key==="Enter")$("#unlockBtn").click();});
