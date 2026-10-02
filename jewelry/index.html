@@ -183,7 +183,7 @@ window.luxVoicePage=true;
 var ES=location.pathname.indexOf("/es/")===0;
 var FILE=ES?"/es/jewelry/audio/intro_es.mp3":"/jewelry/audio/intro_en.mp3";
 var LANG=ES?"es":"en",API="https://ai.luxucleen.com/ask",started=false,fin=false,player=null;
-function finish(){if(fin)return;fin=true;setTimeout(function(){try{if(window.luxFadeIn){window.luxFadeIn();}else if(window.luxRadioStart){window.luxRadioStart();}}catch(e){}},900);}
+function finish(){if(fin)return;fin=true;setTimeout(function(){try{if(window.luxFadeIn){window.luxFadeIn();}else if(window.luxRadioStart){window.luxRadioStart();}}catch(e){}},2000);}
 var clips=null,ci=0;
 function sayNext(){if(!clips||ci>=clips.length){finish();return;}var c=clips[ci++];try{var a=new Audio("data:"+(c.type||"audio/mpeg")+";base64,"+c.audio);a.onended=function(){setTimeout(sayNext,700);};a.onerror=sayNext;var p=a.play();if(p&&p.catch)p.catch(function(){finish();});}catch(e){sayNext();}}
 function sayFallback(){try{var h=document.querySelector("h1"),l=document.querySelector(".lede,.lux-hero p,.hero p");var t=((h?h.textContent:"")+". "+(l?l.textContent:"")).replace(/\s+/g," ").trim().slice(0,360);fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"say",q:t,lang:LANG,voice:"both"})}).then(function(r){return r.json();}).then(function(d){if(d&&d.clips&&d.clips.length){clips=d.clips;ci=0;sayNext();}else{finish();}}).catch(function(){finish();});}catch(e){finish();}}

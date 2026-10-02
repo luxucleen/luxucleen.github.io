@@ -206,7 +206,7 @@ var API="https://ai.luxucleen.com/ask";
 var LANG=(function(){try{return localStorage.getItem("lux_lang")==="es"?"es":"en";}catch(e){return "en";}})();
 function line(){var h=document.querySelector("h1");var l=document.querySelector(".lede,.lux-hero p,.hero p");var t=((h?h.textContent:"")+". "+(l?l.textContent:"")).replace(/\s+/g," ").trim();return t.slice(0,360);}
 var clips=null,i=0,player=null,started=false,fin=false;
-function finish(){if(fin)return;fin=true;setTimeout(function(){try{if(window.luxFadeIn){window.luxFadeIn();}else if(window.luxRadioStart){window.luxRadioStart();}}catch(e){}},900);}
+function finish(){if(fin)return;fin=true;setTimeout(function(){try{if(window.luxFadeIn){window.luxFadeIn();}else if(window.luxRadioStart){window.luxRadioStart();}}catch(e){}},2000);}
 function playNext(){if(!clips||i>=clips.length){finish();return;}var c=clips[i++];try{player=new Audio("data:"+(c.type||"audio/mpeg")+";base64,"+c.audio);player.onended=function(){setTimeout(playNext,700);};player.onerror=playNext;var pr=player.play();if(pr&&pr.catch)pr.catch(function(){finish();});}catch(e){playNext();}}
 function begin(){if(started)return;started=true;if(clips){i=0;playNext();}else{fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"say",q:line(),lang:LANG,voice:"both"})}).then(function(r){return r.json();}).then(function(d){if(d&&d.clips&&d.clips.length){clips=d.clips;i=0;playNext();}else{finish();}}).catch(function(){finish();});}}
 function prefetch(){try{fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"say",q:line(),lang:LANG,voice:"both"})}).then(function(r){return r.json();}).then(function(d){if(d&&d.clips){clips=d.clips;}}).catch(function(){});}catch(e){}}
