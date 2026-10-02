@@ -227,6 +227,13 @@
     function stopSpeaking() { try { if (audio) audio.pause(); } catch (e) {} try { if (window.speechSynthesis) window.speechSynthesis.cancel(); } catch (e) {} try { clearInterval(_ttsPump); } catch (e) {} orb.classList.remove("talk"); duck(false); }
     paintMute();
     elMute.addEventListener("click", function () { TEXT_ONLY = !TEXT_ONLY; set("lux_text_only", TEXT_ONLY ? "1" : "0"); paintMute(); if (TEXT_ONLY) stopSpeaking(); });
+    // External VOICE control (e.g. the /radio Voice button) so ONE mute governs the agent live,
+    // separately from any music control. Keeps the in-chat toggle and the flag in sync.
+    window.luxOrbVoice = {
+      muted: function () { return !!TEXT_ONLY; },
+      mute: function () { TEXT_ONLY = true; set("lux_text_only", "1"); try { paintMute(); } catch (e) {} stopSpeaking(); },
+      unmute: function () { TEXT_ONLY = false; set("lux_text_only", "0"); try { paintMute(); } catch (e) {} }
+    };
 
     // ---------- location-aware text: fill [data-lux-region] with the visitor's area (Christian: "not only
     // Puerto Rico - change based on the location"). ONLY fires on pages that mark region text, so no other

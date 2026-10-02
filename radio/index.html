@@ -167,15 +167,18 @@
 
 <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js" integrity="sha384-9v3HcdYrO3D+OPDTjZ40RXocgE4GtXVCd3/mCS62JsM93JXgI1afJVuwjFvsu6ni" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>/*lux-radio-station*/(function(){try{
-  // === Luxucleen Radio -- the /radio station, talks to the LOCAL radio engine ===
-  // >>> ENGINE_URL IS THE ONE LINE THAT CHANGES WHEN THE PUBLIC TUNNEL LANDS. <<<
-  // It points at the local engine (radio_engine/engine.py on :2840). LOCAL-ONLY for now:
-  // a public https://luxucleen.com page CANNOT fetch http://127.0.0.1 (browser mixed-content
-  // block), so live shaping works when testing from localhost. Going public = expose the
-  // engine on an https tunnel and swap ONLY this line to that URL (a GO-gated deploy step).
-  // Every fetch below (POST /edit, GET /queue, GET /next, /out/) goes through it and fails
-  // gracefully to an "offline" preview -- the page never hard-fails or throws.
+  // === Luxucleen Radio -- playback + live "shape the sound" ===
+  // PLAYBACK uses a PUBLIC stream so EVERY visitor hears music (no login, no tunnel needed).
+  // LIVE SHAPING (the /edit queue that tunes bass/brightness/level for everyone) talks to the
+  // local engine (radio_engine/engine.py :2840). On the public site that engine isn't reachable
+  // yet (a browser can't fetch http://127.0.0.1), so shaping degrades to an "offline preview"
+  // while the MUSIC keeps playing -- the page never hard-fails. When the https engine tunnel
+  // lands (GO-gated), point ENGINE_URL at it; on that host playback prefers the shaped output.
   var ENGINE_URL = "http://127.0.0.1:2840";
+  var PUBLIC_STREAM = "https://ice1.somafm.com/beatblender-128-mp3"; // always-playable public source
+  // Play the SHAPED engine output only where the engine is actually reachable (localhost dev);
+  // every real visitor gets PUBLIC_STREAM, which always plays.
+  var ON_LOCALHOST = /^(localhost|127\.0\.0\.1|0\.0\.0\.0|\[::1\])$/.test(location.hostname);
 
   function $(id){ return document.getElementById(id); }
   var audio=$("rx-audio"), playBtn=$("rx-play"), statusEl=$("rx-status");
@@ -188,31 +191,39 @@
   function setStatus(t){ if(statusEl) statusEl.textContent=t; }
   function setWave(on){ if(wave){ if(on) wave.classList.add("on"); else wave.classList.remove("on"); } }
 
+  function usePublic(){ try{ if(hls){ hls.destroy(); hls=null; } }catch(e){} audio.src=PUBLIC_STREAM; }
   function attach(){
     if(attached) return;
-    var url=ENGINE_URL+"/out/out.m3u8";
-    if(audio.canPlayType("application/vnd.apple.mpegurl")){ audio.src=url; attached=true; return; } // Safari native HLS
-    if(window.Hls && window.Hls.isSupported()){
-      hls=new Hls({liveSyncDurationCount:3});
-      hls.on(window.Hls.Events.ERROR,function(ev,d){ if(d&&d.fatal){ setStatus("engine offline"); } });
-      hls.attachMedia(audio); hls.loadSource(url); attached=true; return;
+    attached=true;
+    if(ON_LOCALHOST){
+      // localhost dev only: play the live-SHAPED engine output, fall back to public if it's down
+      var url=ENGINE_URL+"/out/out.m3u8";
+      if(audio.canPlayType("application/vnd.apple.mpegurl")){ audio.src=url; return; } // Safari native HLS
+      if(window.Hls && window.Hls.isSupported()){
+        hls=new Hls({liveSyncDurationCount:3});
+        hls.on(window.Hls.Events.ERROR,function(ev,d){ if(d&&d.fatal){ usePublic(); if(playing){ try{var p=audio.play(); if(p&&p.catch)p.catch(function(){});}catch(e){} } } });
+        hls.attachMedia(audio); hls.loadSource(url); return;
+      }
     }
-    audio.src=url; attached=true; // last resort
+    usePublic(); // every real visitor: the public stream, which always plays
   }
-  function play(){
+  // MUSIC play/pause. Fully independent of the voice agents -- no hold/duck/fade coupling.
+  function doPlay(){
     attach();
-    try{ if(window.luxRadioHold) window.luxRadioHold(); }catch(e){}   // hush the ambient background music
-    try{ var p=audio.play(); if(p&&p.catch) p.catch(function(){ setStatus("tap play again"); }); }catch(e){}
+    try{ audio.muted=false; var p=audio.play(); if(p&&p.catch) p.catch(function(){ setStatus("tap play again"); }); }catch(e){}
     playing=true; playBtn.innerHTML="&#10073;&#10073;"; setStatus("live"); setWave(true);
+    try{ if(window.luxMusicSync) window.luxMusicSync(true); }catch(e){}
   }
-  function pause(){
+  function doPause(){
     try{ audio.pause(); }catch(e){}
-    try{ if(window.luxRadioRelease) window.luxRadioRelease(); }catch(e){}  // let the ambient music resume
     playing=false; playBtn.innerHTML="&#9654;"; setStatus("paused"); setWave(false);
+    try{ if(window.luxMusicSync) window.luxMusicSync(false); }catch(e){}
   }
-  playBtn.addEventListener("click",function(){ if(playing) pause(); else play(); });
+  playBtn.addEventListener("click",function(){ if(playing) doPause(); else doPlay(); });
   audio.addEventListener("playing",function(){ setStatus("live"); setWave(true); });
-  audio.addEventListener("pause",function(){ if(playing){} });
+  // MUSIC-ONLY control surface for the floating button -- it NEVER touches the agents.
+  window.luxMusic={ playing:function(){ return playing && !audio.paused; }, play:doPlay, pause:doPause,
+                    toggle:function(){ if(playing) doPause(); else doPlay(); } };
 
   // --- send a typed edit to the queue ---
   function send(words){
@@ -260,30 +271,44 @@
 window.luxVoicePage=true;
 var API="https://ai.luxucleen.com/ask";
 var LANG=(function(){try{return localStorage.getItem("lux_lang")==="es"?"es":"en";}catch(e){return "en";}})();
+// AGENT VOICE is its OWN mute, separate from the MUSIC mute. Shares the orb's lux_text_only flag.
+function voiceOn(){ try{ return localStorage.getItem("lux_text_only")!=="1"; }catch(e){ return true; } }
 function line(){var h=document.querySelector("h1");var l=document.querySelector(".lede,.lux-hero p,.hero p");var t=((h?h.textContent:"")+". "+(l?l.textContent:"")).replace(/\s+/g," ").trim();return t.slice(0,360);}
 var clips=null,i=0,player=null,started=false,fin=false;
-function finish(){if(fin)return;fin=true;setTimeout(function(){try{if(window.luxFadeIn){window.luxFadeIn();}else if(window.luxRadioStart){window.luxRadioStart();}}catch(e){}},2000);}
-function playNext(){if(!clips||i>=clips.length){finish();return;}var c=clips[i++];try{player=new Audio("data:"+(c.type||"audio/mpeg")+";base64,"+c.audio);player.onended=function(){setTimeout(playNext,700);};player.onerror=playNext;var pr=player.play();if(pr&&pr.catch)pr.catch(function(){finish();});}catch(e){playNext();}}
-function begin(){if(started)return;started=true;if(clips){i=0;playNext();}else{fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"say",q:line(),lang:LANG,voice:"both"})}).then(function(r){return r.json();}).then(function(d){if(d&&d.clips&&d.clips.length){clips=d.clips;i=0;playNext();}else{finish();}}).catch(function(){finish();});}}
-function prefetch(){try{fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"say",q:line(),lang:LANG,voice:"both"})}).then(function(r){return r.json();}).then(function(d){if(d&&d.clips){clips=d.clips;}}).catch(function(){});}catch(e){}}
+function stopVoice(){ try{ if(player){ player.pause(); player=null; } }catch(e){} fin=true; }
+function finish(){ if(fin)return; fin=true; } // decoupled: the voiceover NO LONGER starts/fades the music
+function playNext(){ if(!voiceOn()){ stopVoice(); return; } if(!clips||i>=clips.length){finish();return;}var c=clips[i++];try{player=new Audio("data:"+(c.type||"audio/mpeg")+";base64,"+c.audio);player.onended=function(){setTimeout(playNext,700);};player.onerror=playNext;var pr=player.play();if(pr&&pr.catch)pr.catch(function(){finish();});}catch(e){playNext();}}
+function begin(){ if(started)return; if(!voiceOn()){ return; } started=true; fin=false; if(clips){i=0;playNext();}else{fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"say",q:line(),lang:LANG,voice:"both"})}).then(function(r){return r.json();}).then(function(d){if(d&&d.clips&&d.clips.length){clips=d.clips;i=0;playNext();}else{finish();}}).catch(function(){finish();});}}
+function prefetch(){try{if(!voiceOn())return;fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"say",q:line(),lang:LANG,voice:"both"})}).then(function(r){return r.json();}).then(function(d){if(d&&d.clips){clips=d.clips;}}).catch(function(){});}catch(e){}}
 var go=function(){document.removeEventListener("click",go);document.removeEventListener("touchstart",go);document.removeEventListener("keydown",go);try{var _u=new Audio("data:audio/wav;base64,UklGRiYAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YQIAAAAAAA==");_u.volume=0;var _up=_u.play();if(_up&&_up.catch)_up.catch(function(){});}catch(e){}setTimeout(begin,1800);};
 document.addEventListener("click",go,{once:true});document.addEventListener("touchstart",go,{once:true});document.addEventListener("keydown",go,{once:true});
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",prefetch);else prefetch();
+// control surface for the separate VOICE button (and any external mute)
+window.luxVoice={ muted:function(){ return !voiceOn(); },
+  mute:function(){ try{localStorage.setItem("lux_text_only","1");}catch(e){} stopVoice(); try{ if(window.luxOrbVoice) window.luxOrbVoice.mute(); }catch(e){} },
+  unmute:function(){ try{localStorage.setItem("lux_text_only","0");}catch(e){} try{ if(window.luxOrbVoice) window.luxOrbVoice.unmute(); }catch(e){} started=false; fin=false; begin(); } };
 }catch(e){}})();</script>
-<script>/*lux-radio*/(function(){try{
-var STREAM="https://ice1.somafm.com/beatblender-128-mp3",BASE=0.08,DUCK=0.015;
-var a=new Audio();a.src=STREAM;a.preload="none";a.volume=BASE;
-var on=true;try{if(localStorage.getItem("lux_radio")==="off")on=false;}catch(e){}
-var btn=document.createElement("button");btn.type="button";btn.setAttribute("aria-label","Background music on or off");
-btn.style.cssText="position:fixed;right:14px;bottom:14px;z-index:2147483000;width:46px;height:46px;border-radius:50%;border:0;cursor:pointer;font-size:20px;line-height:46px;text-align:center;background:#0f5aa8;color:#fff;box-shadow:0 4px 14px rgba(0,0,0,.3);opacity:.9";
-function icon(){btn.textContent=on?"♪":"🔇";}
-function start(){if(!on)return;try{a.muted=false;a.volume=BASE;var p=a.play();if(p&&p.catch)p.catch(function(){});}catch(e){}}
-function stop(){try{a.pause();}catch(e){}}
-icon();
-btn.addEventListener("click",function(){on=!on;try{localStorage.setItem("lux_radio",on?"on":"off");}catch(e){}icon();if(on)start();else stop();});
-window.luxDuck=function(d){try{a.volume=(typeof d==="number")?d:(d?DUCK:BASE);}catch(e){}};window.luxRadioHold=function(){try{if(typeof window.__lxHold!=="number")window.__lxHold=0;if(window.__lxHold===0){window.__lxWasOn=(on&&!a.paused);try{a.pause();}catch(e){}}window.__lxHold++;}catch(e){}};window.luxRadioRelease=function(){try{if(typeof window.__lxHold!=="number")window.__lxHold=0;if(window.__lxHold>0)window.__lxHold--;if(window.__lxHold===0&&window.__lxWasOn&&on){window.__lxWasOn=false;try{a.muted=false;a.volume=BASE;if(a.paused){var p=a.play();if(p&&p.catch)p.catch(function(){});}}catch(e){}}}catch(e){}};window.luxRadioStart=function(){if(on&&a.paused){start();}};window.luxFadeIn=function(){try{if(!on)return;a.volume=0;start();var _t=0;var _iv=setInterval(function(){_t+=0.05;var v=Math.min(BASE,BASE*(_t/4));try{a.volume=v;}catch(e){}if(_t>=4){try{a.volume=BASE;}catch(e){}clearInterval(_iv);}},50);}catch(e){}};
-var armed=false;function arm(){if(armed)return;armed=true;var go=function(){document.removeEventListener("click",go);document.removeEventListener("touchstart",go);start();};document.addEventListener("click",go,{once:true});document.addEventListener("touchstart",go,{once:true});}
-function boot(){document.body.appendChild(btn);if(!window.luxVoicePage){arm();}}
+<script>/*lux-radio-controls*/(function(){try{
+// TWO INDEPENDENT floating controls. Muting MUSIC never affects the AGENTS and vice versa.
+// (On /radio the main player IS the music -- no second background stream, so no double audio.)
+// Legacy no-ops so any shared script that still calls these on this page can't throw:
+window.luxDuck=window.luxDuck||function(){};window.luxRadioHold=window.luxRadioHold||function(){};
+window.luxRadioRelease=window.luxRadioRelease||function(){};window.luxRadioStart=window.luxRadioStart||function(){};
+window.luxFadeIn=window.luxFadeIn||function(){};
+function mk(bottom,label,title,bg){var b=document.createElement("button");b.type="button";b.setAttribute("aria-label",title);
+  b.style.cssText="position:fixed;right:14px;bottom:"+bottom+"px;z-index:2147483000;width:46px;height:46px;border-radius:50%;border:0;cursor:pointer;font-size:20px;line-height:46px;text-align:center;color:#fff;box-shadow:0 4px 14px rgba(0,0,0,.3);opacity:.9;background:"+bg;
+  b.textContent=label;return b;}
+// --- MUSIC (bottom): plays/pauses the main radio player ---
+var musicBtn=mk(14,"♪","Music on or off","#0f5aa8");
+function musicIcon(){var p=!!(window.luxMusic&&window.luxMusic.playing());musicBtn.textContent=p?"🔊":"♪";musicBtn.title=p?"Mute music":"Play music";}
+musicBtn.addEventListener("click",function(){try{if(window.luxMusic)window.luxMusic.toggle();}catch(e){}setTimeout(musicIcon,60);});
+window.luxMusicSync=function(){musicIcon();};
+// --- VOICE (above the theme button): the AGENTS -- page voiceover + orb. Fully separate. ---
+function vMuted(){try{if(window.luxVoice)return window.luxVoice.muted();return localStorage.getItem("lux_text_only")==="1";}catch(e){return false;}}
+var voiceBtn=mk(126,"🗣","Voice on or off","#2b6a3a");
+function voiceIcon(){var m=vMuted();voiceBtn.textContent=m?"🔇":"🗣";voiceBtn.title=m?"Voice off (tap for voice)":"Voice on (tap to mute)";}
+voiceBtn.addEventListener("click",function(){try{if(window.luxVoice){if(window.luxVoice.muted())window.luxVoice.unmute();else window.luxVoice.mute();}else{var m=false;try{m=localStorage.getItem("lux_text_only")==="1";}catch(e){}try{localStorage.setItem("lux_text_only",m?"0":"1");}catch(e){}}}catch(e){}setTimeout(voiceIcon,40);});
+function boot(){document.body.appendChild(musicBtn);document.body.appendChild(voiceBtn);musicIcon();voiceIcon();}
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
 }catch(e){}})();</script>
 <script>/*lux-theme*/(function(){try{
