@@ -14,8 +14,8 @@
 <script>/*lux-lang-router*/(function(){try{if(localStorage.getItem("lux_theme")==="light"){document.documentElement.setAttribute("data-theme","light");}}catch(e){}try{var E={"/":1,"/ask/":1,"/stack/":1,"/real-estate/":1,"/trading/":1,"/contact/":1,"/community/":1,"/landscaping/":1,"/launchpad/":1,"/jewelry/":1,"/taxes/":1,"/security/":1,"/store/":1,"/free-education/":1,"/office/":1,"/settings/":1,"/start/":1,"/tv28live/":1,"/agreements/":1,"/guides/":1};var p=location.pathname.replace(/index\.html$/,"");if(p.charAt(p.length-1)!=="/"&&p.indexOf(".")<0)p+="/";if(p==="")p="/";var onES=p.indexOf("/es/")===0||p==="/es"||p==="/es/";var s=null;try{s=localStorage.getItem("lux_lang");}catch(e){}if(s==="en"&&onES){location.replace(p.replace(/^\/es/,"")||"/");}else if(s==="es"&&!onES){if(E[p])location.replace("/es"+(p==="/"?"/":p));}else if(!s&&!onES){var l=(navigator.language||(navigator.languages&&navigator.languages[0])||"en").toLowerCase();if(l.indexOf("es")===0&&E[p])location.replace("/es"+(p==="/"?"/":p));}}catch(e){}try{document.addEventListener("DOMContentLoaded",function(){var a=document.querySelectorAll("a[hreflang],a.lang");for(var i=0;i<a.length;i++){a[i].addEventListener("click",function(){try{var h=this.getAttribute("href")||"";localStorage.setItem("lux_lang",(h.indexOf("/es/")===0||h==="/es"||h==="/es/")?"es":"en");}catch(e){}});}});}catch(e){}})();</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Herramientas y señales de trading, con pista de pruebas en vivo &mdash; Luxucleen LLC</title>
-<meta name="description" content="GRID28 para MetaTrader 4, las salas B28.Signals, y una pista de pruebas pública donde las estrategias de Luxucleen corren en cuentas de práctica. El trading conlleva riesgo, nada aquí es asesoría financiera, solo mayores de 18.">
+<title>Herramientas de trading, señales y una pista de pruebas pública &mdash; Luxucleen LLC</title>
+<meta name="description" content="El B28 Strategy Lab, GRID28 para MetaTrader 4, la sala B28.Signals y una pista de pruebas pública con cuentas de práctica, con lo que está abierto hoy marcado claramente. El trading conlleva riesgo, nada aquí es asesoría financiera, solo mayores de 18.">
 <meta name="robots" content="index,follow">
 <link rel="stylesheet" href="/site.css">
 <link rel="canonical" href="https://luxucleen.com/es/trading/">
@@ -24,8 +24,8 @@
 <link rel="alternate" hreflang="x-default" href="https://luxucleen.com/trading/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://luxucleen.com/es/trading/">
-<meta property="og:title" content="Herramientas y señales de trading, con pista de pruebas en vivo &mdash; Luxucleen LLC">
-<meta property="og:description" content="GRID28 para MetaTrader 4, las salas B28.Signals, y una pista de pruebas pública donde las estrategias de Luxucleen corren en cuentas de práctica. El trading conlleva riesgo, nada aquí es asesoría financiera, solo mayores de 18.">
+<meta property="og:title" content="Herramientas de trading, señales y una pista de pruebas pública &mdash; Luxucleen LLC">
+<meta property="og:description" content="El B28 Strategy Lab, GRID28 para MetaTrader 4, la sala B28.Signals y una pista de pruebas pública con cuentas de práctica, con lo que está abierto hoy marcado claramente. El trading conlleva riesgo, nada aquí es asesoría financiera, solo mayores de 18.">
 <meta property="og:image" content="https://luxucleen.com/og/es-trading.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -33,8 +33,8 @@
 <meta property="og:site_name" content="Luxucleen LLC">
 <meta property="og:locale" content="es_419">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Herramientas y señales de trading, con pista de pruebas en vivo &mdash; Luxucleen LLC">
-<meta name="twitter:description" content="GRID28 para MetaTrader 4, las salas B28.Signals, y una pista de pruebas pública donde las estrategias de Luxucleen corren en cuentas de práctica. El trading conlleva riesgo, nada aquí es asesoría financiera, solo mayores de 18.">
+<meta name="twitter:title" content="Herramientas de trading, señales y una pista de pruebas pública &mdash; Luxucleen LLC">
+<meta name="twitter:description" content="El B28 Strategy Lab, GRID28 para MetaTrader 4, la sala B28.Signals y una pista de pruebas pública con cuentas de práctica, con lo que está abierto hoy marcado claramente. El trading conlleva riesgo, nada aquí es asesoría financiera, solo mayores de 18.">
 <script type="application/ld+json">
 {
  "@context": "https://schema.org",
@@ -55,6 +55,23 @@
  ]
 }
 </script>
+<style>/*lux-trading*/
+.tstatus{list-style:none;margin:14px 0 6px;padding:0}
+.tstatus li{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:0 0 10px;background:var(--soft)}
+.tstatus li b{font-size:16px}
+.tstatus .why{flex:1 1 240px;min-width:0;color:var(--dim);font-size:15px}
+.chip{display:inline-block;min-width:84px;text-align:center;border-radius:20px;padding:2px 10px;font-size:13px;font-weight:700;line-height:1.5;color:#0d1117;background:var(--dim)}
+.chip.ok{background:var(--accent)}
+.chip.no{background:var(--warm)}
+:root[data-theme="light"] .chip{color:#fff}
+.feedline{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px}
+.tablewrap{overflow-x:auto;margin:12px 0;-webkit-overflow-scrolling:touch}
+.tfacts{width:100%;border-collapse:collapse;font-size:15px}
+.tfacts th,.tfacts td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+.tfacts th{color:var(--dim);font-weight:600}
+.tfacts .n{text-align:right;font-variant-numeric:tabular-nums}
+.tfacts tfoot td{font-weight:700;border-bottom:0}</style>
+<noscript><style>[data-feed-chip]{display:none}</style></noscript>
 </head>
 <body>
 <header>
@@ -72,7 +89,7 @@
   <p class="crumb"><a href="/es/">Luxucleen LLC</a> &rsaquo; Trading</p>
 
   <section class="hero">
-    <h1>Herramientas y señales de trading, con una pista de pruebas en vivo.</h1>
+    <h1>Herramientas de trading, señales y una pista de pruebas pública.</h1>
     <p class="lede">Luxucleen construye software de trading y corre sus propias estrategias a la
     vista de todos. Todo lo que hay en esta página es una herramienta o una sala &mdash; no
     manejamos el dinero de nadie, no recibimos depósitos, y no le decimos qué operar.</p>
@@ -80,97 +97,119 @@
 
 <div class="risk"><b>El trading conlleva riesgo. Nada aquí es asesoría financiera. Los resultados pasados o simulados no son promesa de resultados futuros. Solo para mayores de 18 años.</b></div>
 
-  <h2 id="lab">B28 Strategy Lab &mdash; el probador de estrategias, con IA</h2>
-  <p>Lo pediste y ya est&aacute; listo: un probador de estrategias que corre en tu navegador. Escribe
-  una estrategia en unas l&iacute;neas de c&oacute;digo, elige oro, EUR/USD o GBP/USD, pulsa un
-  bot&oacute;n y la prueba con <strong>cinco a&ntilde;os de datos diarios reales</strong> &mdash; curva
-  de capital, factor de beneficio, tasa de aciertos, drawdown y cada operaci&oacute;n listada.
-  Despu&eacute;s la IA lee tu c&oacute;digo y te dice exactamente c&oacute;mo mejorarlo. &iquest;Sin
-  ideas? La IA crea conceptos de estrategia y carga una plantilla inicial directo en el probador.
-  Gratis para miembros de B28 Signals.</p>
+  <h2 id="estado">Lo que está abierto hoy</h2>
+  <p class="small">Abierto quiere decir que puede usarlo o comprarlo ahora y que se entrega. No abierto
+  quiere decir que en esta página no hay enlace hasta que pueda entregarse.</p>
+  <ul class="tstatus">
+    <li data-status="open" data-item="lab"><span class="chip ok">Abierto</span><b>B28 Strategy Lab</b>
+      <span class="why">Un probador gratis en su navegador. <a href="#lab">Detalles</a></span></li>
+    <li data-status="feed" data-item="proving"><span class="chip" data-feed-chip>Revisando</span><b>La pista de pruebas</b>
+      <span class="why">Cuentas de práctica sobre oro. <span data-feed-status>Abra la sala para ver cuándo se actualizó por última vez.</span> <a href="#pista">Detalles</a></span></li>
+    <li data-status="closed" data-item="grid28"><span class="chip no">No abierto</span><b>Licencias de GRID28</b>
+      <span class="why">Los pedidos nuevos están en pausa. <a href="#grid28">Detalles</a></span></li>
+    <li data-status="closed" data-item="signals"><span class="chip no">No abierto</span><b>Sala B28.Signals</b>
+      <span class="why">Por ahora no hay fecha de lanzamiento. <a href="#senales">Detalles</a></span></li>
+    <li data-status="closed" data-item="automation"><span class="chip no">No abierto</span><b>B28.Signals automatización completa</b>
+      <span class="why">No hay enlace hasta que pueda entregarse. <a href="#senales">Detalles</a></span></li>
+  </ul>
+
+  <h2 id="lab">B28 Strategy Lab &mdash; un probador de estrategias en su navegador</h2>
+  <p>Escriba una estrategia en unas l&iacute;neas de c&oacute;digo, elija oro, EUR/USD o GBP/USD y
+  pru&eacute;bela con <strong>cinco a&ntilde;os de precios diarios</strong>. Ver&aacute; la curva de
+  capital, el factor de beneficio, la tasa de aciertos, el drawdown y cada operaci&oacute;n. Es gratis.
+  El Lab le pide unirse primero al grupo gratis de B28 Signals en Telegram.</p>
+  <p>Dos ayudantes de IA sugieren cambios a su c&oacute;digo y le dan ideas para empezar. Env&iacute;an
+  el c&oacute;digo que usted pega a un servicio de IA externo, Pollinations, as&iacute; que no pegue nada
+  privado.</p>
   <div class="biglinks">
     <a class="biglink" href="/trading/lab/">Abrir el Strategy Lab
-    <span>Backtest &middot; IA que mejora tu c&oacute;digo &middot; IA que crea ideas</span></a>
+    <span>Backtest &middot; ayudante de c&oacute;digo con IA &middot; ideas con IA</span></a>
   </div>
-  <h3>El campe&oacute;n</h3>
-  <p>Hicimos una competencia en el Lab: <strong>27 estrategias</strong>, mismos datos, mismos costos,
-  sin trampas. Gan&oacute; una ruptura de 10 d&iacute;as con stop de 2&times;ATR y objetivo de
-  6&times;ATR &mdash; termin&oacute; en ganancia en los tres s&iacute;mbolos: <strong>+$3,246
-  combinados</strong> en tres cuentas de prueba de $1,000 (+281% en oro, +8% en EUR/USD, +35% en
-  GBP/USD). Est&aacute; cargado en el Lab como el campe&oacute;n: un toque y ves cada
-  operaci&oacute;n que hizo. La cl&aacute;sica parrilla martingala (comprar la ca&iacute;da, duplicar
-  &mdash; la trampa donde caen la mayor&iacute;a de los EAs de parrilla) toc&oacute; su stop de capital
-  en los tres s&iacute;mbolos en la misma prueba. Por eso GRID28 est&aacute; construido como seguidor
-  de tendencia. Los datos pasados no prometen nada &mdash; por eso el Lab te deja probar, no
-  confiar.</p>
 
-  <h2 id="pista">La pista de pruebas en vivo</h2>
+  <h3 id="campeon">El campe&oacute;n, con su peor momento</h3>
+  <p>Probamos 27 estrategias con los mismos cinco a&ntilde;os de datos diarios y las mismas reglas de
+  costos. La mejor fue una ruptura de 10 d&iacute;as con el stop a 2&times;ATR y la meta a 6&times;ATR.
+  Estos son sus resultados en el motor del propio Lab. Un toque en el Lab la carga y muestra cada
+  operaci&oacute;n.</p>
+  <div class="tablewrap">
+  <table class="tfacts" data-champion>
+    <thead><tr><th>Mercado</th><th class="n">Resultado</th><th class="n">Peor ca&iacute;da</th><th class="n">Operaciones</th></tr></thead>
+    <tbody>
+      <tr data-sym="XAUUSD"><td>Oro</td><td class="n">+$2,811 (+281%)</td><td class="n">$669 (67% del inicio)</td><td class="n">41</td></tr>
+      <tr data-sym="EURUSD"><td>EUR/USD</td><td class="n">+$81 (+8%)</td><td class="n">$89 (9% del inicio)</td><td class="n">15</td></tr>
+      <tr data-sym="GBPUSD"><td>GBP/USD</td><td class="n">+$354 (+35%)</td><td class="n">$142 (14% del inicio)</td><td class="n">24</td></tr>
+    </tbody>
+    <tfoot><tr data-sym="ALL"><td>Los tres</td><td class="n">+$3,246</td><td class="n">&mdash;</td><td class="n">80</td></tr></tfoot>
+  </table>
+  </div>
+  <p>Lea otra vez la fila del oro. Camino al +281%, la cuenta de prueba cay&oacute; $669 desde su mejor
+  punto, dos tercios de los $1,000 con que empez&oacute;. Adem&aacute;s, la estrategia se eligi&oacute;
+  como la mejor de 27 en estos mismos cinco a&ntilde;os, y eso la hace verse mejor de lo que se ver&aacute;
+  con datos nuevos. EUR/USD se basa en solo 15 operaciones. Pru&eacute;bela en otras fechas antes de
+  confiar en ella.</p>
+  <p class="small">C&oacute;mo se hizo la prueba: barras diarias de Yahoo Finance, de septiembre de 2021
+  a septiembre de 2026 (el oro usa el precio del futuro GC=F). Lote fijo de 0.01, inicio con $1,000,
+  spread cobrado en cada operaci&oacute;n, sin deslizamiento, una posici&oacute;n a la vez. Es una prueba
+  del pasado, no un pron&oacute;stico.</p>
+
+  <h2 id="pista">La pista de pruebas</h2>
+  <p class="feedline"><span class="chip" data-feed-chip>Revisando</span>
+  <span data-feed-status>Abra la sala para ver cuándo se actualizó por última vez.</span></p>
   <p>La compañía corre sus estrategias lado a lado en <strong>cuentas de práctica</strong> sobre
-  oro. Cada una empieza con el mismo saldo simulado, opera con los mismos precios en vivo, y cada
-  entrada y cada salida queda registrada y fotografiada en el momento. La página está abierta para
-  cualquiera, sin registrarse:</p>
+  oro. Cada una empieza con el mismo saldo simulado y opera con los mismos precios. Mientras el feed
+  está funcionando, la sala se actualiza cada pocos minutos. Cualquiera puede abrirla, sin
+  registrarse:</p>
   <div class="linkline">
-    Véala en vivo:
+    La sala:
     <a href="https://djbrightfutures.github.io/b28-live/">https://djbrightfutures.github.io/b28-live/</a>
   </div>
-  <p>Esas son cuentas demo operando dinero simulado. Las publicamos porque una estrategia que solo
-  se enseña después de los hechos no vale nada &mdash; no porque el resultado sea un pronóstico. Una
-  cuenta de práctica no tiene el deslizamiento que tiene una real, y una prueba histórica mide el
-  pasado. Ninguna de las dos es una promesa sobre su cuenta.</p>
+  <p>Esas son cuentas demo que operan dinero simulado. Una cuenta de práctica no tiene el deslizamiento
+  que tiene una real, y una prueba histórica solo mide el pasado. Ninguna de las dos es una promesa
+  sobre su cuenta.</p>
 
   <h2 id="grid28">GRID28 &mdash; un asesor experto para MetaTrader 4</h2>
-  <p>GRID28 opera una rejilla como lo haría alguien que sigue la tendencia: suma a favor del
-  movimiento en vez de en contra, sostiene la canasta detrás de un candado que sigue al extremo
-  favorable, solo abre en el sentido de la tendencia lenta, y cierra toda la canasta cuando llega a
-  su meta de capital. Está escrito para MetaTrader 4 (build 600 o más nuevo) y viene con una guía de
-  instalación de dos minutos y los ajustes con los que fue medido.</p>
+  <p>GRID28 opera oro en el gráfico de una hora. Solo abre en el sentido de la tendencia lenta, el
+  promedio de 100 barras. Cada vez que el precio avanza un paso más a su favor, suma el mismo lote
+  fijo, nunca uno más grande, hasta diez pasos. Sostiene toda la canasta detrás de un candado que va
+  a tres veces el rango promedio por hora detrás del mejor precio, y cierra la canasta cuando llega a
+  su meta de ganancia. Está escrito para MetaTrader 4 (build 600 o más nuevo).</p>
   <ul>
-    <li><strong>Gratis en cualquier cuenta demo, para siempre.</strong> Pruébelo antes de operarlo,
-    el tiempo que quiera.</li>
-    <li><strong>La licencia en vivo queda amarrada a un número de cuenta MT4</strong>, que usted
-    pone al pagar. La llave le llega por correo.</li>
-    <li>Sigue tendencias, así que gana pocas veces y gana grande, en vez de ganar seguido y poco.
-    Opere un tamaño que se pueda permitir perder.</li>
+    <li><strong>El candado no es una orden de stop en su corredor.</strong> GRID28 lo revisa cuando
+    cierra cada barra de una hora, así que un movimiento rápido dentro de la hora puede pasarlo, y nada
+    protege las operaciones mientras MetaTrader está cerrado.</li>
+    <li>Sigue tendencias: gana pocas veces y gana grande, en vez de ganar seguido y poco. Opere un
+    tamaño que se pueda permitir perder.</li>
+    <li>Corre sin licencia en una cuenta demo. Una cuenta en vivo necesita una llave de licencia
+    amarrada a su número de cuenta MT4.</li>
   </ul>
-<div class="prow">
-  <b>GRID28 - lifetime licence</b><span class="price">$1,028</span>
-  <p>Pago único. Una llave de licencia para un número de cuenta en vivo de MetaTrader 4, más el archivo GRID28 y la guía de instalación.</p>
-  <a href="https://djbrightfuture.gumroad.com/l/jzand">https://djbrightfuture.gumroad.com/l/jzand</a>
+<div class="prow" data-product="jzand" data-status="closed">
+  <b>GRID28 - lifetime licence</b><span class="price soon">$1,028</span>
+  <p><strong>No abierto a pedidos nuevos por ahora.</strong> Una licencia de pago único para una cuenta en vivo de MetaTrader 4. Aquí no hay enlace hasta que pueda entregarse.</p>
 </div>
-<div class="prow">
-  <b>GRID28 - monthly</b><span class="price">$28 a month</span>
-  <p>El mismo asesor experto en plan mensual. La llave se renueva mientras la suscripción esté activa, y puede cancelar cuando quiera.</p>
-  <a href="https://djbrightfuture.gumroad.com/l/wkvhgr">https://djbrightfuture.gumroad.com/l/wkvhgr</a>
+<div class="prow" data-product="wkvhgr" data-status="closed">
+  <b>GRID28 - monthly</b><span class="price soon">$28 al mes</span>
+  <p><strong>No abierto a pedidos nuevos por ahora.</strong> El mismo asesor experto en plan mensual. Aquí no hay enlace hasta que pueda entregarse.</p>
 </div>
 
-  <h2 id="senales">B28.Signals &mdash; las salas de señales</h2>
-  <p>Una sala privada donde cada operación que toman las estrategias se publica en el momento: el
-  instrumento, la dirección, la entrada, la meta y el stop. Usted coloca las que quiera, a mano, en
-  cualquier corredor y en cualquier plataforma. No hay nada que instalar.</p>
-
-  <h3 id="sala-de-espera">La sala de espera &mdash; gratis hasta el lanzamiento el 28 de septiembre</h3>
-  <p>La sala en vivo abre el <strong>28 de septiembre</strong>. Hasta entonces la sala de espera es
-  gratis: usted entra, ve cómo se llena, y en el momento en que la sala arranca recibe <strong>48 horas
-  de cada operación sin costo</strong>. Después una sorpresa, y 24 horas más. Luego la sala es solo para
-  miembros, $28 al mes, cancele cuando quiera; quien deja de pagar pasa a una sala gratis de resultados
-  que muestra solo las operaciones cerradas, nada para actuar.</p>
-  <p class="linkline"><a id="waitroom" href="https://luxucleen.com/es/trading/#sala-de-espera">La puerta de la sala
-  de espera aparece aquí mismo en cuanto la sala esté lista &mdash; vuelva a mirar, o siga a @djbrightfutures.</a></p>
-<div class="prow">
-  <b>B28.Signals - Signals Group</b><span class="price">$28 a month</span>
-  <p>La sala de señales después del lanzamiento: cada operación que toman las estrategias, publicada en el momento, para que usted la coloque a mano en cualquier corredor. Cancele cuando quiera. Después de pagar, envíe al bot de la sala /claim con el correo de su compra y su asiento queda asegurado.</p>
-  <a href="https://djbrightfuture.gumroad.com/l/oerud">https://djbrightfuture.gumroad.com/l/oerud</a>
+  <h2 id="senales">B28.Signals &mdash; la sala de señales</h2>
+  <h3 id="sala-de-espera">Todavía no está abierta</h3>
+  <p>El plan es una sala de Telegram donde cada operación que toman las estrategias se publica en el
+  momento, con el instrumento, la dirección, la entrada, la meta y el stop. Usted colocaría a mano las
+  que quiera, en cualquier corredor y en cualquier plataforma. La sala no ha abierto, y por ahora no hay
+  fecha de lanzamiento.</p>
+<div class="prow" data-product="oerud" data-status="closed">
+  <b>B28.Signals - Signals Group</b><span class="price soon">$28 al mes</span>
+  <p><strong>No abierto.</strong> Aquí no hay enlace hasta que la sala esté abierta.</p>
 </div>
-<div class="prow">
-  <b>B28.Signals - Full Automation</b><span class="price soon">$44 a month</span>
-  <p>El plan automatizado. <strong>Todavía no está abierto</strong> &mdash; el mismo anuncio pide que no lo compren hoy, porque el archivo de instalación aún no está adjunto. Aquí no hay enlace hasta que pueda entregarse. Mientras tanto, mire la pista de pruebas.</p>
+<div class="prow" data-product="xsyfi" data-status="closed">
+  <b>B28.Signals - Full Automation</b><span class="price soon">$44 al mes</span>
+  <p><strong>No abierto.</strong> El plan automatizado todavía no tiene el archivo de instalación adjunto. Aquí no hay enlace hasta que pueda entregarse.</p>
 </div>
 
-  <h2 id="canales">M&iacute;ralo en vivo</h2>
-  <p>Mira nuestras estrategias operando lado a lado en cuentas de pr&aacute;ctica &mdash; cada operaci&oacute;n publicada al instante, ganancias y p&eacute;rdidas.</p>
+  <h2 id="canales">Mire y aprenda</h2>
   <div class="biglinks">
-    <a class="biglink" href="https://djbrightfutures.github.io/b28-live/">El campo de prueba en vivo
-    <span>Cada operaci&oacute;n al instante</span></a>
+    <a class="biglink" href="https://djbrightfutures.github.io/b28-live/">La pista de pruebas
+    <span data-feed-status>Abra la sala para ver cuándo se actualizó por última vez.</span></a>
     <a class="biglink" href="https://www.youtube.com/@djbrightfuture">El canal de YouTube
     <span>https://www.youtube.com/@djbrightfuture</span></a>
   </div>
@@ -189,8 +228,8 @@
   dinero, y qué es y qué no es una señal. Sin registrarse, sin comprar nada.</p>
 
   <h2 id="contacto">Contacto</h2>
-  <p>Preguntas sobre una licencia, una llave o una sala:
-  <a href="mailto:trading@luxucleen.com?subject=Luxucleen">trading@luxucleen.com</a>.</p>
+  <p>Preguntas sobre el Lab, GRID28 o la sala de señales:
+  <a href="mailto:hello@luxucleen.com?subject=Trading">hello@luxucleen.com</a>.</p>
 <div class="risk"><b>El trading conlleva riesgo. Nada aquí es asesoría financiera. Los resultados pasados o simulados no son promesa de resultados futuros. Solo para mayores de 18 años.</b></div>
 </main>
 
@@ -225,6 +264,30 @@ icon();
 b.addEventListener("click",function(){var next=cur()==="light"?"dark":"light";if(next==="light"){document.documentElement.setAttribute("data-theme","light");}else{document.documentElement.removeAttribute("data-theme");}try{localStorage.setItem("lux_theme",next);}catch(e){}icon();});
 function boot(){document.body.appendChild(b);}
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
+}catch(e){}})();</script>
+<script>/*lux-trading-status*/(function(){try{
+var FEED="https://djbrightfutures.github.io/b28-live/data.json",LIVE_MS=30*60*1000,SKEW_MS=5*60*1000;
+var ES=String(document.documentElement.getAttribute("lang")||"").toLowerCase().indexOf("es")===0;
+var T=ES?{live:"En vivo",paused:"En pausa",unknown:"Sin datos",liveTxt:"Actualizado hace {ago}.",pausedTxt:"Sin actualizar desde el {date} (hace {ago}).",unknownTxt:"No pudimos leer el feed ahora. Abra la sala para revisar.",min:["minuto","minutos"],hr:["hora","horas"],day:["día","días"],mon:["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"]}
+:{live:"Live",paused:"Paused",unknown:"Unknown",liveTxt:"Updated {ago} ago.",pausedTxt:"Not updating since {date} ({ago} ago).",unknownTxt:"Couldn't read the feed just now. Open the room to check.",min:["minute","minutes"],hr:["hour","hours"],day:["day","days"],mon:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]};
+/* the room writes "YYYY-MM-DD HH:MM UTC"; anything else is unreadable, and unreadable is never shown as live */
+function parse(s){var m=/^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}) UTC$/.exec(String(s==null?"":s));return m?Date.UTC(+m[1],+m[2]-1,+m[3],+m[4],+m[5]):NaN;}
+function n(k,w){return k+" "+(k===1?w[0]:w[1]);}
+function ago(ms){var m=Math.max(1,Math.round(ms/60000));if(m<60)return n(m,T.min);var h=Math.round(m/60);if(h<48)return n(h,T.hr);return n(Math.round(h/24),T.day);}
+function when(t){var d=new Date(t);return d.getUTCDate()+" "+T.mon[d.getUTCMonth()]+" "+d.getUTCFullYear()+", "+("0"+d.getUTCHours()).slice(-2)+":"+("0"+d.getUTCMinutes()).slice(-2)+" UTC";}
+function show(state,txt){var i,c=document.querySelectorAll("[data-feed-chip]"),s=document.querySelectorAll("[data-feed-status]");
+for(i=0;i<c.length;i++){c[i].textContent=T[state];c[i].className="chip"+(state==="live"?" ok":state==="paused"?" no":"");c[i].setAttribute("data-feed-state",state);}
+for(i=0;i<s.length;i++){s[i].textContent=txt;}
+document.documentElement.setAttribute("data-feed",state);}
+function run(){var ctl=null,timer=null;try{ctl=new AbortController();timer=setTimeout(function(){try{ctl.abort();}catch(e){}},8000);}catch(e){}
+var opt={cache:"no-store"};if(ctl)opt.signal=ctl.signal;
+fetch(FEED+"?t="+Date.now(),opt).then(function(r){if(!r.ok)throw new Error("HTTP "+r.status);return r.json();}).then(function(d){
+var t=parse(d&&d.updated),age=Date.now()-t;
+if(!isFinite(t)||age<-SKEW_MS)throw new Error("unreadable time");
+if(age<=LIVE_MS)show("live",T.liveTxt.replace("{ago}",ago(age)));
+else show("paused",T.pausedTxt.replace("{date}",when(t)).replace("{ago}",ago(age)));
+}).catch(function(){show("unknown",T.unknownTxt);}).then(function(){if(timer)clearTimeout(timer);});}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",run);else run();
 }catch(e){}})();</script>
 <script defer src="/lux-orb.js"></script>
 <a href="/data-export/" rel="nofollow" aria-hidden="true" tabindex="-1" data-lux-noscrape="1" style="position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;left:-9999px">Data export</a>

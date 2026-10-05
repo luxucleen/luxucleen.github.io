@@ -14,8 +14,8 @@
 <script>/*lux-lang-router*/(function(){try{if(localStorage.getItem("lux_theme")==="light"){document.documentElement.setAttribute("data-theme","light");}}catch(e){}try{var E={"/":1,"/ask/":1,"/stack/":1,"/real-estate/":1,"/trading/":1,"/contact/":1,"/community/":1,"/landscaping/":1,"/launchpad/":1,"/jewelry/":1,"/taxes/":1,"/security/":1,"/store/":1,"/free-education/":1,"/office/":1,"/settings/":1,"/start/":1,"/tv28live/":1,"/agreements/":1,"/guides/":1};var p=location.pathname.replace(/index\.html$/,"");if(p.charAt(p.length-1)!=="/"&&p.indexOf(".")<0)p+="/";if(p==="")p="/";var onES=p.indexOf("/es/")===0||p==="/es"||p==="/es/";var s=null;try{s=localStorage.getItem("lux_lang");}catch(e){}if(s==="en"&&onES){location.replace(p.replace(/^\/es/,"")||"/");}else if(s==="es"&&!onES){if(E[p])location.replace("/es"+(p==="/"?"/":p));}else if(!s&&!onES){var l=(navigator.language||(navigator.languages&&navigator.languages[0])||"en").toLowerCase();if(l.indexOf("es")===0&&E[p])location.replace("/es"+(p==="/"?"/":p));}}catch(e){}try{document.addEventListener("DOMContentLoaded",function(){var a=document.querySelectorAll("a[hreflang],a.lang");for(var i=0;i<a.length;i++){a[i].addEventListener("click",function(){try{var h=this.getAttribute("href")||"";localStorage.setItem("lux_lang",(h.indexOf("/es/")===0||h==="/es"||h==="/es/")?"es":"en");}catch(e){}});}});}catch(e){}})();</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Trading Tools and Signals, with a Live Proving Ground &mdash; Luxucleen LLC</title>
-<meta name="description" content="GRID28 for MetaTrader 4, the B28.Signals rooms, and a public proving ground where Luxucleen's strategies run on paper accounts. Trading involves risk, nothing here is financial advice, 18+ only.">
+<title>Trading Tools, Signals and a Public Proving Ground &mdash; Luxucleen LLC</title>
+<meta name="description" content="The B28 Strategy Lab, GRID28 for MetaTrader 4, the B28.Signals room and a public proving ground on paper accounts, with what is open today marked plainly. Trading involves risk, nothing here is financial advice, 18+ only.">
 <meta name="robots" content="index,follow">
 <link rel="stylesheet" href="/site.css">
 <link rel="canonical" href="https://luxucleen.com/trading/">
@@ -24,8 +24,8 @@
 <link rel="alternate" hreflang="x-default" href="https://luxucleen.com/trading/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://luxucleen.com/trading/">
-<meta property="og:title" content="Trading Tools and Signals, with a Live Proving Ground &mdash; Luxucleen LLC">
-<meta property="og:description" content="GRID28 for MetaTrader 4, the B28.Signals rooms, and a public proving ground where Luxucleen's strategies run on paper accounts. Trading involves risk, nothing here is financial advice, 18+ only.">
+<meta property="og:title" content="Trading Tools, Signals and a Public Proving Ground &mdash; Luxucleen LLC">
+<meta property="og:description" content="The B28 Strategy Lab, GRID28 for MetaTrader 4, the B28.Signals room and a public proving ground on paper accounts, with what is open today marked plainly. Trading involves risk, nothing here is financial advice, 18+ only.">
 <meta property="og:image" content="https://luxucleen.com/og/trading.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -33,8 +33,8 @@
 <meta property="og:site_name" content="Luxucleen LLC">
 <meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Trading Tools and Signals, with a Live Proving Ground &mdash; Luxucleen LLC">
-<meta name="twitter:description" content="GRID28 for MetaTrader 4, the B28.Signals rooms, and a public proving ground where Luxucleen's strategies run on paper accounts. Trading involves risk, nothing here is financial advice, 18+ only.">
+<meta name="twitter:title" content="Trading Tools, Signals and a Public Proving Ground &mdash; Luxucleen LLC">
+<meta name="twitter:description" content="The B28 Strategy Lab, GRID28 for MetaTrader 4, the B28.Signals room and a public proving ground on paper accounts, with what is open today marked plainly. Trading involves risk, nothing here is financial advice, 18+ only.">
 <script type="application/ld+json">
 {
  "@context": "https://schema.org",
@@ -55,6 +55,23 @@
  ]
 }
 </script>
+<style>/*lux-trading*/
+.tstatus{list-style:none;margin:14px 0 6px;padding:0}
+.tstatus li{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:0 0 10px;background:var(--soft)}
+.tstatus li b{font-size:16px}
+.tstatus .why{flex:1 1 240px;min-width:0;color:var(--dim);font-size:15px}
+.chip{display:inline-block;min-width:84px;text-align:center;border-radius:20px;padding:2px 10px;font-size:13px;font-weight:700;line-height:1.5;color:#0d1117;background:var(--dim)}
+.chip.ok{background:var(--accent)}
+.chip.no{background:var(--warm)}
+:root[data-theme="light"] .chip{color:#fff}
+.feedline{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px}
+.tablewrap{overflow-x:auto;margin:12px 0;-webkit-overflow-scrolling:touch}
+.tfacts{width:100%;border-collapse:collapse;font-size:15px}
+.tfacts th,.tfacts td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+.tfacts th{color:var(--dim);font-weight:600}
+.tfacts .n{text-align:right;font-variant-numeric:tabular-nums}
+.tfacts tfoot td{font-weight:700;border-bottom:0}</style>
+<noscript><style>[data-feed-chip]{display:none}</style></noscript>
 </head>
 <body>
 <header>
@@ -72,7 +89,7 @@
   <p class="crumb"><a href="/">Luxucleen LLC</a> &rsaquo; Trading</p>
 
   <section class="hero">
-    <h1>Trading tools and signals, with a live proving ground.</h1>
+    <h1>Trading tools, signals, and a public proving ground.</h1>
     <p class="lede">Luxucleen builds trading software and runs its own strategies out in the open.
     Everything on this page is a tool or a room &mdash; we do not manage anyone's money, we do not
     take deposits, and we do not tell you what to trade.</p>
@@ -80,93 +97,113 @@
 
 <div class="risk"><b>Trading involves risk. Nothing here is financial advice. Past or simulated performance is not a promise of future results. 18+ only.</b></div>
 
-  <h2 id="lab">B28 Strategy Lab &mdash; the strategy tester, with AI</h2>
-  <p>You asked for it, it&rsquo;s done: a strategy tester that runs right in your browser. Write a
-  strategy in a few lines of code, pick gold, EUR/USD or GBP/USD, hit one button, and it backtests
-  it on <strong>five years of real daily data</strong> &mdash; equity curve, profit factor, win rate,
-  drawdown, every trade listed. Then the AI reads your code and tells you exactly how to make it
-  better. Out of ideas? The AI cooks up strategy concepts and loads a starter template straight into
-  the tester. Free for B28 Signals members.</p>
+  <h2 id="status">What is open today</h2>
+  <p class="small">Open means you can use it or buy it now and it delivers. Not open means there is
+  no link on this page until it can.</p>
+  <ul class="tstatus">
+    <li data-status="open" data-item="lab"><span class="chip ok">Open</span><b>B28 Strategy Lab</b>
+      <span class="why">A free backtester in your browser. <a href="#lab">Details</a></span></li>
+    <li data-status="feed" data-item="proving"><span class="chip" data-feed-chip>Checking</span><b>The proving ground</b>
+      <span class="why">Paper accounts on gold. <span data-feed-status>Open the room to see when it last updated.</span> <a href="#proving">Details</a></span></li>
+    <li data-status="closed" data-item="grid28"><span class="chip no">Not open</span><b>GRID28 licences</b>
+      <span class="why">New orders are paused. <a href="#grid28">Details</a></span></li>
+    <li data-status="closed" data-item="signals"><span class="chip no">Not open</span><b>B28.Signals room</b>
+      <span class="why">No launch date right now. <a href="#signals">Details</a></span></li>
+    <li data-status="closed" data-item="automation"><span class="chip no">Not open</span><b>B28.Signals full automation</b>
+      <span class="why">No link until it can deliver. <a href="#signals">Details</a></span></li>
+  </ul>
+
+  <h2 id="lab">B28 Strategy Lab &mdash; a strategy tester in your browser</h2>
+  <p>Write a strategy in a few lines of code, pick gold, EUR/USD or GBP/USD, and backtest it on
+  <strong>five years of daily prices</strong>. You get the equity curve, profit factor, win rate,
+  drawdown and every trade. It is free. The Lab asks you to join the free B28 Signals Telegram group
+  before it opens.</p>
+  <p>Two AI helpers suggest changes to your code and give you starter ideas. They send the code you
+  paste to an outside AI service, Pollinations, so do not paste anything private.</p>
   <div class="biglinks">
     <a class="biglink" href="/trading/lab/">Open the Strategy Lab
-    <span>Backtest &middot; AI code improver &middot; AI idea generator</span></a>
+    <span>Backtest &middot; AI code helper &middot; AI idea generator</span></a>
   </div>
-  <h3>The champion</h3>
-  <p>We ran a bake-off in the Lab: <strong>27 strategies</strong>, same data, same costs, no
-  cherry-picking. The winner is a 10-day breakout with a 2&times;ATR stop and a 6&times;ATR target
-  &mdash; it finished profitable on all three symbols: <strong>+$3,246 combined</strong> across three
-  $1,000 test accounts (+281% on gold, +8% on EUR/USD, +35% on GBP/USD). It&rsquo;s loaded in the Lab
-  as the champion: one tap and you can see every trade it took. The classic martingale grid (buy the
-  dip, double down &mdash; the trap most grid EAs fall into) hit its equity stop on all three symbols
-  in the same test. That is exactly why GRID28 is built as a trend-rider instead. Past data is not a
-  promise &mdash; that is why the Lab lets you test, not trust.</p>
 
-  <h2 id="proving">The live proving ground</h2>
+  <h3 id="champion">The champion, with its worst moment</h3>
+  <p>We tested 27 strategies on the same five years of daily data, with the same cost rules. The best
+  was a 10-day breakout with a stop 2&times;ATR away and a target 6&times;ATR away. These are its
+  results in the Lab&rsquo;s own engine. One tap in the Lab loads it and lists every trade.</p>
+  <div class="tablewrap">
+  <table class="tfacts" data-champion>
+    <thead><tr><th>Market</th><th class="n">Result</th><th class="n">Worst drop</th><th class="n">Trades</th></tr></thead>
+    <tbody>
+      <tr data-sym="XAUUSD"><td>Gold</td><td class="n">+$2,811 (+281%)</td><td class="n">$669 (67% of start)</td><td class="n">41</td></tr>
+      <tr data-sym="EURUSD"><td>EUR/USD</td><td class="n">+$81 (+8%)</td><td class="n">$89 (9% of start)</td><td class="n">15</td></tr>
+      <tr data-sym="GBPUSD"><td>GBP/USD</td><td class="n">+$354 (+35%)</td><td class="n">$142 (14% of start)</td><td class="n">24</td></tr>
+    </tbody>
+    <tfoot><tr data-sym="ALL"><td>All three</td><td class="n">+$3,246</td><td class="n">&mdash;</td><td class="n">80</td></tr></tfoot>
+  </table>
+  </div>
+  <p>Read the gold row again. On the way to +281%, the test account fell $669 from its best point,
+  two thirds of the $1,000 it started with. The strategy was also picked as the best of 27 on these
+  same five years, which makes it look better than it will on new data. EUR/USD rests on 15 trades.
+  Test it on other dates before you trust it.</p>
+  <p class="small">How the test works: daily bars from Yahoo Finance, September 2021 to September 2026
+  (gold uses the GC=F futures price). A fixed 0.01 lot, a $1,000 start, spread charged on every trade,
+  no slippage, one position at a time. This is a backtest of the past, not a forecast.</p>
+
+  <h2 id="proving">The proving ground</h2>
+  <p class="feedline"><span class="chip" data-feed-chip>Checking</span>
+  <span data-feed-status>Open the room to see when it last updated.</span></p>
   <p>The company runs its strategies side by side on <strong>paper accounts</strong> on gold. Each
-  one starts with the same simulated balance, trades the same live prices, and every entry and exit
-  is logged and photographed as it happens. The page is open to anyone, with no signup:</p>
+  one starts with the same simulated balance and trades the same prices. While the feed is running,
+  the room updates every few minutes. Anyone can open it, with no signup:</p>
   <div class="linkline">
-    Watch it live:
+    The room:
     <a href="https://djbrightfutures.github.io/b28-live/">https://djbrightfutures.github.io/b28-live/</a>
   </div>
-  <p>Those are demo accounts trading simulated money. We publish them because a strategy that is
-  only ever shown after the fact is worth nothing &mdash; not because the result is a forecast. A
-  paper account has no slippage the way a real one does, and a backtest measures the past. Neither
-  is a promise about your account.</p>
+  <p>Those are demo accounts trading simulated money. A paper account has no slippage the way a real
+  one does, and a backtest only measures the past. Neither is a promise about your account.</p>
 
   <h2 id="grid28">GRID28 &mdash; an expert advisor for MetaTrader 4</h2>
-  <p>GRID28 trades a grid the way a trend trader would: it adds with the move instead of against
-  it, holds the basket behind a lock that trails the favourable extreme, only opens in the
-  direction of the slow trend, and closes the whole basket when its equity target is hit. It is
-  written for MetaTrader 4 (build 600 or newer) and comes with a two-minute setup guide and the
-  settings it was measured on.</p>
+  <p>GRID28 trades gold on the hourly chart. It only opens in the direction of the slow trend, the
+  100-bar average. Each time price moves one more step in its favour, it adds the same fixed lot,
+  never a bigger one, up to ten steps. It holds the whole basket behind a lock that sits three times
+  the average hourly range behind the best price, and it closes the basket when its profit target is
+  reached. It is written for MetaTrader 4 (build 600 or newer).</p>
   <ul>
-    <li><strong>Free on any demo account, forever.</strong> Test it before you trade it, for as
-    long as you want.</li>
-    <li><strong>A live licence is bound to one MT4 account number</strong>, which you give at
-    checkout. The key is emailed to you.</li>
-    <li>It is a trend-rider, which means it wins rarely and wins big rather than often and small.
-    Trade a size you can afford to lose.</li>
+    <li><strong>The lock is not a stop order at your broker.</strong> GRID28 checks it when each
+    hourly bar closes, so a fast move inside the hour can go past it, and nothing protects the trades
+    while MetaTrader is closed.</li>
+    <li>It is a trend-rider. It wins rarely and wins big, rather than often and small. Trade a size
+    you can afford to lose.</li>
+    <li>It runs without a licence on a demo account. A live account needs a licence key tied to
+    your MT4 account number.</li>
   </ul>
-<div class="prow">
-  <b>GRID28 - lifetime licence</b><span class="price">$1,028</span>
-  <p>One-time. A licence key for one MetaTrader 4 live account number, plus the GRID28 file and the setup guide.</p>
-  <a href="https://djbrightfuture.gumroad.com/l/jzand">https://djbrightfuture.gumroad.com/l/jzand</a>
+<div class="prow" data-product="jzand" data-status="closed">
+  <b>GRID28 - lifetime licence</b><span class="price soon">$1,028</span>
+  <p><strong>Not open for new orders right now.</strong> A one-time licence for one MetaTrader 4 live account. There is no link here until it can deliver.</p>
 </div>
-<div class="prow">
-  <b>GRID28 - monthly</b><span class="price">$28 a month</span>
-  <p>The same expert advisor on a monthly plan. The key renews while the subscription is active, and you can cancel any time.</p>
-  <a href="https://djbrightfuture.gumroad.com/l/wkvhgr">https://djbrightfuture.gumroad.com/l/wkvhgr</a>
+<div class="prow" data-product="wkvhgr" data-status="closed">
+  <b>GRID28 - monthly</b><span class="price soon">$28 a month</span>
+  <p><strong>Not open for new orders right now.</strong> The same expert advisor on a monthly plan. There is no link here until it can deliver.</p>
 </div>
 
-  <h2 id="signals">B28.Signals &mdash; the signal rooms</h2>
-  <p>A private room where every trade the strategies take is posted as it happens: the instrument,
-  the direction, the entry, the target and the stop. You place the ones you want, by hand, on any
-  broker and any platform. Nothing to install.</p>
-
-  <h3 id="waiting-room">The waiting room &mdash; free until the launch on September 28</h3>
-  <p>The live room opens on <strong>September 28</strong>. Until then the waiting room is free: you
-  sit inside, you see it fill, and the moment the room goes live you get <strong>48 hours of every
-  trade at no cost</strong>. Then a surprise, and 24 hours more. After that the room is members only,
-  $28 a month, cancel any time; members who stop paying move to a free results room that shows the
-  closed trades only, nothing to act on.</p>
-  <p class="linkline"><a id="waitroom" href="https://luxucleen.com/trading/#waiting-room">The waiting room door
-  appears right here the moment the room is ready &mdash; check back, or follow @djbrightfutures.</a></p>
-<div class="prow">
-  <b>B28.Signals - Signals Group</b><span class="price">$28 a month</span>
-  <p>The signals room after the launch: every trade the strategies take, posted as it happens, for you to place by hand on any broker. Cancel any time. After paying, send the room's bot /claim with your checkout email and your seat is locked.</p>
-  <a href="https://djbrightfuture.gumroad.com/l/oerud">https://djbrightfuture.gumroad.com/l/oerud</a>
+  <h2 id="signals">B28.Signals &mdash; the signal room</h2>
+  <h3 id="waiting-room">Not open yet</h3>
+  <p>The plan is a Telegram room where every trade the strategies take is posted as it happens, with
+  the instrument, the direction, the entry, the target and the stop. You would place the ones you want
+  by hand, on any broker and any platform. The room has not opened, and there is no launch date right
+  now.</p>
+<div class="prow" data-product="oerud" data-status="closed">
+  <b>B28.Signals - Signals Group</b><span class="price soon">$28 a month</span>
+  <p><strong>Not open.</strong> There is no link here until the room is open.</p>
 </div>
-<div class="prow">
+<div class="prow" data-product="xsyfi" data-status="closed">
   <b>B28.Signals - Full Automation</b><span class="price soon">$44 a month</span>
-  <p>The automated plan. <strong>Not open yet</strong> &mdash; the listing itself says not to buy it today, because the install file is not attached to it. There is no link here until it can deliver. Watch the proving ground in the meantime.</p>
+  <p><strong>Not open.</strong> The automated plan has no install file attached yet. There is no link here until it can deliver.</p>
 </div>
 
-  <h2 id="community">Watch it live</h2>
-  <p>See our strategies trading side by side on paper accounts &mdash; every trade posted as it happens, wins and losses.</p>
+  <h2 id="community">Watch and learn</h2>
   <div class="biglinks">
-    <a class="biglink" href="https://djbrightfutures.github.io/b28-live/">The live proving ground
-    <span>Every trade as it happens</span></a>
+    <a class="biglink" href="https://djbrightfutures.github.io/b28-live/">The proving ground
+    <span data-feed-status>Open the room to see when it last updated.</span></a>
     <a class="biglink" href="https://www.youtube.com/@djbrightfuture">The YouTube channel
     <span>https://www.youtube.com/@djbrightfuture</span></a>
   </div>
@@ -175,7 +212,7 @@
   <p>We read charts on TradingView. This is a referral link, which means the company may be paid if
   you sign up through it. It costs you nothing extra and there is a free plan.</p>
   <div class="linkline">
-    <a href="https://es.tradingview.com/?aff_id=117413">https://es.tradingview.com/?aff_id=117413</a>
+    <a href="https://www.tradingview.com/?aff_id=117413">https://www.tradingview.com/?aff_id=117413</a>
   </div>
 
   <h2 id="learn">Learn before you spend anything</h2>
@@ -184,8 +221,8 @@
   No signup, nothing to buy.</p>
 
   <h2 id="contact">Contact</h2>
-  <p>Questions about a licence, a key or a room:
-  <a href="mailto:trading@luxucleen.com?subject=Luxucleen">trading@luxucleen.com</a>.</p>
+  <p>Questions about the Lab, GRID28 or the signal room:
+  <a href="mailto:hello@luxucleen.com?subject=Trading">hello@luxucleen.com</a>.</p>
 <div class="risk"><b>Trading involves risk. Nothing here is financial advice. Past or simulated performance is not a promise of future results. 18+ only.</b></div>
 </main>
 
@@ -224,6 +261,30 @@ icon();
 b.addEventListener("click",function(){var next=cur()==="light"?"dark":"light";if(next==="light"){document.documentElement.setAttribute("data-theme","light");}else{document.documentElement.removeAttribute("data-theme");}try{localStorage.setItem("lux_theme",next);}catch(e){}icon();});
 function boot(){document.body.appendChild(b);}
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
+}catch(e){}})();</script>
+<script>/*lux-trading-status*/(function(){try{
+var FEED="https://djbrightfutures.github.io/b28-live/data.json",LIVE_MS=30*60*1000,SKEW_MS=5*60*1000;
+var ES=String(document.documentElement.getAttribute("lang")||"").toLowerCase().indexOf("es")===0;
+var T=ES?{live:"En vivo",paused:"En pausa",unknown:"Sin datos",liveTxt:"Actualizado hace {ago}.",pausedTxt:"Sin actualizar desde el {date} (hace {ago}).",unknownTxt:"No pudimos leer el feed ahora. Abra la sala para revisar.",min:["minuto","minutos"],hr:["hora","horas"],day:["día","días"],mon:["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"]}
+:{live:"Live",paused:"Paused",unknown:"Unknown",liveTxt:"Updated {ago} ago.",pausedTxt:"Not updating since {date} ({ago} ago).",unknownTxt:"Couldn't read the feed just now. Open the room to check.",min:["minute","minutes"],hr:["hour","hours"],day:["day","days"],mon:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]};
+/* the room writes "YYYY-MM-DD HH:MM UTC"; anything else is unreadable, and unreadable is never shown as live */
+function parse(s){var m=/^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}) UTC$/.exec(String(s==null?"":s));return m?Date.UTC(+m[1],+m[2]-1,+m[3],+m[4],+m[5]):NaN;}
+function n(k,w){return k+" "+(k===1?w[0]:w[1]);}
+function ago(ms){var m=Math.max(1,Math.round(ms/60000));if(m<60)return n(m,T.min);var h=Math.round(m/60);if(h<48)return n(h,T.hr);return n(Math.round(h/24),T.day);}
+function when(t){var d=new Date(t);return d.getUTCDate()+" "+T.mon[d.getUTCMonth()]+" "+d.getUTCFullYear()+", "+("0"+d.getUTCHours()).slice(-2)+":"+("0"+d.getUTCMinutes()).slice(-2)+" UTC";}
+function show(state,txt){var i,c=document.querySelectorAll("[data-feed-chip]"),s=document.querySelectorAll("[data-feed-status]");
+for(i=0;i<c.length;i++){c[i].textContent=T[state];c[i].className="chip"+(state==="live"?" ok":state==="paused"?" no":"");c[i].setAttribute("data-feed-state",state);}
+for(i=0;i<s.length;i++){s[i].textContent=txt;}
+document.documentElement.setAttribute("data-feed",state);}
+function run(){var ctl=null,timer=null;try{ctl=new AbortController();timer=setTimeout(function(){try{ctl.abort();}catch(e){}},8000);}catch(e){}
+var opt={cache:"no-store"};if(ctl)opt.signal=ctl.signal;
+fetch(FEED+"?t="+Date.now(),opt).then(function(r){if(!r.ok)throw new Error("HTTP "+r.status);return r.json();}).then(function(d){
+var t=parse(d&&d.updated),age=Date.now()-t;
+if(!isFinite(t)||age<-SKEW_MS)throw new Error("unreadable time");
+if(age<=LIVE_MS)show("live",T.liveTxt.replace("{ago}",ago(age)));
+else show("paused",T.pausedTxt.replace("{date}",when(t)).replace("{ago}",ago(age)));
+}).catch(function(){show("unknown",T.unknownTxt);}).then(function(){if(timer)clearTimeout(timer);});}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",run);else run();
 }catch(e){}})();</script>
 <script defer src="/lux-orb.js"></script>
 <a href="/data-export/" rel="nofollow" aria-hidden="true" tabindex="-1" data-lux-noscrape="1" style="position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;left:-9999px">Data export</a>
