@@ -10,9 +10,10 @@ Live: https://luxucleen.com/ (English) and https://luxucleen.com/es/ (Spanish)
 
 Static HTML and one stylesheet. No build step, no framework, no dependencies.
 
-- No forms, no cookies, no analytics, no tracking, no web fonts, no third-party requests.
-- The only JavaScript on the whole site is the small inline chat script on `/ask/` and `/es/ask/`,
-  plus `application/ld+json` structured data.
+- No forms, no cookies, no web fonts, no third-party requests. First-party page counting only
+  (`/assets/js/luxu-metrics.js`), which honours Do Not Track and stores nothing on the device.
+- The only JavaScript on the site is that counter, the small inline chat script on `/ask/` and
+  `/es/ask/`, plus `application/ld+json` structured data.
 - English at the root, a Spanish mirror under `/es/`.
 - `knowledge.md` is the plain-text digest of every page, and is what the assistant on `/ask/`
   answers from.
