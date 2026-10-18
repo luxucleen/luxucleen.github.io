@@ -28,6 +28,8 @@ One-link funnel: send anyone to https://luxucleen.com/start?want=TOPIC and they 
 - [Zoncarii](https://luxucleen.com/zoncarii/): Luxucleen's streetwear label — the SZ monogram in black and gold. Statement tees, embroidered snapbacks, and a hand-drawn gold-line graphic series (phoenix, jaguar, wolf, aztec). Shop the full collection at zoncarii.com.
 
 ## Software (things you buy and use)
+- [LuxuWorld](https://luxucleen.com/luxuworld/): Your own AI headquarters - a crew of named agents at real desks, a Gate that brakes anything delicate (spending, posting, contacting anyone in your name), an idea room, a build line that ships software without the owner testing, and a Copy Desk. The founder's world is the one being built; personal worlds open by founding cohort, by email only.
+- [The Sky Office](https://luxucleen.com/luxuworld/office/): Walk the founder's LuxuWorld in the browser - Floor 128 of Luxucleen HQ and the Bithorn Studio wing with its morph-floor set builder. Served from luxucleen.com; nothing to install, no account, nothing stored.
 - [EYES28](https://luxucleen.com/software/): Lets your AI see any window on your screen — fast, private, runs on your own machine. A tool for builders and AI users.
 - [The Phone Test](https://luxucleen.com/software/): We test your website like a real customer on a phone and send you exactly what is broken and how to fix it.
 - [8ble and more](https://luxucleen.com/software/): The software Luxucleen builds and sells, each with what it does and what it costs.

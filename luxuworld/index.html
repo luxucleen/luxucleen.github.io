@@ -6,6 +6,16 @@
 <title>LuxuWorld — Your Own World That Works | Luxucleen LLC</title>
 <meta name="description" content="LuxuWorld: your own AI headquarters — a crew of agents at real desks, a gate that brakes anything delicate, an idea room that mints money ideas from what's trending, and a Copy Desk that mirrors whoever is actually ahead. The founder's world is the one being built. Walk through the plan.">
 <link rel="canonical" href="https://luxucleen.com/luxuworld/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="LuxuWorld — Your Own World That Works">
+<meta property="og:description" content="An AI headquarters of your own: a crew at real desks, a gate that brakes anything delicate, an idea room, a build line that ships without you testing, and the founder's Sky Office you can walk — served from luxucleen.com.">
+<meta property="og:url" content="https://luxucleen.com/luxuworld/">
+<meta property="og:site_name" content="Luxucleen LLC">
+<meta property="og:image" content="https://luxucleen.com/og/luxuworld.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://luxucleen.com/og/luxuworld.png">
 <style>
   :root{
     --ink:#eef2f8; --dim:#9aa4b4; --faint:#697488;
@@ -87,6 +97,16 @@
   footer a{color:var(--green2);text-decoration:none;font-weight:700}
   footer .cols{display:flex;gap:28px;flex-wrap:wrap}
   footer .cols div{min-width:200px}
+  /* office controls strip + crew roster */
+  .ctrl{margin-top:18px;border:1px solid rgba(43,232,255,.3);background:rgba(43,232,255,.05);border-radius:14px;padding:14px 18px;color:var(--dim);font-size:14.5px}
+  .ctrl b{color:var(--cyan)}
+  .ctrl kbd{font:700 12px ui-monospace,Menlo,monospace;color:var(--ink);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:6px;padding:1px 6px}
+  .crew{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr));gap:10px}
+  .crew div{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:14px;color:var(--dim)}
+  .crew b{display:block;color:#fff;font:800 12.5px/1.3 ui-monospace,Menlo,monospace;letter-spacing:.1em;margin-bottom:3px}
+  .crew div.new{border-color:rgba(242,193,78,.45);background:rgba(242,193,78,.06)}
+  .crew div.new b{color:var(--gold)}
+  .crew div.new b::after{content:"NEW";margin-left:8px;font-size:9.5px;color:#0a1408;background:var(--gold);border-radius:999px;padding:2px 6px;vertical-align:middle}
   @media (prefers-reduced-motion:reduce){
     html{scroll-behavior:auto}
   }
@@ -104,7 +124,10 @@
   <div class="bar">
     <a class="brand" href="https://luxucleen.com/">Luxu<span>cleen</span></a>
     <nav class="nav">
+      <a href="/luxuworld/office/">Walk the office</a>
       <a href="#world">What a world is</a>
+      <a href="#buildline">The build line</a>
+      <a href="#launchdesk">The Launch Desk</a>
       <a href="#copydesk">The Copy Desk</a>
       <a href="#money">The money system</a>
       <a href="#founding">Founding accounts</a>
@@ -118,14 +141,40 @@
     <p class="sub">An AI headquarters of your own — a crew that works, a gate that protects you, and ideas that turn into money on a loop.</p>
     <p class="lede">Every LuxuWorld is designed as a living office: agents at real desks doing real jobs, an idea room reading what's trending in the world, a desk that mirrors whoever on the floor is actually ahead, and a conveyor moving finished work to the right hands — around the clock, without your computer having to be awake. The founder's world is the one being built. Walk through the plan.</p>
     <div class="ctas">
-      <!-- OFFICE URL: the single place the founder's-world link lives. Set href to the public share URL of the Sky Office (artifact slug "sky-office") returned by artifact.share. Never guess or assemble this URL. -->
-      <a class="cta" href="https://muse.ai/s/sky-office-xdxf5x0xa1kxtxp85">SEE THE FOUNDER'S FLOOR →</a>
+      <!-- OFFICE URL: the Sky Office is a file in THIS repo (luxuworld/office/index.html), served by luxucleen.com. Never link the office from an outside host. -->
+      <a class="cta" href="/luxuworld/office/">WALK THE FOUNDER'S FLOOR →</a>
       <a class="ghost" href="#founding">Claim a founding account</a>
     </div>
     <div class="livenow">
-      <span class="dot" style="color:var(--gold)">◆ THE BUILD</span> — <b>The founder's world is the one under construction.</b> Floor 128, Luxucleen HQ: the crew, the gate, the idea room, the conveyor, the inspector and the Copy Desk are the plan this page walks you through. Parts of it run today and parts are still being built — nothing on this page claims a piece is running that we have not measured. Personal worlds follow by founding cohort — see below.
+      <span class="dot" style="color:var(--gold)">◆ THE BUILD</span> — <b>The founder's world is the one under construction.</b> Floor 128, Luxucleen HQ: the crew, the gate, the idea room, the conveyor, the inspector and the Copy Desk are the plan this page walks you through. The Sky Office you can walk today is served from this site — Floor 128 and the Bithorn Studio wing — and a full rebuild of it in Unreal Engine is in progress. Parts of the plan run today and parts are still being built — nothing on this page claims a piece is running that we have not measured. Personal worlds follow by founding cohort — see below.
     </div>
   </header>
+
+  <section id="office">
+    <h2>Walk the office</h2>
+    <p class="secsub">The founder's Sky Office is a real place you can walk — Floor 128 of Luxucleen HQ and the Bithorn Studio wing — served from this site, on your phone or at your desk.</p>
+    <div class="grid">
+      <div class="card">
+        <div class="badge">128</div>
+        <h3>Floor 128</h3>
+        <p>Reception and the front door, the Gate on the elevator line, the boardroom, the phone room, the trading lab, the services and money-pages desks, the member lounge and the Founders Wall. Every desk is a named agent at work — typing, walking, taking calls — with Luxucleen Radio on through the whole floor.</p>
+      </div>
+      <div class="card">
+        <div class="badge gold">WING</div>
+        <h3>The Factory wing</h3>
+        <p>South of the floor: the conveyor, the Idea Room and its Spark table, the held cage where delicate loads wait for the owner, the inspector on his rounds, and the delivery dock where finished work leaves the building.</p>
+      </div>
+      <div class="card">
+        <div class="badge g">SET</div>
+        <h3>Bithorn Studio</h3>
+        <p>An open-air oval named for the stadium in San Juan: the content studio's own arena, with a morph floor of 196 blocks that assemble into a set on command — empty stage, house, city street, throne room — under sweeping spotlights, and the editor's office with its live feed on the glass.</p>
+      </div>
+    </div>
+    <div class="ctrl"><b>Controls:</b> <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> to walk, mouse to look, <kbd>Shift</kbd> to hurry, <kbd>M</kbd> for the fast-travel map (tap anywhere on it to teleport), <kbd>B</kbd> or the studio pill to jump between the floor and the wing, <kbd>1</kbd>–<kbd>4</kbd> to pick a set. On a phone: the left stick moves you, a drag looks around, and the pills sit at the top-left. It runs in the browser — nothing to install, no account, nothing sent anywhere.</div>
+    <div class="ctas" style="margin-top:18px;justify-content:flex-start">
+      <a class="cta" href="/luxuworld/office/">ENTER THE SKY OFFICE →</a>
+    </div>
+  </section>
 
   <section id="world">
     <h2>What a world is</h2>
@@ -161,6 +210,93 @@
         <h3>Alive around the clock</h3>
         <p>Your world is hosted, not parked on your computer. Your PC can be off, asleep, or gone — the crew keeps working, the gate keeps watch, and the office you open tomorrow morning shows tonight's real state, not a recording.</p>
       </div>
+      <div class="card">
+        <div class="badge">SKILL</div>
+        <h3>A desk that learns on the job</h3>
+        <p>When a desk meets a job it has no skill for, it does not improvise. It searches the open skills registry that developers publish to, installs the skill into its own desk, and gets to work. The founder's own build seat runs this today. The Gate still decides what is allowed to run.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="buildline">
+    <h2>The build line</h2>
+    <p class="secsub">How work ships in a LuxuWorld without the owner ever testing a thing. It is the rule the founder's build already runs on — nothing is called done without a picture of it working — turned into a line of seats. In the office it is the Factory wing, belt to dock.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="n">1 · The handshake</div>
+        <h3>Two hours in the morning</h3>
+        <p>The owner and the planning seat write the handshake: the step-by-step of what gets built, and the documents behind it. That is the owner's whole day of work on the build. Some mornings they skip it, hand the team the plan, and only read Telegram.</p>
+      </div>
+      <div class="step">
+        <div class="n">2 · Mother</div>
+        <h3>One seat orchestrates</h3>
+        <p>The Mother seat never ships anything. It breaks the handshake into small pieces and hands each one to a builder — five or six small sessions, as many as the plan needs.</p>
+      </div>
+      <div class="step">
+        <div class="n">3 · The builders</div>
+        <h3>Build it, run it, photograph it</h3>
+        <p>A builder is not done when the code is written. It has to open the application locally, try the piece, and take a photo of every step working. The piece travels with its photos.</p>
+      </div>
+      <div class="step">
+        <div class="n">4 · The Verifier</div>
+        <h3>One seat — the only one that ships</h3>
+        <p>A single verifier seat receives the piece and its photos, checks them against the handshake, and only then sends it live. Nothing reaches the live application through any other door.</p>
+      </div>
+      <div class="step">
+        <div class="n">5 · One line</div>
+        <h3>"A new part is live."</h3>
+        <p>That is all the owner receives — one Telegram line per finished part, plus a question on the rare occasion the team genuinely needs an answer. No testing, no deploying, no watching a screen.</p>
+      </div>
+    </div>
+    <div class="risk">
+      <b>Still the Gate:</b> the Verifier ships code; it never spends, posts, or contacts anyone. Those stay delicate and wait for the owner's tap. Two new seats on the floor for this line: <b>MOTHER</b>, the orchestrator, and <b>VERIFIER</b>, the one seat that ships.
+    </div>
+  </section>
+
+  <section id="launchdesk">
+    <h2>The Launch Desk</h2>
+    <p class="secsub">A new desk, from a play that is all over the feeds right now: find a company that is growing, make it a launch video before it asks for one, and sell it the video.</p>
+    <div class="grid">
+      <div class="card">
+        <div class="badge">SCOUT</div>
+        <h3>Find who is growing</h3>
+        <p>Founders now post their revenue in public — boards of startups doing fifty, a hundred, five hundred thousand a month. The desk reads those boards, pulls the company's own site and product, and scores who would pay for a launch.</p>
+      </div>
+      <div class="card">
+        <div class="badge g">REEL</div>
+        <h3>Cut the launch video</h3>
+        <p>The research becomes a story, the story becomes a script, and the script becomes a cut in the Bithorn Studio — the house's own video tools, the company's own product, no stock footage pretending to be them. A cut costs the desk minutes, not a week.</p>
+      </div>
+      <div class="card">
+        <div class="badge gold">PITCH</div>
+        <h3>Pitch it — after the owner's tap</h3>
+        <p>The new desk. PITCH writes the offer to the founder with the finished video attached, tracks replies, and follows up. Contacting anyone in the owner's name is delicate, so every send stops at the Gate as one plain question first.</p>
+      </div>
+    </div>
+    <div class="risk">
+      <b>The honest math:</b> agencies do charge thousands for a launch video, and a founder who is shown a finished one is an easy conversation — that part of the play is real. What the reels leave out: most cold pitches get no reply. The desk's edge is not the price, it is the cost — when a cut takes minutes, a thin answer rate still pays. No desk on this floor prints a revenue number it has not earned.
+    </div>
+  </section>
+
+  <section id="crew">
+    <h2>The crew on the floor</h2>
+    <p class="secsub">Every desk in the Sky Office is a named agent with one field. The three newest are marked.</p>
+    <div class="crew">
+      <div><b>LUXOR</b>The CEO seat — the floor reports up to it.</div>
+      <div><b>HERMES</b>The Gate. Tier-one triage; delicate stops here.</div>
+      <div><b>QUANT</b>The trading lab — builds, replays, measures.</div>
+      <div><b>SCOUT</b>Records pulls and lead research.</div>
+      <div><b>RECOVERY</b>Surplus recovery.</div>
+      <div><b>FUNNEL</b>Site and funnel.</div>
+      <div><b>PROOF</b>Ads and proof — nothing claimed unmeasured.</div>
+      <div><b>DROPS</b>The store and its drops.</div>
+      <div><b>RUBY · NOVA · LUNA · ECHO</b>The phone room — calls, in and out.</div>
+      <div><b>LUXU</b>The front door — says hi to every arrival.</div>
+      <div><b>REEL</b>The editor — Bithorn Studio, clips and cuts.</div>
+      <div><b>LA4 · SOTO</b>Security, cyber, and the building inspector's rounds.</div>
+      <div class="new"><b>PITCH</b>The Launch Desk — offers, replies, follow-ups, gated.</div>
+      <div class="new"><b>MOTHER</b>The build line's orchestrator — splits the handshake.</div>
+      <div class="new"><b>VERIFIER</b>The one seat that ships — photos checked, then live.</div>
     </div>
   </section>
 
