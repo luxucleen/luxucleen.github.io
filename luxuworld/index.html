@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LuxuWorld — Your Own World That Works | Luxucleen LLC</title>
+<meta name="description" content="LuxuWorld: your own AI headquarters — a crew of agents at real desks, a gate that brakes anything delicate, an idea room that mints money ideas from what's trending, and a Copy Desk that mirrors whoever is actually ahead. The founder's world is the one being built. Walk through the plan.">
+<link rel="canonical" href="https://luxucleen.com/luxuworld/">
+<style>
+  :root{
+    --ink:#eef2f8; --dim:#9aa4b4; --faint:#697488;
+    --green:#2ec27e; --green2:#38d98d; --gold:#f2c14e;
+    --cyan:#2be8ff; --violet:#7c5cff;
+    --panel:#0f141d; --panel2:#0a0d13; --line:rgba(255,255,255,.09);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;color:var(--ink);background:#16181d;
+    background-image:
+      radial-gradient(1100px 620px at 50% -180px,rgba(46,194,126,.30) 0%,rgba(46,194,126,0) 62%),
+      radial-gradient(760px 460px at 108% 8%,rgba(242,193,78,.12) 0%,rgba(242,193,78,0) 60%),
+      radial-gradient(900px 700px at -10% 110%,rgba(56,140,255,.10) 0%,rgba(56,140,255,0) 60%);
+    background-attachment:fixed;
+    font:16px/1.62 ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI Variable Text","Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 20px}
+  a{color:var(--cyan)}
+  /* top bar */
+  .bar{display:flex;align-items:center;gap:12px;padding:18px 0 6px;flex-wrap:wrap}
+  .brand{font-size:20px;font-weight:900;letter-spacing:-.3px;text-decoration:none;color:#fff}
+  .brand span{background:linear-gradient(90deg,var(--green2),var(--gold));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .nav{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+  .nav a{color:var(--dim);text-decoration:none;font-size:13px;padding:6px 11px;border-radius:999px;border:1px solid transparent;white-space:nowrap}
+  .nav a:hover{color:#fff;border-color:rgba(255,255,255,.16)}
+  /* hero */
+  .hero{text-align:center;padding:56px 0 30px}
+  .kick{display:inline-flex;align-items:center;gap:8px;font:800 12px/1 ui-monospace,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:16px}
+  .kick i{width:8px;height:8px;border-radius:50%;background:var(--green2);box-shadow:0 0 10px var(--green2);display:inline-block}
+  .hero h1{font-size:clamp(40px,7.5vw,68px);line-height:1.05;margin:0 0 10px;letter-spacing:-1.5px;font-weight:900}
+  .hero h1 .grad{background:linear-gradient(90deg,var(--green2),var(--gold));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .hero .sub{font-size:clamp(19px,3vw,24px);color:#fff;font-weight:700;margin:0 0 14px}
+  .hero p.lede{max-width:640px;margin:0 auto 26px;color:var(--dim);font-size:16.5px}
+  .ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .cta{display:inline-block;background:linear-gradient(135deg,var(--cyan),var(--violet));color:#03121a;border:0;border-radius:14px;padding:16px 26px;font-weight:900;font-size:17px;text-decoration:none;box-shadow:0 12px 34px rgba(43,232,255,.22)}
+  .cta:hover{filter:brightness(1.07)}
+  .ghost{display:inline-block;background:transparent;color:var(--cyan);border:1px solid rgba(43,232,255,.4);border-radius:14px;padding:15px 22px;font-weight:800;font-size:16px;text-decoration:none}
+  .livenow{margin:30px auto 0;max-width:640px;background:var(--panel2);border:1px solid #1a222e;border-radius:14px;padding:14px 18px;color:var(--dim);font-size:14.5px;text-align:left}
+  .livenow b{color:var(--ink)}
+  .livenow .dot{color:var(--green2);font-weight:900}
+  /* sections */
+  section{padding:44px 0 6px}
+  h2{font-size:clamp(26px,4vw,34px);letter-spacing:-.6px;margin:0 0 8px;font-weight:900}
+  .secsub{color:var(--dim);max-width:680px;margin:0 0 24px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:14px}
+  .card{background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,0) 55%),var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px}
+  .badge{display:inline-grid;place-items:center;min-width:40px;height:40px;padding:0 8px;border-radius:11px;background:rgba(43,232,255,.10);border:1px solid rgba(43,232,255,.25);color:var(--cyan);font:800 13px/1 ui-monospace,Menlo,monospace;letter-spacing:.06em;margin-bottom:12px}
+  .badge.g{background:rgba(46,194,126,.12);border-color:rgba(46,194,126,.3);color:var(--green2)}
+  .badge.gold{background:rgba(242,193,78,.12);border-color:rgba(242,193,78,.3);color:var(--gold)}
+  .card h3{margin:0 0 6px;font-size:18px}
+  .card p{margin:0;color:var(--dim);font-size:15px}
+  /* money system */
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:14px;margin-bottom:22px}
+  .step{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px}
+  .step .n{font:800 12px/1 ui-monospace,Menlo,monospace;letter-spacing:.12em;color:var(--gold);text-transform:uppercase}
+  .step h3{margin:8px 0 6px;font-size:18px}
+  .step p{margin:0;color:var(--dim);font-size:15px}
+  .proof{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:14px}
+  .stat{background:radial-gradient(900px 420px at 15% -10%,#1b2a4a 0%,#0b0e14 58%);border:1px solid #1e2a3a;border-radius:18px;padding:22px;box-shadow:0 0 0 1px rgba(43,232,255,.08)}
+  .stat .tag{display:inline-block;font:800 11px/1 ui-monospace,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:#03121a;background:var(--gold);border-radius:999px;padding:5px 10px;margin-bottom:12px}
+  .stat .tag.live{background:var(--green2)}
+  .stat h3{margin:0 0 4px;font-size:19px}
+  .stat .big{font-size:clamp(26px,4vw,32px);font-weight:900;letter-spacing:-.5px;margin:6px 0}
+  .stat .nums{color:var(--dim);font-size:15px;margin:0 0 10px}
+  .stat .fine{color:var(--faint);font-size:13px;margin:0}
+  .risk{margin-top:18px;border:1px solid rgba(242,193,78,.35);background:rgba(242,193,78,.06);border-radius:14px;padding:14px 18px;color:var(--dim);font-size:14.5px}
+  .risk b{color:var(--gold)}
+  /* founding */
+  .founding{background:linear-gradient(180deg,rgba(46,194,126,.10),rgba(46,194,126,0) 60%),var(--panel);border:1px solid rgba(46,194,126,.28);border-radius:18px;padding:26px}
+  .founding h2{margin-top:0}
+  .founding p{color:var(--dim);max-width:680px}
+  .founding .ctas{justify-content:flex-start;margin-top:18px}
+  .mailcta{display:inline-block;background:linear-gradient(135deg,var(--green2),var(--gold));color:#0a1408;border-radius:14px;padding:15px 24px;font-weight:900;font-size:16.5px;text-decoration:none}
+  .honest{margin-top:16px;color:var(--faint);font-size:13.5px}
+  /* footer */
+  footer{margin:56px 0 0;border-top:1px solid var(--line);padding:26px 0 40px;color:var(--dim);font-size:14px}
+  footer .fname{color:#fff;font-weight:900;font-size:16px}
+  footer a{color:var(--green2);text-decoration:none;font-weight:700}
+  footer .cols{display:flex;gap:28px;flex-wrap:wrap}
+  footer .cols div{min-width:200px}
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+  }
+  @media (max-width:560px){
+    .hero{padding:38px 0 22px}
+    .cta,.ghost,.mailcta{width:100%;text-align:center}
+    .ctas{flex-direction:column}
+    .founding .ctas{flex-direction:column}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="bar">
+    <a class="brand" href="https://luxucleen.com/">Luxu<span>cleen</span></a>
+    <nav class="nav">
+      <a href="#world">What a world is</a>
+      <a href="#copydesk">The Copy Desk</a>
+      <a href="#money">The money system</a>
+      <a href="#founding">Founding accounts</a>
+      <a href="https://luxucleen.com/contact/">Contact</a>
+    </nav>
+  </div>
+
+  <header class="hero" id="top">
+    <div class="kick"><i></i> LuxuWorld · by Luxucleen LLC</div>
+    <h1><span class="grad">LUXUWORLD</span><br>Your own world that works.</h1>
+    <p class="sub">An AI headquarters of your own — a crew that works, a gate that protects you, and ideas that turn into money on a loop.</p>
+    <p class="lede">Every LuxuWorld is designed as a living office: agents at real desks doing real jobs, an idea room reading what's trending in the world, a desk that mirrors whoever on the floor is actually ahead, and a conveyor moving finished work to the right hands — around the clock, without your computer having to be awake. The founder's world is the one being built. Walk through the plan.</p>
+    <div class="ctas">
+      <!-- OFFICE URL: the single place the founder's-world link lives. Set href to the public share URL of the Sky Office (artifact slug "sky-office") returned by artifact.share. Never guess or assemble this URL. -->
+      <a class="cta" href="https://muse.ai/s/sky-office-xdxf5x0xa1kxtxp85">SEE THE FOUNDER'S FLOOR →</a>
+      <a class="ghost" href="#founding">Claim a founding account</a>
+    </div>
+    <div class="livenow">
+      <span class="dot" style="color:var(--gold)">◆ THE BUILD</span> — <b>The founder's world is the one under construction.</b> Floor 128, Luxucleen HQ: the crew, the gate, the idea room, the conveyor, the inspector and the Copy Desk are the plan this page walks you through. Parts of it run today and parts are still being built — nothing on this page claims a piece is running that we have not measured. Personal worlds follow by founding cohort — see below.
+    </div>
+  </header>
+
+  <section id="world">
+    <h2>What a world is</h2>
+    <p class="secsub">Not a dashboard. Not a chatbot. A headquarters that runs like a company — yours — with a crew, a security gate, and a money system built in from the first brick.</p>
+    <div class="grid">
+      <div class="card">
+        <div class="badge">HQ</div>
+        <h3>A crew at real desks</h3>
+        <p>Permanent expert agents, each owning one field — a trading lab, lead research, content, surplus recovery, site and funnel, money pages. Each works its own desk, on its own numbers, and reports up. Nobody does everybody's job; nobody recites anybody else's work.</p>
+      </div>
+      <div class="card">
+        <div class="badge gold">GATE</div>
+        <h3>The Gate — Hermes on post</h3>
+        <p>Every piece of work passes one checkpoint first. The gatekeeper classifies it — noise, routine, expert work, or delicate — and delicate stops cold: spending money, posting publicly, contacting anyone in your name, signing anything, deleting anything. Those wait for the owner's word. Always.</p>
+      </div>
+      <div class="card">
+        <div class="badge g">IDEA</div>
+        <h3>The Idea Room</h3>
+        <p>Ideas are minted from what's actually trending in the world — viral formats, market moves, world events — scored and stamped by how much of you they need: runs alone, one tap from you, or you at your desk. Most run alone. The loop never waits for you to feed it.</p>
+      </div>
+      <div class="card">
+        <div class="badge">BELT</div>
+        <h3>The Conveyor</h3>
+        <p>Work rides a belt through the building: in at the digital machine, scanned at the gate, routed to the right room. Finished work goes back on the belt — edited by one agent, tested by the next — and only stamped, finished work reaches the delivery dock. Nothing gets lost between desks.</p>
+      </div>
+      <div class="card">
+        <div class="badge gold">INSP</div>
+        <h3>The Inspector</h3>
+        <p>An LA4 officer whose only job is the building itself. He photographs every room, files every glitch and every flaw, sends the pictures up for fixes — and re-shoots. His rounds end only when a full sweep of the whole building comes back clean.</p>
+      </div>
+      <div class="card">
+        <div class="badge g">24/7</div>
+        <h3>Alive around the clock</h3>
+        <p>Your world is hosted, not parked on your computer. Your PC can be off, asleep, or gone — the crew keeps working, the gate keeps watch, and the office you open tomorrow morning shows tonight's real state, not a recording.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="copydesk">
+    <h2>The Copy Desk</h2>
+    <p class="secsub">A new desk on the floor. It watches the house's own leaderboard and mirrors whoever is actually ahead — and it is built to say out loud when nobody is.</p>
+    <div class="grid">
+      <div class="card">
+        <div class="badge">BOARD</div>
+        <h3>It watches the house board</h3>
+        <p>The house already keeps a leaderboard of its own crew: every desk, scored on its own numbers, over its own history. The Copy Desk reads that board. It watches performers the house can actually inspect — how a result was reached, over what stretch, at what cost — rather than a name on somebody else's app, because a screenshot shows you a number and never the method behind it. Every desk on the board is scored the same way, over the same stretch, so two of them can be compared rather than ranked by whoever happened to have the kinder month.</p>
+      </div>
+      <div class="card">
+        <div class="badge g">COPY</div>
+        <h3>It mirrors the leader</h3>
+        <p>When the board has a leader that holds up, the desk mirrors that leader's approach into the owner's own lanes, automatically. A person waiting on a notification and re-typing a position by hand is slower than the move being copied — by the time it is keyed in, it is a different trade at a different price. The desk exists to remove that gap rather than shorten it. What it mirrors is the approach — the rules the leading desk is working to, applied to the owner's own instruments and own size — never a blind echo of somebody else's open position.</p>
+      </div>
+      <div class="card">
+        <div class="badge gold">NOISE</div>
+        <h3>The catch, stated up front</h3>
+        <p>A leaderboard shows the survivors. It never shows the desks that took the same bet and lost, so the top of any board flatters luck. So this desk ranks risk-adjusted and out-of-sample, and treats a lead that sits inside its own measurement noise as no lead at all. That is not hypothetical: on a recent run of the house board, two desks scored above the reigning champion and neither margin cleared its own error bars — so the honest ranking put nobody ahead, and the desk would have copied nothing. Saying so is the job, not a failure of it.</p>
+      </div>
+    </div>
+    <div class="risk">
+      <b>Still the Gate:</b> copying a position is an action that spends money, so it stops at the checkpoint like everything else delicate — it reaches the owner as one plain question with the what and the why, and waits for the word. This is how the Copy Desk is designed. It is part of the LuxuWorld build, not a service running today.
+    </div>
+  </section>
+
+  <section id="money">
+    <h2>The money system</h2>
+    <p class="secsub">A world that only looks alive is a toy. A LuxuWorld is built to make money — carefully, in the open, with the owner holding the one key that matters.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="n">Step 1</div>
+        <h3>Ideas flow</h3>
+        <p>The idea engine works around the clock: it reads what's trending, turns it into money ideas across the owner's lanes — trading products, memberships, services, content, stores — and scores every one.</p>
+      </div>
+      <div class="step">
+        <div class="n">Step 2</div>
+        <h3>The Gate decides</h3>
+        <p>Work that can run alone, runs — builds, drafts, research, staging, edits. Anything delicate brakes at the gate before it can touch money, the public, or another person in the owner's name.</p>
+      </div>
+      <div class="step">
+        <div class="n">Step 3</div>
+        <h3>The owner taps once</h3>
+        <p>Delicate work reaches the owner as one plain question with the what and the why — one tap, and it moves. No approval spam, no blind buttons, no surprises on a card statement.</p>
+      </div>
+    </div>
+
+    <div class="proof">
+      <div class="stat">
+        <span class="tag">The lab</span>
+        <h3>A trading lab on the floor</h3>
+        <div class="big">Measurement is the product.</div>
+        <p class="nums">One desk owns the trading systems. It builds them, replays them against historical data, and measures what came out — profit against loss, the deepest fall along the way, how many trades it took, and whether the result still holds on data the system never saw while it was being built.</p>
+        <p class="fine">A replay is a simulation, not live trading. A system that cannot survive its own measurement does not leave the room.</p>
+      </div>
+      <div class="stat">
+        <span class="tag">Figures</span>
+        <h3>Why no numbers are printed here</h3>
+        <div class="big">Reproduce it, or it's off.</div>
+        <p class="nums">Figures stood on this page that we could not reproduce against the lab's own engine. They are off the page until they reproduce. When a figure comes back it carries the window it was measured over, the depth of the worst fall, and whether it was in or out of sample.</p>
+        <p class="fine">A return tells you nothing about what it cost to earn unless the worst fall is printed beside it. Neither one goes up here alone.</p>
+      </div>
+    </div>
+
+    <div class="risk">
+      <b>The standing rule:</b> trading involves risk, nothing here is financial advice, and nothing on this page is a promise of profit. The rule for figures is the same as the rest of this site — no number on any page that was not measured, and none printed back here until it reproduces.
+    </div>
+  </section>
+
+  <section id="founding">
+    <div class="founding">
+      <h2>Founding accounts</h2>
+      <p>The founder's world is the one being built — you can walk the floor above. <b style="color:var(--ink)">Personal worlds open by founding cohort:</b> small batches, set up right, in the order emails arrive — because every world is a real build with a real crew, not a username on a form.</p>
+      <p>To get on the founding list, send one email. That email is the door — it reaches the same crew building the founder's world, and founding members are at the front of the line when the next cohort opens.</p>
+      <div class="ctas">
+        <a class="mailcta" href="mailto:luxucleen@gmail.com?subject=LUXUWORLD%20FOUNDING">✉ Email for a founding account</a>
+        <a class="ghost" href="#world">See what a world is</a>
+      </div>
+      <p class="honest">There is no signup form on this page and no account is created here — on purpose. When personal worlds open, founding members get their world from a real setup, not a fake form that pretends to build one.</p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="cols">
+      <div>
+        <div class="fname">Luxucleen LLC</div>
+        Virginia limited liability company<br>
+        SCC Entity ID 11952713
+      </div>
+      <div>
+        Mailing address<br>
+        PO Box 1707<br>
+        Midlothian, VA 23113
+      </div>
+      <div>
+        Reach us<br>
+        <a href="mailto:hello@luxucleen.com">hello@luxucleen.com</a><br>
+        <a href="https://luxucleen.com/contact/">Contact page</a><br>
+        (804) 331-1128 — call or text
+      </div>
+    </div>
+    <p style="color:var(--faint);font-size:13px;margin-top:18px">LuxuWorld is a Luxucleen LLC product. Trading tools and signals are for adults 18+ and involve risk. © 2026 Luxucleen LLC.</p>
+  </footer>
+
+</div>
+</body>
+</html>
