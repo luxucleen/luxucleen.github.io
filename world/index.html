@@ -521,11 +521,14 @@
       lightStrip(-2, -6, 12, true); lightStrip(-33, -20, 9, true); lightStrip(9, -16.8, 12, true);
 
       // Glass curtain walls + mullions
+      // Real reflective glass, not a flat translucent sheet: a cyan tint, strong environment
+      // reflection (the PMREM sky/sun env drives it) and a glossy clearcoat (Christian, 2026-10-19).
       var glassMat = new THREE.MeshPhysicalMaterial({
-        color: 0x9fd4ff, transparent: true, opacity: 0.10, roughness: 0.04,
-        metalness: 0.2, clearcoat: 1, envMapIntensity: 1.5, side: THREE.DoubleSide, depthWrite: false
+        color: 0x8ec8ff, transparent: true, opacity: 0.17, roughness: 0.02,
+        metalness: 0.0, reflectivity: 1.0, ior: 1.45, clearcoat: 1, clearcoatRoughness: 0.03,
+        envMapIntensity: 2.8, side: THREE.DoubleSide, depthWrite: false
       });
-      var mullMat = new THREE.MeshStandardMaterial({ color: 0x12263f, roughness: 0.45, metalness: 0.7 });
+      var mullMat = new THREE.MeshStandardMaterial({ color: 0x12263f, roughness: 0.4, metalness: 0.8 });
       function glassWall(len, x, z, rotY){
         var grp = new THREE.Group();
         var glass = new THREE.Mesh(new THREE.PlaneGeometry(len, CEIL), glassMat);
@@ -875,6 +878,7 @@
       var sign = new THREE.Mesh(new THREE.PlaneGeometry(13.5, 1.69),
         new THREE.MeshBasicMaterial({ map: signTex }));
       sign.position.set(-16.5, 5.7, -23.62); scene.add(sign);
+      box(14.2, 2.3, 0.14, mullMat, -16.5, 5.7, -23.72);   // a real framed border behind the sign - nothing floats unframed
 
       // --- Animated candlestick chart (live canvas) ---
       var chartCanvas = document.createElement('canvas');
@@ -2444,17 +2448,16 @@
       box(17.5, 0.28, 0.22, mullMat, 0, 3.58, 20.72, bankGrp);
       addCollider(-5.55, 20.72, 6.1, 0.5);
       addCollider(5.55, 20.72, 6.1, 0.5);
-      // decorative elevator doors on the west panel
-      [-6.9, -4.2].forEach(function(ex){
-        var dframe = new THREE.Mesh(new THREE.BoxGeometry(1.5, 3.0, 0.06), mullMat);
-        dframe.position.set(ex, 1.5, 20.6); bankGrp.add(dframe);
-        var ddoor = new THREE.Mesh(new THREE.BoxGeometry(1.34, 2.86, 0.05), brushedMat);
-        ddoor.position.set(ex, 1.46, 20.59); bankGrp.add(ddoor);
-        var dseam = new THREE.Mesh(new THREE.BoxGeometry(0.025, 2.86, 0.02), darkMat);
-        dseam.position.set(ex, 1.46, 20.55); bankGrp.add(dseam);
-        var ddot = new THREE.Mesh(new THREE.SphereGeometry(0.035, 8, 8), warmGlowMat);
-        ddot.position.set(ex, 3.14, 20.58); bankGrp.add(ddot);
+      // NO DOORS (Christian, 2026-10-19): the west panel is a finished WALL now - vertical panel
+      // seams and top/base trim give it depth, replacing the old decorative elevator-door slabs.
+      [-7.8, -5.55, -3.3].forEach(function(ex){
+        var seam = new THREE.Mesh(new THREE.BoxGeometry(0.03, 3.1, 0.02), darkMat);
+        seam.position.set(ex, 1.6, 20.63); bankGrp.add(seam);
       });
+      var wTrimTop = new THREE.Mesh(new THREE.BoxGeometry(5.7, 0.12, 0.09), mullMat);
+      wTrimTop.position.set(-5.55, 3.14, 20.63); bankGrp.add(wTrimTop);
+      var wTrimBot = new THREE.Mesh(new THREE.BoxGeometry(5.7, 0.16, 0.11), mullMat);
+      wTrimBot.position.set(-5.55, 0.14, 20.63); bankGrp.add(wTrimBot);
 
       // THE FOUNDERS WALL — the owner's own words, in lit letters
       var quoteTex = makeTex(1024, 560, function(g, w, h){
@@ -2567,12 +2570,11 @@
       var ind = new THREE.Mesh(new THREE.PlaneGeometry(0.72, 0.27),
         new THREE.MeshBasicMaterial({ map: indTex }));
       ind.position.set(0, 2.92, 20.62); ind.rotation.y = Math.PI; cab.add(ind);
+      // NO DOOR SLABS (Christian, 2026-10-19): the cab opening stays clear for an open-plan
+      // arrival. Keep the group handle so the arrival logic still has something to move, but
+      // render no door leaf - you step straight out onto the open floor.
       function cabDoor(side){
         var grp = new THREE.Group();
-        var leaf = new THREE.Mesh(new THREE.BoxGeometry(1.3, 2.6, 0.07), brushedMat);
-        leaf.castShadow = true; grp.add(leaf);
-        var edge = new THREE.Mesh(new THREE.BoxGeometry(0.035, 2.6, 0.02), cyanGlowMat);
-        edge.position.set(-side * 0.63, 0, -0.045); grp.add(edge);
         grp.position.set(side * 0.66, 1.3, 20.7);
         cab.add(grp); return grp;
       }
@@ -2888,11 +2890,21 @@
          is the audio unlock; from then on it plays everywhere on the
          floor, auto-reconnects if the feed drops, resumes on return.
          ============================================================ */
-      var RADIO_STREAM = 'https://ice1.somafm.com/beatblender-128-mp3';
+      // Public source = SomaFM Beat Blender through its OFFICIAL mirror servers. One address
+      // (ice1) went stale on 2026-10-19 - it now redirects to an alert file and playback dies -
+      // so the widget rotates every mirror and self-recovers, the same cure as the /radio/ page.
+      var RADIO_MIRRORS = [
+        'https://ice2.somafm.com/beatblender-128-mp3',
+        'https://ice6.somafm.com/beatblender-128-mp3',
+        'https://ice5.somafm.com/beatblender-128-mp3',
+        'https://ice1.somafm.com/beatblender-128-mp3'
+      ];
+      var radioMirror = 0;
+      var RADIO_STREAM = RADIO_MIRRORS[0];
       var radioOn = true;            // owner's standing order: ON by default, always
       var radioPlaying = false;
       var radioAudio = new Audio();
-      radioAudio.src = RADIO_STREAM;
+      radioAudio.src = RADIO_MIRRORS[radioMirror];
       radioAudio.preload = 'none';
       radioAudio.volume = 0.55;
       radioAudio.setAttribute('playsinline', '');
@@ -2938,13 +2950,28 @@
       });
       radioAudio.addEventListener('playing', function(){ radioPlaying = true; radioIcon(); });
       radioAudio.addEventListener('pause', function(){ radioPlaying = false; radioIcon(); });
+      // A live stream never "ends" and never errors - if either fires, this mirror is dead
+      // (stale redirect, alert file, refusal): move to the next mirror and keep playing. If every
+      // mirror fails, say so honestly and keep retrying from the top every 30 seconds.
+      var radioRetry = null;
+      function radioNextMirror(){
+        if (radioMirror < RADIO_MIRRORS.length - 1){
+          radioMirror++; RADIO_STREAM = RADIO_MIRRORS[radioMirror];
+          try { radioAudio.src = RADIO_STREAM; radioAudio.load(); if (radioOn) radioAudio.play().catch(function(){}); } catch (e) {}
+        } else {
+          radioState.innerHTML = '<i></i>STREAM UNREACHABLE · RETRYING…';
+          if (!radioRetry) radioRetry = setInterval(function(){
+            radioMirror = 0; RADIO_STREAM = RADIO_MIRRORS[0];
+            try { radioAudio.src = RADIO_STREAM; radioAudio.load(); if (radioOn) radioAudio.play().catch(function(){}); } catch (e) {}
+          }, 30000);
+        }
+      }
       radioAudio.addEventListener('stalled', function(){
         if (radioOn && !radioAudio.paused){ try { radioAudio.load(); radioAudio.play().catch(function(){}); } catch (e) {} }
       });
-      radioAudio.addEventListener('error', function(){
-        if (radioOn) setTimeout(function(){ try { radioAudio.load(); if (radioOn) radioAudio.play().catch(function(){}); } catch (e) {} }, 1500);
-      });
-      radioAudio.addEventListener('ended', function(){ if (radioOn) radioStart(); });
+      radioAudio.addEventListener('error', function(){ if (radioOn) radioNextMirror(); });
+      radioAudio.addEventListener('ended', function(){ if (radioOn) radioNextMirror(); });
+      radioAudio.addEventListener('playing', function(){ if (radioRetry){ clearInterval(radioRetry); radioRetry = null; } });
       document.addEventListener('visibilitychange', function(){
         if (!document.hidden && radioOn && radioAudio.paused) radioStart();
       });
