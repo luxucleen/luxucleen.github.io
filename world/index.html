@@ -2491,6 +2491,57 @@
       var fwLight = new THREE.PointLight(0xffd9a0, 0.8, 18, 2); fwLight.position.set(0, 1.4, 9.6); scene.add(fwLight);
       addCollider(0, 8.0, 6.9, 0.9);                // you walk around the monument, not through it
 
+      // ============================================================
+      // MISSION CONTROL — the ORCHESTRATION DECK (Christian, 2026-10-19:
+      // "do this act in the real world. Luxuworld."). This is orchestra28 made real on the
+      // floor: Luxor conducts, the crew fans out across parallel levels, and reports come back.
+      // The live screen mirrors the real tool (plan -> levels -> agents -> report).
+      // ============================================================
+      var mcGrp = new THREE.Group(); mcGrp.position.set(-9, 0, 2); scene.add(mcGrp);
+      var mcScreenTex = liveScreen(512, 288, function(g, w, h, tk){
+        g.fillStyle = '#04101f'; g.fillRect(0, 0, w, h);
+        screenHeader(g, w, 'ORCHESTRA28 · MISSION CONTROL', '#38e1ff');
+        g.textAlign = 'left'; g.fillStyle = '#9fc6e8'; g.font = '700 13px monospace';
+        g.fillText('LUXOR conducts · plan → levels → agents → report', 14, 52);
+        var LV = [['SCOUT', 'QUANT'], ['FUNNEL', 'RECOVERY'], ['PROOF', 'DROPS']];
+        var colW = 150, x0 = 30, yTop = 84, active = tk % (LV.length + 1);
+        for (var li = 0; li < LV.length; li++){
+          var cx = x0 + li * colW;
+          g.fillStyle = (li <= active) ? '#38e1ff' : 'rgba(159,198,232,.5)';
+          g.font = '800 12px monospace'; g.fillText('LEVEL ' + li, cx, yTop - 14);
+          for (var ai = 0; ai < LV[li].length; ai++){
+            var cy = yTop + ai * 52, on = (li < active) || (li === active);
+            g.fillStyle = on ? 'rgba(56,225,255,.18)' : 'rgba(20,40,64,.7)';
+            roundedRect(g, cx, cy, 118, 40, 9); g.fill();
+            g.strokeStyle = on ? '#38e1ff' : 'rgba(103,232,249,.3)'; g.lineWidth = 2; roundedRect(g, cx, cy, 118, 40, 9); g.stroke();
+            g.fillStyle = '#eaf7ff'; g.font = '800 14px "Avenir Next",monospace'; g.textAlign = 'left';
+            g.fillText(LV[li][ai], cx + 12, cy + 25);
+            // the running pulse
+            g.fillStyle = (li < active) ? '#2ee6a8' : (li === active ? '#ffd97a' : 'rgba(159,198,232,.4)');
+            g.beginPath(); g.arc(cx + 104, cy + 20, 4, 0, 7); g.fill();
+            // arrow to the next level
+            if (li < LV.length - 1){ g.strokeStyle = 'rgba(56,225,255,.45)'; g.lineWidth = 2;
+              g.beginPath(); g.moveTo(cx + 118, cy + 20); g.lineTo(cx + colW, yTop + 20); g.stroke(); }
+          }
+        }
+        // report-back ticker
+        g.fillStyle = 'rgba(56,225,255,.1)'; g.fillRect(0, h - 30, w, 30);
+        g.fillStyle = '#67e8f9'; g.font = '700 12px monospace'; g.textAlign = 'left';
+        var msgs = ['6 agents · 3 levels · free local brain · $0', 'SCOUT + QUANT running in parallel…',
+                    'FUNNEL merging upstream reports…', 'PROOF verifying · DROPS shipping…', 'run complete · ledger saved'];
+        g.fillText('▸ ' + msgs[tk % msgs.length], 14, h - 11);
+      });
+      var mcScreen = new THREE.Mesh(new THREE.PlaneGeometry(5.0, 2.8), new THREE.MeshBasicMaterial({ map: mcScreenTex }));
+      mcScreen.position.set(0, 2.05, -0.55); mcGrp.add(mcScreen);           // faces +z, toward the room
+      box(5.5, 3.3, 0.16, darkMat, 0, 2.05, -0.66, mcGrp);                  // screen frame
+      box(5.4, 0.9, 1.1, darkMat, 0, 0.45, 0.95, mcGrp);                    // console body
+      box(5.6, 0.12, 1.3, brushedMat, 0, 0.95, 0.95, mcGrp);               // desk top
+      box(4.9, 0.07, 0.05, warmGlowMat, 0, 0.52, 1.52, mcGrp);             // glowing front strip
+      var mcPlate = namePlate('MISSION CONTROL', 'ORCHESTRATION DECK', 2.5);
+      mcPlate.position.set(0, 1.2, 1.1); mcPlate.rotation.x = -0.55; mcGrp.add(mcPlate);
+      var mcLight = new THREE.PointLight(0x38e1ff, 0.7, 15, 2); mcLight.position.set(0, 2.6, 1.4); mcGrp.add(mcLight);
+      addCollider(-9, 2.3, 5.9, 2.2);                                       // walk up to it, not through it
+
       // --- The elevator cab ---
       var cab = new THREE.Group(); scene.add(cab);
       box(5.5, 0.05, 3.4, darkMat, 0, 0.025, 22.3, cab);
@@ -3853,6 +3904,7 @@
         ['ADS & PROOF', 12, 5, 8, 8, '#ffb36b', 0],
         ['MONEY PAGES', -22.5, 5, 9, 8, '#f472b6', 0],
         ['BOARDROOM', -8, 13.5, 13, 9, '#22d3ee', 1],
+        ['MISSION CONTROL', -9, 2, 6.4, 3, '#38e1ff', 1],
         ['PHONE ROOM', -22, 20.5, 12, 7, '#22d3ee', 1],
         ['CONTENT STUDIO', 11, 16, 10, 8, '#f472b6', 1],
         ['RADIO STUDIO', 20.5, 16, 9, 8, '#22d3ee', 1],
@@ -3864,6 +3916,7 @@
       // point zones: [label, x, z, color, labelDy] (labelDy = px offset from the dot)
       var MAP_POINTS = [
         ['ORBITS VAULT', -19.5, -13.4, '#ffd97a', -10],
+        ['FOUNDERS WALL', 0, 8, '#fdf3df', 24],
         ['XAUUSD BOARD', -19.5, -21.9, '#ffb36b', 22],
         ['BETA BOARD', -8, 7.2, '#ffb36b', -10],
         ['LA4 SECURITY DESK', 4.6, 19.0, '#7fb2ff', -12],
