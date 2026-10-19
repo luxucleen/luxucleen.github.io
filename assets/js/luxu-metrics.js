@@ -10,7 +10,12 @@
   "use strict";
   if (navigator.doNotTrack === "1" || navigator.msDoNotTrack === "1") return;
 
-  var ENDPOINT = "/api/metric";
+  // The DURABLE home is same-origin "/api/metric" (the Cloudflare worker that already serves
+  // luxucleen.com/api/*). Until that 20-line handler is deployed (needs the Cloudflare login),
+  // the counts flow to the hosted receiver on the PC through a Cloudflare tunnel - a bridge so
+  // the dashboard shows real numbers now. Flip this back to "/api/metric" the moment the worker
+  // handler is live. (Christian, 2026-10-19.)
+  var ENDPOINT = "https://gasoline-attitudes-gear-departments.trycloudflare.com/api/metric";
   var session = Math.random().toString(36).slice(2, 12); // memory only, dies on unload
   var startTs = Date.now();
 
