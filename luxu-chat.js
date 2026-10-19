@@ -222,15 +222,23 @@
   document.getElementById('lcPlus').addEventListener('click', function () {
     bubble('Attachments are coming soon — for now, just tell me what you need in words.', 'ai');
   });
+  // + New clears the thread. A blocking confirm() is unreliable (it returns false in some
+  // environments, so the chat never cleared - Luxor's test, 2026-10-19). Two taps instead: the
+  // first arms with an inline line, the second clears. No modal, works everywhere.
+  var newArm = 0;
   newBtn.addEventListener('click', function () {
-    if (!history.length) return;
-    if (confirm('Start a fresh chat? Your history on this device will be cleared.')) {
-      history = [];
-      save();
-      messagesEl.innerHTML = '';
-      welcome();
-      input.focus();
+    if (!history.length) { welcome(); input.focus({ preventScroll: true }); return; }
+    if (Date.now() - newArm > 3000) {
+      newArm = Date.now();
+      bubble('Tap New once more to clear this chat on this device.', 'ai');
+      return;
     }
+    newArm = 0;
+    history = [];
+    save();
+    messagesEl.innerHTML = '';
+    welcome();
+    input.focus({ preventScroll: true });
   });
 
   /* ---------------- avatar: living states -----------------------------------

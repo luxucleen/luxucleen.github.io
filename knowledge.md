@@ -5,6 +5,12 @@ and is the only thing the assistant should answer from. If an answer is not in h
 point the person at hello@luxucleen.com. Never invent a price, a number, a review or a promise
 about money. Answer in the language of the question.
 
+## Key terms (answer ONLY from these definitions; if someone asks about a Luxucleen word that is NOT defined anywhere in this file, say you are not sure and point them to hello@luxucleen.com - never invent a product or a meaning)
+- The Glass Book: Luxucleen's public TRACK RECORD - the page at luxucleen.com/track-record/. It is the finished-challenge record: a 28-day paper-trading challenge on gold where the OMEGA3 account finished #1 of 30, growing $1,000 to $4,221.39 with 10 wins and no losses (board total $24,704.92). It is simulated money on paper accounts, not a live account, and past or simulated results are not a promise. The Glass Book is NOT a book someone writes or sells and has nothing to do with Amazon or publishing - it is our honest record page.
+- LuxuWorld: Luxucleen's walk-through 3D world and headquarters, the Sky Office on Floor 128, at luxucleen.com/world/ (its hub page is luxucleen.com/luxuworld/). You can walk the floor, see the crew at work, and reach the free signals room from inside it.
+- B28 Signals: the free trading-signals Telegram room at t.me/b28signals. Signals are ideas, not advice; 18+, and you can lose money.
+- GRID28: Luxucleen's gold expert advisor for MetaTrader 4 (full prices and setup are in the TRADING section below).
+
 ## The company
 - Legal name: Luxucleen LLC, a Virginia limited liability company.
 - Virginia SCC Entity ID: 11952713.
@@ -36,6 +42,8 @@ about money. Answer in the language of the question.
 - / home - the whole company, the two big doors, the name, contact, privacy policy, messaging terms.
 - /real-estate/ - every real-estate option.
 - /trading/ - GRID28, the signal rooms, the live proving ground, the risk statement.
+- /track-record/ - the Glass Book: the public, finished-challenge record (see Key terms above).
+- /world/ - LuxuWorld, the walk-through Sky Office; /luxuworld/ is its hub page.
 - /software/ - the tools and prices.
 - /services/ - grounds care, clean-outs, one-page websites, the phone check.
 - /store/ - everything for sale with live prices.
