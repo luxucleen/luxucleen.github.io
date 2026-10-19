@@ -4,21 +4,20 @@
    bridge28: set the real backend endpoint below. The page already talks to
    the same backend style as the Bridge28 widget (fetch POST, JSON).
    Expected contract:
-     POST { message: string, history: [{role:'user'|'luxu', text:string}] }
+     POST {mode:'talk', q, lang, history:[{r:'u'|'a', t}], text_only:true}  ->  {answer}
      -> { reply: string }
-   If the endpoint is unreachable, the page falls back to built-in demo
-   replies so the chat NEVER looks broken.
-   Demo override for previews: set window.LUXU_DEMO = true before this file
-   loads, and/or window.LUXU_AVATAR_WAITING_IMG to swap the living picture.
+   Luxu talks to the REAL brain only (Christian's law: no canned or demo
+   replies, no silent downgrade). If the brain is unreachable, Luxu says
+   so honestly and points to the contact door - she never fakes an answer.
+   window.LUXU_AVATAR_WAITING_IMG may swap the living picture.
    ========================================================================== */
 (function () {
   'use strict';
 
   /* ---------------- config (bridge28: edit here) ---------------------- */
-  var BACKEND_URL = window.LUXU_BACKEND || '/api/luxu/chat'; // <-- real endpoint
+  var BACKEND_URL = window.LUXU_BACKEND || 'https://ai.luxucleen.com/ask'; // the one and only brain
   var AVATAR_STILL_IMG = (window.LUXU_POSES && window.LUXU_POSES.idle) ||
     '/assets/luxu-avatar/luxu-pose-idle.webp'; // calm still picture (header + mini)
-  var DEMO_MODE = window.LUXU_DEMO === true;
   var STORE_KEY = 'luxu-chat-history-v1';
   var MAX_STORE = 100;
 
@@ -95,28 +94,11 @@
     bubble('What are we handling first?', 'ai');
   }
 
-  /* ---------------- demo replies (fallback only) ------------------------ */
-  var DEMO_REPLIES = [
-    'Say less — I got you. Tell me a little more so I point you the right way.',
-    'Easy. Here is the move: start with what you want most — cash for your house, trading income, or tax help — and I will lay out the exact steps.',
-    'On it. While I pull that together — anything else you want handled today?',
-    'Done deal. That is exactly the kind of thing Luxucleen exists for.',
-    'Good question. Short answer: yes, we can help with that. Long answer: tap one of the chips above and I will walk you through it.'
-  ];
-  var DEMO_WORK_REPLIES = [
-    'That was a big one — I went full work mode on it. Here is the breakdown: tell me which part you want first and I will go deeper.',
-    'Whew. Okay, I dug into that properly. Give me a direction — house, trading, taxes, money — and I will lay out the exact play.'
-  ];
-  var demoIdx = 0;
-  function demoReply(longTask) {
-    if (longTask) {
-      var r = DEMO_WORK_REPLIES[demoIdx % DEMO_WORK_REPLIES.length];
-      demoIdx++;
-      return r;
-    }
-    var q = DEMO_REPLIES[demoIdx % DEMO_REPLIES.length];
-    demoIdx++;
-    return q;
+  /* ---------------- brain unreachable: the honest reply ----------------- */
+  // Christian's law: Luxu NEVER serves canned/demo replies. If the real
+  // brain does not answer, she says so, plainly, and offers the human door.
+  function brainDownReply() {
+    return 'Real talk - my brain is unreachable right this second, so I cannot actually answer that yet. Try me again in a moment. If it keeps happening, reach the team through the contact page (luxucleen.com/contact) and they will get you sorted.';
   }
 
   /* ---------------- send flow ------------------------------------------- */
@@ -128,19 +110,29 @@
   }
 
   function askBackend(message) {
+    // The brain's real contract (the same one lux-orb.js has used in production since 2026-09-19):
+    //   POST {mode:"talk", q, lang, history:[{r:"u"|"a", t}], text_only:true, voice:"off"}  ->  {answer, go?}
+    // {message, history} is not read by the worker (it answers {"error":"empty"}), which is what looked like an outage.
+    var LANG = (location.pathname.indexOf('/es/') === 0) ? 'es' : 'en';
     return fetch(BACKEND_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        message: message,
-        history: history.slice(-20).map(function (h) { return { role: h.who, text: h.text }; })
+        mode: 'talk',
+        q: message,
+        lang: LANG,
+        page: location.pathname,
+        history: history.slice(-16).map(function (h) { return { r: (h.who === 'luxu' ? 'a' : 'u'), t: h.text }; }),
+        text_only: true,
+        voice: 'off'
       })
     }).then(function (res) {
-      if (!res.ok) throw new Error('bad status ' + res.status);
+      if (!res.ok) throw new Error('http ' + res.status);
       return res.json();
     }).then(function (data) {
-      if (!data || typeof data.reply !== 'string' || !data.reply.trim()) throw new Error('empty reply');
-      return data.reply.trim();
+      var text = data && (typeof data.answer === 'string' ? data.answer : (typeof data.reply === 'string' ? data.reply : ''));
+      if (!text || !text.trim()) throw new Error('empty reply');
+      return text.trim();
     });
   }
 
@@ -176,8 +168,7 @@
         setBusy(false);
         input.focus({ preventScroll: true });
       };
-      if (DEMO_MODE) { done(demoReply(longTask)); return; }
-      askBackend(msg).then(done, function () { done(demoReply(longTask)); });
+      askBackend(msg).then(done, function () { done(brainDownReply()); });
     }, delay);
   }
 
