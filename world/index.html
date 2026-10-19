@@ -2545,6 +2545,117 @@
       var mcLight = new THREE.PointLight(0x38e1ff, 0.7, 15, 2); mcLight.position.set(0, 2.6, 1.4); mcGrp.add(mcLight);
       addCollider(-9, 2.3, 5.9, 2.2);                                       // walk up to it, not through it
 
+      // ============================================================
+      // THE PODCAST CORNER (Christian, 2026-10-19) - a real podcast set on the studio side.
+      // Inspired by the Puerto Rican podcast FORMAT (Chente Ydrach); our OWN set, name and
+      // dressing - never a copy of anyone's name, logo or brands. REALISTIC STUDIO WALLS here:
+      // the office glass/mirror realism does NOT apply inside this set. `podcastLive` ties the
+      // set's neon/ON AIR to the office-side wall TV. Show name is PENDING Christian's word.
+      // ============================================================
+      var PODX = 18, PODZ = 11;
+      var podGrp = new THREE.Group(); podGrp.position.set(PODX, 0, PODZ); scene.add(podGrp);
+      var podcastLive = false;
+      // warm wood + rustic studio materials (no glass, no mirror)
+      var podWoodTex = makeTex(256, 256, function(g, w, h){
+        g.fillStyle = '#5a3a22'; g.fillRect(0, 0, w, h);
+        for (var i = 0; i < 70; i++){ g.strokeStyle = 'rgba(' + (30 + (Math.random() * 50 | 0)) + ',22,10,' + (0.25 + Math.random() * 0.4) + ')';
+          g.lineWidth = 1 + Math.random() * 2; g.beginPath(); g.moveTo(0, Math.random() * h);
+          g.bezierCurveTo(w * 0.3, Math.random() * h, w * 0.6, Math.random() * h, w, Math.random() * h); g.stroke(); }
+      });
+      var podWood = new THREE.MeshStandardMaterial({ map: podWoodTex, roughness: 0.72, metalness: 0.05, color: 0x9a6338 });
+      var podSlat = new THREE.MeshStandardMaterial({ color: 0x4a2f1c, roughness: 0.6, metalness: 0.06 });
+      var podDark = new THREE.MeshStandardMaterial({ color: 0x160f0a, roughness: 0.92, metalness: 0.02 });
+      var podRusticTex = makeTex(256, 256, function(g, w, h){ g.fillStyle = '#241712'; g.fillRect(0, 0, w, h);
+        for (var i = 0; i < 1500; i++){ g.fillStyle = 'rgba(' + (60 + (Math.random() * 60 | 0)) + ',' + (40 + (Math.random() * 35 | 0)) + ',28,' + Math.random() * 0.18 + ')'; g.fillRect(Math.random() * w, Math.random() * h, 2, 2); } });
+      var podRustic = new THREE.MeshStandardMaterial({ map: podRusticTex, roughness: 0.95, metalness: 0 });
+      // feature wall (north, local z=-2.4) + horizontal wood slats + rustic lower panel
+      box(7.4, 3.8, 0.2, podDark, 0, 1.9, -2.4, podGrp);
+      for (var ps = 0; ps < 8; ps++) box(7.1, 0.32, 0.08, podSlat, 0, 1.55 + ps * 0.4, -2.29, podGrp);
+      box(7.3, 1.0, 0.13, podRustic, 0, 0.5, -2.32, podGrp);
+      box(7.1, 0.05, 0.05, new THREE.MeshBasicMaterial({ color: 0x5a4bff }), 0, 0.06, -2.25, podGrp);   // LED strip line
+      var podLedB = new THREE.PointLight(0x3a40ff, 0.9, 8, 2); podLedB.position.set(-2.4, 0.5, -1.8); podGrp.add(podLedB);
+      var podLedP = new THREE.PointLight(0x8a2be2, 0.9, 8, 2); podLedP.position.set(2.4, 0.5, -1.8); podGrp.add(podLedP);
+      // side walls (studio enclosure, warm dark - realistic, not glass)
+      box(0.2, 3.8, 5.2, podDark, -3.7, 1.9, 0.1, podGrp);
+      box(0.2, 3.8, 5.2, podDark, 3.7, 1.9, 0.1, podGrp);
+      // HERO NEON SIGN - built ready for OUR show name (pending Christian's word)
+      var podNeonTex = makeTex(512, 220, function(g, w, h){ g.clearRect(0, 0, w, h);
+        g.lineWidth = 11; g.strokeStyle = '#ff3fa4'; g.shadowColor = '#ff3fa4'; g.shadowBlur = 26; roundedRect(g, 16, 16, w - 32, h - 32, 28); g.stroke();
+        g.lineWidth = 5; g.strokeStyle = '#49d4ff'; g.shadowColor = '#49d4ff'; g.shadowBlur = 18; roundedRect(g, 32, 32, w - 64, h - 64, 20); g.stroke();
+        g.shadowBlur = 16; g.textAlign = 'center'; g.fillStyle = '#d8f3ff'; g.font = 'italic 700 42px Georgia, serif';
+        g.fillText('LUXUCLEEN', w / 2, h / 2 - 2); g.font = '700 19px "Avenir Next", sans-serif'; g.fillStyle = 'rgba(255,170,215,.85)';
+        g.fillText('SHOW NAME PENDING', w / 2, h / 2 + 34); });
+      var podNeon = new THREE.Mesh(new THREE.PlaneGeometry(3.7, 1.6), new THREE.MeshBasicMaterial({ map: podNeonTex, transparent: true }));
+      podNeon.position.set(0, 2.3, -2.27); podGrp.add(podNeon);
+      // wood shelf behind the hosts, dressed with OUR pieces (GRID28 box, the book, framed shots)
+      box(6.4, 0.12, 0.5, podWood, 0, 2.98, -2.1, podGrp);
+      box(0.6, 0.6, 0.4, new THREE.MeshStandardMaterial({ color: 0x0e1b30, roughness: 0.5, metalness: 0.3 }), -2.2, 3.34, -2.1, podGrp); // GRID28 box
+      box(0.12, 0.5, 0.36, new THREE.MeshStandardMaterial({ color: 0x1a3a5c, roughness: 0.6 }), -1.3, 3.29, -2.1, podGrp);              // the book
+      [[-0.3, 0x0a1f14], [0.7, 0x1c1030], [1.7, 0x241018]].forEach(function(f){                                                       // framed shots
+        box(0.74, 0.5, 0.05, mullMat, f[0], 3.33, -2.16, podGrp);
+        box(0.64, 0.4, 0.02, new THREE.MeshBasicMaterial({ color: f[1] }), f[0], 3.33, -2.12, podGrp); });
+      // the podcast TABLE (wood) + two host chairs behind it (north), hosts face the camera (+z / south)
+      box(3.4, 0.12, 1.3, podWood, 0, 1.05, 0.2, podGrp);
+      box(0.2, 1.0, 1.2, podDark, 0, 0.52, 0.2, podGrp);                                                   // table front panel
+      [-0.95, 0.95].forEach(function(cxp){ box(0.5, 0.1, 0.5, podDark, cxp, 0.5, -0.65, podGrp); box(0.5, 0.95, 0.1, podDark, cxp, 0.95, -0.9, podGrp); }); // two chairs
+      // laptops (lid carries OUR Luxu mark, not anyone else's)
+      var podLogoTex = makeTex(128, 128, function(g, w, h){ g.clearRect(0, 0, w, h); g.fillStyle = '#0a1830'; g.fillRect(0, 0, w, h);
+        g.fillStyle = '#38e1ff'; g.font = '800 64px "Avenir Next", sans-serif'; g.textAlign = 'center'; g.fillText('L', w / 2, h / 2 + 24); });
+      [-0.95, 0.95].forEach(function(cxp){ var lid = box(0.52, 0.34, 0.03, podDark, cxp, 1.33, -0.1, podGrp); lid.rotation.x = -0.35;
+        var mark = new THREE.Mesh(new THREE.PlaneGeometry(0.2, 0.2), new THREE.MeshBasicMaterial({ map: podLogoTex })); mark.position.set(cxp, 1.33, -0.08); mark.rotation.x = -0.35 + Math.PI; podGrp.add(mark);
+        box(0.52, 0.03, 0.34, podDark, cxp, 1.13, 0.15, podGrp); });
+      // MIC 1 - boom arm at the host seat (left); MIC 2 - desk stand at the second seat (right)
+      var micMat = new THREE.MeshStandardMaterial({ color: 0x0c0f16, roughness: 0.4, metalness: 0.7 });
+      // boom arm
+      box(0.05, 0.05, 1.1, micMat, -1.55, 2.0, -0.2, podGrp);
+      var boom = box(1.2, 0.05, 0.05, micMat, -1.05, 1.85, 0.25, podGrp); boom.rotation.z = -0.3;
+      var mic1 = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.07, 0.3, 10), micMat); mic1.position.set(-0.75, 1.62, 0.35); podGrp.add(mic1);
+      // desk stand
+      box(0.04, 0.5, 0.04, micMat, 0.95, 1.35, 0.3, podGrp); box(0.22, 0.03, 0.22, micMat, 0.95, 1.12, 0.3, podGrp);
+      var mic2 = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.07, 0.26, 10), micMat); mic2.position.set(0.95, 1.68, 0.3); podGrp.add(mic2);
+      // seated HOST avatars (table hides the legs -> reads as seated), facing the camera (+z)
+      var host1 = makeAvatar({ name: 'HOST', skin: 0xdba36a, outfit: 0xf2f2f2, pants: 0x20283a, hairColor: 0x201a14, accent: 0x38e1ff, hair: 'cap' });
+      host1.root.position.set(PODX - 0.95, -0.02, PODZ - 0.75); host1.root.rotation.y = Math.PI; scene.add(host1.root);
+      var host2 = makeAvatar({ name: 'HOST', skin: 0x8a5a3a, outfit: 0x1c2b44, pants: 0x161d2c, hairColor: 0x120d0a, accent: 0xff3fa4, hair: 'short' });
+      host2.root.position.set(PODX + 0.95, -0.02, PODZ - 0.75); host2.root.rotation.y = Math.PI; scene.add(host2.root);
+      // PRODUCER desk (side) + computer + cam-grid screens; producer avatar seated at it
+      var prodGrp = new THREE.Group(); prodGrp.position.set(PODX + 2.9, 0, PODZ + 0.4); scene.add(prodGrp);
+      box(1.7, 0.1, 0.9, podDark, 0, 1.02, 0, prodGrp);
+      var camGridTex = liveScreen(320, 200, function(g, w, h, tk){ g.fillStyle = '#05080f'; g.fillRect(0, 0, w, h);
+        for (var r = 0; r < 2; r++) for (var c = 0; c < 2; c++){ var x = 8 + c * 156, y = 8 + r * 96;
+          g.fillStyle = (r * 2 + c === (tk % 4)) ? 'rgba(56,225,255,.18)' : 'rgba(18,34,52,.8)'; g.fillRect(x, y, 148, 88);
+          g.strokeStyle = (r * 2 + c === (tk % 4)) ? '#38e1ff' : 'rgba(103,232,249,.3)'; g.lineWidth = 2; g.strokeRect(x, y, 148, 88);
+          g.fillStyle = '#9fc6e8'; g.font = '700 11px monospace'; g.fillText('CAM ' + (r * 2 + c + 1), x + 8, y + 18); }
+        g.fillStyle = '#67e8f9'; g.font = '700 12px monospace'; g.fillText(podcastLive ? 'LIVE MIX - TWO SHOT' : 'STANDBY - cams ready', 10, h - 8); });
+      var camGrid = new THREE.Mesh(new THREE.PlaneGeometry(1.5, 0.94), new THREE.MeshBasicMaterial({ map: camGridTex })); camGrid.position.set(0, 1.78, -0.42); prodGrp.add(camGrid);
+      box(1.64, 1.04, 0.08, podDark, 0, 1.78, -0.48, prodGrp);
+      var producer = makeAvatar({ name: 'PRODUCER', skin: 0xe8b98d, outfit: 0x14233d, pants: 0x101827, hairColor: 0x1a1410, accent: 0x2ee6a8, hair: 'short' });
+      producer.root.position.set(PODX + 2.9, -0.02, PODZ + 0.95); producer.root.rotation.y = 0; scene.add(producer.root);  // faces the cam grid (-z)
+      // ON AIR sign over the set (tied to podcastLive)
+      var onAirTex = makeTex(256, 96, function(g, w, h){ g.clearRect(0, 0, w, h); var on = podcastLive;
+        g.fillStyle = on ? 'rgba(255,40,70,.16)' : 'rgba(40,50,70,.5)'; roundedRect(g, 6, 6, w - 12, h - 12, 16); g.fill();
+        g.lineWidth = 4; g.strokeStyle = on ? '#ff2846' : '#45506e'; roundedRect(g, 6, 6, w - 12, h - 12, 16); g.stroke();
+        g.fillStyle = on ? '#ff6b7f' : '#7f8aa6'; g.font = '800 40px "Avenir Next", sans-serif'; g.textAlign = 'center'; g.fillText(on ? 'ON AIR' : 'OFF AIR', w / 2, h / 2 + 15); });
+      var onAir = new THREE.Mesh(new THREE.PlaneGeometry(1.5, 0.56), new THREE.MeshBasicMaterial({ map: onAirTex, transparent: true }));
+      onAir.position.set(-2.6, 3.0, -2.26); podGrp.add(onAir);
+      addCollider(PODX, PODZ - 0.2, 7.6, 3.2); addCollider(PODX + 2.9, PODZ + 0.4, 1.9, 1.1);
+
+      // THE WALL TV - on the OFFICE side of the feature wall (north face, faces -z into the floor),
+      // ONE big framed screen showing the two-shot (both hosts side by side). ON AIR ties to the set.
+      var twoShotTex = liveScreen(512, 288, function(g, w, h, tk){ g.fillStyle = '#07101c'; g.fillRect(0, 0, w, h);
+        function host(x, name, skin, accent){ g.fillStyle = '#0c1826'; g.fillRect(x, 10, w / 2 - 14, h - 56);
+          g.fillStyle = skin; g.beginPath(); g.arc(x + (w / 2 - 14) / 2, 128, 42, 0, 7); g.fill();                 // head
+          g.fillStyle = '#eaf2ff'; g.beginPath(); g.moveTo(x + 30, h - 56); g.quadraticCurveTo(x + (w / 2 - 14) / 2, h - 150, x + (w / 2 - 14) - 30, h - 56); g.fill(); // shoulders
+          g.fillStyle = accent; g.fillRect(x + 12, h - 52, w / 2 - 38, 6);
+          g.fillStyle = '#9fc6e8'; g.font = '700 14px "Avenir Next",sans-serif'; g.textAlign = 'center'; g.fillText(name, x + (w / 2 - 14) / 2, h - 30); }
+        host(8, 'HOST', '#dba36a', '#38e1ff'); host(w / 2 + 6, 'HOST', '#8a5a3a', '#ff3fa4');
+        g.fillStyle = podcastLive ? 'rgba(255,40,70,.9)' : 'rgba(80,90,110,.7)'; roundedRect(g, w - 110, 16, 94, 30, 8); g.fill();
+        g.fillStyle = '#fff'; g.font = '800 15px "Avenir Next",sans-serif'; g.textAlign = 'center'; g.fillText(podcastLive ? 'LIVE' : 'OFF AIR', w - 63, 37);
+        g.fillStyle = '#67e8f9'; g.font = '700 13px "Avenir Next",sans-serif'; g.textAlign = 'left'; g.fillText('LUXUCLEEN PODCAST', 14, h - 12); });
+      var wallTv = new THREE.Mesh(new THREE.PlaneGeometry(5.0, 2.8), new THREE.MeshBasicMaterial({ map: twoShotTex }));
+      wallTv.position.set(PODX, 2.2, PODZ - 2.52); wallTv.rotation.y = Math.PI; scene.add(wallTv);          // faces -z (into the office floor)
+      box(5.4, 3.2, 0.14, mullMat, PODX, 2.2, PODZ - 2.58);                                                 // real TV frame
+
       // --- The elevator cab ---
       var cab = new THREE.Group(); scene.add(cab);
       box(5.5, 0.05, 3.4, darkMat, 0, 0.025, 22.3, cab);
@@ -3932,6 +4043,7 @@
         ['MONEY PAGES', -22.5, 5, 9, 8, '#f472b6', 0],
         ['BOARDROOM', -8, 13.5, 13, 9, '#22d3ee', 1],
         ['MISSION CONTROL', -9, 2, 6.4, 3, '#38e1ff', 1],
+        ['PODCAST CORNER', 18, 11, 7.2, 4, '#ff3fa4', 1],
         ['PHONE ROOM', -22, 20.5, 12, 7, '#22d3ee', 1],
         ['CONTENT STUDIO', 11, 16, 10, 8, '#f472b6', 1],
         ['RADIO STUDIO', 20.5, 16, 9, 8, '#22d3ee', 1],
