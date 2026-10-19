@@ -139,6 +139,7 @@
         #tpBtn{ left:10px; bottom:auto; top:58px; padding:9px 12px; font-size:11px; max-width:58vw; }
         #mapBtn{ left:10px; bottom:auto; top:98px; padding:9px 12px; font-size:11px; }
         #studioPanel{ bottom:auto; top:138px; left:10px; transform:none; max-width:calc(100vw - 20px); flex-wrap:wrap; justify-content:flex-start; border-radius:18px; }
+        #hint{ display:none; }   /* v3.12: the WASD/Mouse hint is for keyboard+mouse only; hide it on any touch screen so the bottom bar never collides with the radio (Christian's screenshot, 2026-10-19) */
       }
       @media (max-width:640px){
         #radioHud{ right:10px; bottom:10px; gap:7px; padding:7px 9px; max-width:52vw; }
@@ -2477,7 +2478,18 @@
       });
       var quote = new THREE.Mesh(new THREE.PlaneGeometry(5.3, 2.9),
         new THREE.MeshBasicMaterial({ map: quoteTex, transparent: true }));
-      quote.position.set(5.55, 1.78, 20.6); quote.rotation.y = Math.PI; scene.add(quote);
+      // Moved OFF the crowded south entrance to the open CENTRE of the floor, a lit monument of
+      // its own that faces the elevator so you read it the moment you walk in (Christian, 2026-10-19:
+      // "this founders wall has to be moved more to the middle of the office where is space").
+      var fwGrp = new THREE.Group(); scene.add(fwGrp);
+      var fwPanel = new THREE.Mesh(new THREE.BoxGeometry(6.4, 3.5, 0.3), stoneMat);
+      fwPanel.position.set(0, 1.9, 8.0); fwGrp.add(fwPanel);
+      var fwPlinth = new THREE.Mesh(new THREE.BoxGeometry(6.9, 0.32, 1.1), brushedMat);
+      fwPlinth.position.set(0, 0.16, 8.0); fwGrp.add(fwPlinth);
+      quote.position.set(0, 1.98, 8.16);            // faces +z (south), toward the player walking in from the lift
+      scene.add(quote);
+      var fwLight = new THREE.PointLight(0xffd9a0, 0.8, 18, 2); fwLight.position.set(0, 1.4, 9.6); scene.add(fwLight);
+      addCollider(0, 8.0, 6.9, 0.9);                // you walk around the monument, not through it
 
       // --- The elevator cab ---
       var cab = new THREE.Group(); scene.add(cab);
@@ -2994,7 +3006,7 @@
       function enterOffice(){
         overlay.classList.add('hidden');
         hud.style.display = 'flex'; helpBtn.style.display = 'block';
-        document.getElementById('hint').style.display = 'block';
+        document.getElementById('hint').style.display = isTouch ? 'none' : 'block';  // WASD/Mouse hint is keyboard-only; the JS set it inline and beat the CSS (Christian's screenshot, 2026-10-19)
         radioHud.classList.add('on');
         radioStart(); // the ENTER tap is the audio unlock — radio starts now, always on
         if (isTouch) stick.classList.add('on');
@@ -3039,19 +3051,29 @@
       // Touch: joystick (left) + look drag (anywhere else)
       var joy = { id: null, dx: 0, dy: 0 };
       var lookTouch = null;
+      // A tap on a HUD control (the top pills, the ?, the radio, the map, the set builder) must
+      // reach that control - it is NOT a look-drag. Without this the window-level handler claimed
+      // every touch and preventDefault() ATE the tap, so the top buttons "did not work" on phones
+      // (Christian's screenshot, 2026-10-19).
+      function hudTarget(t){
+        var el = t.target;
+        return !!(el && el.closest && el.closest('button, input, a, #radioHud, #studioPanel, #mapOverlay'));
+      }
       function onTouchStart(e){
+        var took = false;
         for (var i = 0; i < e.changedTouches.length; i++){
           var t = e.changedTouches[i];
+          if (hudTarget(t)) continue;                 // let the button handle its own tap
           var r = stick.getBoundingClientRect();
           if (stick.classList.contains('on') &&
               t.clientX > r.left - 24 && t.clientX < r.right + 24 &&
               t.clientY > r.top - 24 && t.clientY < r.bottom + 24 && joy.id === null){
-            joy.id = t.identifier;
+            joy.id = t.identifier; took = true;
           } else if (lookTouch === null){
-            lookTouch = { id: t.identifier, x: t.clientX, y: t.clientY };
+            lookTouch = { id: t.identifier, x: t.clientX, y: t.clientY }; took = true;
           }
         }
-        if (entered) e.preventDefault();
+        if (entered && took) e.preventDefault();       // only block the touches we actually drive
       }
       function onTouchMove(e){
         userTookControl = true;
@@ -3072,7 +3094,7 @@
             lookTouch.x = t.clientX; lookTouch.y = t.clientY;
           }
         }
-        if (entered) e.preventDefault();
+        if (entered && (joy.id !== null || lookTouch)) e.preventDefault();  // only while actually driving
       }
       function onTouchEnd(e){
         for (var i = 0; i < e.changedTouches.length; i++){
