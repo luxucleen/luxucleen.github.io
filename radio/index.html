@@ -175,7 +175,18 @@
   // while the MUSIC keeps playing -- the page never hard-fails. When the https engine tunnel
   // lands (GO-gated), point ENGINE_URL at it; on that host playback prefers the shaped output.
   var ENGINE_URL = "http://127.0.0.1:2840";
-  var PUBLIC_STREAM = "https://ice1.somafm.com/beatblender-128-mp3"; // always-playable public source
+  // Public source = SomaFM Beat Blender, through its OFFICIAL mirror servers
+  // (from somafm.com/beatblender.pls). One address went stale on 2026-10-19 -
+  // it now redirects to an alert file and playback dies - so the player
+  // rotates through every mirror before it ever gives up.
+  var PUBLIC_MIRRORS = [
+    "https://ice2.somafm.com/beatblender-128-mp3",
+    "https://ice6.somafm.com/beatblender-128-mp3",
+    "https://ice5.somafm.com/beatblender-128-mp3",
+    "https://ice1.somafm.com/beatblender-128-mp3"
+  ];
+  var mirrorIdx = 0;
+  var PUBLIC_STREAM = PUBLIC_MIRRORS[0];
   // Play the SHAPED engine output only where the engine is actually reachable (localhost dev);
   // every real visitor gets PUBLIC_STREAM, which always plays.
   var ON_LOCALHOST = /^(localhost|127\.0\.0\.1|0\.0\.0\.0|\[::1\])$/.test(location.hostname);
@@ -191,7 +202,23 @@
   function setStatus(t){ if(statusEl) statusEl.textContent=t; }
   function setWave(on){ if(wave){ if(on) wave.classList.add("on"); else wave.classList.remove("on"); } }
 
-  function usePublic(){ try{ if(hls){ hls.destroy(); hls=null; } }catch(e){} audio.src=PUBLIC_STREAM; }
+  function usePublic(){ try{ if(hls){ hls.destroy(); hls=null; } }catch(e){} audio.src=PUBLIC_MIRRORS[mirrorIdx]; }
+  // A live stream never "ends" and never errors - if either fires, this
+  // mirror is dead (stale redirect, alert file, refusal): move to the next
+  // mirror and keep playing. If every mirror fails, say so honestly and
+  // keep retrying from the top every 30 seconds while the visitor waits.
+  var mirrorRetry=null;
+  function nextMirror(){
+    if(mirrorIdx < PUBLIC_MIRRORS.length-1){
+      mirrorIdx++;
+      setStatus("switching stream\u2026");
+      usePublic();
+      if(playing){ try{ var p=audio.play(); if(p&&p.catch)p.catch(function(){}); }catch(e){} }
+    } else {
+      setStatus("stream unreachable - retrying\u2026");
+      if(!mirrorRetry){ mirrorRetry=setInterval(function(){ mirrorIdx=0; usePublic(); if(playing){ try{ var p=audio.play(); if(p&&p.catch)p.catch(function(){}); }catch(e){} } },30000); }
+    }
+  }
   function attach(){
     if(attached) return;
     attached=true;
@@ -221,6 +248,8 @@
   }
   playBtn.addEventListener("click",function(){ if(playing) doPause(); else doPlay(); });
   audio.addEventListener("playing",function(){ setStatus("live"); setWave(true); });
+  audio.addEventListener("error",function(){ if(!ON_LOCALHOST && playing) nextMirror(); });
+  audio.addEventListener("ended",function(){ if(!ON_LOCALHOST && playing) nextMirror(); });
   // MUSIC-ONLY control surface for the floating button -- it NEVER touches the agents.
   window.luxMusic={ playing:function(){ return playing && !audio.paused; }, play:doPlay, pause:doPause,
                     toggle:function(){ if(playing) doPause(); else doPlay(); } };
