@@ -4,7 +4,7 @@
    bridge28: set the real backend endpoint below. The page already talks to
    the same backend style as the Bridge28 widget (fetch POST, JSON).
    Expected contract:
-     POST {mode:'talk', q, lang, history:[{r:'u'|'a', t}], text_only:true}  ->  {answer}
+     POST { message: string, history: [{role:'user'|'luxu', text:string}] }
      -> { reply: string }
    Luxu talks to the REAL brain only (Christian's law: no canned or demo
    replies, no silent downgrade). If the brain is unreachable, Luxu says
@@ -94,12 +94,16 @@
     bubble('What are we handling first?', 'ai');
   }
 
-  /* ---------------- brain unreachable: the honest reply ----------------- */
-  // Christian's law: Luxu NEVER serves canned/demo replies. If the real
-  // brain does not answer, she says so, plainly, and offers the human door.
-  function brainDownReply() {
-    return 'Real talk - my brain is unreachable right this second, so I cannot actually answer that yet. Try me again in a moment. If it keeps happening, reach the team through the contact page (luxucleen.com/contact) and they will get you sorted.';
-  }
+  /* ---------------- brain down: say it, then fix it -------------------- */
+  // Christian's law (2026-10-18): Luxu NEVER serves canned/demo replies.
+  // If the brain drops, she TELLS the visitor, tries to fix it HERSELF -
+  // automatic reconnect attempts on the pending question, like Claude
+  // Code does - and asks them to wait until it is back. If the attempts
+  // run out, she says that honestly too, and offers the human door.
+  var DOWN_NOTICE = 'Real talk - my brain just dropped. I am reconnecting it myself right now - give me a moment, do not go anywhere.';
+  var STILL_DOWN = 'I tried to reconnect my brain several times and it is still down - that one is on us, and it is being worked on. Please try me again in a little while. If you need a human sooner, reach the team through the contact page (luxucleen.com/contact).';
+  var REPAIR_TRIES = 10;       // ~80 seconds of self-repair attempts
+  var REPAIR_EVERY_MS = 8000;
 
   /* ---------------- send flow ------------------------------------------- */
   var busy = false;
@@ -109,14 +113,18 @@
     input.disabled = b;
   }
 
+  // The deployed brain is the /ask worker. Its contract (verified 2026-10-18 against the live
+  // endpoint): POST { mode:"talk", q, lang, history:[{r:"u"|"a", t}], text_only:true, voice:"off" }
+  // -> { answer }. A visitor's page sends exactly this; anything else is answered 400 {"error":"empty"}.
+  var LANG = (location.pathname.indexOf('/es/') === 0) ? 'es' : 'en';
+  var ASK_TIMEOUT_MS = 45000;  // a hung request must FAIL so the self-repair loop can take over
   function askBackend(message) {
-    // The brain's real contract (the same one lux-orb.js has used in production since 2026-09-19):
-    //   POST {mode:"talk", q, lang, history:[{r:"u"|"a", t}], text_only:true, voice:"off"}  ->  {answer, go?}
-    // {message, history} is not read by the worker (it answers {"error":"empty"}), which is what looked like an outage.
-    var LANG = (location.pathname.indexOf('/es/') === 0) ? 'es' : 'en';
+    var ctrl = (typeof AbortController === 'function') ? new AbortController() : null;
+    var timer = ctrl ? setTimeout(function () { ctrl.abort(); }, ASK_TIMEOUT_MS) : null;
     return fetch(BACKEND_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      signal: ctrl ? ctrl.signal : undefined,
       body: JSON.stringify({
         mode: 'talk',
         q: message,
@@ -127,13 +135,13 @@
         voice: 'off'
       })
     }).then(function (res) {
-      if (!res.ok) throw new Error('http ' + res.status);
+      if (!res.ok) throw new Error('bad status ' + res.status);
       return res.json();
     }).then(function (data) {
       var text = data && (typeof data.answer === 'string' ? data.answer : (typeof data.reply === 'string' ? data.reply : ''));
       if (!text || !text.trim()) throw new Error('empty reply');
       return text.trim();
-    });
+    }).finally(function () { if (timer) clearTimeout(timer); });
   }
 
   function send(text) {
@@ -156,8 +164,11 @@
     var slowTimer = setTimeout(function () { setAvatarState('typing-hard'); }, 6000);
     var delay = 900 + Math.random() * 900;
     if (longTask) delay += 2600; // let the hard-work video breathe
-    setTimeout(function () {
-      var done = function (reply) {
+    var started = Date.now();
+    var done = function (reply) {
+      // keep the stage timing Luxor designed, but as a floor the brain's own wait counts toward
+      var wait = Math.max(0, delay - (Date.now() - started));
+      setTimeout(function () {
         clearTimeout(typeTimer);
         clearTimeout(slowTimer);
         hideTyping();
@@ -167,9 +178,29 @@
         setAvatarState('waiting');
         setBusy(false);
         input.focus({ preventScroll: true });
+      }, wait);
+    };
+    askBackend(msg).then(done, function () {
+      // Brain dropped: say so, then self-repair - keep retrying the pending question until the
+      // brain answers or the attempts end. One attempt in flight at a time, REPAIR_EVERY_MS apart.
+      clearTimeout(typeTimer);
+      clearTimeout(slowTimer);
+      hideTyping();
+      bubble(DOWN_NOTICE, 'ai');
+      history.push({ who: 'luxu', text: DOWN_NOTICE });
+      save();
+      setAvatarState('typing-hard');
+      showTyping();
+      var tries = 0;
+      var attempt = function () {
+        tries++;
+        askBackend(msg).then(done, function () {
+          if (tries >= REPAIR_TRIES) { done(STILL_DOWN); return; }
+          setTimeout(attempt, REPAIR_EVERY_MS);
+        });
       };
-      askBackend(msg).then(done, function () { done(brainDownReply()); });
-    }, delay);
+      setTimeout(attempt, REPAIR_EVERY_MS);
+    });
   }
 
   function hideWelcomeChips() {
