@@ -120,6 +120,26 @@
         width:auto; height:auto; max-width:88vw; max-height:72vh; }
       #mapClose{ margin-top:10px; appearance:none; cursor:pointer; border:1px solid rgba(255,201,77,.55); border-radius:999px;
         background:rgba(8,16,34,.85); color:#ffd97a; font-size:12px; font-weight:800; letter-spacing:.1em; padding:9px 20px; }
+      /* Unreal Engine gallery (2026-10-20): renders of the PC build, opened from the entry card. Inspected and passed
+         by Luxor; stills 4 (85mm sign) and 5 (deck) held until their rework lands. */
+      #ueBtn{ margin:12px auto 0; display:block; appearance:none; cursor:pointer; border:1px solid rgba(255,201,77,.55);
+        border-radius:999px; background:rgba(8,16,34,.85); color:#ffd97a; font-size:12px; font-weight:800;
+        letter-spacing:.1em; padding:9px 20px; }
+      #ueBtn:hover{ background:rgba(10,32,54,.92); }
+      #ueGallery{ position:fixed; inset:0; z-index:45; display:none; overflow-y:auto; background:#030812;
+        padding:24px 16px 40px; -webkit-overflow-scrolling:touch; }
+      #ueGallery.open{ display:block; }
+      #ueGallery .ueWrap{ max-width:1100px; margin:0 auto; }
+      #ueGallery h2{ margin:0 0 4px; font-size:17px; letter-spacing:.12em; color:var(--ink); font-weight:800; text-align:center; }
+      #ueGallery h2 span{ color:#ffd97a; }
+      #ueGallery .ueNote{ margin:0 auto 18px; max-width:720px; font-size:13px; line-height:1.5; color:var(--dim); text-align:center; }
+      #ueGallery figure{ margin:0 0 18px; }
+      #ueGallery img{ display:block; width:100%; height:auto; aspect-ratio:16/9; border-radius:12px;
+        border:1px solid rgba(34,211,238,.3); background:#060d1a; }
+      #ueGallery figcaption{ margin-top:6px; font-size:12.5px; color:var(--dim); text-align:center; }
+      #ueClose{ position:sticky; top:0; margin:0 0 14px auto; display:block; appearance:none; cursor:pointer;
+        border:1px solid rgba(255,201,77,.55); border-radius:999px; background:rgba(8,16,34,.95); color:#ffd97a;
+        font-size:12px; font-weight:800; letter-spacing:.1em; padding:9px 20px; z-index:1; }
           /* ORDER MATTERS (2026-10-18): both mobile blocks used to sit ABOVE the base #tpBtn/#mapBtn/#studioPanel
          rules; at equal specificity the later base rule won, so bottom:14px fought top:58px and the pills
          stretched the full screen height. They now come LAST so they win. */
@@ -200,9 +220,37 @@
           <b>📱 Left stick — move · drag — look</b>
         </div>
         <button id="enterBtn">ENTER THE OFFICE</button>
+        <button id="ueBtn" type="button">SEE THE UNREAL ENGINE BUILD</button>
         <p class="foot">Floor 128 · Sunset shift · All data lives here · <a href="https://luxucleen.com/luxuworld/" style="color:#22d3ee;text-decoration:none;font-weight:700">LuxuWorld ↗</a> · Luxucleen LLC</p>
       </div>
     </div>
+
+    <div id="ueGallery" role="dialog" aria-modal="true" aria-label="Sky Office in Unreal Engine gallery">
+      <div class="ueWrap">
+        <button id="ueClose" type="button">✕ CLOSE</button>
+        <h2>SKY OFFICE IN <span>UNREAL ENGINE</span> — PASS 19, BUILD IN PROGRESS</h2>
+        <p class="ueNote">Renders of the PC build in Unreal Engine 5.8, made on 2026-10-20. The office you walk in on
+          this page is still the web build. These stills show where the Sky Office is headed, and the build is not finished.</p>
+        <figure><img src="unreal/01-wide.jpg" alt="Wide view of the west trading wall with NASDAQ boards, candles and robots at desks" loading="lazy" width="1600" height="900" />
+          <figcaption>Wide: the west trading wall and robots at their desks.</figcaption></figure>
+        <figure><img src="unreal/02-trading-wall.jpg" alt="East trading wall with NASDAQ, NASDAQ live market data candles and Dow Jones panels" loading="lazy" width="1600" height="900" />
+          <figcaption>Trading wall: NASDAQ, live market candles and Dow Jones.</figcaption></figure>
+        <figure><img src="unreal/03-finale-sign.jpg" alt="Pink SKY OFFICE 128TH FLOOR sign with neon border" loading="lazy" width="1600" height="900" />
+          <figcaption>The sign: SKY OFFICE, 128th floor.</figcaption></figure>
+        <figure><img src="unreal/04-desk-screen.jpg" alt="Close view of a desk monitor with ticker lines and chart bars" loading="lazy" width="1600" height="900" />
+          <figcaption>A desk screen up close.</figcaption></figure>
+        <figure><img src="unreal/05-overview.jpg" alt="Overview through the glass at sunset with clouds below the floor" loading="lazy" width="1600" height="900" />
+          <figcaption>Overview: sunset through the glass, clouds below the floor.</figcaption></figure>
+      </div>
+    </div>
+    <script>
+    (function(){
+      var g = document.getElementById('ueGallery');
+      document.getElementById('ueBtn').addEventListener('click', function(e){ e.stopPropagation(); g.classList.add('open'); g.scrollTop = 0; });
+      document.getElementById('ueClose').addEventListener('click', function(e){ e.stopPropagation(); g.classList.remove('open'); });
+      document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && g.classList.contains('open')) g.classList.remove('open'); });
+    })();
+    </script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
@@ -3246,7 +3294,7 @@
       // (Christian's screenshot, 2026-10-19).
       function hudTarget(t){
         var el = t.target;
-        return !!(el && el.closest && el.closest('button, input, a, #radioHud, #studioPanel, #mapOverlay'));
+        return !!(el && el.closest && el.closest('button, input, a, #radioHud, #studioPanel, #mapOverlay, #ueGallery'));
       }
       function onTouchStart(e){
         var took = false;
