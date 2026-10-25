@@ -4,61 +4,132 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Vibe Director — Luxucleen</title>
-<meta name="description" content="Plan a video by chatting. See every shot and the exact dollar cost before a frame is rendered.">
+<meta name="description" content="Direct a video by chatting. Every shot, the soundtrack, the narration and the exact dollar cost — before a single frame is rendered.">
+<meta property="og:title" content="Vibe Director — Luxucleen">
+<meta property="og:description" content="Every shot, the soundtrack, the narration and the exact dollar cost — before a frame is rendered.">
 <style>
   :root{
-    --bg:#0b0b10; --panel:#14141c; --panel2:#1b1b25; --line:#2a2a37;
-    --ink:#f2f2f7; --dim:#a7a7b8; --accent:#ff2d87; --accent2:#7c5cff;
+    --bg:#08080c; --bg2:#0d0d14; --panel:rgba(255,255,255,.035); --line:rgba(255,255,255,.09);
+    --line2:rgba(255,255,255,.16);
+    --ink:#f4f4f8; --dim:#9a9ab0; --dim2:#6e6e85;
+    --a1:#ff2d87; --a2:#7c5cff; --a3:#22d3ee;
     --ok:#39d98a; --warn:#ffb020;
+    --r:16px;
     color-scheme:dark;
   }
   *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
   body{margin:0;background:var(--bg);color:var(--ink);
-       font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
-       padding:0 0 env(safe-area-inset-bottom,0px)}
-  .wrap{max-width:860px;margin:0 auto;padding:20px 16px 72px}
-  a{color:var(--accent)}
-  h1{font-size:30px;line-height:1.15;margin:.2em 0 .1em;letter-spacing:-.02em}
-  h1 .g{background:linear-gradient(90deg,var(--accent),var(--accent2));
-        -webkit-background-clip:text;background-clip:text;color:transparent}
-  .sub{color:var(--dim);margin:.2em 0 1.4em}
-  .crumb{font-size:13px;color:var(--dim);margin-bottom:14px}
-  .crumb a{color:var(--dim);text-decoration:none;min-height:40px;display:inline-block;line-height:40px}
-  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;margin:0 0 16px}
-  label{display:block;font-size:13px;color:var(--dim);margin:0 0 6px;text-transform:uppercase;letter-spacing:.06em}
-  textarea,select,input{width:100%;background:var(--panel2);color:var(--ink);
-       border:1px solid var(--line);border-radius:10px;padding:12px;font-size:16px;font-family:inherit}
-  textarea{min-height:104px;resize:vertical}
-  .row{display:flex;gap:10px;flex-wrap:wrap}
-  .row>div{flex:1 1 180px;min-width:0}
-  .chips{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
-  .chip{background:var(--panel2);border:1px solid var(--line);color:var(--ink);
-        border-radius:999px;padding:0 14px;height:40px;line-height:38px;font-size:14px;cursor:pointer}
-  .chip:hover{border-color:var(--accent)}
-  button.go{width:100%;height:52px;border:0;border-radius:12px;cursor:pointer;
-       background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;
-       font-size:17px;font-weight:700;margin-top:14px}
-  button.go[disabled]{opacity:.55;cursor:progress}
-  .shot{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:13px;margin:0 0 10px}
-  .shot h4{margin:0 0 4px;font-size:15px}
-  .shot p{margin:0;color:var(--dim);font-size:14px}
-  .meta{margin-top:8px;font-size:12px;color:var(--dim)}
-  .tag{display:inline-block;background:#262633;border-radius:6px;padding:2px 8px;margin:0 6px 0 0}
-  table{width:100%;border-collapse:collapse;font-size:14px}
-  th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line)}
-  th{color:var(--dim);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+       font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       padding-bottom:env(safe-area-inset-bottom,0px);overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+       background:
+         radial-gradient(900px 500px at 12% -5%, rgba(255,45,135,.16), transparent 60%),
+         radial-gradient(800px 500px at 92% 6%, rgba(124,92,255,.16), transparent 60%),
+         radial-gradient(700px 400px at 50% 102%, rgba(34,211,238,.09), transparent 60%)}
+  .wrap{position:relative;z-index:1;max-width:940px;margin:0 auto;padding:18px 16px 80px}
+
+  a{color:var(--a1);text-underline-offset:3px}
+  .crumb{font-size:13px;color:var(--dim2)}
+  .crumb a{color:var(--dim);text-decoration:none;display:inline-block;min-height:40px;line-height:40px}
+  .crumb a:hover{color:var(--ink)}
+
+  h1{font-size:clamp(30px,8vw,52px);line-height:1.04;margin:.1em 0 .18em;letter-spacing:-.03em;font-weight:800}
+  .g{background:linear-gradient(100deg,var(--a1),var(--a2) 55%,var(--a3));
+     -webkit-background-clip:text;background-clip:text;color:transparent}
+  .lede{color:var(--dim);font-size:clamp(15px,3.6vw,18px);max-width:60ch;margin:0 0 6px}
+  .by{color:var(--dim2);font-size:13px;margin:10px 0 24px}
+  .by b{color:var(--ok);font-weight:600}
+
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);
+        padding:18px;margin:0 0 16px;backdrop-filter:blur(10px)}
+  .card h2{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);
+           margin:0 0 14px;font-weight:600;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+  .card h2 .num{background:linear-gradient(135deg,var(--a1),var(--a2));color:#fff;border-radius:7px;
+           width:22px;height:22px;display:inline-grid;place-items:center;font-size:12px;flex:none}
+  .mine{background:rgba(57,217,138,.12);color:var(--ok);border:1px solid rgba(57,217,138,.3);
+        border-radius:999px;padding:2px 9px;font-size:10px;letter-spacing:.07em}
+
+  label{display:block;font-size:12px;color:var(--dim);margin:0 0 7px;text-transform:uppercase;letter-spacing:.07em}
+  textarea,select,input{width:100%;max-width:100%;background:var(--bg2);color:var(--ink);
+       border:1px solid var(--line2);border-radius:11px;padding:13px;font-size:16px;font-family:inherit;
+       min-height:48px}
+  textarea{min-height:112px;resize:vertical;line-height:1.5}
+  textarea:focus,select:focus,input:focus{outline:2px solid var(--a2);outline-offset:1px;border-color:transparent}
+  .grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(168px,1fr))}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 0}
+  .chip{background:var(--bg2);border:1px solid var(--line2);color:var(--ink);border-radius:999px;
+        padding:0 15px;min-height:42px;font-size:14px;cursor:pointer;font-family:inherit}
+  .chip:hover{border-color:var(--a1);color:#fff}
+  .chip[aria-pressed="true"]{background:linear-gradient(135deg,var(--a1),var(--a2));border-color:transparent;color:#fff;font-weight:600}
+
+  button.go{width:100%;min-height:56px;border:0;border-radius:13px;cursor:pointer;color:#fff;
+       background:linear-gradient(100deg,var(--a1),var(--a2));font-size:17px;font-weight:700;
+       margin-top:16px;font-family:inherit;letter-spacing:.01em}
+  button.go:hover{filter:brightness(1.1)}
+  button.go[disabled]{opacity:.6;cursor:progress}
+  button.ghost{background:var(--bg2);border:1px solid var(--line2);color:var(--ink);border-radius:11px;
+       min-height:44px;padding:0 16px;cursor:pointer;font-size:14px;font-family:inherit}
+  button.ghost:hover{border-color:var(--a2)}
+  .btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+
+  .shot{background:var(--bg2);border:1px solid var(--line);border-radius:13px;padding:14px;margin:0 0 10px;
+        display:flex;gap:13px;align-items:flex-start}
+  .shot .idx{flex:none;width:34px;height:34px;border-radius:9px;display:grid;place-items:center;
+        background:linear-gradient(135deg,rgba(255,45,135,.22),rgba(124,92,255,.22));
+        border:1px solid var(--line2);font-size:13px;font-weight:700;color:#fff}
+  .shot .body{min-width:0;flex:1}
+  .shot p{margin:0 0 8px;font-size:15px;line-height:1.5}
+  .tag{display:inline-block;background:rgba(255,255,255,.06);border:1px solid var(--line);
+       border-radius:7px;padding:2px 9px;margin:0 6px 6px 0;font-size:12px;color:var(--dim)}
+  .tag.cost{color:var(--a1);border-color:rgba(255,45,135,.3)}
+
+  .scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  table{width:100%;border-collapse:collapse;font-size:14px;min-width:380px}
+  th,td{text-align:left;padding:11px 8px;border-bottom:1px solid var(--line)}
+  th{color:var(--dim2);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.07em}
   td.n,th.n{text-align:right;white-space:nowrap}
-  .total{font-size:26px;font-weight:800;margin:6px 0 0}
-  .total small{font-size:13px;font-weight:400;color:var(--dim);display:block;margin-top:2px}
-  .note{border-left:3px solid var(--warn);padding:10px 12px;background:#1d1a12;border-radius:0 10px 10px 0;
-        font-size:14px;color:#ffe2ad;margin:14px 0 0}
-  .note.ok{border-color:var(--ok);background:#101d16;color:#c6f3da}
-  .scroll{overflow-x:auto}
-  footer{color:var(--dim);font-size:13px;margin-top:26px;border-top:1px solid var(--line);padding-top:16px}
-  .hide{display:none}
-  .spin::after{content:"";display:inline-block;width:14px;height:14px;margin-left:8px;vertical-align:-2px;
-        border:2px solid #fff6;border-top-color:#fff;border-radius:50%;animation:s .7s linear infinite}
+  td.free{color:var(--ok)}
+  tr.sum td{border-bottom:0;font-weight:700;font-size:16px;padding-top:14px}
+
+  .big{font-size:clamp(30px,9vw,42px);font-weight:800;letter-spacing:-.02em;margin:4px 0 0;
+       background:linear-gradient(100deg,var(--a1),var(--a2));-webkit-background-clip:text;
+       background-clip:text;color:transparent}
+  .big small{display:block;font-size:13px;font-weight:400;color:var(--dim);
+       -webkit-text-fill-color:var(--dim);margin-top:4px;letter-spacing:0}
+
+  .note{border-left:3px solid var(--warn);padding:12px 14px;background:rgba(255,176,32,.07);
+        border-radius:0 11px 11px 0;font-size:14px;color:#ffdda6;margin:14px 0 0}
+  .note.ok{border-color:var(--ok);background:rgba(57,217,138,.07);color:#bff0d6}
+  .note b{color:#fff}
+
+  .lines{margin:0;padding:0;list-style:none}
+  .lines li{display:flex;gap:11px;padding:10px 0;border-bottom:1px solid var(--line);font-size:15px}
+  .lines li:last-child{border-bottom:0}
+  .who{flex:none;font-size:11px;font-weight:700;letter-spacing:.07em;border-radius:6px;padding:3px 8px;height:fit-content}
+  .who.b{background:rgba(255,45,135,.17);color:#ff8ab8}
+  .who.l{background:rgba(34,211,238,.15);color:#7fe3f5}
+
+  .check{display:flex;gap:11px;align-items:flex-start;padding:11px 0;border-bottom:1px solid var(--line);font-size:15px}
+  .check:last-child{border-bottom:0}
+  .check input{width:22px;height:22px;min-height:22px;flex:none;margin:1px 0 0;accent-color:var(--a1)}
+  .check span{min-width:0}
+  .gate{margin-top:14px;padding:13px;border-radius:11px;text-align:center;font-weight:700;font-size:15px;
+        background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--dim)}
+  .gate.pass{background:rgba(57,217,138,.13);border-color:rgba(57,217,138,.35);color:var(--ok)}
+
+  pre{background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:13px;
+      overflow-x:auto;font-size:12.5px;line-height:1.55;margin:0;
+      font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:#c9c9dd}
+  .hide{display:none!important}
+  .spin::after{content:"";display:inline-block;width:15px;height:15px;margin-left:9px;vertical-align:-3px;
+      border:2px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:s .7s linear infinite}
   @keyframes s{to{transform:rotate(360deg)}}
+  .fade{animation:f .45s ease both}
+  @keyframes f{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){.fade{animation:none}.spin::after{animation:none}}
+  footer{color:var(--dim2);font-size:13px;margin-top:30px;border-top:1px solid var(--line);padding-top:18px}
+  footer a{color:var(--dim);display:inline-block;min-height:40px;line-height:40px;padding:0 2px}
 </style>
 </head>
 <body>
@@ -66,22 +137,46 @@
 
   <div class="crumb"><a href="/">&larr; Luxucleen</a> &nbsp;&rsaquo;&nbsp; Vibe Director</div>
 
-  <h1>Vibe <span class="g">Direct</span> Your Next Video</h1>
-  <p class="sub">Describe it once. You get the full shot list and <strong>the exact dollar cost</strong>
-  before a single frame is rendered. No credits, no guessing.</p>
+  <h1>Vibe <span class="g">Direct</span><br>Your Next Video</h1>
+  <p class="lede">Describe it once. You get the shot list, an original soundtrack, a two-voice
+  narration, a quality gate — and <strong>the exact dollar cost</strong> before a single frame
+  is rendered.</p>
+  <p class="by">Soundtrack by <b>Beats28</b> · Narration by <b>Bella &amp; Liam</b> ·
+     Planned by Luxucleen's own model · <b>No credits. Real dollars.</b></p>
 
+  <!-- 1. the brief ------------------------------------------------------ -->
   <div class="card">
+    <h2><span class="num">1</span> The brief</h2>
     <label for="idea">What is the video?</label>
     <textarea id="idea" placeholder="A 30-second ad for a Richmond bill-audit service. Calm, trustworthy, a kitchen table, a stack of bills, relief at the end."></textarea>
     <div class="chips" id="chips"></div>
 
-    <div class="row" style="margin-top:14px">
+    <div class="grid" style="margin-top:16px">
       <div>
         <label for="len">Length</label>
         <select id="len">
           <option value="15">15 seconds</option>
           <option value="30" selected>30 seconds</option>
           <option value="60">60 seconds</option>
+          <option value="90">90 seconds</option>
+        </select>
+      </div>
+      <div>
+        <label for="ar">Aspect</label>
+        <select id="ar">
+          <option value="9:16" selected>9:16 vertical</option>
+          <option value="1:1">1:1 square</option>
+          <option value="16:9">16:9 wide</option>
+        </select>
+      </div>
+      <div>
+        <label for="look">Look</label>
+        <select id="look">
+          <option>Cinematic warm</option>
+          <option>Clean commercial</option>
+          <option>Night neon</option>
+          <option>Documentary</option>
+          <option>High contrast mono</option>
         </select>
       </div>
       <div>
@@ -89,196 +184,407 @@
         <select id="tier"></select>
       </div>
     </div>
-
-    <button class="go" id="go">Plan the shots</button>
+    <button class="go" id="go">Direct it</button>
   </div>
 
   <div id="out" class="hide">
-    <div class="card">
-      <h3 style="margin:0 0 10px;font-size:17px">The shot list</h3>
+
+    <!-- 2. storyboard --------------------------------------------------- -->
+    <div class="card fade">
+      <h2><span class="num">2</span> The shot list</h2>
       <div id="shots"></div>
+      <div class="btnrow">
+        <button class="ghost" id="copyShots">Copy shot list</button>
+        <button class="ghost" id="reroll">Direct it again</button>
+      </div>
     </div>
 
-    <div class="card">
-      <h3 style="margin:0 0 10px;font-size:17px">What it costs you</h3>
-      <div class="scroll"><table id="cost"></table></div>
-      <div class="total" id="total"></div>
-      <div class="note ok" id="musicnote">
-        <strong>Music is free here.</strong> The soundtrack is generated on our own GPU with Beats28,
-        so it adds <strong>$0.00</strong> to every number above. That is the part the big tools bill you for.
+    <!-- 3. soundtrack --------------------------------------------------- -->
+    <div class="card fade">
+      <h2><span class="num">3</span> Soundtrack <span class="mine">WE BUILT THIS</span></h2>
+      <div class="grid">
+        <div><label for="genre">Bed</label><select id="genre"></select></div>
+        <div><label for="bpm">Tempo</label><input id="bpm" type="text" inputmode="numeric" value="90"></div>
+        <div><label for="mood">Mood</label><select id="mood"></select></div>
       </div>
-      <div class="note" id="keynote">
-        <strong>Rendering is not connected yet.</strong> This page plans and prices honestly, but it will not
-        pretend to render. Frames need a video provider key, and that is a deliberate decision, not a bug.
+      <div id="musicSpec" style="margin-top:14px"></div>
+      <div class="note ok">
+        <b>$0.00, every time.</b> The bed is generated on our own GPU with Beats28 — genre
+        fingerprints measured from real records, then loudness-matched. The tools that charge you
+        for music are reselling someone else's library. This one is ours.
       </div>
     </div>
+
+    <!-- 4. narration ---------------------------------------------------- -->
+    <div class="card fade">
+      <h2><span class="num">4</span> Narration <span class="mine">WE BUILT THIS</span></h2>
+      <ul class="lines" id="vo"></ul>
+      <div class="note ok" style="margin-top:12px">
+        <b>Two voices, not one.</b> Bella and Liam trade lines so a 30-second read never flattens
+        out. Generated locally with Kokoro — <b>$0.00</b> and no per-word voice bill.
+      </div>
+    </div>
+
+    <!-- 5. the ledger --------------------------------------------------- -->
+    <div class="card fade">
+      <h2><span class="num">5</span> What it costs you</h2>
+      <div class="scroll"><table id="cost"></table></div>
+      <div class="big" id="total"></div>
+
+      <div class="grid" style="margin-top:18px">
+        <div><label for="charge">You charge the client</label>
+             <input id="charge" type="text" inputmode="decimal" value="450"></div>
+        <div><label>Your margin</label>
+             <div class="gate pass" id="margin" style="margin-top:0">—</div></div>
+      </div>
+
+      <div class="note" id="keynote">
+        <b>Rendering is not connected.</b> This page plans, scores and prices honestly — it will not
+        fake a render to look finished. Frames need a video provider key, and that stays a deliberate
+        decision rather than a surprise on a card.
+      </div>
+    </div>
+
+    <!-- 6. reviewer gate ------------------------------------------------ -->
+    <div class="card fade">
+      <h2><span class="num">6</span> Reviewer gate <span class="mine">WE BUILT THIS</span></h2>
+      <div id="checks"></div>
+      <div class="gate" id="gate">0 of 6 — not cleared</div>
+      <div class="note ok" style="margin-top:12px">
+        Nothing ships on a vibe. The same pass-or-hold gate that runs our own daily video pipeline
+        runs here: if a piece does not clear, it is <b>held, not posted</b>.
+      </div>
+    </div>
+
+    <!-- 7. production brief --------------------------------------------- -->
+    <div class="card fade">
+      <h2><span class="num">7</span> Production brief</h2>
+      <p style="color:var(--dim);font-size:14px;margin:0 0 12px">
+        The whole job as one file — shots, soundtrack spec, narration, costs. Hand it to the
+        render stage or keep it as the record of what was agreed.</p>
+      <pre id="brief"></pre>
+      <div class="btnrow">
+        <button class="ghost" id="copyBrief">Copy brief</button>
+        <button class="ghost" id="dlBrief">Download .json</button>
+      </div>
+    </div>
+
   </div>
 
   <footer>
-    Prices are list rates per second of finished video and move with the provider. The plan above is produced by
-    Luxucleen's own model; the cost table is arithmetic you can check. Nothing is charged on this page.
+    Rates are provider list prices per second of finished video and move with the market; the cost
+    table is arithmetic you can check line by line. The plan is produced by Luxucleen's own model.
+    Nothing is charged on this page. &nbsp;<a href="/">Luxucleen</a>
   </footer>
 </div>
 
 <script>
 (function(){
   "use strict";
-
   var ASK = "https://ai.luxucleen.com/ask";
+  var $ = function(id){ return document.getElementById(id); };
+  var esc = function(s){ return String(s == null ? "" : s); };
 
-  // Measured list rates, US dollars per second of finished video.
   var TIERS = [
-    {id:"draft",  name:"Draft 480p (cheapest)",      rate:0.025},
-    {id:"std",    name:"Standard 768p",              rate:0.045},
-    {id:"pro",    name:"Pro 1080p",                  rate:0.080},
-    {id:"audio",  name:"Pro 1080p + native audio",   rate:0.140}
+    {id:"draft", name:"Draft 480p",              rate:0.025},
+    {id:"std",   name:"Standard 768p",           rate:0.045},
+    {id:"pro",   name:"Pro 1080p",               rate:0.080},
+    {id:"audio", name:"Pro 1080p + native audio",rate:0.140}
   ];
-
+  var GENRES = ["Cinematic underscore","Ambient pad","Lo-fi warm","Orchestral build",
+                "Trap 808","Acoustic guitar","Synthwave","Percussion only"];
+  var MOODS  = ["Calm and trustworthy","Hopeful lift","Tense then release","Confident drive",
+                "Warm and human","Cold and clinical"];
   var QUICK = [
     ["Short film",  "A one-minute short film with a twist ending, shot like a thriller."],
-    ["Music video", "A music video for a slow trap beat: night city, neon, rain on glass."],
+    ["Music video", "A music video for a slow beat: night city, neon, rain on glass."],
     ["Local ad",    "A 30-second ad for a Richmond bill-audit service, calm and trustworthy."],
-    ["Product",     "A clean product video for a black and gold embroidered snapback."]
+    ["Product",     "A clean product video for a black and gold embroidered snapback."],
+    ["Explainer",   "A 60-second explainer: how a homeowner claims a tax-deed surplus."]
+  ];
+  var CHECKS = [
+    "Every shot earns its seconds — nothing is filler",
+    "The offer is said out loud, not only shown",
+    "There is one clear thing to do at the end",
+    "No claim on screen we cannot stand behind",
+    "Reads correctly with the sound off",
+    "The first two seconds would stop a thumb"
   ];
 
-  var $ = function(id){ return document.getElementById(id); };
+  var state = {shots:[], rate:0.080, tier:"Pro 1080p", vo:[], music:null};
 
-  // ---- build the pickers -------------------------------------------------
-  var tierSel = $("tier");
+  // ---- pickers -----------------------------------------------------------
+  function fill(sel, arr){
+    arr.forEach(function(v){
+      var o = document.createElement("option"); o.textContent = v; sel.appendChild(o);
+    });
+  }
   TIERS.forEach(function(t,i){
     var o = document.createElement("option");
-    o.value = t.id; o.textContent = t.name + "  ($" + t.rate.toFixed(3) + "/s)";
-    if(i===2) o.selected = true;
-    tierSel.appendChild(o);
+    o.value = t.id; o.textContent = t.name + " — $" + t.rate.toFixed(3) + "/s";
+    if(i === 2) o.selected = true;
+    $("tier").appendChild(o);
   });
+  fill($("genre"), GENRES); fill($("mood"), MOODS);
 
-  var chips = $("chips");
   QUICK.forEach(function(q){
     var b = document.createElement("button");
     b.type = "button"; b.className = "chip"; b.textContent = q[0];
-    b.addEventListener("click", function(){ $("idea").value = q[1]; $("idea").focus(); });
-    chips.appendChild(b);
+    b.setAttribute("aria-pressed","false");
+    b.addEventListener("click", function(){
+      Array.prototype.forEach.call($("chips").children, function(c){ c.setAttribute("aria-pressed","false"); });
+      b.setAttribute("aria-pressed","true");
+      $("idea").value = q[1];
+    });
+    $("chips").appendChild(b);
   });
 
-  // ---- the director brain ------------------------------------------------
-  function planPrompt(idea, seconds, shots){
-    return "You are a film director planning a " + seconds + "-second video.\n" +
-      "IDEA: " + idea + "\n\n" +
-      "Return EXACTLY " + shots + " shots, one per line, no preamble, no numbering beyond the pattern.\n" +
+  CHECKS.forEach(function(c,i){
+    var d = document.createElement("label"); d.className = "check";
+    var cb = document.createElement("input"); cb.type = "checkbox"; cb.id = "ck"+i;
+    var sp = document.createElement("span"); sp.textContent = c;
+    cb.addEventListener("change", gate);
+    d.appendChild(cb); d.appendChild(sp); $("checks").appendChild(d);
+  });
+  function gate(){
+    var n = 0;
+    CHECKS.forEach(function(_,i){ if($("ck"+i).checked) n++; });
+    var g = $("gate");
+    g.textContent = n + " of " + CHECKS.length + (n === CHECKS.length ? " — CLEARED to render" : " — not cleared");
+    g.className = "gate" + (n === CHECKS.length ? " pass" : "");
+  }
+
+  // ---- the brain ---------------------------------------------------------
+  function ask(q){
+    return fetch(ASK, {method:"POST", headers:{"Content-Type":"application/json"},
+                       body: JSON.stringify({q:q, lang:"en"})})
+      .then(function(r){ return r.json(); })
+      .then(function(j){ return (j && j.answer) || ""; });
+  }
+  function withTimeout(p, ms, bail){
+    return new Promise(function(res){
+      var done = false, t = setTimeout(function(){ if(!done){ done = true; res(bail); } }, ms);
+      p.then(function(v){ if(!done){ done = true; clearTimeout(t); res(v); } })
+       .catch(function(){ if(!done){ done = true; clearTimeout(t); res(bail); } });
+    });
+  }
+
+  function shotPrompt(idea, secs, n, look, ar){
+    return "You are a film director planning a " + secs + "-second " + ar + " video. Look: " + look + ".\n" +
+      "IDEA: " + idea + "\n\nReturn EXACTLY " + n + " shots, one per line, no preamble.\n" +
       "Each line MUST be: SHOT | camera move | seconds | what is on screen\n" +
       "Example: SHOT | slow push in | 4 | a stack of unopened bills on a kitchen table, morning light\n";
   }
+  function voPrompt(idea, secs){
+    return "Write a " + secs + "-second two-voice narration for this video.\nIDEA: " + idea + "\n\n" +
+      "Two narrators alternate: BELLA (warm) and LIAM (grounded). Return one line each, no preamble.\n" +
+      "Each line MUST be: BELLA | the words   or   LIAM | the words\n" +
+      "Keep every line under 14 words. End on one clear instruction.\n";
+  }
 
-  function parseShots(text, seconds, want){
-    var out = [], lines = String(text||"").split(/\r?\n/);
-    for(var i=0;i<lines.length;i++){
-      var p = lines[i].split("|");
+  function parseShots(text, secs){
+    var out = [];
+    String(text||"").split(/\r?\n/).forEach(function(l){
+      var p = l.split("|");
       if(p.length >= 4 && /shot/i.test(p[0])){
         var d = parseFloat(p[2]);
-        out.push({ move: p[1].trim(),
-                   secs: (isFinite(d) && d>0) ? d : 0,
-                   desc: p.slice(3).join("|").trim() });
+        out.push({move:p[1].trim(), secs:(isFinite(d)&&d>0)?d:0, desc:p.slice(3).join("|").trim()});
       }
-    }
+    });
     if(!out.length) return null;
-    // Make the durations add up to exactly what was asked for.
-    var sum = out.reduce(function(a,s){ return a + s.secs; }, 0);
-    if(sum <= 0){ out.forEach(function(s){ s.secs = seconds/out.length; }); }
-    else { out.forEach(function(s){ s.secs = s.secs * seconds / sum; }); }
+    var sum = out.reduce(function(a,s){ return a+s.secs; },0);
+    if(sum <= 0) out.forEach(function(s){ s.secs = secs/out.length; });
+    else out.forEach(function(s){ s.secs = s.secs*secs/sum; });
     return out;
   }
-
-  function fallbackShots(idea, seconds, want){
-    var beats = ["establish the world","meet the problem","the turn","the proof",
-                 "the relief","the name and the way to reach you"];
-    var moves = ["slow push in","static wide","handheld follow","slow pan left",
-                 "rack focus","locked off close"];
-    var n = Math.max(3, Math.min(want, beats.length)), out = [];
-    for(var i=0;i<n;i++){
-      out.push({ move: moves[i % moves.length],
-                 secs: seconds/n,
-                 desc: beats[i] + " — " + idea });
-    }
-    return out;
+  function parseVO(text){
+    var out = [];
+    String(text||"").split(/\r?\n/).forEach(function(l){
+      var p = l.split("|");
+      if(p.length >= 2 && /^\s*(bella|liam)\s*$/i.test(p[0])){
+        out.push({who:p[0].trim().toLowerCase(), say:p.slice(1).join("|").trim()});
+      }
+    });
+    return out.length ? out : null;
+  }
+  function fbShots(idea, secs, n){
+    var beats = ["establish the world","show the problem","the turn","the proof",
+                 "the relief","the name and how to reach you"],
+        moves = ["slow push in","static wide","handheld follow","slow pan left","rack focus","locked off close"],
+        k = Math.max(3, Math.min(n, beats.length)), o = [];
+    for(var i=0;i<k;i++) o.push({move:moves[i%moves.length], secs:secs/k, desc:beats[i]+" — "+idea});
+    return o;
+  }
+  function fbVO(){
+    return [{who:"bella", say:"You are probably paying for something you never agreed to."},
+            {who:"liam",  say:"We read the bill line by line, so you do not have to."},
+            {who:"bella", say:"Most people find money in the first ten minutes."},
+            {who:"liam",  say:"Send us one bill. We will tell you what is wrong with it."}];
   }
 
-  // ---- render ------------------------------------------------------------
-  function draw(shots, rate){
+  // ---- draw --------------------------------------------------------------
+  function drawShots(){
     var box = $("shots"); box.textContent = "";
-    shots.forEach(function(s,i){
+    state.shots.forEach(function(s,i){
       var d = document.createElement("div"); d.className = "shot";
-      var h = document.createElement("h4"); h.textContent = "Shot " + (i+1);
+      var n = document.createElement("div"); n.className = "idx"; n.textContent = String(i+1);
+      var b = document.createElement("div"); b.className = "body";
       var p = document.createElement("p"); p.textContent = s.desc;
-      var m = document.createElement("div"); m.className = "meta";
-      var t1 = document.createElement("span"); t1.className="tag"; t1.textContent = s.move;
-      var t2 = document.createElement("span"); t2.className="tag"; t2.textContent = s.secs.toFixed(1) + "s";
-      var t3 = document.createElement("span"); t3.className="tag"; t3.textContent = "$" + (s.secs*rate).toFixed(2);
-      m.appendChild(t1); m.appendChild(t2); m.appendChild(t3);
-      d.appendChild(h); d.appendChild(p); d.appendChild(m);
-      box.appendChild(d);
+      b.appendChild(p);
+      [[s.move,""],[s.secs.toFixed(1)+"s",""],["$"+(s.secs*state.rate).toFixed(2),"cost"]]
+        .forEach(function(t){
+          var e = document.createElement("span");
+          e.className = "tag" + (t[1] ? " "+t[1] : ""); e.textContent = t[0]; b.appendChild(e);
+        });
+      d.appendChild(n); d.appendChild(b); box.appendChild(d);
     });
-
-    var tbl = $("cost"); tbl.textContent = "";
-    var thead = tbl.createTHead().insertRow();
-    ["Line","Detail","Cost"].forEach(function(t,i){
-      var th = document.createElement("th"); th.textContent = t;
-      if(i===2) th.className = "n"; thead.appendChild(th);
+  }
+  function drawVO(){
+    var ul = $("vo"); ul.textContent = "";
+    state.vo.forEach(function(l){
+      var li = document.createElement("li");
+      var w = document.createElement("span");
+      w.className = "who " + (l.who === "bella" ? "b" : "l");
+      w.textContent = l.who === "bella" ? "BELLA" : "LIAM";
+      var s = document.createElement("span"); s.textContent = l.say;
+      li.appendChild(w); li.appendChild(s); ul.appendChild(li);
     });
-    var tb = tbl.createTBody(), total = 0;
+  }
+  function drawMusic(){
+    var secs = total_secs();
+    state.music = {bed:$("genre").value, bpm:($("bpm").value||"90").replace(/[^\d]/g,"")||"90",
+                   mood:$("mood").value, seconds:Math.round(secs),
+                   engine:"Beats28 / ACE-Step, local GPU", cost:0};
+    var d = $("musicSpec"); d.textContent = "";
+    [["Bed",state.music.bed],["Tempo",state.music.bpm+" BPM"],["Mood",state.music.mood],
+     ["Length",state.music.seconds+"s"],["Engine","Beats28, our GPU"],["Cost","$0.00"]]
+      .forEach(function(t){
+        var e = document.createElement("span"); e.className = "tag";
+        if(t[0]==="Cost"){ e.className = "tag cost"; }
+        e.textContent = t[0]+": "+t[1]; d.appendChild(e);
+      });
+  }
+  function total_secs(){ return state.shots.reduce(function(a,s){ return a+s.secs; },0); }
 
-    var secs = shots.reduce(function(a,s){ return a+s.secs; },0);
-    var video = secs * rate; total += video;
-
-    function row(a,b,c){
-      var r = tb.insertRow();
+  function drawCost(){
+    var t = $("cost"); t.textContent = "";
+    var hr = t.createTHead().insertRow();
+    ["Line","Detail","Cost"].forEach(function(h,i){
+      var th = document.createElement("th"); th.textContent = h;
+      if(i===2) th.className = "n"; hr.appendChild(th);
+    });
+    var tb = t.createTBody(), secs = total_secs(), video = secs*state.rate;
+    function row(a,b,c,free,sum){
+      var r = tb.insertRow(); if(sum) r.className = "sum";
       r.insertCell().textContent = a;
       r.insertCell().textContent = b;
-      var cc = r.insertCell(); cc.className = "n"; cc.textContent = c;
+      var cc = r.insertCell(); cc.className = "n" + (free ? " free" : ""); cc.textContent = c;
     }
-    row("Video frames", shots.length + " shots, " + secs.toFixed(1) + "s @ $" + rate.toFixed(3) + "/s", "$" + video.toFixed(2));
-    row("Director plan", "Luxucleen's own model", "$0.00");
-    row("Soundtrack", "Beats28, generated on our GPU", "$0.00");
+    row("Video frames", state.shots.length+" shots · "+secs.toFixed(1)+"s @ $"+state.rate.toFixed(3)+"/s",
+        "$"+video.toFixed(2));
+    row("Soundtrack", "Beats28 — our GPU", "$0.00", true);
+    row("Narration",  "Bella + Liam, Kokoro — local", "$0.00", true);
+    row("Director plan", "Luxucleen's own model", "$0.00", true);
+    row("Total", state.tier, "$"+video.toFixed(2), false, true);
 
-    $("total").innerHTML = "$" + total.toFixed(2) +
-      "<small>per finished video, at list rates — before any margin you add</small>";
-    $("out").classList.remove("hide");
-    $("out").scrollIntoView({behavior:"smooth", block:"start"});
+    $("total").innerHTML = "$" + video.toFixed(2) +
+      "<small>your cost per finished video, at provider list rates</small>";
+    margin();
+  }
+  function margin(){
+    var charge = parseFloat(String($("charge").value).replace(/[^\d.]/g,"")) || 0,
+        cost = total_secs()*state.rate, m = charge - cost,
+        pct = charge > 0 ? Math.round(m/charge*100) : 0, el = $("margin");
+    el.textContent = charge <= 0 ? "—" : "$"+m.toFixed(2)+"  ("+pct+"%)";
+    el.className = "gate" + (m > 0 ? " pass" : "");
   }
 
-  // ---- go ----------------------------------------------------------------
-  $("go").addEventListener("click", function(){
+  function brief(){
+    var o = {
+      project:"vibe-director", created:new Date().toISOString(),
+      brief:{idea:$("idea").value.trim(), seconds:parseFloat($("len").value),
+             aspect:$("ar").value, look:$("look").value, tier:state.tier,
+             rate_per_second:state.rate},
+      shots:state.shots.map(function(s,i){
+        return {n:i+1, camera:s.move, seconds:+s.secs.toFixed(2),
+                prompt:s.desc, cost_usd:+(s.secs*state.rate).toFixed(2)};
+      }),
+      soundtrack:state.music,
+      narration:state.vo,
+      costs:{video_usd:+(total_secs()*state.rate).toFixed(2), soundtrack_usd:0,
+             narration_usd:0, director_usd:0,
+             total_usd:+(total_secs()*state.rate).toFixed(2)},
+      render:{connected:false,
+              note:"Frames are not rendered by this page. Provider key required."}
+    };
+    $("brief").textContent = JSON.stringify(o, null, 2);
+    return o;
+  }
+
+  function redraw(){
+    drawShots(); drawVO(); drawMusic(); drawCost(); brief();
+  }
+
+  // ---- run ---------------------------------------------------------------
+  function run(){
     var idea = $("idea").value.trim();
     if(!idea){ $("idea").focus(); return; }
-    var seconds = parseFloat($("len").value);
-    var tier = TIERS.filter(function(t){ return t.id === tierSel.value; })[0] || TIERS[2];
-    var want = Math.max(3, Math.round(seconds/5));
+    var secs = parseFloat($("len").value),
+        tier = TIERS.filter(function(t){ return t.id === $("tier").value; })[0] || TIERS[2],
+        n = Math.max(3, Math.min(10, Math.round(secs/5)));
+    state.rate = tier.rate; state.tier = tier.name;
 
-    var btn = this;
+    var btn = $("go");
     btn.disabled = true; btn.className = "go spin"; btn.textContent = "Directing";
 
-    var done = false;
-    function finish(shots){
-      if(done) return; done = true;
-      btn.disabled = false; btn.className = "go"; btn.textContent = "Plan the shots";
-      draw(shots, tier.rate);
-    }
-
-    var timer = setTimeout(function(){ finish(fallbackShots(idea, seconds, want)); }, 22000);
-
-    fetch(ASK, {
-      method: "POST",
-      headers: {"Content-Type":"application/json"},
-      body: JSON.stringify({ q: planPrompt(idea, seconds, want), lang: "en" })
-    })
-    .then(function(r){ return r.json(); })
-    .then(function(j){
-      clearTimeout(timer);
-      finish(parseShots(j && j.answer, seconds, want) || fallbackShots(idea, seconds, want));
-    })
-    .catch(function(){
-      clearTimeout(timer);
-      finish(fallbackShots(idea, seconds, want));
+    Promise.all([
+      withTimeout(ask(shotPrompt(idea, secs, n, $("look").value, $("ar").value)), 24000, ""),
+      withTimeout(ask(voPrompt(idea, secs)), 24000, "")
+    ]).then(function(r){
+      state.shots = parseShots(r[0], secs) || fbShots(idea, secs, n);
+      state.vo    = parseVO(r[1]) || fbVO();
+      redraw(); gate();
+      btn.disabled = false; btn.className = "go"; btn.textContent = "Direct it";
+      $("out").classList.remove("hide");
+      $("out").scrollIntoView({behavior:"smooth", block:"start"});
     });
+  }
+
+  $("go").addEventListener("click", run);
+  $("reroll").addEventListener("click", run);
+  ["genre","bpm","mood"].forEach(function(id){
+    $(id).addEventListener("change", function(){ drawMusic(); brief(); });
+  });
+  $("charge").addEventListener("input", function(){ margin(); });
+  $("tier").addEventListener("change", function(){
+    var t = TIERS.filter(function(x){ return x.id === $("tier").value; })[0];
+    if(t && state.shots.length){ state.rate = t.rate; state.tier = t.name; redraw(); }
+  });
+
+  function copy(text, btn){
+    var old = btn.textContent;
+    function done(){ btn.textContent = "Copied"; setTimeout(function(){ btn.textContent = old; }, 1400); }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(done, done);
+    } else {
+      var ta = document.createElement("textarea"); ta.value = text;
+      document.body.appendChild(ta); ta.select();
+      try{ document.execCommand("copy"); }catch(e){}
+      document.body.removeChild(ta); done();
+    }
+  }
+  $("copyShots").addEventListener("click", function(){
+    copy(state.shots.map(function(s,i){
+      return (i+1)+". ["+s.move+", "+s.secs.toFixed(1)+"s] "+s.desc;
+    }).join("\n"), this);
+  });
+  $("copyBrief").addEventListener("click", function(){ copy($("brief").textContent, this); });
+  $("dlBrief").addEventListener("click", function(){
+    var b = new Blob([$("brief").textContent], {type:"application/json"}),
+        u = URL.createObjectURL(b), a = document.createElement("a");
+    a.href = u; a.download = "vibe-director-brief.json";
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function(){ URL.revokeObjectURL(u); }, 1000);
   });
 })();
 </script>
