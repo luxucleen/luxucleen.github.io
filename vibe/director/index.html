@@ -121,6 +121,14 @@
   pre{background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:13px;
       overflow-x:auto;font-size:12.5px;line-height:1.55;margin:0;
       font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:#c9c9dd}
+  details.jp{margin-top:8px}
+  details.jp summary{cursor:pointer;color:var(--a3);font-size:12px;letter-spacing:.06em;
+       text-transform:uppercase;min-height:40px;line-height:40px;list-style:none;
+       border-top:1px solid var(--line);padding-top:0}
+  details.jp summary::-webkit-details-marker{display:none}
+  details.jp summary::before{content:"+ ";font-weight:700}
+  details.jp[open] summary::before{content:"- "}
+  details.jp pre{margin:0 0 6px;font-size:11.5px}
   .hide{display:none!important}
   .spin::after{content:"";display:inline-block;width:15px;height:15px;margin-left:9px;vertical-align:-3px;
       border:2px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:s .7s linear infinite}
@@ -195,7 +203,14 @@
       <div id="shots"></div>
       <div class="btnrow">
         <button class="ghost" id="copyShots">Copy shot list</button>
+        <button class="ghost" id="copyJson">Copy all JSON prompts</button>
         <button class="ghost" id="reroll">Direct it again</button>
+      </div>
+      <div class="note ok" style="margin-top:12px">
+        <b>Every shot carries a JSON prompt.</b> Attributes stay separable — lens, lighting,
+        grade, grain, skin texture and a negative prompt each get their own key — instead of
+        being averaged away inside one long sentence. Paste a block straight into an image or
+        video model.
       </div>
     </div>
 
@@ -291,6 +306,29 @@
     {id:"pro",   name:"Pro 1080p",               rate:0.080},
     {id:"audio", name:"Pro 1080p + native audio",rate:0.140}
   ];
+  // Each look carries the OPTICS, not just a mood word, so the JSON prompt can state lens,
+  // light and grain as separate keys instead of burying them in one sentence.
+  var LOOKS = {
+    "Cinematic warm":    {lens:"35mm anamorphic", light:"golden hour key, soft fill",
+                          grade:"warm highlights, teal shadows", grain:"fine 35mm"},
+    "Clean commercial":  {lens:"50mm prime",      light:"large softbox key, white bounce",
+                          grade:"neutral, true whites", grain:"none"},
+    "Night neon":        {lens:"24mm wide",       light:"practical neon, hard rim",
+                          grade:"cyan and magenta, crushed blacks", grain:"fine, low light"},
+    "Documentary":       {lens:"28mm handheld",   light:"available light only",
+                          grade:"natural, flat", grain:"light 16mm"},
+    "High contrast mono":{lens:"40mm prime",      light:"single hard key, deep falloff",
+                          grade:"black and white, deep contrast", grain:"coarse push-processed"}
+  };
+  // Realism keys the generator can honour one by one. From a method stated in a reel
+  // (2026-10-25): describe the frame as STRUCTURED JSON rather than prose, because a
+  // run-on sentence lets a generator average details away.
+  var REALISM = {skin:"visible pores and natural asymmetry, no waxy smoothing",
+                 motion:"natural motion blur consistent with the move",
+                 depth:"shallow depth of field, focus on the subject"};
+  var NEGATIVE = "plastic skin, waxy smoothing, extra fingers, warped hands, " +
+                 "garbled text, watermark, oversaturated";
+
   var GENRES = ["Cinematic underscore","Ambient pad","Lo-fi warm","Orchestral build",
                 "Trap 808","Acoustic guitar","Synthwave","Percussion only"];
   var MOODS  = ["Calm and trustworthy","Hopeful lift","Tense then release","Confident drive",
@@ -436,6 +474,11 @@
           var e = document.createElement("span");
           e.className = "tag" + (t[1] ? " "+t[1] : ""); e.textContent = t[0]; b.appendChild(e);
         });
+      var det = document.createElement("details"); det.className = "jp";
+      var sum = document.createElement("summary"); sum.textContent = "JSON prompt";
+      var pre = document.createElement("pre");
+      pre.textContent = JSON.stringify(jsonPrompt(s, i), null, 2);
+      det.appendChild(sum); det.appendChild(pre); b.appendChild(det);
       d.appendChild(n); d.appendChild(b); box.appendChild(d);
     });
   }
@@ -465,6 +508,24 @@
       });
   }
   function total_secs(){ return state.shots.reduce(function(a,s){ return a+s.secs; },0); }
+
+  // A SHOT AS STRUCTURED JSON, not a sentence. Every attribute the generator should honour
+  // gets its own key, so none of them can be averaged away inside prose.
+  function jsonPrompt(s, i){
+    var L = LOOKS[$("look").value] || LOOKS["Cinematic warm"];
+    return {
+      shot: i + 1,
+      duration_s: +s.secs.toFixed(1),
+      aspect_ratio: $("ar").value,
+      subject: s.desc,
+      camera: {move: s.move, lens: L.lens, framing: "eye level"},
+      lighting: L.light,
+      grade: L.grade,
+      film: {grain: L.grain},
+      realism: REALISM,
+      negative_prompt: NEGATIVE
+    };
+  }
 
   function drawCost(){
     var t = $("cost"); t.textContent = "";
@@ -507,7 +568,8 @@
              rate_per_second:state.rate},
       shots:state.shots.map(function(s,i){
         return {n:i+1, camera:s.move, seconds:+s.secs.toFixed(2),
-                prompt:s.desc, cost_usd:+(s.secs*state.rate).toFixed(2)};
+                prompt:s.desc, cost_usd:+(s.secs*state.rate).toFixed(2),
+                json_prompt:jsonPrompt(s,i)};
       }),
       soundtrack:state.music,
       narration:state.vo,
@@ -577,6 +639,9 @@
     copy(state.shots.map(function(s,i){
       return (i+1)+". ["+s.move+", "+s.secs.toFixed(1)+"s] "+s.desc;
     }).join("\n"), this);
+  });
+  $("copyJson").addEventListener("click", function(){
+    copy(JSON.stringify(state.shots.map(jsonPrompt), null, 2), this);
   });
   $("copyBrief").addEventListener("click", function(){ copy($("brief").textContent, this); });
   $("dlBrief").addEventListener("click", function(){
