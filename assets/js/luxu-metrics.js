@@ -10,12 +10,16 @@
   "use strict";
   if (navigator.doNotTrack === "1" || navigator.msDoNotTrack === "1") return;
 
-  // The DURABLE home is same-origin "/api/metric" (the Cloudflare worker that already serves
-  // luxucleen.com/api/*). Until that 20-line handler is deployed (needs the Cloudflare login),
-  // the counts flow to the hosted receiver on the PC through a Cloudflare tunnel - a bridge so
-  // the dashboard shows real numbers now. Flip this back to "/api/metric" the moment the worker
-  // handler is live. (Christian, 2026-10-19.)
-  var ENDPOINT = "https://gasoline-attitudes-gear-departments.trycloudflare.com/api/metric";
+  // LANDED 2026-10-24 on Christian's Cloudflare login. This used to point at a
+  // trycloudflare.com quick tunnel, and that hostname STOPPED RESOLVING - measured
+  // http_code 000, DNS getaddrinfo failed - so every count for 29 days went nowhere.
+  // Quick tunnels rot; this Worker does not. The receiver now lives in the permanent
+  // luxucleen-ask Worker (KV namespace METRICS), which is CORS-allowed for this origin.
+  // sendBeacon posts this as text/plain, so there is no preflight on the hot path.
+  // NOTE: "/api/metric" same-origin is NOT usable yet - luxucleen.com is served by
+  // GitHub Pages and its DNS records are grey-cloud, so the Worker's luxucleen.com/api/*
+  // route never fires. Switch to "/api/metric" only once the apex is proxied.
+  var ENDPOINT = "https://ai.luxucleen.com/api/metric";
   var session = Math.random().toString(36).slice(2, 12); // memory only, dies on unload
   var startTs = Date.now();
 
