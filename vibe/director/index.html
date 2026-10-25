@@ -129,6 +129,10 @@
   details.jp summary::before{content:"+ ";font-weight:700}
   details.jp[open] summary::before{content:"- "}
   details.jp pre{margin:0 0 6px;font-size:11.5px}
+  a.hireBtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;
+       padding:0 26px;border-radius:13px;text-decoration:none;color:#fff;font-weight:700;
+       font-size:16px;background:linear-gradient(100deg,var(--a1),var(--a2))}
+  a.hireBtn:hover{filter:brightness(1.1)}
   .hide{display:none!important}
   .spin::after{content:"";display:inline-block;width:15px;height:15px;margin-left:9px;vertical-align:-3px;
       border:2px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:s .7s linear infinite}
@@ -281,6 +285,20 @@
       <div class="btnrow">
         <button class="ghost" id="copyBrief">Copy brief</button>
         <button class="ghost" id="dlBrief">Download .json</button>
+      </div>
+    </div>
+
+    <!-- 8. have us make it ---------------------------------------------- -->
+    <div class="card fade" id="hire">
+      <h2><span class="num">8</span> Want it made for you?</h2>
+      <p style="margin:0 0 4px">You now have the plan and the real cost. If you would rather not
+      run the shoot, send it to us and we will produce it — original music and narration
+      included, because we own both.</p>
+      <p style="color:var(--dim);font-size:14px;margin:0 0 14px">Your brief goes in the email
+      already filled in. Nothing is charged here and no price is quoted on this page.</p>
+      <div class="btnrow">
+        <a class="hireBtn" id="hireLink" href="#">Send this brief to Luxucleen</a>
+        <button class="ghost" id="copyPitch">Copy the brief as text</button>
       </div>
     </div>
 
@@ -583,8 +601,38 @@
     return o;
   }
 
+  // The plan is worth something to the person who made it, and right now they take it and
+  // leave. This turns a finished brief into an inbound job, with no price quoted and no
+  // checkout faked - the same mailto route the services pages already use.
+  function pitch(){
+    var secs = total_secs(), L = [];
+    L.push("BRIEF: " + ($("idea").value.trim() || "(no brief written)"));
+    L.push("Length: " + secs.toFixed(0) + "s   Aspect: " + $("ar").value +
+           "   Look: " + $("look").value);
+    L.push("Tier: " + state.tier + "   Frame cost at list rate: $" +
+           (secs * state.rate).toFixed(2));
+    L.push("Soundtrack: " + (state.music ? state.music.bed + ", " + state.music.bpm +
+           " BPM, " + state.music.mood : "-") + " (Beats28)");
+    L.push("");
+    L.push("SHOTS");
+    state.shots.forEach(function(s, i){
+      L.push((i + 1) + ". [" + s.move + ", " + s.secs.toFixed(1) + "s] " + s.desc);
+    });
+    L.push("");
+    L.push("NARRATION");
+    state.vo.forEach(function(v){ L.push(v.who.toUpperCase() + ": " + v.say); });
+    return L.join("\n");
+  }
+  function wireHire(){
+    var body = pitch() +
+      "\n\n---\nPlanned at luxucleen.com/vibe/director. Please reply with what this would cost.";
+    $("hireLink").href = "mailto:services@luxucleen.com"
+      + "?subject=" + encodeURIComponent("Video brief from Vibe Director")
+      + "&body=" + encodeURIComponent(body);
+  }
+
   function redraw(){
-    drawShots(); drawVO(); drawMusic(); drawCost(); brief();
+    drawShots(); drawVO(); drawMusic(); drawCost(); brief(); wireHire();
   }
 
   // ---- run ---------------------------------------------------------------
@@ -643,6 +691,7 @@
   $("copyJson").addEventListener("click", function(){
     copy(JSON.stringify(state.shots.map(jsonPrompt), null, 2), this);
   });
+  $("copyPitch").addEventListener("click", function(){ copy(pitch(), this); });
   $("copyBrief").addEventListener("click", function(){ copy($("brief").textContent, this); });
   $("dlBrief").addEventListener("click", function(){
     var b = new Blob([$("brief").textContent], {type:"application/json"}),
