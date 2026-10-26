@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>We measured what your AI tools cost before you ask a question</title>
+<meta name="description" content="One tool server on one real machine: 229 tools, 303,863 tokens loaded before a word is typed — 152% of a 200k context. The same tools, listed by name: 1,050.">
+<style>
+  :root{
+    --ink:#f4f4f8; --dim:#9a9ab0; --faint:#6a6a80;
+    --bg:#0b0b11; --card:#13131c; --line:rgba(255,255,255,.10);
+    --mag:#ff2d87; --vio:#7c5cff; --ok:#39d98a; --warn:#ffb34d;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);
+    font:16px/1.65 ui-monospace,'Cascadia Mono','JetBrains Mono',Consolas,monospace;
+    padding:0 20px env(safe-area-inset-bottom,0px);overflow-x:hidden}
+  .wrap{max-width:860px;margin:0 auto;padding-block:56px}
+  a{color:var(--mag)}
+  h1{font-size:clamp(26px,5.4vw,40px);line-height:1.15;letter-spacing:-.01em;margin-bottom:18px}
+  .lede{color:var(--dim);font-size:16.5px;max-width:62ch}
+  h2{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--mag);
+    margin:54px 0 16px;font-weight:700}
+  p{color:var(--dim);margin-bottom:14px;max-width:70ch}
+  p strong,li strong{color:var(--ink);font-weight:400}
+  .big{display:grid;gap:14px;grid-template-columns:1fr;margin:8px 0 6px}
+  @media(min-width:680px){.big{grid-template-columns:1fr 1fr}}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px}
+  .stat .n{font-size:clamp(28px,6vw,40px);font-weight:700;letter-spacing:-.02em;line-height:1.05}
+  .stat .n.bad{color:var(--warn)} .stat .n.good{color:var(--ok)}
+  .stat .k{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-top:10px}
+  .stat .s{font-size:13.5px;color:var(--dim);margin-top:8px}
+  table{width:100%;border-collapse:collapse;font-size:14px;margin:6px 0 10px}
+  th{text-align:left;color:var(--faint);font-weight:400;font-size:12px;
+     letter-spacing:.12em;text-transform:uppercase;padding:8px 10px 8px 0;border-bottom:1px solid var(--line)}
+  td{padding:10px 10px 10px 0;border-bottom:1px solid var(--line);color:var(--dim);vertical-align:top}
+  td.num{color:var(--ink);white-space:nowrap}
+  .note{border-left:2px solid var(--vio);padding-left:16px;color:var(--dim);font-size:14.5px;margin:18px 0}
+  code{background:rgba(255,255,255,.06);padding:2px 6px;border-radius:5px;color:var(--ink);font-size:13.5px}
+  pre{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;
+      overflow-x:auto;font-size:13px;color:var(--dim);margin:10px 0 16px}
+  ul{margin:0 0 14px 0}
+  li{list-style:none;color:var(--dim);padding:7px 0 7px 22px;position:relative;max-width:70ch}
+  li::before{content:'—';position:absolute;left:0;color:var(--vio)}
+  .cta{background:var(--card);border:1px solid var(--line);border-radius:16px;
+       padding:26px;margin-top:46px}
+  .btn{display:inline-block;margin-top:14px;padding:14px 26px;border-radius:999px;
+    background:linear-gradient(135deg,var(--mag),var(--vio));color:#fff;text-decoration:none;
+    font-weight:700;letter-spacing:.05em}
+  footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);
+    color:var(--faint);font-size:12.5px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Your AI assistant may be spending a fortune<br>before you ask it anything.</h1>
+  <p class="lede">We measured one tool server on one real machine. Not a vendor's slide —
+     a <code>.json</code> catalogue on a laptop, counted with the same tokeniser the
+     models use.</p>
+
+  <h2>What we found</h2>
+  <div class="big">
+    <div class="stat">
+      <div class="n bad">303,863</div>
+      <div class="k">tokens, loaded before a word is typed</div>
+      <div class="s">229 tools, with their full descriptions and input schemas — the way a
+        tool server is normally connected.</div>
+    </div>
+    <div class="stat">
+      <div class="n good">1,050</div>
+      <div class="k">tokens, same 229 tools</div>
+      <div class="s">Listed by name, with each schema fetched only when the assistant
+        actually reaches for that tool.</div>
+    </div>
+  </div>
+  <p><strong>That is 289 times more expensive</strong> — and 303,863 tokens is
+     <strong>152% of a 200,000-token context window</strong>. Loaded the ordinary way,
+     that one server does not fit in the model's head at all. There is no room left for
+     your question.</p>
+
+  <h2>The same thing, in money</h2>
+  <table>
+    <tr><th>Input price</th><th>Per request, before your question</th><th>At 100 requests a day</th></tr>
+    <tr><td>$3 per million</td><td class="num">$0.91</td><td class="num">$91 / day</td></tr>
+    <tr><td>$15 per million</td><td class="num">$4.56</td><td class="num">$456 / day</td></tr>
+    <tr><td>names only, $3 per million</td><td class="num">$0.0032</td><td class="num">$0.32 / day</td></tr>
+  </table>
+  <div class="note"><strong>An honest caveat we will not bury:</strong> prompt caching can
+    cut the repeat cost of a stable prefix substantially, so the real bill is usually
+    lower than the top row. It does not fix the other half of the problem — the window is
+    still full, and what caching saves in money it does not give back in room to think.</div>
+
+  <h2>Why it happens</h2>
+  <p>To let an assistant use your tools, the usual approach hands it the manual for every
+     tool up front: each name, each description, each parameter. Five ordinary apps run to
+     tens of thousands of tokens. A large API runs to millions. Then every step of the work
+     travels back through the model — fetch a row, return it, decide, fetch the next.</p>
+  <p>Cloudflare published the same arithmetic for their own API:
+     <strong>2,594 tools ≈ 1,170,000 tokens</strong> as ordinary tool definitions. Rebuilt
+     so the assistant writes code instead, the whole API fits in
+     <strong>two tools and about 1,000 tokens</strong>. Anthropic arrived at the same
+     pattern independently.</p>
+
+  <h2>What to do instead</h2>
+  <ul>
+    <li><strong>Hand over names, not manuals.</strong> The assistant sees what exists and
+      asks for the details of the one tool it needs. That single change is the 289× above.</li>
+    <li><strong>Let it write a script, not forty messages.</strong> One piece of code does
+      the whole errand in a sandbox; only the answer comes back. Models are far better at
+      writing code than at conducting forty round trips.</li>
+    <li><strong>Keep the keys outside the sandbox.</strong> The code should never see a
+      credential — the supervisor holds the tokens and injects them.</li>
+    <li><strong>Do not let code execution stand in for permission.</strong> Cloudflare says
+      this plainly and so do we: a sandbox decides what <em>can</em> run, never what is
+      <em>allowed</em> to. Authorisation stays in the tool handlers.</li>
+  </ul>
+
+  <h2>Repeat our measurement</h2>
+  <p>Point this at your own tool catalogue. If your numbers differ from ours, yours are the
+     ones that matter — that is the point of measuring.</p>
+<pre>import json, tiktoken
+enc  = tiktoken.get_encoding("cl100k_base")
+tools = json.load(open("your-mcp-catalog.json"))
+
+defs  = [json.dumps({k: t[k] for k in ("name","description","inputSchema") if k in t})
+         for t in tools]
+print("loaded up front :", sum(len(enc.encode(s)) for s in defs))
+print("names only      :", len(enc.encode(", ".join(t["name"] for t in tools))))</pre>
+
+  <div class="cta">
+    <strong style="color:var(--ink)">We build agents that do the work without eating the
+    window.</strong>
+    <p style="margin-top:10px">Luxucleen builds and audits AI systems for small businesses.
+       If something you are paying for feels slow, expensive, or forgetful, the cause is
+       often measurable in an afternoon.</p>
+    <a class="btn" href="https://luxucleen.com/contact">TALK TO US</a>
+  </div>
+
+  <footer>
+    Measured 26 October 2026 on a Windows laptop against an installed MCP tool server's
+    own published catalogue (229 tools), counted with <code>tiktoken</code>
+    <code>cl100k_base</code>. Cloudflare's figures are their own, published on their blog.
+    · <a href="https://luxucleen.com">luxucleen.com</a>
+  </footer>
+</div>
+</body>
+</html>
