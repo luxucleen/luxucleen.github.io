@@ -3,7 +3,11 @@
  * Christian's order: "If luxu has it... make sure the video show u data."
  * This is the whole thing. No ad-tech, no cookies, no fingerprinting, no PII.
  * Measures: page views, Luxu chat opens/messages, top topics, click signals.
- * Data goes to POST /api/metric (see ENDPOINT_SPEC.md). Honors Do-Not-Track.
+ * Event types sent: page_view, chat_open, chat_message, click, session_end. The receiver is
+ * POST /api/metric in the luxucleen-ask Worker, which stores them as view / chat_open /
+ * chat_msg / click for GET /api/summary (the Worker maps the names; keep both sides in step).
+ * chat_open / chat_message are raised by the chat surfaces (luxu-chat.js, lux-orb.js) as the
+ * DOM events luxu:open / luxu:message on document. Honors Do-Not-Track.
  * Never throws: if the beacon fails, the page keeps working.
  */
 (function () {
@@ -83,9 +87,22 @@
 
   // 3. Click signals — any element with data-metric="name" (affiliate CTAs,
   //    membership buttons, trading join door). Bridge28 adds the attributes.
+  //    MEASURED 2026-10-26: not one page on the site carries data-metric, so this path alone
+  //    had never counted a click. Without any markup, the clicks that matter to the business
+  //    are still recognisable: a call/email/text intent, or a link that leaves the site.
+  //    Same-site navigation is not a click signal. Only the signal name is sent, never the URL.
   document.addEventListener("click", function (ev) {
-    var el = ev.target && ev.target.closest ? ev.target.closest("[data-metric]") : null;
-    if (el) send("click", { signal: el.getAttribute("data-metric") });
+    var t = ev.target;
+    if (!t || !t.closest) return;
+    var el = t.closest("[data-metric]");
+    var signal = el ? el.getAttribute("data-metric") : "";
+    if (!signal) {
+      var a = t.closest("a[href]");
+      var href = a ? (a.getAttribute("href") || "") : "";
+      if (/^(tel|mailto|sms):/i.test(href)) signal = href.split(":")[0].toLowerCase();
+      else if (a && /^https?:/i.test(a.href) && a.host && a.host !== location.host) signal = "out:" + a.host.replace(/^www\./, "");
+    }
+    if (signal) send("click", { signal: String(signal).slice(0, 64) });
   }, true);
 
   // 4. Time on page — sent on unload, bucketed.
