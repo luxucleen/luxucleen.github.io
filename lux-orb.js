@@ -375,10 +375,20 @@
     try { if (window.speechSynthesis) { loadVoices(); window.speechSynthesis.onvoiceschanged = loadVoices; } } catch (e) {}
     function warmTTS() { try { if (_ttsWarm || !window.speechSynthesis || !window.SpeechSynthesisUtterance) return; _ttsWarm = true; loadVoices(); var w = new SpeechSynthesisUtterance(" "); w.volume = 0; try { window.speechSynthesis.cancel(); } catch (e) {} window.speechSynthesis.speak(w); } catch (e) {} }
 
+    // ---------- metrics hooks ----------
+    // The visitor beacon (/assets/js/luxu-metrics.js) counts luxu:open / luxu:message from document and
+    // sends keyword buckets only, never the words. The orb is the second chat surface (the first is
+    // /luxu/chat); before 2026-10-26 neither dispatched these, so chat opens and chat messages on the
+    // dashboard could only read zero. One open per page load; a typed or spoken turn is a message.
+    var openSent = false;
+    function emit(name, detail) { try { document.dispatchEvent(new CustomEvent(name, { detail: detail || {} })); } catch (e) {} }
+    function markOpen() { if (openSent) return; openSent = true; emit("luxu:open", { surface: "orb" }); }
+
     // ---------- talk to the worker ----------
     var busy = false;
     function ask(text) {
       text = (text || "").trim(); if (!text || busy) return;
+      markOpen(); emit("luxu:message", { text: text, surface: "orb" });
       learnName(text); try { renderChips(null); } catch (e) {}
       busy = true; orb.classList.remove("live"); orb.classList.add("think");
       say(NAME, T.thinking, true);
@@ -556,6 +566,7 @@
     // tap the orb: Pro toggles hands-free; everyone gets one-shot listen (or type)
     orb.addEventListener("click", function (e) {
       if (dragMoved) { dragMoved = false; return; }
+      markOpen(); // a tap on the orb is a chat open (metrics; once per page load)
       show(); autohide(9000); warmTTS(); // arm the on-device voice inside this tap so she can speak after the reply loads
       if (SR) {
         if (PRO) { // toggle hands-free

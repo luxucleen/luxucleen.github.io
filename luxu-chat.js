@@ -105,6 +105,15 @@
   var REPAIR_TRIES = 10;       // ~80 seconds of self-repair attempts
   var REPAIR_EVERY_MS = 8000;
 
+  /* ---------------- metrics hooks ----------------------------------------
+     The visitor beacon (/assets/js/luxu-metrics.js) listens on document for
+     luxu:open and luxu:message and sends a count plus keyword buckets - never
+     the words. Until 2026-10-26 nothing on the site dispatched either event,
+     so the chat counters could only ever read zero. */
+  function emit(name, detail) {
+    try { document.dispatchEvent(new CustomEvent(name, { detail: detail || {} })); } catch (e) { /* never break the chat */ }
+  }
+
   /* ---------------- send flow ------------------------------------------- */
   var busy = false;
   function setBusy(b) {
@@ -152,6 +161,7 @@
     bubble(msg, 'user');
     history.push({ who: 'user', text: msg });
     save();
+    emit('luxu:message', { text: msg, surface: 'page' }); // the beacon keeps topic buckets only
     input.value = '';
     // Christian's exact behavior: waiting while you type -> thinking on enter ->
     // calm typing, or HARD strong typing when it is a long task.
@@ -418,4 +428,11 @@
   }
   setStatusText(AVATAR_STATUS[avatarState] || '');  // Luxor amendment: idle status starts BLANK
   sendBtn.disabled = true;
+  // This page IS the chat, so loading it is a chat open. The beacon script is loaded after this
+  // one (both deferred), so fire once every deferred script has run - at DOMContentLoaded - with
+  // a load fallback in case this file is ever injected after that moment. Once per page load.
+  var openSent = false;
+  function emitOpen() { if (openSent) return; openSent = true; emit('luxu:open', { surface: 'page' }); }
+  if (document.readyState === 'complete') setTimeout(emitOpen, 0);
+  else { document.addEventListener('DOMContentLoaded', emitOpen); window.addEventListener('load', emitOpen); }
 })();
