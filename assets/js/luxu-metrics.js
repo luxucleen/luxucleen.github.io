@@ -14,6 +14,15 @@
   "use strict";
   if (navigator.doNotTrack === "1" || navigator.msDoNotTrack === "1") return;
 
+  // Only the live site reports, and only a person's browser. A local checkout, a file:// preview,
+  // a mirror, or any automated (headless / WebDriver) load of these pages used to post phantom
+  // views and sessions into the real counts - measured 2026-10-26: 45 sessions in two days and
+  // not one with a second event. The Worker enforces the same two rules on the Origin and
+  // User-Agent headers and counts what it refuses; stopping it here saves the request entirely.
+  var SITE_HOSTS = { "luxucleen.com": 1, "www.luxucleen.com": 1 };
+  if (!SITE_HOSTS[String(location.hostname || "").toLowerCase()]) return;
+  if (navigator.webdriver) return;
+
   // LANDED 2026-10-24 on Christian's Cloudflare login. This used to point at a
   // trycloudflare.com quick tunnel, and that hostname STOPPED RESOLVING - measured
   // http_code 000, DNS getaddrinfo failed - so every count for 29 days went nowhere.
