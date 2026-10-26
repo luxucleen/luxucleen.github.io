@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>LUXU KNOT — a desktop companion that answers</title>
+<meta name="description" content="A small Windows companion that unties to listen and ties itself back up to answer. One file, nothing to install, no account.">
+<style>
+  :root{
+    --ink:#f4f4f8; --dim:#9a9ab0; --faint:#6a6a80;
+    --bg:#0b0b11; --card:#13131c; --line:rgba(255,255,255,.10);
+    --mag:#ff2d87; --vio:#7c5cff; --cy:#22d3ee; --ok:#39d98a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);
+    font:16px/1.65 ui-monospace,'Cascadia Mono','JetBrains Mono',Consolas,monospace;
+    padding:0 20px env(safe-area-inset-bottom,0px);overflow-x:hidden}
+  .wrap{max-width:900px;margin:0 auto;padding-block:56px}
+  a{color:var(--mag)}
+
+  header{position:relative;display:flex;gap:30px;align-items:center;justify-content:center;
+    text-align:center;flex-direction:column;min-height:650px;padding-block:40px}
+  /* the knot gets its own room at the top; the canvas still spans the whole header so
+     the untied thread can sweep down and reach the button */
+  .hero-space{height:320px;flex:none}
+  @media(max-width:600px){header{min-height:560px}.hero-space{height:250px}}
+  /* the canvas IS the hero: it covers the whole header so the thread can actually
+     reach the download button when it unties. Clipped at the canvas edge otherwise. */
+  #hero{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none}
+  header > *:not(#hero){position:relative;z-index:1}
+  h1{font-size:clamp(30px,7vw,48px);letter-spacing:.14em;font-weight:700;line-height:1.1}
+  .tag{color:var(--dim);max-width:46ch;margin:14px auto 0;font-size:15px}
+
+  .dl{display:inline-flex;flex-direction:column;align-items:center;gap:10px;margin-top:34px}
+  .btn{display:inline-block;padding:17px 34px;border-radius:999px;border:0;cursor:pointer;
+    background:linear-gradient(135deg,var(--mag),var(--vio));color:#fff;text-decoration:none;
+    font:inherit;font-weight:700;letter-spacing:.06em;
+    box-shadow:0 10px 36px rgba(255,45,135,.26)}
+  .btn:hover{filter:brightness(1.1)}
+  .meta{color:var(--faint);font-size:12.5px;letter-spacing:.03em}
+  .meta b{color:var(--dim);font-weight:400}
+
+  h2{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--mag);
+    margin:60px 0 18px;font-weight:700}
+  p{color:var(--dim);margin-bottom:14px}
+  p strong{color:var(--ink);font-weight:400}
+
+  .shots{display:grid;gap:18px;grid-template-columns:1fr}
+  @media(min-width:760px){.shots{grid-template-columns:1fr 1fr}.shots .wide{grid-column:1/-1}}
+  figure{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  figure img{display:block;width:100%;height:auto;background:#000}
+  figcaption{padding:12px 15px;font-size:13px;color:var(--dim);border-top:1px solid var(--line)}
+  figcaption b{color:var(--ink);font-weight:700}
+
+  .cols{display:grid;gap:18px;grid-template-columns:1fr}
+  @media(min-width:760px){.cols{grid-template-columns:1fr 1fr}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px}
+  .card h3{font-size:13px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:14px}
+  .card.does h3{color:var(--ok)} .card.never h3{color:var(--mag)}
+  .card li{list-style:none;color:var(--dim);font-size:14px;padding:7px 0 7px 22px;position:relative}
+  .card li::before{position:absolute;left:0;top:7px}
+  .card.does li::before{content:'+';color:var(--ok)}
+  .card.never li::before{content:'\00d7';color:var(--mag)}
+
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  td{padding:9px 0;border-bottom:1px solid var(--line);color:var(--dim);vertical-align:top}
+  td:first-child{color:var(--faint);width:34%;padding-right:14px}
+  .hash{word-break:break-all;font-size:11.5px;color:var(--faint)}
+  .note{border-left:2px solid var(--vio);padding-left:16px;color:var(--dim);font-size:14px}
+  footer{margin-top:64px;padding-top:22px;border-top:1px solid var(--line);
+    color:var(--faint);font-size:12.5px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <canvas id="hero"></canvas>
+    <div class="hero-space"></div>
+    <div>
+      <h1>LUXU&nbsp;KNOT</h1>
+      <p class="tag">A small companion that sits on top of whatever you are doing.
+         It <strong style="color:#f4f4f8">unties to listen</strong> and
+         <strong style="color:#f4f4f8">ties itself back up to answer</strong>.</p>
+    </div>
+    <div class="dl">
+      <a class="btn" id="get" href="LUXU-KNOT-Portable.exe" download>DOWNLOAD FOR WINDOWS</a>
+      <div class="meta">One file · <b>71 MB</b> · Windows 10/11 64-bit · nothing to install · no account</div>
+    </div>
+  </header>
+
+  <h2>What it looks like</h2>
+  <div class="shots">
+    <figure class="wide">
+      <img src="shots/tied.png" alt="The knot at rest, tied shut and slowly turning">
+      <figcaption><b>At rest</b> — closed, turning slowly. A trefoil: the simplest knot
+        that cannot be pulled undone. Its crossings are drawn in depth order, so the
+        strand behind really does pass under.</figcaption>
+    </figure>
+    <figure>
+      <img src="shots/untied.png" alt="The knot unravelled into one open thread reaching the input bar">
+      <figcaption><b>Listening</b> — start typing and it comes undone from the tail
+        forward, into one open thread whose tip lands on what you are typing.</figcaption>
+    </figure>
+    <figure>
+      <img src="shots/speaking.png" alt="The knot tied back up with a bright wave running along it">
+      <figcaption><b>Answering</b> — it ties itself back up, and one bright wave runs
+        the length of the ribbon carrying the answer.</figcaption>
+    </figure>
+  </div>
+
+  <h2>What it does, and what it will never do</h2>
+  <div class="cols">
+    <div class="card does">
+      <h3>It does</h3>
+      <ul>
+        <li>Answer questions, on top of any window. Ctrl&nbsp;+&nbsp;Alt&nbsp;+&nbsp;K to summon.</li>
+        <li>Remember what you tell it to remember, in a plain JSON file on your own machine that you can open and edit.</li>
+        <li>Answer the time, the date and arithmetic instantly — by a parser, with nothing leaving the computer.</li>
+        <li>Forget, when you say forget.</li>
+        <li>Live in the tray. Close it and it is gone; there is no service and no startup entry.</li>
+      </ul>
+    </div>
+    <div class="card never">
+      <h3>It never</h3>
+      <ul>
+        <li>Runs a command on your machine. It answers; it does not act. Something that cannot run a command cannot be talked into running one.</li>
+        <li>Remembers anything you did not type. Nothing it reads — no page, no file, no reply — can write to its memory.</li>
+        <li>Sends a sensitive value anywhere. A password or key is kept on your disk and the model is told only that one exists.</li>
+        <li>Carries a vendor AI library inside it. There is no API key in this file.</li>
+        <li>Installs anything, or asks you to sign in.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Before you run it</h2>
+  <p class="note">This file is not code-signed yet, so Windows SmartScreen will warn you
+    once: <strong>More info → Run anyway</strong>. That warning means "nobody paid for a
+    certificate", not "this is unsafe" — and you should treat every unsigned download that
+    way, including this one. The checksum below is how you verify you got the same file
+    that was published. In PowerShell:
+    <code style="color:var(--ink)">Get-FileHash .\LUXU-KNOT-Portable.exe</code></p>
+
+  <h2>The details</h2>
+  <table>
+    <tr><td>Version</td><td>1.1 — the knot</td></tr>
+    <tr><td>Size</td><td>74,355,784 bytes (71 MB)</td></tr>
+    <tr><td>SHA-256</td><td class="hash">ec0dce801e785552a1db7052e3c5c5f3f2485b06c4ad433a966a61afca607030</td></tr>
+    <tr><td>Needs</td><td>Windows 10 or 11, 64-bit. No admin rights.</td></tr>
+    <tr><td>Where it keeps things</td><td>One JSON file under your own AppData. Delete it and it has forgotten everything.</td></tr>
+    <tr><td>Where answers come from</td><td>Luxucleen's own worker. Your question goes there and the answer comes back; nothing else is sent.</td></tr>
+    <tr><td>Built by</td><td>Luxucleen. Original work — not a fork or a reskin of anything.</td></tr>
+  </table>
+
+  <footer>LUXU KNOT · <a href="https://luxucleen.com">luxucleen.com</a></footer>
+</div>
+
+<script src="knot-web.js"></script>
+<script>
+(function(){
+  // The hero is the real thing, not a video: the same file the app ships, drawing the
+  // same curve. Hover the download button and it unties for you, exactly as it does
+  // when you start typing at it.
+  var cv = document.getElementById('hero');
+  function size(){
+    var r = cv.getBoundingClientRect(), dpr = Math.min(2, window.devicePixelRatio || 1);
+    cv.width  = Math.max(1, Math.round(r.width  * dpr));
+    cv.height = Math.max(1, Math.round(r.height * dpr));
+    k.c = cv; k.ctx = cv.getContext('2d');
+  }
+  var k = new window.LuxuKnot(cv);
+  size(); k.start();
+  window.addEventListener('resize', size);
+
+  var get = document.getElementById('get');
+  function open(){
+    var r = get.getBoundingClientRect(), c = cv.getBoundingClientRect();
+    var dpr = cv.width / c.width;
+    k.reachTo((r.left + r.width/2 - c.left) * dpr, (r.top + r.height/2 - c.top) * dpr);
+    k.setState('listening');
+  }
+  function close(){ k.setState('speaking'); k.release();
+                    setTimeout(function(){ k.setState('idle'); }, 2200); }
+  get.addEventListener('mouseenter', open);
+  get.addEventListener('focus', open);
+  get.addEventListener('mouseleave', close);
+  get.addEventListener('blur', close);
+  get.addEventListener('touchstart', open, {passive:true});
+})();
+</script>
+</body>
+</html>
